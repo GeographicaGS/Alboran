@@ -1,0 +1,157 @@
+@roboto : 'Roboto', sans-serif;
+@roboto_cond : 'Roboto Condensed', sans-serif;
+@imgPath : '../img/';
+
+/* Color palette */
+@grey: #515155;
+@grey_light: #a2a2ac;
+@grey_light2: #e7e7ea;
+@grey_dark: #28282b;
+@grey2: #5e5e62;
+@red: #d60006;
+@yellow : #fdc300;
+@blue : #2b85d0;
+@green : #669900;
+@orange : #ff9000;
+@white :#fff;
+
+html, body{ height:100%;}
+body {
+	.roboto();
+	color:@grey;
+	font-size:16px;
+	line-height:24px;
+}
+
+p,span,div,table{
+	.roboto();
+}
+
+input{
+	padding: 0 10px;
+	border: none;
+	
+}
+input[placeholder]{
+	.roboto();
+	color:@grey_light;
+}
+
+.grey{ color: @grey;}
+.red { color : @red;}
+.yellow { color: @yellow;}
+.grey_light { color: @grey_light ;}
+.grey_dark { color: @grey_dark ;}
+.blue { color: @blue;}
+.green { color: @green;}
+.orange { color: @orange;}
+.grey2 { color:@grey2;}
+
+
+/* Fonts */
+
+/*@style=thin,light,normal,medium,bold,ultra-bold*/ 
+.roboto(@style) when(@style=thin){
+	font-weight:100;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=thinitalic){
+	font-weight:100;
+	font-style: italic;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=light){
+	font-weight:300;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=lightitalic){
+	font-weight:300;
+	font-style: italic;
+	font-family: @roboto;
+}
+
+.roboto(){
+	font-weight:400;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=italic){
+	.roboto();
+	font-style: italic;
+}
+
+.roboto(@style) when(@style=medium){
+	font-weight:500;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=mediumitalic){
+	font-weight:500;
+	font-style: italic;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=bold){
+	font-weight:700;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=bolditalic){
+	font-weight:700;
+	font-style: italic;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=ultra-bold){
+	font-weight:900;
+	font-family: @roboto;
+}
+
+.roboto(@style) when(@style=ultra-bolditalic){
+	font-weight:900;
+	font-style: italic;
+	font-family: @roboto;
+}
+
+.roboto_cond(){
+	font-weight:400;
+	font-family: @roboto_cond;
+}
+
+.roboto_cond(@style) when(@style=italic){
+	.roboto_cond();
+	font-style: italic;
+}
+
+.roboto_cond(@style) when(@style=bold){
+	font-weight:700;
+	font-family: @roboto_cond;
+}
+
+.roboto_cond(@style) when(@style=bolditalic){
+	font-weight:700;
+	font-style: italic;
+	font-family: @roboto_cond;
+}
+
+.roboto_cond(@style) when(@style=light){
+	font-weight:300;
+	font-family: @roboto_cond;
+}
+
+.roboto_cond(@style) when(@style=lightitalic){
+	font-weight:300;
+	font-style: italic;
+	font-family: @roboto_cond;
+}
+
+.roboto_light{.roboto(light);}
+.roboto_cond_bold{.roboto_cond(bold);}
+.roboto_bold{.roboto(bold);}
+
+.text_bold{ .roboto(bold);}
+
+.uppercase{ text-transform: uppercase;}
