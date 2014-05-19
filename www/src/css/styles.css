@@ -364,17 +364,20 @@ body > header {
 						height: 26px;
 						width: 36px;
 						overflow: hidden;
-						font-size: 0;
-
-						a:after{
-							content:url('@{imgPath}home/ALB_icon_home.svg');
-						}
 
 						&.selected {
 							background-color: @white;
 
 							a:after {
 								content:url('@{imgPath}home/ALB_icon_home_marcado.svg');
+							}
+						}
+
+						a {
+							span {display: none;}
+
+							&:after{
+								content:url('@{imgPath}home/ALB_icon_home.svg');
 							}
 						}
 					}
@@ -451,6 +454,11 @@ footer {
 	font-size: 10pt;
 	height: 36px;
 	overflow: hidden;
+
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
 
 	.row{
 

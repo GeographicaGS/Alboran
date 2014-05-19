@@ -58,7 +58,7 @@
 .prefoot {
 	background-color: @bluegrey;
 	border-top: 1px solid @bluegrey_light;
-	padding: 0 0 35px;
+	padding: 0 0 71px;
 
 	&.first:before {
 		content: "";
