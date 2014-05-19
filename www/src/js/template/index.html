@@ -26,16 +26,90 @@
 <body>
     <header>
         <nav>
-            <ul>
-                <li>
-                    <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><lang>Home</lang></a>
-                </li>
-                <li></li>
-            </ul>
+            <div id="uppermenu">
+                <div class="container">
+                    <div class="row uppercase">
+                        <div class="col-sm-6 col-md-6">
+                            <span><lang>Idioma</lang>:</span>
+                            <ul>
+                                <li class="selected"><a href="#" jslink><lang>Español</lang></a></li>
+                                <li><a href="#" jslink><lang>FR</lang></a></li>
+                                <li><a href="#" jslink><lang>EN</lang></a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 col-md-6 ">
+                            <a class="login" href="#" jslink><lang>Iniciar Sesión</lang></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </nav>
+        <nav>
+            <div class="container">
+                <div class="row" id="mainmenu">
+                    <div class="col-sm-5 col-md-5">
+                        <ul>
+                            <li class="home selected">
+                                <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><lang>Inicio</lang></a>
+                            </li>
+                            <li>
+                                <a href="/<lang>lang</lang>/<lang>_link map</lang>" jslink><lang>Mapa</lang></a>
+                            </li>
+                            <li>
+                                <a href="/<lang>lang</lang>/<lang>_link catalogue</lang>" jslink><lang>Catálogo</lang></a>
+                            </li>
+                            <li>
+                                <a href="/<lang>lang</lang>/<lang>_link join</lang>" jslink><lang>Participe</lang></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-2 col-md-2 title">
+                        <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang>en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span></a>
+                    </div>
+                    <div class="col-sm-5 col-md-5">
+                        <ul>
+                            <li>
+                                <a href="/<lang>lang</lang>/<lang>_link howto</lang>" jslink><lang>Cómo usarlo</lang></a>
+                            </li>
+                            <li>
+                                <a href="/<lang>lang</lang>/<lang>_link about</lang>" jslink><lang>El proyecto</lang></a>
+                            </li>
+                            <li class="alboran">
+                                <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><img src="/img/home/ALB_logo_proyecto_cab.svg"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div id="map_control">
+            <img src="/img/home/ALB_icon_toc.svg">
+            <span class="value green">12</span><br>
+            <span class="value red">0</span><br>
+            <span class="value blue">1</span>
+        </div>
     </header>
     <main></main>
-    <footer></footer>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <p><i><lang>Proyecto Alborán</lang> &copy;</i> <lang>UICN, International Union for Conservation of Nature</lang></p>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <p>
+                        <a href="#"><lang>Contacto</lang></a>
+                        <a href="#"><lang>Información Legal</lang></a>
+                        <a href="#"><lang>Política de privacidad</lang></a>
+                        <a class="geographica" href="#">
+                            <span>D+D</span>
+                            Geographica
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
 

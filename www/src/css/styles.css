@@ -1,30 +1,46 @@
 @roboto : 'Roboto', sans-serif;
 @roboto_cond : 'Roboto Condensed', sans-serif;
+@lato : 'Lato', sans-serif;
+@lato_light : 'Lato Light', sans-serif;
+@lato_black : 'Lato Black', sans-serif;
 @imgPath : '../img/';
 
 /* Color palette */
-@grey: #515155;
-@grey_light: #a2a2ac;
-@grey_light2: #e7e7ea;
+@grey_light: #e7e7ea;
 @grey_dark: #28282b;
 @grey2: #5e5e62;
-@red: #d60006;
 @yellow : #fdc300;
-@blue : #2b85d0;
-@green : #669900;
 @orange : #ff9000;
+
+@green : #009966;
+@red : #ff3300;
+@blue : #018be2;
+@blue_light : #accee4;
+@blue_trans: rgba(144, 189, 219, .3);
 @white :#fff;
+@grey : #909499;
+@grey_light: #e9eaea;
+@grey_trans: rgba(106, 112, 120, .35);
+@bluegrey: #6a7078;
+@bluegrey_light: #7d8389;
+@bluegrey_header : #9bc3df;
+@bluegrey_header_light: #a4c9e2 ;
+@grey_header_dark: #2b3033;
+@grey_footer: #cacbcc;
+@grey_footer_dark: #2c3034;
+
+@pink: #ff3366;
 
 html, body{ height:100%;}
 body {
-	.roboto();
+	.lato();
 	color:@grey;
 	font-size:16px;
 	line-height:24px;
 }
 
 p,span,div,table{
-	.roboto();
+	.lato();
 }
 
 input{
@@ -33,20 +49,18 @@ input{
 	
 }
 input[placeholder]{
-	.roboto();
+	.lato();
 	color:@grey_light;
 }
 
 .grey{ color: @grey;}
+.grey_light {color: @grey_light;}
 .red { color : @red;}
-.yellow { color: @yellow;}
-.grey_light { color: @grey_light ;}
-.grey_dark { color: @grey_dark ;}
 .blue { color: @blue;}
 .green { color: @green;}
-.orange { color: @orange;}
-.grey2 { color:@grey2;}
-
+.blue_light { color: @blue_light;}
+.bluegrey {color: @bluegrey;}
+.bluegrey_light {color: @bluegrey_light;}
 
 /* Fonts */
 
@@ -152,6 +166,260 @@ input[placeholder]{
 .roboto_cond_bold{.roboto_cond(bold);}
 .roboto_bold{.roboto(bold);}
 
+/* lato */
+.lato(@style) when(@style=light){
+	font-weight:100;
+	font-family: @lato_light;
+}
+
+.lato(@style) when(@style=lightitalic){
+	font-weight:100;
+	font-style: italic;
+	font-family: @lato_light;
+}
+
+.lato(@style) when(@style=black){
+	font-weight:900;
+	font-family: @lato_black;
+}
+
+.lato(@style) when(@style=blackitalic){
+	font-weight:900;
+	font-style: italic;
+	font-family: @lato_black;
+}
+
+.lato(){
+	font-weight:400;
+	font-family: @lato;
+}
+
+.lato_light{.lato(light);}
+.lato_black{.lato(black);}
+
 .text_bold{ .roboto(bold);}
 
 .uppercase{ text-transform: uppercase;}
+
+header {
+	border-bottom: 1px solid #84a4b9;
+	height: 71px;
+	position: fixed;
+	z-index: 1;
+	width: 100%;
+}
+
+/* Menu ppal */
+body > header > nav {
+	color: @grey_header_dark;
+
+	&:last-of-type {
+		background-color: @bluegrey_header;
+		height: 45px;
+	}
+
+	#uppermenu {
+		font-size: 0.7em;
+		background-color: @bluegrey_header_light;
+		border-bottom: 1px solid @blue_light;
+		height: 25px;
+		
+		& > * {
+			position: relative;
+			top: 1px;
+		}
+
+		.login {
+			font-weight: bold;
+
+			&:after {
+				content: url('/img/home/ALB_icon_usuario.svg');
+				margin-left: 10px;
+				position: relative;
+				top: 3px;
+			}
+		}
+
+		.row div:last-child {
+				text-align: right;
+		}
+
+		ul li {
+			margin-right: 7px;
+		}
+	}
+
+	span {
+		margin-right: 7px;
+	}
+
+	ul {
+		display: inline-block;
+
+		li {
+			display: inline-block;
+
+			&.selected {
+				border-bottom: 1px solid @pink;
+				font-weight: bold;
+			}
+		}
+	}
+
+	#mainmenu {
+		height: 44px;
+		font-size: 1.1em;
+
+		& > div {
+			
+			&:first-child {
+				text-align: left;
+
+				ul li {
+					margin-right: 3.1vw;
+				}
+			}
+
+			&:last-child {
+				text-align: right;
+
+				ul li {
+					margin-left: 2.8vw;
+				}
+			}
+
+			ul {
+				list-style: none;
+				padding-top: 11px;
+
+				li {
+					display: inline-block;
+					vertical-align: top;
+
+					&.home {
+						height: 26px;
+						width: 36px;
+						overflow: hidden;
+						font-size: 0;
+
+						a:after{
+							content:url('/img/home/ALB_icon_home.svg');
+						}
+
+						&.selected {
+							background-color: @white;
+
+							a:after {
+								content:url('/img/home/ALB_icon_home_marcado.svg');
+							}
+						}
+					}
+
+					&.alboran {
+						position: relative;
+						top: -11px;
+					}
+				}
+			}
+
+			&.title {
+				position: relative;
+				top: -25px;
+				font-size: 10pt;
+				text-align: center;
+				background-color: @pink;
+				padding: 10px 10px 20px;
+
+				.highlight {
+					color: @white;
+					font-weight: bold;
+					font-size: 16pt;
+				}
+			}
+		}
+	}
+}
+
+/* Control de Mapa */
+#map_control {
+	position: fixed;
+	left: 0;
+	top: 0;
+
+	width: 40px;
+
+	background-color: @grey_footer_dark;
+	box-shadow: 0 0 4px 0 rgba(0,0,0,.75);
+
+	font-size: 0.7em;
+	text-align: center;
+
+	img {
+		display: block;
+		padding: 4px 12px;
+		border-bottom: 1px solid @grey_trans;
+		margin-bottom: 3px;
+	}
+
+	.value {
+		padding: 0 4px;
+		border-radius: 7px;
+		color: @white;
+
+		&.green {
+			background-color: @green;
+		}
+
+		&.red {
+			background-color: @red;
+		}
+
+		&.blue {
+			background-color: @blue;
+		}
+	}
+}
+
+/* Pie de página */
+footer {
+	color: @white;
+	background-color: @grey_footer_dark;
+	font-size: 10pt;
+	height: 36px;
+	overflow: hidden;
+
+	.row{
+
+		p {
+			margin: 5px 0;
+
+			a {
+				margin-left: 12px;
+			}
+		}
+
+		i {
+			color: @grey_footer;
+		}
+
+		.geographica {
+			border-left: 1px solid @bluegrey;
+			padding: 12px 0 12px 12px;
+
+			&:after {
+				content: url('/img/footer/ALB_logo_geographica.svg');
+				position: relative;
+				top: 2px;
+				margin-left: 6px;
+			}
+
+			span {
+				color: @grey_footer;
+			}
+		}
+
+		& > div:last-child {
+			text-align: right;
+		}
+	}
+}
