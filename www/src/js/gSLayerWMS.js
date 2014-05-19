@@ -7,7 +7,7 @@ function GSLayerWMS(id,title, url, name, maxZoom){
 	this.layer = null;
 	this.maxZoom = maxZoom;
 	
-	this.setVisibility = function(visibility, map, z_index, zoomLevel){
+	this.setVisibility = function(visibility, z_index, zoomLevel){
 		
 		if(this.layer == null){
 			this.layer =  L.tileLayer.wms(this.url, {
@@ -17,14 +17,14 @@ function GSLayerWMS(id,title, url, name, maxZoom){
 							});	
 		}
 		
-		if((this.visible) && (this.maxZomm >=zoomLevel)){
-			this.layer.addTo(map);
+		if((visibility) && (zoomLevel <= this.maxZoom)){
+			this.layer.addTo(Map.getMap());
 			if(z_index){
 				this.layer.setZIndex(z_index);
 			}
 			this.visible = true;
 		}else{
-			map.removeLayer(this.layer);
+			Map.getMap().removeLayer(this.layer);
 			this.visible = false;
 		}
 	};

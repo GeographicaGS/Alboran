@@ -1,40 +1,45 @@
 Map = {
 	
-	layers: null,	
+	layers: [],	
 	iniLat: 37.36455,
 	iniLng: -4.57645,	
-	iniZoom: 7,
+	iniZoom: 8,
 	__map:null,
 	
 	initialize: function(){
+//			// center the map
+			var startingCenter = new L.LatLng(this.iniLat, this.iniLng);		
+//			
+//			//create the left map's leaflet instance
+			this.__map = new L.Map('map', {
+				  center: startingCenter,
+				  zoom: this.iniZoom,
+				  fadeAnimation: false,
+				//  crs: L.CRS.EPSG4326,
+				  zoomControl: false,
+				  attributionControl: false
+			});
+			
+			
+			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(this.__map);
+
+			// add zoom control to map left
+			var zoomControl = new L.Control.Zoom({
+				position : 'bottomleft'
+			});		
 		
-		// center the map
-		var startingCenter = new L.LatLng(this.iniLat, this.iniLng);		
+			zoomControl.addTo(this.__map);
 		
-		//create the left map's leaflet instance
-		__map = new L.Map('map', {
-			  center: startingCenter,
-			  zoom: this.iniZoom,
-			  fadeAnimation: false,
-			//  crs: L.CRS.EPSG4326,
-			  zoomControl: false,
-			  attributionControl: false
-		});
-		
-		
-		
-		
-		// add zoom control to map left
-		var zoomControl = new L.Control.Zoom({
-			position : 'bottomleft'
-		});		
-	
-		zoomControl.addTo(__map);
-	
-		this.__map.touchZoom.disable();
-		
+			this.__map.touchZoom.disable();
+
 	},
 
+	getMap: function() {
+		return this.__map;
+	},
+	
 	
 	isLayerLoaded: function(id) {
 		if(this.layers != null){
@@ -48,12 +53,14 @@ Map = {
 		return false;
 	},
 	
-	addLayer: function() {
-		
+	addLayer: function(id) {
+		var layer = new GSLayerWMS(1,"prueba", "http://www.sandbox.geographica.gs/cgi-bin/movitra", "mdt40fin4", 1000);
+		layer.setVisibility(true, 1, Map.getMap()._zoom);
+		this.layers.push(layer);
 	},
 	
-	removeLayer: function() {
-	
+	removeLayer: function(id) {
+		 this.__map.removeLayer(this.layers[0]); 
 	},
 	
 	removeAllLayers: function() {

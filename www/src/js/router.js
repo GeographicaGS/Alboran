@@ -9,6 +9,11 @@ app.router = Backbone.Router.extend({
     /* define the route and function maps for this router */
     routes: {
             "" : "home",
+           
+            
+            "map" : "map",
+            
+            
             "notfound" : "notfound",
             "faq" : "faq",
             "error" : "error",
@@ -20,13 +25,26 @@ app.router = Backbone.Router.extend({
             the user has incorrectly typed in a route path manually */
         
     },
+    
 
     initialize: function(options) {
         this.route(this.langRoutes["_link home"][app.lang], "home");
+        this.route(this.langRoutes["_link home"][app.lang], "map");
     },
     
     home: function(){
         app.showView(new app.view.Home());
+    },
+    
+    map: function(){
+//    	if(this.map_view == null){
+//    		this.map_view = new app.view.Map()
+//    	}
+//    	this.map_view.render();
+        $("#map").show();
+        if(Map.getMap() != null){
+        	Map.getMap().invalidateSize("true");
+        }
     },
 
     defaultRoute: function(){

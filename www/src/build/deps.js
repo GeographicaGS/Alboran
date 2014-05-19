@@ -30,6 +30,7 @@ deps.JS = {
 			"js/catalog.js",
 			"js/gSLayerWMS.js",
 			"js/map.js",
+			"js/view/map_view.js",
 			
 			
 		],

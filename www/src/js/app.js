@@ -73,6 +73,8 @@ app.ini = function(){
 
     //Backbone.history.start();root: "/public/search/"
     Backbone.history.start({pushState: true,root: this.basePath });
+    
+    new app.view.Map();
 
 };
 
@@ -83,7 +85,8 @@ app.showView = function(view) {
  
     this.currentView = view;
  
-    this.$main.html(this.currentView.el);  
+//    this.$main.html(this.currentView.el);  
+    $("#content").html(this.currentView.el);
     app.scrollTop();
 }
 
