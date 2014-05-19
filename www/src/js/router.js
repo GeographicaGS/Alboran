@@ -37,10 +37,6 @@ app.router = Backbone.Router.extend({
     },
     
     map: function(){
-//    	if(this.map_view == null){
-//    		this.map_view = new app.view.Map()
-//    	}
-//    	this.map_view.render();
         $("#map").show();
         if(Map.getMap() != null){
         	Map.getMap().invalidateSize("true");
