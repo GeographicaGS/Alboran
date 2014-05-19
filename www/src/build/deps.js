@@ -19,9 +19,11 @@ deps.JS = {
 			// --------------------
 			// ------  Views ------
 			// --------------------
+			"js/view/catalogue_view.js",
 			"js/view/error_view.js",
 			"js/view/notfound_view.js",
 			"js/view/home_view.js",
+			
 
 			// router
 			"js/router.js",
@@ -31,8 +33,6 @@ deps.JS = {
 			"js/gSLayerWMS.js",
 			"js/map.js",
 			"js/view/map_view.js",
-			
-			
 		],
 		desc: "Core library."
 	}

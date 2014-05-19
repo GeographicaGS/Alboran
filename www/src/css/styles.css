@@ -272,12 +272,12 @@ header {
 }
 
 /* Menu ppal */
-body > header > nav {
+body > header {
 	color: @grey_header_dark;
 
 	&:last-of-type {
 		background-color: @bluegrey_header;
-		height: 45px;
+		height: 72px;
 	}
 
 	#uppermenu {
@@ -338,7 +338,8 @@ body > header > nav {
 				text-align: left;
 
 				ul li {
-					margin-right: 3.1vw;
+					width: 28%;
+					text-align: center;
 				}
 			}
 
@@ -346,13 +347,14 @@ body > header > nav {
 				text-align: right;
 
 				ul li {
-					margin-left: 2.8vw;
+					width: 32%;
 				}
 			}
 
 			ul {
 				list-style: none;
 				padding-top: 11px;
+				width: 100%;
 
 				li {
 					display: inline-block;

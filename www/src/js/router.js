@@ -4,6 +4,7 @@ app.router = Backbone.Router.extend({
     
     langRoutes : {
         "_link home" : {"en":"home","es": "inicio" },
+        "_link catalogue" : {"en":"catalogue","es": "catalogo" }
     },
 
     /* define the route and function maps for this router */
@@ -12,6 +13,7 @@ app.router = Backbone.Router.extend({
            
             
             "map" : "map",
+            "catalogue": "catalogue",
             
             
             "notfound" : "notfound",
@@ -30,6 +32,7 @@ app.router = Backbone.Router.extend({
     initialize: function(options) {
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link home"][app.lang], "map");
+        this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");
     },
     
     home: function(){
@@ -41,6 +44,10 @@ app.router = Backbone.Router.extend({
         if(Map.getMap() != null){
         	Map.getMap().invalidateSize("true");
         }
+    },
+
+    catalogue: function(){
+        app.showView( new app.view.Catalogue() );
     },
 
     defaultRoute: function(){
