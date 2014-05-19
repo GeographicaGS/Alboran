@@ -1,1 +1,57 @@
-<h1>Catálogo!</h1>
+<div id="searchbar">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<input type="text">
+				<button type="button"></button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="catalogue_list">
+	<div class="container">
+		<!-- TOPTABS -->
+		<ul class="row topTabs">
+			<li class="col-sm-3 col-md-3">
+				<div class="title">
+					<h2><%= categories[0].title_es %></h2>
+					<span><%= categories[0].topics[0].layers.length %></span>
+				</div>
+				<div class="list">
+					<div class="group">
+						<div class="title">
+							<h3><%= categories[0].topics[0].title_es%></h3>
+							<span><%= categories[0].topics[0].layers.length %></span>
+							<a class="vis_btn" href="#"><img src="/img/catalogue/down_arrow.svg"></a>
+						</div>
+						<div class="content"></div>
+					</div>
+					<div class="group">
+						<div class="title">
+							<h3><%= categories[0].topics[1].title_es%></h3>
+							<span><%= categories[0].topics[1].layers.length %></span>
+							<a class="vis_btn" href="#"><img src="/img/catalogue/down_arrow.svg"></a>
+						</div>
+						<div class="content"></div>
+					</div>
+					<div class="group">
+						<div class="title">
+							<h3><%= categories[0].topics[2].title_es%></h3>
+							<span><%= categories[0].topics[2].layers.length %></span>
+							<a class="vis_btn" href="#"><img src="/img/catalogue/down_arrow.svg"></a>
+						</div>
+						<div class="content"></div>
+					</div>
+				</div>
+			</li>
+			<li class="col-sm-3 col-md-3">
+				<%= categories[1].title_es %>
+				<span><%= categories[1].layers.length %></span>
+			</li>
+			<li class="col-sm-3 col-md-3">
+				<%= categories[2].title_es %>
+				<span><%= categories[2].layers.length %></span>
+			</li>
+		</ul>
+	</div>
+</div>
