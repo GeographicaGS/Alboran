@@ -4,13 +4,14 @@ app.router = Backbone.Router.extend({
     
     langRoutes : {
         "_link home" : {"en":"home","es": "inicio" },
+        "_link map" : {"en":"map","es": "mapa" },
         "_link catalogue" : {"en":"catalogue","es": "catalogo" }
     },
 
     /* define the route and function maps for this router */
     routes: {
             "" : "home",
-           
+            "inicio" : "home",
             
             "map" : "map",
             "catalogue": "catalogue",
@@ -31,15 +32,18 @@ app.router = Backbone.Router.extend({
 
     initialize: function(options) {
         this.route(this.langRoutes["_link home"][app.lang], "home");
-        this.route(this.langRoutes["_link home"][app.lang], "map");
+        this.route(this.langRoutes["_link map"][app.lang], "map");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");
     },
     
     home: function(){
+    	$("#content").show();
+        $("#map").hide();
         app.showView(new app.view.Home());
     },
     
     map: function(){
+    	 $("#content").hide();
         $("#map").show();
         if(Map.getMap() != null){
         	Map.getMap().invalidateSize("true");
