@@ -1,8 +1,8 @@
 app.view.LayerGroup = Backbone.View.extend({
-	_template : _.template( $('layergroup_template').html() ),
+	_template : _.template( $('#layergroup_template').html() ),
 
 	events: {
-		'click .vis_btn': toggle
+		'click .vis_btn': 'toggle'
 	},
 
 	initialize: function() {

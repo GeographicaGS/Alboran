@@ -72,6 +72,7 @@ app.ini = function(){
     this.basePath = this.config.BASE_PATH + this.lang;
 
     this.$main = $("main");
+    this.$content = $("#content");
 
     //Backbone.history.start();root: "/public/search/"
     Backbone.history.start({pushState: true,root: this.basePath });
@@ -88,7 +89,7 @@ app.showView = function(view) {
     this.currentView = view;
  
 //    this.$main.html(this.currentView.el);  
-    $("#content").html(this.currentView.el);
+    this.$content.html(this.currentView.el);
     app.scrollTop();
 }
 
