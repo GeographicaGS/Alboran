@@ -328,79 +328,83 @@ body > header {
 		}
 	}
 
-	#mainmenu {
-		height: 44px;
-		font-size: 1.1em;
+	nav .container {
+		height: 56px;
 
-		& > div {
-			
-			&:first-child {
-				text-align: left;
+		#mainmenu {
+			height: 44px;
+			font-size: 1.1em;
 
-				ul li {
-					width: 28%;
+			& > div {
+				
+				&:first-child {
+					text-align: left;
+
+					ul li {
+						width: 28%;
+						text-align: center;
+					}
+				}
+
+				&:last-child {
+					text-align: right;
+
+					ul li {
+						width: 32%;
+					}
+				}
+
+				ul {
+					list-style: none;
+					padding-top: 11px;
+					width: 100%;
+
+					li {
+						display: inline-block;
+						vertical-align: top;
+
+						&.home {
+							height: 26px;
+							width: 36px;
+							overflow: hidden;
+
+							&.selected {
+								background-color: @white;
+
+								a:after {
+									content:url('@{imgPath}home/ALB_icon_home_marcado.svg');
+								}
+							}
+
+							a {
+								span {display: none;}
+
+								&:after{
+									content:url('@{imgPath}home/ALB_icon_home.svg');
+								}
+							}
+						}
+
+						&.alboran {
+							position: relative;
+							top: -11px;
+						}
+					}
+				}
+
+				&.title {
+					position: relative;
+					top: -25px;
+					font-size: 10pt;
 					text-align: center;
-				}
-			}
+					background-color: @pink;
+					padding: 10px 10px 20px;
 
-			&:last-child {
-				text-align: right;
-
-				ul li {
-					width: 32%;
-				}
-			}
-
-			ul {
-				list-style: none;
-				padding-top: 11px;
-				width: 100%;
-
-				li {
-					display: inline-block;
-					vertical-align: top;
-
-					&.home {
-						height: 26px;
-						width: 36px;
-						overflow: hidden;
-
-						&.selected {
-							background-color: @white;
-
-							a:after {
-								content:url('@{imgPath}home/ALB_icon_home_marcado.svg');
-							}
-						}
-
-						a {
-							span {display: none;}
-
-							&:after{
-								content:url('@{imgPath}home/ALB_icon_home.svg');
-							}
-						}
+					.highlight {
+						color: @white;
+						font-weight: bold;
+						font-size: 16pt;
 					}
-
-					&.alboran {
-						position: relative;
-						top: -11px;
-					}
-				}
-			}
-
-			&.title {
-				position: relative;
-				top: -25px;
-				font-size: 10pt;
-				text-align: center;
-				background-color: @pink;
-				padding: 10px 10px 20px;
-
-				.highlight {
-					color: @white;
-					font-weight: bold;
-					font-size: 16pt;
 				}
 			}
 		}

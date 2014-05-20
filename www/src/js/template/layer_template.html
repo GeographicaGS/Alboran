@@ -1,9 +1,17 @@
 <li>
-	<p class="name"><%= title_es %></p>
-	<a class="info_btn" href="#"><img src="/img/catalogue/info.svg"></a>
-	<div class="actions">
-		<a class="add_btn" href="#" layerid="<%= id %>">Añadir Capa</a>
-		<a class="metadata_btn" href="#" layerid="<%= id %>">Metadatos</a>
+	<div class="row title">
+		<div class="col-sm-7 col-md-7">
+			<p class="name">
+				<%= title_es %>
+				<a class="info_btn" href="#"><img src="/img/map/ALB_icon_info_capa.svg"></a>
+			</p>
+		</div>
+		<div class="col-sm-5 col-ms-5">
+			<div class="actions">
+				<a class="button add_btn" href="#" layerid="<%= id %>">Añadir Capa</a>
+				<a class="button metadata_btn" href="#" layerid="<%= id %>">Metadatos</a>
+			</div>
+		</div>
 	</div>
 	<div class="row info">
 		<div class="col-sm-7 col-md-7">

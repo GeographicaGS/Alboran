@@ -2,42 +2,49 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-md-12">
-				<input type="text">
-				<button type="button"></button>
+				<input type="text" value="Catálogo" readonly>
+				<button type="button"><img src="/img/catalogue/ALB_icon_buscar.svg"></button>
 			</div>
 		</div>
 	</div>
 </div>
 <div class="catalogue_list">
+	<div class="tabsContainer">
+		<div class="container">
+			<!-- TOPTABS -->
+			<ul class="row topTabs">
+				<li class="col-sm-4 col-md-4 title green selected">
+					<a href="#">
+						<h2><%= app.categories[0].title_es %>
+							<span><%= app.categories[0].topics[0].layers.length %></span>
+						</h2
+					></a>
+				</li>
+				<li class="col-sm-4 col-md-4 title red">
+					<a href="#">
+						<h2><%= app.categories[1].title_es %>
+							<span><%= app.categories[1].topics[0].layers.length %></span>
+						</h2
+					></a>
+				</li>
+				<li class="col-sm-4 col-md-4 title blue">
+					<a  href="#">
+						<h2><%= app.categories[2].title_es %>
+							<span><%= app.categories[2].topics[0].layers.length %></span>
+						</h2
+					></a>
+				</li>
+			</ul>
+		</div>
+	</div>
 	<div class="container">
-		<!-- TOPTABS -->
-		<ul class="row topTabs">
-			<li class="col-sm-4 col-md-4 title green selected">
-				<a href="#" jslink>
-					<h2><%= categories[0].title_es %>
-						<span><%= categories[0].topics[0].layers.length %></span>
-					</h2
-				></a>
-				<!-- SUBLIST -->
-				<div class="list"></div>
-			</li>
-			<li class="col-sm-4 col-md-4 title red">
-				<a href="#" jslink>
-					<h2><%= categories[1].title_es %>
-						<span><%= categories[1].topics[0].layers.length %></span>
-					</h2
-				></a>
-				<!-- SUBLIST -->
-				<div class="list"></div>
-			<li class="col-sm-4 col-md-4 title blue">
-				<a href="#" jslink>
-					<h2><%= categories[2].title_es %>
-						<span><%= categories[2].topics[0].layers.length %></span>
-					</h2
-				></a>
-				<!-- SUBLIST -->
-				<div class="list"></div>
-			</li>
+		<ul class="row layersContainer">
+			<!-- SUBLIST -->
+			<div class="col-sm-12 col-md-12">
+				<li class="layergroup green selected" id="layerGroup1"></li>
+				<li class="layergroup red" id="layerGroup2"></li>
+				<li class="layergroup blue" id="layerGroup3"></li>
+			</div>
 		</ul>
 	</div>
 </div>
