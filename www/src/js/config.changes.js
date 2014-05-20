@@ -1,3 +1,3 @@
 app.config = {
-    "API_URL": "http://localhost/api",
+    "API_URL": "http://localhost/api"
 }
