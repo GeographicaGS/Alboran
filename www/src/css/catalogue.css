@@ -1,0 +1,16 @@
+#searchbar {
+	padding-top: 72px;
+}
+
+#catalogue_list {
+
+	.topTabs {
+		text-align: center;
+
+		.title {
+			span {
+				margin-left: 1em;
+			}
+		}
+	}
+}
