@@ -4,6 +4,7 @@ app.router = Backbone.Router.extend({
     
     langRoutes : {
         "_link home" : {"en":"home","es": "inicio" },
+        "_link map" : {"en":"map","es": "mapa" },
         "_link catalogue" : {"en":"catalogue","es": "catalogo" }
     },
 
@@ -31,7 +32,7 @@ app.router = Backbone.Router.extend({
 
     initialize: function(options) {
         this.route(this.langRoutes["_link home"][app.lang], "home");
-        this.route(this.langRoutes["_link home"][app.lang], "map");
+        this.route(this.langRoutes["_link map"][app.lang], "map");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");
     },
     
