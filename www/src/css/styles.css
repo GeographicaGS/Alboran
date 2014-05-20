@@ -456,7 +456,49 @@ body > header {
 	top: 25px;
 	width: 320px;
 	z-index: 10001;
-	opacity: 0.6;
+	opacity: 0.9;
+	
+	.panel{
+		cursor: move;
+		margin:10px;
+		background-color: white;
+		border-radius: 2px;
+		font-size: 13px;
+			
+	}
+	
+	.panel li{
+		border-bottom: 1px solid #e1e2e4;
+		padding-left: 10px;
+		line-height: 28px;
+	}
+	
+	.panel li:last-child{
+		border-bottom:none;
+		border-radius: 2px;
+		color: white;
+		cursor: pointer;
+	}
+	
+	.panel li:last-child:before{
+		content: url('../img/home/ALB_icon_home_marcado.svg');
+	}
+	
+	.panel .green{
+		background-color: #009966;
+		border-top: 1px solid #126f52;
+	}
+	
+	.panel .red{
+		background-color: #ff3300;
+		border-top: 1px solid #ab3215;
+	}
+	
+	.panel .blue{
+		background-color: #018be2;
+		border-top: 1px solid #12679c;
+	}
+	
 }
 
 /* Pie de página */

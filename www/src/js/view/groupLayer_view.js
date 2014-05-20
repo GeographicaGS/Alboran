@@ -4,6 +4,15 @@ app.view.GroupLayer = Backbone.View.extend({
     
     initialize: function() {
     	this.render();
+    	
+    	this.$el.find(".panel").sortable({
+    		start: function( event, ui ) {
+				$(ui.item).css("background-color","#f2f7fb");
+				
+			},
+    	});
+//    	$("#groupLayer").find("div").disableSelection();
+//    	$("#groupLayer").find("div").sortable({ cancel: '.disableSortable' });
     },
     
     events:{
