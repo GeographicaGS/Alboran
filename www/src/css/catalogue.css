@@ -1,15 +1,66 @@
+@green_titlebck: #d9f0e8;
+@red_titlebck: #ff9f87;
+@blue_titlebck: #8fc2e2;
+@tabs_separator: #e0e0e1;
+
 #searchbar {
 	padding-top: 72px;
 }
 
-#catalogue_list {
+.catalogue_list {
 
 	.topTabs {
-		text-align: center;
+		font-size: 10pt;
 
 		.title {
-			span {
-				margin-left: 1em;
+			border: 1px solid @tabs_separator;
+			border-right-width: 0;
+			padding: 14px;
+
+			&:last-child {
+				border-right-width: 1px;
+			}
+
+			h2 {
+				text-align: left;
+				position: relative;
+				font-weight: normal;
+
+				&:before {
+					content: url('@{imgPath}map/ALB_icon_config_cargar_mapa-1.svg');
+					position: relative;
+					top: 3px;
+					margin-right: 5px;
+				}
+
+				span {
+					position: absolute;
+					right: 0;
+					text-align: right;
+					margin-left: 1em;
+				}
+			}
+
+			&.selected {
+
+				h2 {
+					font-weight: bold;
+				}
+
+				&.green{
+					background-color: @green_titlebck;
+					border-bottom-color: @green;
+				}
+
+				&.red {
+					background-color: @red_titlebck;
+					border-bottom-color: @red;
+				}
+
+				&.blue {
+					background-color: @blue_titlebck;
+					border-bottom-color: @blue;
+				}
 			}
 		}
 	}
