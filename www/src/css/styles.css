@@ -409,6 +409,7 @@ body > header {
 
 /* Control de Mapa */
 #map_control {
+	cursor:pointer;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -447,8 +448,20 @@ body > header {
 	}
 }
 
+
+#groupLayer{
+	height: 100%;
+	background-color: #394048;
+	position: absolute;
+	top: 25px;
+	width: 320px;
+	z-index: 10001;
+	opacity: 0.6;
+}
+
 /* Pie de página */
 footer {
+	z-index: 10002;
 	color: @white;
 	background-color: @grey_footer_dark;
 	font-size: 10pt;

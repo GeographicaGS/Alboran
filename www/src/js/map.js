@@ -53,6 +53,7 @@ Map = {
 		return false;
 	},
 	
+	
 	addLayer: function(id) {
 		var layer = this.searchLayer(id);
 		if(layer != null){
@@ -66,19 +67,29 @@ Map = {
 		}
 	},
 	
-	removeLayer: function(id) {
+	showLayer: function(id) {
 		this.layers.forEach(function(gSLayerWMS) {
 			if(gSLayerWMS.id == id){
-				position = $.inArray(gSLayerWMS, self.layers );
-				gSLayerWMS.setVisibility(false, null, null);
-				return false;
+				gSLayerWMS.setVisibility(true, gSLayerWMS.z_index, Map.getMap()._zoom);
 			}
 		});
 	},
 	
-	removeAllLayers: function() {
-		
-		
+	
+	removeLayer: function(id) {
+		this.layers.splice(this.hideLayer(id));
+	},
+	
+	hideLayer: function(id) {
+		var self = this;
+		var position = null;
+		this.layers.forEach(function(gSLayerWMS) {
+			if(gSLayerWMS.id == id){
+				position = $.inArray(gSLayerWMS, self.layers);
+				gSLayerWMS.setVisibility(false, null, null);
+			}
+		});
+		return position;
 	},
 	
 	searchLayer: function(id) {

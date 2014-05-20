@@ -1,0 +1,139 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/opt/local/bin/node',
+1 verbose cli   '/opt/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'node-watch' ]
+2 info using npm@1.4.10
+3 info using node@v0.10.28
+4 verbose cache add [ 'node-watch', null ]
+5 verbose cache add name=undefined spec="node-watch" args=["node-watch",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'node-watch',
+6 verbose parsed url   path: 'node-watch',
+6 verbose parsed url   href: 'node-watch' }
+7 silly lockFile 80008ae6-node-watch node-watch
+8 verbose lock node-watch /Users/javierroberto/.npm/80008ae6-node-watch.lock
+9 silly lockFile 80008ae6-node-watch node-watch
+10 silly lockFile 80008ae6-node-watch node-watch
+11 verbose addNamed [ 'node-watch', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 60455e35-node-watch node-watch@
+14 verbose lock node-watch@ /Users/javierroberto/.npm/60455e35-node-watch.lock
+15 silly addNameRange { name: 'node-watch', range: '*', hasData: false }
+16 verbose url raw node-watch
+17 verbose url resolving [ 'https://registry.npmjs.org/', './node-watch' ]
+18 verbose url resolved https://registry.npmjs.org/node-watch
+19 info trying registry request attempt 1 at 16:42:21
+20 verbose etag "15KITX2I2CUE6Z7SVUHMORWY6"
+21 http GET https://registry.npmjs.org/node-watch
+22 http 200 https://registry.npmjs.org/node-watch
+23 silly registry.get cb [ 200,
+23 silly registry.get   { date: 'Tue, 20 May 2014 14:42:21 GMT',
+23 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+23 silly registry.get     etag: '"DUKWTN1L894CS5F6GNKI4KDB1"',
+23 silly registry.get     'content-type': 'application/json',
+23 silly registry.get     via: '1.1 varnish',
+23 silly registry.get     'cache-control': 'max-age=1',
+23 silly registry.get     'content-length': '16255',
+23 silly registry.get     'accept-ranges': 'bytes',
+23 silly registry.get     age: '625',
+23 silly registry.get     'x-served-by': 'cache-v43-ASH, cache-fra1223-FRA',
+23 silly registry.get     'x-cache': 'HIT, HIT',
+23 silly registry.get     'x-cache-hits': '1, 1',
+23 silly registry.get     'x-timer': 'S1400577555.737342119,VS0,VS44,VE137,VE19385960',
+23 silly registry.get     vary: 'Accept',
+23 silly registry.get     'keep-alive': 'timeout=10, max=50',
+23 silly registry.get     connection: 'Keep-Alive' } ]
+24 silly addNameRange number 2 { name: 'node-watch', range: '*', hasData: true }
+25 silly addNameRange versions [ 'node-watch',
+25 silly addNameRange   [ '0.1.0',
+25 silly addNameRange     '0.1.1',
+25 silly addNameRange     '0.2.0',
+25 silly addNameRange     '0.2.1',
+25 silly addNameRange     '0.2.2',
+25 silly addNameRange     '0.2.3',
+25 silly addNameRange     '0.2.4',
+25 silly addNameRange     '0.2.5',
+25 silly addNameRange     '0.2.6',
+25 silly addNameRange     '0.2.7',
+25 silly addNameRange     '0.2.8',
+25 silly addNameRange     '0.2.9',
+25 silly addNameRange     '0.3.0',
+25 silly addNameRange     '0.3.1',
+25 silly addNameRange     '0.3.2',
+25 silly addNameRange     '0.3.3',
+25 silly addNameRange     '0.3.4' ] ]
+26 verbose addNamed [ 'node-watch', '0.3.4' ]
+27 verbose addNamed [ '0.3.4', '0.3.4' ]
+28 silly lockFile f42cecbf-node-watch-0-3-4 node-watch@0.3.4
+29 verbose lock node-watch@0.3.4 /Users/javierroberto/.npm/f42cecbf-node-watch-0-3-4.lock
+30 silly lockFile f42cecbf-node-watch-0-3-4 node-watch@0.3.4
+31 silly lockFile f42cecbf-node-watch-0-3-4 node-watch@0.3.4
+32 silly lockFile 60455e35-node-watch node-watch@
+33 silly lockFile 60455e35-node-watch node-watch@
+34 silly resolved [ { name: 'node-watch',
+34 silly resolved     version: '0.3.4',
+34 silly resolved     description: 'fs.watch() wrapper of Nodejs ',
+34 silly resolved     url: 'https://github.com/yuanchuan/node-watch',
+34 silly resolved     author:
+34 silly resolved      { name: 'yuanchuan',
+34 silly resolved        email: 'yuanchuan23@gmail.com',
+34 silly resolved        url: 'http://yuanchuan.name' },
+34 silly resolved     main: './lib/watch.js',
+34 silly resolved     keywords: [ 'nodewatch', 'watch', 'watchfile' ],
+34 silly resolved     bugs: { url: 'https://github.com/yuanchuan/node-watch/issues' },
+34 silly resolved     repository:
+34 silly resolved      { type: 'git',
+34 silly resolved        url: 'git://github.com/yuanchuan/node-watch.git' },
+34 silly resolved     readme: '#Node-watch\nA [fs.watch](http://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener) wrapper to watch files or directories(recursively by default).  \n\n\n### Installation\n\n```bash\nnpm install node-watch\n```\n\n### Example\n\n```js\nvar watch = require(\'node-watch\');\n\nwatch(\'somedir_or_somefile\', function(filename) {\n  console.log(filename, \' changed.\');\n});\n``` \n\n### Why fs.watch wrapper\n\n* Some editors will generate temporary files which will cause the callback function to be triggered multiple times.\n* when watching a single file the callback function will only be triggered one time and then is seem to be unwatched.\n* Missing an option to watch a directory recursively.\n \n \n### The difference\nThis module **currently** does not differentiate event like `rename` or `delete`. Once there is a change, the callback function will be triggered.\n\n\n### Options\n\n`recursive`:Watch it recursively or not (defaults to **true**). \n\n`followSymLinks`: Follow symbolic links or not (defaults to **false**).\n\n`maxSymLevel`: The max number of following symbolic links, in order to prevent circular links (defaults to **1**). \n\n\n```js\nwatch(\'somedir\', { recursive: false, followSymLinks: true }, function(filename) {\n  console.log(filename, \' changed.\');\n});\n```\n\n###FAQ\n\n#### 1. How to watch mutiple files or directories\n\n```js\nwatch([\'file1\', \'file2\'], function(file) {\n  //\n});\n```\n\n#### 2. How to filter files\n\nWrite your own filter function as a higher-order function. For example:\n\n```js\nvar filter = function(pattern, fn) {\n  return function(filename) {\n    if (pattern.test(filename)) {\n      fn(filename);\n    }\n  }\n}\n\n// only watch for js files\nwatch(\'mydir\', filter(/\\.js$/, function(filename) {\n  // \n}));\n```\n',
+34 silly resolved     readmeFilename: 'README.md',
+34 silly resolved     homepage: 'https://github.com/yuanchuan/node-watch',
+34 silly resolved     _id: 'node-watch@0.3.4',
+34 silly resolved     _from: 'node-watch@' } ]
+35 info install node-watch@0.3.4 into /opt/local/lib
+36 info installOne node-watch@0.3.4
+37 info /opt/local/lib/node_modules/node-watch unbuild
+38 verbose tar unpack /Users/javierroberto/.npm/node-watch/0.3.4/package.tgz
+39 silly lockFile 12f07efe-ocal-lib-node-modules-node-watch tar:///opt/local/lib/node_modules/node-watch
+40 verbose lock tar:///opt/local/lib/node_modules/node-watch /Users/javierroberto/.npm/12f07efe-ocal-lib-node-modules-node-watch.lock
+41 silly lockFile ba9ada58-npm-node-watch-0-3-4-package-tgz tar:///Users/javierroberto/.npm/node-watch/0.3.4/package.tgz
+42 verbose lock tar:///Users/javierroberto/.npm/node-watch/0.3.4/package.tgz /Users/javierroberto/.npm/ba9ada58-npm-node-watch-0-3-4-package-tgz.lock
+43 silly gunzTarPerm modes [ '755', '644' ]
+44 error Error: EACCES, mkdir '/opt/local/lib/node_modules/node-watch'
+44 error  { [Error: EACCES, mkdir '/opt/local/lib/node_modules/node-watch']
+44 error   errno: 3,
+44 error   code: 'EACCES',
+44 error   path: '/opt/local/lib/node_modules/node-watch',
+44 error   fstream_type: 'Directory',
+44 error   fstream_path: '/opt/local/lib/node_modules/node-watch',
+44 error   fstream_class: 'DirWriter',
+44 error   fstream_stack:
+44 error    [ '/opt/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+44 error      '/opt/local/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53',
+44 error      'Object.oncomplete (fs.js:107:15)' ] }
+45 error Please try running this command again as root/Administrator.
+46 error System Darwin 13.1.0
+47 error command "/opt/local/bin/node" "/opt/local/bin/npm" "install" "-g" "node-watch"
+48 error cwd /Users/javierroberto/Proyectos/Alboran/www/src
+49 error node -v v0.10.28
+50 error npm -v 1.4.10
+51 error path /opt/local/lib/node_modules/node-watch
+52 error fstream_path /opt/local/lib/node_modules/node-watch
+53 error fstream_type Directory
+54 error fstream_class DirWriter
+55 error code EACCES
+56 error errno 3
+57 error stack Error: EACCES, mkdir '/opt/local/lib/node_modules/node-watch'
+58 error fstream_stack /opt/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+58 error fstream_stack /opt/local/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53
+58 error fstream_stack Object.oncomplete (fs.js:107:15)
+59 verbose exit [ 3, true ]

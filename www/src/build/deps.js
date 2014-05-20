@@ -45,6 +45,7 @@ deps.JS = {
 			"js/gSLayerWMS.js",
 			"js/map.js",
 			"js/view/map_view.js",
+			"js/view/groupLayer_view.js",
 		],
 		desc: "Core library."
 	}
