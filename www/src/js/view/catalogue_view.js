@@ -4,7 +4,9 @@ app.view.Catalogue = Backbone.View.extend({
 	initialize: function() {
         this.collection = new app.collection.Categories();
         this.listenTo(this.collection, 'reset', this.render );
-        this.collection.fetch({reset: true});
+        this.collection.fetch({
+            reset: true
+        });
         //this.render();
     },
     

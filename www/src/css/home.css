@@ -1,7 +1,7 @@
 #presentation {
 	padding: 147px 0 54px;
 	text-align: center;
-	background: url('@{imgPath}presentation_bck.jpg') no-repeat #292966;
+	background: url('@{imgPath}home/ALB_img_fondo_presentacion.jpg') no-repeat #292966;
 	.lato(light);
 
 	h2 {
