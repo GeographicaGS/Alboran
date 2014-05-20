@@ -1,16 +1,269 @@
+@green_titlebck: #d9f0e8;
+@red_titlebck: #ffd6cb;
+@blue_titlebck: #D1E8F7;
+@tabs_separator: #e0e0e1;
+@grey_groupTitleNumber: #909499;
+@grey_layerHover: #f4f4f4;
+@grey_infoLayerText: #697077;
+
+
 #searchbar {
 	padding-top: 72px;
+	background-color: @grey_light;
+	border-bottom: 1px solid @grey_footer;
+	text-align: center;
+
+	input[type="text"] {
+		width: 90%;
+		height: 70px;
+		background-color: @grey_light;
+		color: @pink;
+		font-size: 1.5em;
+		outline: 0;
+		text-align: center;
+		
+		&:focus {
+			outline: 0;
+		}
+	}
+
+	button {
+		background: none;
+		height: 36px;
+		position: absolute;
+		right: 0;
+		top: 50%;
+		margin-top: -15px;
+	}
 }
 
-#catalogue_list {
+.catalogue_list {
+	padding-bottom: 54px;
 
-	.topTabs {
-		text-align: center;
+	.tabsContainer {
+		border-bottom: 1px solid @tabs_separator;
+		height: 41px;
 
-		.title {
-			span {
-				margin-left: 1em;
+		.topTabs {
+			font-size: 10pt;
+
+			.title {
+				border: solid @tabs_separator;
+				border-width: 0 0 1px 1px;
+				padding: 5px 10px 7px;
+				display: block;
+
+				h2 {
+					text-align: left;
+					position: relative;
+					font-weight: normal;
+
+					&:before {
+						position: relative;
+						top: 5px;
+						margin-right: 5px;
+					}
+
+					span {
+						position: absolute;
+						right: 0;
+						text-align: right;
+						margin-left: 1em;
+						padding-top: 3px;
+					}
+				}
+
+				&:last-child {
+					border-right-width: 1px;
+				}
+
+				&.green {
+					h2:before {
+						content: url('@{imgPath}map/ALB_icon_config_cargar_mapa-1.svg');
+					}
+				}
+
+				&.red {
+					h2:before {
+						content: url('@{imgPath}map/ALB_icon_config_cargar_mapa-2.svg');
+					}
+				}
+
+				&.blue {
+					h2:before {
+						content: url('@{imgPath}map/ALB_icon_config_cargar_mapa-3.svg');
+					}
+				}
+
+				&.selected {
+
+					h2 {
+						font-weight: bold;
+					}
+
+					&.green {
+						background-color: @green_titlebck;
+						border-bottom-color: @green;
+					}
+
+					&.red {
+						background-color: @red_titlebck;
+						border-bottom-color: @red;
+					}
+
+					&.blue {
+						background-color: @blue_titlebck;
+						border-bottom-color: @blue;
+					}
+				}
 			}
+		}
+	}
+
+	.layersContainer {
+		.layergroup {
+			display: none;
+
+			&.selected {
+				display: block;
+			}
+
+			&.green > .groupName {
+				border-color: @green;
+			}
+
+			&.red > .groupName {
+				border-color: @red;
+			}
+
+			&.blue > .groupName {
+				border-color: @blue;
+			}
+
+			.layerItemGroup {
+				margin-top: 4px;
+
+				.groupName {
+					border-bottom: 1px solid;
+
+					h3 {
+						text-align: center;
+						padding: 19px;
+
+						span {
+							color: @grey_groupTitleNumber;
+							font-size: 0.8em;
+							margin-left: 1em;
+						}
+					}
+
+					.toggle_btn {
+						float: right;
+						border-left: 1px solid #e0e0e1;
+						padding: 20px;
+					}
+
+					&:after {
+						content: "";
+						display: block;
+						clear: both;
+					}
+				}
+
+				.content {
+					max-height: 2000px;
+					overflow: hidden;
+					transition: max-height 1s ease;
+
+					&.contracted {
+						max-height: 0;
+					}
+
+					.layerItem {
+						border-bottom: 1px solid @tabs_separator;
+						transition: background-color .3s ease;
+
+						.title {
+							color: @grey_header_dark;
+							font-size: 13pt;
+
+							.name {
+								padding: 20px 0 20px;
+
+								.info_btn {
+									opacity: 0;
+									transition: opacity .3s ease;
+									position: relative;
+									margin-left: 10px;
+									top: 3px;
+								}
+							}
+
+							.actions {
+								padding: 20px 0 25px;
+								text-align: right;
+
+								.button {
+									padding: 8px;
+									margin-right: 15px;
+									color: @white;
+									border-radius: 2px;
+									font-size: 0.7em;
+									font-weight: bold;
+									text-transform: uppercase;
+
+									&:last-child {
+										margin-right: 0;
+									}
+
+									&.add_btn {
+										background-color: @green;
+										&:before{
+											content: url('@{imgPath}catalogue/ALB_icon_capa_toc.svg');
+											margin-right: 5px;
+											position: relative;
+											top: 4px;
+										}
+									}
+
+									&.metadata_btn {
+										background-color: @grey_groupTitleNumber;
+										&:after{
+											content: url('@{imgPath}catalogue/ALB_icon_enlace_externo.svg');
+											margin-left: 5px;
+											position: relative;
+											top: 4px;
+										}
+									}
+								}
+							}
+						}
+
+						.info {
+							display: none;
+							color: @grey_infoLayerText;
+
+							&.show {
+								display: block;
+							}
+						}
+
+						.title, .info {
+							padding: 0 10px 0 35px;
+						}
+
+						&:hover {
+							background-color: @grey_layerHover;
+
+							.title .name .info_btn {
+								display: inline-block;
+								opacity: 1;
+							}
+						}
+					}
+				}
+			}
+
 		}
 	}
 }

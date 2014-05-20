@@ -1,12 +1,13 @@
 app.view.LayerGroup = Backbone.View.extend({
 	_template : _.template( $('#layergroup_template').html() ),
+	className: 'layerItemGroup',
 
 	events: {
-		'click .vis_btn': 'toggle'
+		'click .toggle_btn': 'toggle'
 	},
 
 	initialize: function() {
-		this.render();
+		//this.render();
 	},
 
 	onClose: function() {
@@ -15,11 +16,23 @@ app.view.LayerGroup = Backbone.View.extend({
 	},
 
 	render: function() {
-		this.$el.html(this._template( this.model.toJSON() ));
+		this.$el.html(this._template( this.model ));
+
+		this.$content = this.$('.content');
+		this.renderGroup();
+
         return this;
 	},
 
-	toggle: function() {
+	renderGroup: function(){
+		for (var i = 0; i < this.model.layers.length; i++ ){
+			var layer = new app.view.Layer({model: this.model.layers[i]});
+			this.$content.append(layer.render().$el);
+		}
+	},
 
+	toggle: function(e) {
+		e.preventDefault();
+		this.$content.toggleClass('contracted');
 	}
 });
