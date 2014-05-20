@@ -58,6 +58,8 @@ app.detectCurrentLanguage = function(){
     }
     else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {        
         return "en";
+    }else if (document.URL.indexOf("/fr/") != -1 || document.URL.endsWith("/fr")) {        
+        return "fr";
     }
     
     return null;
