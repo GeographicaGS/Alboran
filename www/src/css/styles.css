@@ -475,17 +475,59 @@ body > header {
 		border-bottom: 1px solid #e1e2e4;
 		padding-left: 10px;
 		line-height: 28px;
+		color: #909499;
 	}
 	
-	.panel li:last-child{
+	.panel li:BEFORE{
+		content: ' \25CB';
+		font-size: 20px;
+		float: left;
+		padding-right: 10px;
+		
+	}
+	
+	.green li:BEFORE{
+		color:#0d9e6e;
+	}
+	
+	.red li:BEFORE{
+		color:#ff3300;
+	}
+	
+	.blue li:BEFORE{
+		color:#018be2;
+	}
+	
+	.panel .active {
+		color: #2b3033;
+	}
+	
+	.panel .active:BEFORE{
+		content: ' \25CF';
+	}
+	
+	.panel li:LAST-CHILD{
 		border-bottom:none;
 		border-radius: 2px;
 		color: white;
 		cursor: pointer;
 	}
 	
-	.panel li:last-child:before{
-		content: url('../img/home/ALB_icon_home_marcado.svg');
+	.panel li:LAST-CHILD:BEFORE{
+		content: none;
+	}
+	
+	.panel li:last-child:after{
+		content: url('../img/map/ALB_icon_anadir_capa.svg');
+		float: right;
+		margin-right: 10px;
+	}
+	
+	.panel .green:FIRST-CHILD{
+		background-color: #d9f0e8;
+		border-bottom: 1px solid #009966 !important;
+		color: #009966;
+		cursor: pointer;
 	}
 	
 	.panel .green{
@@ -493,9 +535,23 @@ body > header {
 		border-top: 1px solid #126f52;
 	}
 	
+	.panel .red:FIRST-CHILD{
+		background-color: #ffe1d9;
+		border-bottom: 1px solid #ab3215 !important;
+		color: #ab3215;
+		cursor: pointer;
+	}
+	
 	.panel .red{
 		background-color: #ff3300;
 		border-top: 1px solid #ab3215;
+	}
+	
+	.panel .blue:FIRST-CHILD{
+		background-color: #d9eefb;
+		border-bottom: 1px solid #009966 !important;
+		color: #018be2;
+		cursor: pointer;
 	}
 	
 	.panel .blue{

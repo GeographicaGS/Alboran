@@ -8,9 +8,9 @@ app.view.Map = Backbone.View.extend({
             parent: this
         });
     	
-    	$("#map_control").on('click', function() {
-        	
-       });
+//    	$("#map_control").on('click', function() {
+//        	
+//       });
     	
     	this.render();
 
