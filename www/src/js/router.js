@@ -3,9 +3,9 @@ var app = app || {};
 app.router = Backbone.Router.extend({
     
     langRoutes : {
-        "_link home" : {"en":"home","es": "inicio" },
-        "_link map" : {"en":"map","es": "mapa" },
-        "_link catalogue" : {"en":"catalogue","es": "catalogo" }
+        "_link home" : {"en":"home","es": "inicio", "fr": "accueil" },
+        "_link map" : {"en":"map","es": "mapa", "fr": "carte" },
+        "_link catalogue" : {"en":"catalogue","es": "catalogo", "fr": "catalogue" }
     },
 
     /* define the route and function maps for this router */
