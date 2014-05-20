@@ -2,12 +2,8 @@ app.view.Catalogue = Backbone.View.extend({
 	_template : _.template( $('#catalogue_template').html() ),
 
 	initialize: function() {
-        this.collection = new app.collection.Categories();
-        this.listenTo(this.collection, 'reset', this.render );
-        this.collection.fetch({
-            reset: true
-        });
-        //this.render();
+        this.collection = new app.collection.Categories(categories, {view: this});
+        this.render();
     },
     
     onClose: function(){
@@ -17,6 +13,7 @@ app.view.Catalogue = Backbone.View.extend({
     
     render: function() {
         this.$el.html(this._template());
+        //this.collection.each(renderCategory);
         return this;
     }
 });
