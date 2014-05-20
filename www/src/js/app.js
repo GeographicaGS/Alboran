@@ -33,7 +33,7 @@ $(function() {
             if (href=="#back") {
                 history.back();
             }
-            app.router.navigate($(this).attr("href").substring(3),{trigger: true});
+            app.router.navigate($(this).attr("href").substring(4),{trigger: true});
         }
     });
 
