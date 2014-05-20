@@ -70,12 +70,11 @@ Map = {
 	
 	searchLayer: function(id) {
 		var result = null;
-		categories.forEach(function(category) {
+		app.categories.forEach(function(category) {
 			category.topics.forEach(function(topic) {
 				topic.layers.forEach(function(layer) {
 				    if (layer.id == id){
-				    	result = layer;
-				    	return layer;
+				    	return result = layer;
 				    }
 				});
 			});

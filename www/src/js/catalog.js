@@ -1,4 +1,4 @@
-var categories = [
+app.categories = [
                   {
                       title_es:"Rasgos naturales y actividad humana",
                       title_en:"", 
