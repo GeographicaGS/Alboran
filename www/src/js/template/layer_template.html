@@ -1,0 +1,23 @@
+<li>
+	<p class="name"><%= title_es %></p>
+	<a class="info_btn" href="#"><img src="/img/catalogue/info.svg"></a>
+	<div class="actions">
+		<a class="add_btn" href="#" layerid="<%= id %>">Añadir Capa</a>
+		<a class="metadata_btn" href="#" layerid="<%= id %>">Metadatos</a>
+	</div>
+	<div class="row info">
+		<div class="col-sm-7 col-md-7">
+			<p><%= desc_es %></p>
+		</div>
+		<div class="col-sm-5 col-md-5">
+			<div class="row source">
+				<div class="col-sm-1 col-md-1">
+					<p>Fuente</p>
+				</div>
+				<div class="col-sm-4 col-md-4">
+					<%= dataSource %>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>

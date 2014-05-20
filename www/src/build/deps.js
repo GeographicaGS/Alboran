@@ -15,10 +15,22 @@ deps.JS = {
 			"js/namespace.js",
 			// Config file
 			"js/config.js",
+
+			// --------------------
+			// ------ Models ------
+			// --------------------
+			"js/model/category.js",
 			
+			// --------------------
+			// ---- Collections ---
+			// --------------------
+			"js/collection/categories.js",
+
 			// --------------------
 			// ------  Views ------
 			// --------------------
+			"js/view/layer_view.js",
+			"js/view/layergroup_view.js",
 			"js/view/catalogue_view.js",
 			"js/view/error_view.js",
 			"js/view/notfound_view.js",

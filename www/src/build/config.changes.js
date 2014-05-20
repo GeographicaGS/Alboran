@@ -2,11 +2,11 @@ var config = {
     database : {
         "host" : "localhost",
         "port": 5434,
-        "user": "pivotal_admin",
-        "password" : "pivotal",
-        "db" : "pivotal"
+        "user": "alboran_admin",
+        "password" : "XXXXX",
+        "db" : "alboran"
     },
-    langs : ["en","es"]
+    langs : ["en","es","fr"]
 }
 
 exports.config = config;
