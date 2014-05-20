@@ -1,11 +1,17 @@
 \i 00-config.sql
 \c :dbname :user :host :port
 
-create table translation(
-  key text,
-  en text,
-  es text
-);
 
-alter table translation add constraint translation_pkey
-primary key(key);
+CREATE TABLE translation
+(
+  key text NOT NULL,
+  en text,
+  es text,
+  fr text,
+  CONSTRAINT translation_pkey PRIMARY KEY (key)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE translation
+  OWNER TO alboran_admin;
