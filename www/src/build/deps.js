@@ -62,6 +62,7 @@ deps.CSS = {
 			"css/base.css",
 			"css/styles.css",
 			"css/home.css",
+			"css/catalogue.css",
 		]
 	}
 };
