@@ -37,9 +37,46 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     events:{
-		
+    	"click li": "layerClick",
+    	"mouseover li": "layerOver",
+    	"mouseleave li": "layerLeave",
+    	"click .removeLayer": "removeLayerClick",
 		
 	},
+	
+	layerClick: function(e){
+    	var idLayer = $(e.currentTarget).attr("idLayer");
+    	if(idLayer){
+    		if($(e.currentTarget).hasClass("active")){
+    			Map.hideLayer(idLayer);
+    			$(e.currentTarget).removeClass("active")
+    		}else{
+    			Map.showLayer(idLayer);
+    			$(e.currentTarget).addClass("active")
+    		}
+    	}
+    },
+    
+    layerOver: function(e){
+    	if($(e.currentTarget).attr("idLayer")){
+    		$(e.currentTarget).css({"background-color":"#f4f4f4"});
+    		$(e.currentTarget).find("img").show();
+    	}
+    },
+    
+    layerLeave: function(e){
+    	if($(e.currentTarget).attr("idLayer")){
+    		$(e.currentTarget).css({"background-color":"white"});
+    		$(e.currentTarget).find("img").hide();
+    	}
+    },
+    
+    removeLayerClick: function(e){
+    	Map.removeLayer($(e.currentTarget).parent().attr("idLayer"));
+    	$(e.currentTarget).parent().hide(function(){ 
+    		$(this).remove();
+    	});
+    },
     
     onClose: function(){
     	this.stopListening();

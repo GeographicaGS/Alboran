@@ -495,8 +495,20 @@ body > header {
 		padding-left: 10px;
 		line-height: 28px;
 		color: #909499;
+		
+		.icon{
+			float:right;
+			padding: 7px 7px 5px 7px;
+			border-left: 1px solid #cacbcc;
+			cursor: pointer;
+			display: none;
+			
+		}
+		.removeLayer{
+			padding: 9px 7px 7px 7px;
+		}
 	}
-	
+
 	.panel li:BEFORE{
 		content: ' \25CB';
 		font-size: 20px;
