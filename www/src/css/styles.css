@@ -363,6 +363,15 @@ body > header {
 						display: inline-block;
 						vertical-align: top;
 
+						&.selected {
+							border: none;
+							
+							a {
+								padding-bottom: 9px;
+								border-bottom: 5px solid @pink;
+							}
+						}
+
 						&.home {
 							height: 26px;
 							width: 36px;

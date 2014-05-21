@@ -34,15 +34,17 @@ app.view.Layer = Backbone.View.extend({
 
 	toggleLayer: function(e) {
 		e.preventDefault();
+		var id = this.$addBtn.attr('layerid');
+
 		if(this.$addBtn.hasClass('add')){
-			Map.addLayer(this.$addBtn.attr('layerid'));
+			app.groupLayer.addLayer(id);
 
 			this.$addBtn.removeClass('add');
 			var that = this;
 			setTimeout(function() {that.$addBtn.html(that.$addBtn.attr('removelabel'));},300);
 			
 		}else{
-			Map.removeLayer(this.$addBtn.attr('layerid'));
+			app.groupLayer.removeLayer(id);
 
 			this.$addBtn.addClass('add');
 			this.$addBtn.html(this.$addBtn.attr('addlabel'));

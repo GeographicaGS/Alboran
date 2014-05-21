@@ -4,7 +4,7 @@ app.view.Map = Backbone.View.extend({
     initialize: function() {
     	Map.initialize();
     	
-    	this.groupLayer = new app.view.GroupLayer({
+    	app.groupLayer = new app.view.GroupLayer({
             parent: this
         });
     	
@@ -27,7 +27,7 @@ app.view.Map = Backbone.View.extend({
 //        this.$el.html(this._template());
 //    	$("#map").show();
     	
-    	$("#groupLayer").html(this.groupLayer.el);
+    	$("#groupLayer").html(app.groupLayer.el);
     	
         return this;
     },
