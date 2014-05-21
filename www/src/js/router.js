@@ -43,7 +43,7 @@ app.router = Backbone.Router.extend({
     },
     
     map: function(){
-    	 $("#content").hide();
+    	$("#content").hide();
         $("#map").show();
         if(Map.getMap() != null){
         	Map.getMap().invalidateSize("true");
@@ -51,8 +51,8 @@ app.router = Backbone.Router.extend({
     },
 
     catalogue: function(){
-    	$("#content").show();
-        $("#map").hide();
+    	$("#content").hide();
+        $("#map").show();
         app.showView( new app.view.Catalogue() );
     },
 

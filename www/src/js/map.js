@@ -106,7 +106,22 @@ Map = {
 		return result;
 	},
 	
-	
+	searchLayerGroup: function(layer) {
+		var cat_index = 0, found = false;
+
+		while(!found && cat_index < app.categories.length){
+			var topic_index = 0;
+			while(!found && topic_index < app.categories[cat_index].topics.length){
+				if(app.categories[cat_index].topics[topic_index].layers.indexOf(layer) != -1)
+					found = true;
+				topic_index++;
+			}
+			if(!found)
+				cat_index++;
+		}
+
+		return cat_index;
+	}
 	
 }
 
