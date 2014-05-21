@@ -41,6 +41,8 @@ app.view.GroupLayer = Backbone.View.extend({
     	"mouseover li": "layerOver",
     	"mouseleave li": "layerLeave",
     	"click .removeLayer": "removeLayerClick",
+    	"click .panel li:LAST-CHILD": "addLayerClick",
+    	"click .icon": "infoLayerClick",
 		
 	},
 	
@@ -76,6 +78,36 @@ app.view.GroupLayer = Backbone.View.extend({
     	$(e.currentTarget).parent().hide(function(){ 
     		$(this).remove();
     	});
+    },
+    
+    addLayerClick: function(e){
+    	var categry = $(e.currentTarget).parent().attr("category");
+    	app.router.navigate("catalogue",{trigger: true});
+    	$($(".topTabs li")[categry]).trigger("click")
+    },
+    
+    infoLayerClick: function(e){
+    	if(!$(e.currentTarget).hasClass("removeLayer")){
+    		app.router.navigate("catalogue",{trigger: true});
+    		
+    		var idLayer = $(e.currentTarget).parent().attr("idLayer");
+        	var categry = $(e.currentTarget).parent().parent().attr("category");
+    		var addButtons = $(".add_btn");
+    		
+    		for(var i=0; i<addButtons.length; i++){
+    			if($(addButtons[i]).attr("layerid") == idLayer){
+    				$($(".topTabs li")[categry]).trigger("click");
+    				
+    				$($(addButtons[i])).parent().parent().parent().children().find("p").find("a").trigger("click");
+    				$('html, body').animate({
+    			        scrollTop: $($(addButtons[i])).offset().top
+    			    }, 1000);
+    				
+    				break;
+    			}
+    		}
+    		
+    	}
     },
     
     onClose: function(){

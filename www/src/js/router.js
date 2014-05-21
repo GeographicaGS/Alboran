@@ -51,6 +51,8 @@ app.router = Backbone.Router.extend({
     },
 
     catalogue: function(){
+    	$("#content").show();
+        $("#map").hide();
         app.showView( new app.view.Catalogue() );
     },
 
