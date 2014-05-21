@@ -53,19 +53,43 @@ Map = {
 		return false;
 	},
 	
+	
 	addLayer: function(id) {
-		var layer = new GSLayerWMS(1,"prueba", "http://www.sandbox.geographica.gs/cgi-bin/movitra", "mdt40fin4", 1000);
-		layer.setVisibility(true, 1, Map.getMap()._zoom);
-		this.layers.push(layer);
+		var layer = this.searchLayer(id);
+		if(layer != null){
+			var gSLayerWMS = new GSLayerWMS(layer.id, layer.title_es, layer.wmsServer, layer.wmsLayName, 1000);
+			var z_index = 0;
+			if(this.layers.length > 0){
+				z_index =  this.layers[this.layers.length - 1].z_index + 1;
+			}
+			gSLayerWMS.setVisibility(true, z_index, Map.getMap()._zoom);
+			this.layers.push(gSLayerWMS);
+		}
 	},
+	
+	showLayer: function(id) {
+		this.layers.forEach(function(gSLayerWMS) {
+			if(gSLayerWMS.id == id){
+				gSLayerWMS.setVisibility(true, gSLayerWMS.z_index, Map.getMap()._zoom);
+			}
+		});
+	},
+	
 	
 	removeLayer: function(id) {
-		 this.__map.removeLayer(this.layers[0]); 
+		this.layers.splice(this.hideLayer(id));
 	},
 	
-	removeAllLayers: function() {
-		
-		
+	hideLayer: function(id) {
+		var self = this;
+		var position = null;
+		this.layers.forEach(function(gSLayerWMS) {
+			if(gSLayerWMS.id == id){
+				position = $.inArray(gSLayerWMS, self.layers);
+				gSLayerWMS.setVisibility(false, null, null);
+			}
+		});
+		return position;
 	},
 	
 	searchLayer: function(id) {
@@ -81,12 +105,6 @@ Map = {
 		});
 		return result;
 	},
-	
-	
-	
-	
-	
-	
 	
 	
 	

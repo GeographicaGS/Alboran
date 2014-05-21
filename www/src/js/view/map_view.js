@@ -3,9 +3,19 @@ app.view.Map = Backbone.View.extend({
     
     initialize: function() {
     	Map.initialize();
-//        this.render();
-//    	app.events.trigger("menu", 1);
+    	
+    	this.groupLayer = new app.view.GroupLayer({
+            parent: this
+        });
+    	
+    	this.render();
+
     },
+    
+    events:{
+		
+		
+	},
     
     onClose: function(){
         // Remove events on close
@@ -16,6 +26,15 @@ app.view.Map = Backbone.View.extend({
     render: function() {
 //        this.$el.html(this._template());
 //    	$("#map").show();
+    	
+    	$("#groupLayer").html(this.groupLayer.el);
+    	
         return this;
-    }
+    },
+    
+    
+   
+    
 });
+
+	
