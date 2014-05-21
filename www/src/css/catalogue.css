@@ -227,7 +227,7 @@
 										border: 1px solid;
 										transition: all .5s ease;
 										white-space: nowrap;
-										max-width: 127px;
+										max-width: 162px;
 										
 										&:before {
 											content: url('@{imgPath}catalogue/ALB_icon_capa_toc.svg');
@@ -238,7 +238,7 @@
 
 										&.add {
 											background-color: @white;
-											max-width: 275px;
+											max-width: 310px;
 
 											&:before {
 												top: 1px;
