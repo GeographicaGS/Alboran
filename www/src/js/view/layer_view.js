@@ -22,6 +22,8 @@ app.view.Layer = Backbone.View.extend({
 		this.$info = this.$('.info');
 		this.$addBtn = this.$('.add_btn');
 
+		this.setAddBtnStatus();
+
         return this;
 	},
 
@@ -33,13 +35,24 @@ app.view.Layer = Backbone.View.extend({
 	toggleLayer: function(e) {
 		e.preventDefault();
 		if(this.$addBtn.hasClass('add')){
-			var that = this;
+			Map.addLayer(this.$addBtn.attr('layerid'));
+
 			this.$addBtn.removeClass('add');
+			var that = this;
 			setTimeout(function() {that.$addBtn.html(that.$addBtn.attr('removelabel'));},300);
 			
 		}else{
+			Map.removeLayer(this.$addBtn.attr('layerid'));
+
 			this.$addBtn.addClass('add');
 			this.$addBtn.html(this.$addBtn.attr('addlabel'));
+		}
+	},
+
+	setAddBtnStatus: function() {
+		if(Map.isLayerLoaded(this.model.id)){
+			this.$addBtn.removeClass('add');
+			this.$addBtn.html(this.$addBtn.attr('removelabel'));
 		}
 	}
 });
