@@ -128,18 +128,6 @@
 				display: block;
 			}
 
-			&.green > .groupName {
-				border-color: @green;
-			}
-
-			&.red > .groupName {
-				border-color: @red;
-			}
-
-			&.blue > .groupName {
-				border-color: @blue;
-			}
-
 			.layerItemGroup {
 				margin-top: 4px;
 
@@ -171,7 +159,7 @@
 				}
 
 				.content {
-					max-height: 2000px;
+					max-height: 9999px;
 					overflow: hidden;
 					transition: max-height 1s ease;
 
@@ -183,12 +171,28 @@
 						border-bottom: 1px solid @tabs_separator;
 						transition: background-color .3s ease;
 
+						.title, .info {
+							padding: 0 10px 0 54px;
+						}
+
 						.title {
 							color: @grey_header_dark;
 							font-size: 13pt;
 
 							.name {
 								padding: 20px 0 20px;
+								position: relative;
+
+								&:before {
+									content: "";
+									display: block;
+									width: 8px;
+									height: 8px;
+									border-radius: 4px;
+									position: absolute;
+									left: -20px;
+									top: 28px;
+								}
 
 								.info_btn {
 									opacity: 0;
@@ -200,34 +204,50 @@
 							}
 
 							.actions {
-								padding: 20px 0 25px;
+								padding: 20px 0 10px;
 								text-align: right;
 
 								.button {
-									padding: 8px;
+									padding: 4px 8px;
 									margin-right: 15px;
 									color: @white;
 									border-radius: 2px;
 									font-size: 0.7em;
 									font-weight: bold;
 									text-transform: uppercase;
+									display: inline-block;
+									overflow: hidden;
 
 									&:last-child {
 										margin-right: 0;
 									}
 
 									&.add_btn {
-										background-color: @green;
-										&:before{
+										border: 1px solid;
+										transition: all .5s ease;
+										white-space: nowrap;
+										max-width: 127px;
+										
+										&:before {
 											content: url('@{imgPath}catalogue/ALB_icon_capa_toc.svg');
 											margin-right: 5px;
 											position: relative;
 											top: 4px;
 										}
+
+										&.add {
+											background-color: @white;
+											max-width: 275px;
+
+											&:before {
+												top: 1px;
+											}
+										}
 									}
 
 									&.metadata_btn {
 										background-color: @grey_groupTitleNumber;
+										border: 1px solid @grey_groupTitleNumber;
 										&:after{
 											content: url('@{imgPath}catalogue/ALB_icon_enlace_externo.svg');
 											margin-left: 5px;
@@ -240,16 +260,31 @@
 						}
 
 						.info {
-							display: none;
+							max-height: 0;
 							color: @grey_infoLayerText;
+							padding-bottom: 0;
+							font-size: 11pt;
+							overflow: hidden;
+							transition: max-height .5s ease, padding .5s ease;
 
 							&.show {
-								display: block;
+								max-height: 200px;
+								padding-bottom: 42px;
 							}
-						}
 
-						.title, .info {
-							padding: 0 10px 0 35px;
+							.source {
+								font-size: 0.85em;
+
+								& > div:first-of-type p {
+									text-transform: uppercase;
+									font-weight: bold;
+									color: @grey_groupTitleNumber;
+								}
+
+								& > div:last-of-type {
+									font-size: 1.05em;
+								}
+							}
 						}
 
 						&:hover {
@@ -264,6 +299,83 @@
 				}
 			}
 
+			&.green {
+				.groupName {
+					border-color: @green;
+				}
+
+				.content .layerItem .title {
+					
+					.name:before {
+						background-color: @green;
+					}
+
+					.button.add_btn {
+						background-color: @green;
+						border-color: @green;
+
+						&.add {
+							color: @green;
+
+							&:before {
+								content: url('@{imgPath}catalogue/ALB_icon_anadir_capa_1.svg');
+							}
+						}
+					}
+				}
+			}
+
+			&.red {
+				.groupName {
+					border-color: @red;
+				}
+
+				.content .layerItem .title {
+					
+					.name:before {
+						background-color: @red;
+					}
+
+					.button.add_btn {
+						background-color: @red;
+						border-color: @red;
+
+						&.add {
+							color: @red;
+
+							&:before {
+								content: url('@{imgPath}catalogue/ALB_icon_anadir_capa_2.svg');
+							}
+						}
+					}
+				}
+			}
+
+			&.blue {
+				.groupName {
+					border-color: @blue;
+				}
+
+				.content .layerItem .title {
+					
+					.name:before {
+						background-color: @blue;
+					}
+
+					.button.add_btn {
+						background-color: @blue;
+						border-color: @blue;
+
+						&.add {
+							color: @blue;
+
+							&:before {
+								content: url('@{imgPath}catalogue/ALB_icon_anadir_capa_3.svg');
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
