@@ -32,8 +32,7 @@ app.view.GroupLayer = Backbone.View.extend({
     			$("#map_control span").hide()
     			$("#map_control br").hide();
     		}
-       });
-    	
+       });    	
     },
     
     events:{
@@ -43,7 +42,6 @@ app.view.GroupLayer = Backbone.View.extend({
     	"click .removeLayer": "removeLayerClick",
     	"click .panel li:LAST-CHILD": "addLayerClick",
     	"click .icon": "infoLayerClick",
-		
 	},
 	
 	layerClick: function(e){
@@ -74,10 +72,22 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     removeLayerClick: function(e){
-    	Map.removeLayer($(e.currentTarget).parent().attr("idLayer"));
+    	e.stopImmediatePropagation();
+    	
+    	var idLayer = $(e.currentTarget).parent().attr("idLayer")
+    	
+    	Map.removeLayer(idLayer);
     	$(e.currentTarget).parent().hide(function(){ 
     		$(this).remove();
     	});
+    	
+    	var addButtons = $(".add_btn");
+    	for(var i=0; i<addButtons.length; i++){
+    		if($(addButtons[i]).attr("layerid") == idLayer){
+    			$(addButtons[i]).trigger("click");
+    			break;
+    		}
+    	}
     },
     
     addLayerClick: function(e){
@@ -88,6 +98,7 @@ app.view.GroupLayer = Backbone.View.extend({
     
     infoLayerClick: function(e){
     	if(!$(e.currentTarget).hasClass("removeLayer")){
+    		e.stopImmediatePropagation();
     		app.router.navigate("catalogue",{trigger: true});
     		
     		var idLayer = $(e.currentTarget).parent().attr("idLayer");
@@ -100,7 +111,7 @@ app.view.GroupLayer = Backbone.View.extend({
     				
     				$($(addButtons[i])).parent().parent().parent().children().find("p").find("a").trigger("click");
     				$('html, body').animate({
-    			        scrollTop: $($(addButtons[i])).offset().top
+    			        scrollTop: $($(addButtons[i])).offset().top -90
     			    }, 1000);
     				
     				break;
@@ -119,7 +130,44 @@ app.view.GroupLayer = Backbone.View.extend({
         return this;
     },
     
-    
+    addLayer: function(id) {
+        console.log("addLayer " + id);
+
+        //<li idLayer="1" class="active">Nombre capa <img class="icon removeLayer" src="/img/map/ALB_icon_descartar_capa.svg"> <img class="icon" src="/img/map/ALB_icon_info_capa.svg"> </li>
+        var $li = $(document.createElement('li'));
+        $li.addClass('active');
+        $li.attr('idLayer',id);
+        var layer = Map.searchLayer(id);
+        $li.html(layer.title_es);
+        
+        var $icon1, $icon2;
+        $icon1 = $(document.createElement('img'));
+        $icon1.addClass('icon removeLayer');
+        $icon1.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        $icon2 = $(document.createElement('img'));
+        $icon2.addClass('icon');
+        $icon2.attr('src','/img/map/ALB_icon_info_capa.svg');
+
+        $li.append($icon1).append($icon2);
+
+        // Obtener el padre de la capa en el JSON para determinar el grupo
+        var groupIndex = Map.searchLayerGroup(layer);
+        var $group = this.$('.panel').eq(groupIndex);
+
+        $li.insertBefore($group.find('li:last-child'));
+
+        Map.addLayer(id);
+    },
+
+    removeLayer: function(id) {
+        console.log("removeLayer " + id);
+
+        var $li = this.$('li[idLayer="'+id+'"]');
+        if($li.length > 0) {
+            $li.remove();
+            Map.removeLayer(id);
+        }
+    }
    
     
 });
