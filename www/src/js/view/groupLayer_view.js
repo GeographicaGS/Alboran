@@ -72,10 +72,22 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     removeLayerClick: function(e){
-    	Map.removeLayer($(e.currentTarget).parent().attr("idLayer"));
+    	e.stopImmediatePropagation();
+    	
+    	var idLayer = $(e.currentTarget).parent().attr("idLayer")
+    	
+    	Map.removeLayer(idLayer);
     	$(e.currentTarget).parent().hide(function(){ 
     		$(this).remove();
     	});
+    	
+    	var addButtons = $(".add_btn");
+    	for(var i=0; i<addButtons.length; i++){
+    		if($(addButtons[i]).attr("layerid") == idLayer){
+    			$(addButtons[i]).trigger("click");
+    			break;
+    		}
+    	}
     },
     
     addLayerClick: function(e){
@@ -86,6 +98,7 @@ app.view.GroupLayer = Backbone.View.extend({
     
     infoLayerClick: function(e){
     	if(!$(e.currentTarget).hasClass("removeLayer")){
+    		e.stopImmediatePropagation();
     		app.router.navigate("catalogue",{trigger: true});
     		
     		var idLayer = $(e.currentTarget).parent().attr("idLayer");
