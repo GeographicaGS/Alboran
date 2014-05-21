@@ -98,7 +98,7 @@ app.view.GroupLayer = Backbone.View.extend({
     				
     				$($(addButtons[i])).parent().parent().parent().children().find("p").find("a").trigger("click");
     				$('html, body').animate({
-    			        scrollTop: $($(addButtons[i])).offset().top
+    			        scrollTop: $($(addButtons[i])).offset().top -90
     			    }, 1000);
     				
     				break;
