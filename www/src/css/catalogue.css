@@ -16,7 +16,7 @@
 	input[type="text"] {
 		width: 90%;
 		height: 70px;
-		background-color: @grey_light;
+		background-color: transparent;
 		color: @pink;
 		font-size: 1.5em;
 		outline: 0;
@@ -35,6 +35,26 @@
 		right: 0;
 		top: 50%;
 		margin-top: -15px;
+
+		span {display: none;}
+
+		&:after {
+			content: url('@{imgPath}/catalogue/ALB_icon_buscar.svg');
+		}
+	}
+
+	&.enabled {
+		background-color: @white;
+		border-bottom-color: @pink;
+
+		input[type="text"] {
+			color: @grey_header_dark;
+			font-weight: normal;
+		}
+
+		button:after {
+			content: url('@{imgPath}/catalogue/ALB_icon_buscar_cerrar.svg');
+		}
 	}
 }
 
@@ -53,6 +73,10 @@
 				border-width: 0 0 1px 1px;
 				padding: 5px 10px 7px;
 				display: block;
+
+				&.hidden {
+					display: none;
+				}
 
 				h2 {
 					text-align: left;
@@ -254,6 +278,65 @@
 											margin-left: 5px;
 											position: relative;
 											top: 4px;
+										}
+									}
+								}
+							}
+						}
+
+						li {
+							&.green {
+								.title .name:before {
+									background-color: @green;
+								}
+
+								.button.add_btn {
+									border-color: @green;
+									background-color: @green;
+
+									&.add {
+										color: @green;
+
+										&:before {
+											content: url('@{imgPath}catalogue/ALB_icon_anadir_capa_1.svg');
+										}
+									}
+								}
+							}
+
+							&.red {
+								.title .name:before {
+									background-color: @red;
+								}
+
+								.button.add_btn {
+									border-color: @red;
+									background-color: @red;
+
+									&.add {
+										color: @red;
+
+										&:before {
+											content: url('@{imgPath}catalogue/ALB_icon_anadir_capa_2.svg');
+										}
+									}
+								}
+							}
+
+							&.blue {
+								.title .name:before {
+									background-color: @blue;
+								}
+
+								.button.add_btn {
+									border-color: @blue;
+									background-color: @blue;
+
+									&.add {
+										color: @blue;
+
+										&:before {
+											content: url('@{imgPath}catalogue/ALB_icon_anadir_capa_3.svg');
 										}
 									}
 								}

@@ -482,13 +482,12 @@ body > header {
 
 #groupLayer{
 	height: 100%;
-	background-color: #394048;
+	background-color: rgba(57, 64, 72, 0.9);
 	position: fixed;
 	top: 24px;
 	left: -320px;
 	width: 320px;
 	z-index: 10001;
-	opacity: 0.9;
 	display: none;
 	
 	.panel{
