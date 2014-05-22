@@ -77,6 +77,14 @@ app.ini = function(){
 
     //Backbone.history.start();root: "/public/search/"
     Backbone.history.start({pushState: true,root: this.basePath });
+
+    if(localStorage.getItem('user') && localStorage.getItem('password')){
+    	$("#login").hide();
+    	$("#logout").show();
+    }else{
+    	$("#login").show();
+    	$("#logout").hide();
+    }
     
     new app.view.Map();
 

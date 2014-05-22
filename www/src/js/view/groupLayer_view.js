@@ -40,13 +40,15 @@ app.view.GroupLayer = Backbone.View.extend({
     	this.$el.find(".panel").disableSelection();
     	this.$el.find(".panel").sortable({ cancel: '.disableSortable' });
     	
-    	$("#map_control").on('click', function() {
+    	$($("#map_control").find("img")[0]).on('click', function() {
     		if($("#groupLayer").is(":visible")){
     			$("#groupLayer").animate({"left":"-320"},300);
     			$("#groupLayer").hide(300);
     			
     			$("#map_control img").removeClass("fleft");
     			$("#map_control .title").hide();
+    			$("#map_control .title").removeClass("fleft");
+    			$(".groupLauyerConfig").hide();
     			$("#map_control span").show();
     			$("#map_control br").show()
     		}else{
@@ -54,7 +56,10 @@ app.view.GroupLayer = Backbone.View.extend({
     			$("#groupLayer").show();
     			
     			$("#map_control img").addClass("fleft");
-    			$("#map_control .title").fadeIn(500);
+    			$("#map_control .title").show(300,function(){
+        			$(".groupLauyerConfig").show();
+        			$("#map_control .title").addClass("fleft");
+    			});
     			$("#map_control span").hide()
     			$("#map_control br").hide();
     		}
@@ -157,8 +162,6 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     addLayer: function(id) {
-//        console.log("addLayer " + id);
-
         //<li idLayer="1" class="active">Nombre capa <img class="icon removeLayer" src="/img/map/ALB_icon_descartar_capa.svg"> <img class="icon" src="/img/map/ALB_icon_info_capa.svg"> </li>
         var $li = $(document.createElement('li'));
         $li.addClass('active');
@@ -204,8 +207,6 @@ app.view.GroupLayer = Backbone.View.extend({
     },
 
     removeLayer: function(id) {
-//        console.log("removeLayer " + id);
-
         var $li = this.$('li[idLayer="'+id+'"]');
         if($li.length > 0) {
         	 $li.hide(function(){ 
