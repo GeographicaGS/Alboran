@@ -32,15 +32,10 @@ def auth(func):
 		return func(*args, **kwargs)
 	return decorator
 
-@app.route('/home/', methods=['GET'])
-@auth
-def home():
-	return(jsonify({"home" : "aa"}))
-
 @app.route('/login/', methods=['POST'])
 @auth
 def login():
-	return 'true'
+	return jsonify({'result':'true'})
 
 @app.route('/config/', methods=['GET','POST'])
 @auth
@@ -53,7 +48,7 @@ def configByUser():
 	else:
 		""" Guardamos la configuración del usuario usando sus credenciales """
 		m.setConfigByUsername(request.headers['username'],request.data)
-		return 'true'
+		return jsonify({'result':'true'})
 
  
 @app.route('/config/<int:config_id>', methods=['GET'])
