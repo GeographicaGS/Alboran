@@ -14,6 +14,7 @@ app.router = Backbone.Router.extend({
             "inicio" : "home",
             
             "map" : "map",
+            "map/:capas/:activas" : "map",
             "catalogue": "catalogue",
             
             
@@ -33,6 +34,7 @@ app.router = Backbone.Router.extend({
     initialize: function(options) {
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link map"][app.lang], "map");
+        this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas", "map");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");        
     },
     
@@ -42,11 +44,14 @@ app.router = Backbone.Router.extend({
         app.showView(new app.view.Home());
     },
     
-    map: function(){
+    map: function(capas,activas){
     	$("#content").hide();
         $("#map").show();
         if(Map.getMap() != null){
         	Map.getMap().invalidateSize("true");
+        }
+        if(!capas){
+        	Map.getRoute();
         }
     },
 

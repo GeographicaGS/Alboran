@@ -7,6 +7,7 @@ deps.JS = {
 			"js/lib/underscore-min.js",
 			"js/lib/backbone-min.js",
 			"js/lib/leaflet/leaflet.js",
+			"js/lib/fancybox/jquery.fancybox.js"
 		],
 		desc: "Third party library"
 	}
@@ -45,6 +46,7 @@ deps.JS = {
 			"js/catalog.js",
 			"js/gSLayerWMS.js",
 			"js/map.js",
+			"js/global.js",
 			"js/view/map_view.js",
 			"js/view/groupLayer_view.js",
 		],
@@ -56,6 +58,7 @@ deps.CSS = {
 	ThirdParty:{
 		src : [
 		       "js/lib/leaflet/leaflet.css",
+		       "js/lib/fancybox/jquery.fancybox.css",
 		]
 	},
 	Core: {

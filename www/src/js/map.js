@@ -63,7 +63,8 @@ Map = {
 				z_index =  this.layers[this.layers.length - 1].z_index + 1;
 			}
 			gSLayerWMS.setVisibility(true, z_index, Map.getMap()._zoom);
-			this.layers.push(gSLayerWMS);
+			this.layers.unshift(gSLayerWMS);
+			this.getRoute();
 		}
 	},
 	
@@ -73,11 +74,14 @@ Map = {
 				gSLayerWMS.setVisibility(true, gSLayerWMS.z_index, Map.getMap()._zoom);
 			}
 		});
+		
+		this.getRoute();
 	},
 	
 	
 	removeLayer: function(id) {
-		this.layers.splice(this.hideLayer(id));
+		this.layers.splice(this.hideLayer(id),1);
+		this.getRoute();
 	},
 	
 	hideLayer: function(id) {
@@ -89,6 +93,8 @@ Map = {
 				gSLayerWMS.setVisibility(false, null, null);
 			}
 		});
+		this.getRoute();
+		
 		return position;
 	},
 	
@@ -121,7 +127,49 @@ Map = {
 		}
 
 		return cat_index;
-	}
+	},
+	
+	getRoute: function() {
+		if(Backbone.history.fragment.indexOf(app.router.langRoutes["_link map"][[app.lang]]) == 0){
+			var capas = "";
+			var activas = "";
+			
+			this.layers.forEach(function(layer) {
+				capas += layer.id + "_"
+				
+				if(layer.visible){
+					activas += "1_"
+				}else{
+					activas += "0_"
+				}
+				
+			});
+			capas = capas.replace(/_([^_]*)$/,"/"+'$1');
+			activas = activas.replace(/_([^_]*)$/,""+'$1');
+			
+			var result = capas + activas
+			
+			if(result != ""){
+				app.router.navigate(app.router.langRoutes["_link map"][[app.lang]] + "/" + result,{trigger: false});
+			}else{
+				app.router.navigate(app.router.langRoutes["_link map"][[app.lang]],{trigger: false});
+			}
+		}
+	},
+	
+	setRoute: function(route) {
+    	var argumentos = route.split("/");
+    	if(argumentos.length > 2){
+    		var capas = argumentos[1].split("_");
+    		var activas = argumentos[2].split("_");
+    		for(var i=capas.length -1; i>=0; i--){
+    			app.groupLayer.addLayer(capas[i]);
+    			if(activas[i] == "0"){
+    				$("li[idlayer=" + capas[i] + "]").trigger("click");
+    			}
+           	}
+    	}
+	},
 	
 }
 
