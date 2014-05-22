@@ -45,12 +45,17 @@ def login():
 @app.route('/config/', methods=['GET','POST'])
 @auth
 def configByUser():
+	m = ConfigModel()
 	if request.method == 'GET':
-		""" Rescatamos la configuración del usuario """
-		m = ConfigModel()
+		""" Rescatamos la configuración del usuario usando sus credenciales """
 		config_data = m.getConfigByUsername(request.headers['username'])
 		return(jsonify({"config" : config_data}))
+	else:
+		""" Guardamos la configuración del usuario usando sus credenciales """
+		m.setConfigByUsername(request.headers['username'],request.data)
+		return 'true'
 
+ 
 @app.route('/config/<int:config_id>', methods=['GET'])
 @auth
 def configById(config_id):

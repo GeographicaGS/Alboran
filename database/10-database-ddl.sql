@@ -12,7 +12,7 @@ add constraint translation_pkey
 primary key(key);
 
 CREATE TABLE user(
-  id_user integer NOT NULL,
+  id_user SERIAL,
   name text NOT NULL,
   password text NOT NULL,
   CONSTRAINT user_pkey PRIMARY KEY (id_user)
@@ -20,7 +20,7 @@ CREATE TABLE user(
 
 CREATE TABLE layer_configuration
 (
-  id_config integer NOT NULL,
+  id_config SERIAL,
   id_user integer,
   data text,
   CONSTRAINT layer_configuration_pkey PRIMARY KEY (id_config),
