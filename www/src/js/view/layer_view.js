@@ -17,6 +17,16 @@ app.view.Layer = Backbone.View.extend({
 	},
 
 	render: function() {
+		this.model.category = this.model.category || '';
+		switch(this.model.category){
+			case 1: this.model.category = 'green';
+					break;
+			case 2: this.model.category = 'red';
+					break;
+			case 3: this.model.category = 'blue';
+					break;
+		}
+
 		this.$el.html(this._template( this.model ));
 
 		this.$info = this.$('.info');

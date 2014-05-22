@@ -49,8 +49,6 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     addLayer: function(id) {
-        console.log("addLayer " + id);
-
         //<li idLayer="1" class="active">Nombre capa <img class="icon removeLayer" src="/img/map/ALB_icon_descartar_capa.svg"> <img class="icon" src="/img/map/ALB_icon_info_capa.svg"> </li>
         var $li = $(document.createElement('li'));
         $li.addClass('active');
@@ -78,8 +76,6 @@ app.view.GroupLayer = Backbone.View.extend({
     },
 
     removeLayer: function(id) {
-        console.log("removeLayer " + id);
-
         var $li = this.$('li[idLayer="'+id+'"]');
         if($li.length > 0) {
             $li.remove();

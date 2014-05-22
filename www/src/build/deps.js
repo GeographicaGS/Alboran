@@ -20,11 +20,13 @@ deps.JS = {
 			// --------------------
 			// ------ Models ------
 			// --------------------
+			"js/model/layer.js",
 			"js/model/category.js",
 			
 			// --------------------
 			// ---- Collections ---
 			// --------------------
+			"js/collection/layers.js",
 			"js/collection/categories.js",
 
 			// --------------------
