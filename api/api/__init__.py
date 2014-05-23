@@ -6,6 +6,7 @@ app.config.update(
     SECRET_KEY='oN;2R@a-Y&opIY'
 )
 
+from utils import auth
 import home
 
 @app.route('/', methods = ['GET'])                                            
