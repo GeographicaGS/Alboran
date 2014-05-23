@@ -1,8 +1,8 @@
-app.view.Home = Backbone.View.extend({
-    _template : _.template( $('#home_template').html() ),
+app.view.Privacy = Backbone.View.extend({
+    _template : _.template( $('#privacy_template').html() ),
     
     initialize: function() {
-        app.events.trigger('menu','home');
+        app.events.trigger('menu','privacy');
         this.render();
     },
     

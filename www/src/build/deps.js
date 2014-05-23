@@ -39,6 +39,13 @@ deps.JS = {
 			"js/view/error_view.js",
 			"js/view/notfound_view.js",
 			"js/view/home_view.js",
+			"js/view/about_view.js",
+			"js/view/alboran_view.js",
+			"js/view/howto_view.js",
+			"js/view/join_view.js",
+			"js/view/contact_view.js",
+			"js/view/legal_view.js",
+			"js/view/privacy_view.js",
 			
 
 			// router

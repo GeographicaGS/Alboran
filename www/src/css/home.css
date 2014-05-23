@@ -2,7 +2,7 @@
 	padding: 147px 0 54px;
 	text-align: center;
 	background: url('@{imgPath}home/ALB_img_fondo_presentacion.jpg') 50% 70px no-repeat #292966;
-	background-size: 100%;
+	background-size: cover;
 	.lato(light);
 
 	h2 {
@@ -69,7 +69,6 @@
 	background-color: @bluegrey;
 	border-top: 1px solid @bluegrey_light;
 	padding: 0 0 51px;
-	overflow: hidden;
 
 	&.first:before {
 		content: "";
@@ -82,7 +81,8 @@
 	.logos_coop {
 		margin-bottom: 8px;
 
-		img {
+		a {
+			display: inline-block;
 			margin: 0 40px 40px 0;
 
 			&:last-of-type {
