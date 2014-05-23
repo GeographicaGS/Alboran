@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=1024">
+    <meta name="viewport" content="width=768">
     <meta name="description" content="">
     <meta name="author" content="">
         
@@ -14,7 +14,6 @@
         
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-        
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -38,7 +37,8 @@
                         </ul>
                     </div>
                     <div class="col-sm-6 col-md-6 ">
-                        <a class="login" href="#" jslink><lang>Iniciar Sesión</lang></a>
+                        <a id="login" class="login" href="#" jslink><lang>Iniciar Sesión</lang></a>
+                        <a id="logout" class="login" style="display: none;" href="#" jslink><lang>Cerrar sesion</lang></a>
                     </div>
                 </div>
             </div>
@@ -83,13 +83,12 @@
         </nav>
         <div id="map_control">
             <img src="/img/home/ALB_icon_toc.svg">
-            <div class="title"><lang>TABLA DE CONTENIDO (Capas)</lang></div>
-            <span class="value green">12</span><br>
+            <div class="title"><lang>TABLA DE CONTENIDO</lang></div>
+            <img class="groupLauyerConfig" src="/img/map/ALB_icon_config_toc.svg">
+            <span class="value green">0</span><br>
             <span class="value red">0</span><br>
-            <span class="value blue">1</span>
+            <span class="value blue">0</span>
         </div>
-        
-<!--         <div class="groupLayerTitle">TABLA DE CONTENIDO (Capas)</div> -->
         
     </header>
 
@@ -98,6 +97,40 @@
     	<div id="map" style="display:none; height: 100%;"></div>
     	<div id="groupLayer"></div>
     </main>
+    
+    <div id="initSessionForm">
+    	<div>
+			<span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
+		</div>
+		<div><lang>Iniciar sesión</lang></div>
+		<input type="text" placeholder="<lang>Usuario</lang>">
+		<input type="password" placeholder="<lang>Contaseña</lang>">
+		<input type="button" value="<lang>Crear cuenta</lang>">
+		<p class="error">Usuario y contraseña incorrectos</p>
+<!-- 		<div class="footer"> -->
+<!-- 			<p><lang>¿No es usuario de Alborán?</lang></p> -->
+<!-- 			<p><lang>Crear cuenta</lang></span> -->
+<!-- 		</div> -->
+	</div>
+	
+	<div id="configPanelMap">
+		<p id="saveConfiguration" class="mt"><lang>Guardar configuración actual</lang></p>
+		<div class="clear"></div>
+		<p id="loadConfiguration"><lang>Cargar mi configuración</lang></p>
+		<div class="clear"></div>
+		<p class="preconf"><lang>Preconfigurados</lang></p>
+		<div class="divImage">
+			<img idConfig="1" src="/img/map/ALB_icon_config_cargar_mapa-1.svg">
+			<img idConfig="2" src="/img/map/ALB_icon_config_cargar_mapa-2.svg">
+			<img idConfig="3" src="/img/map/ALB_icon_config_cargar_mapa-3.svg">
+		</div>
+	</div>
+	
+	<div id="confirmSaveConfig">
+		<div><lang>¿Desea guardar la configuración actual como su configuración predeterminada?</lang></div>
+		<input type="button" value="<lang>Aceptar</lang>">
+		<input type="button" value="<lang>Cancelar</lang>">
+	</div>
         
     <footer>
         <div class="container">
@@ -121,4 +154,3 @@
     </footer>
 </body>
 </html>
-

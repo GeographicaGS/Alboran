@@ -78,6 +78,19 @@ app.ini = function(){
 
     //Backbone.history.start();root: "/public/search/"
     Backbone.history.start({pushState: true,root: this.basePath });
+
+    if(localStorage.getItem('user') && localStorage.getItem('password')){
+    	$("#login").hide();
+    	$("#logout").show();
+    }else{
+    	$("#login").show();
+    	$("#logout").hide();
+    }
+    
+    var numCategories = Map.getNumLayersByCategory();
+    $(".value.green").text(numCategories[0]);
+    $(".value.red").text(numCategories[1]);
+    $(".value.blue").text(numCategories[2]);
     
     new app.view.Map();
 
