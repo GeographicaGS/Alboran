@@ -81,7 +81,8 @@
 	.logos_coop {
 		margin-bottom: 8px;
 
-		img {
+		a {
+			display: inline-block;
 			margin: 0 40px 40px 0;
 
 			&:last-of-type {

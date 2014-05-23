@@ -193,6 +193,8 @@ i {
 
 .uppercase{ text-transform: uppercase;}
 
+#content {padding-top: 72px;}
+
 header {
 	border-bottom: 1px solid #84a4b9;
 	height: 71px;

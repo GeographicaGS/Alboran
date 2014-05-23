@@ -5,7 +5,14 @@ app.router = Backbone.Router.extend({
     langRoutes : {
         "_link home" : {"en":"home","es": "inicio", "fr": "accueil" },
         "_link map" : {"en":"map","es": "mapa", "fr": "carte" },
-        "_link catalogue" : {"en":"catalogue","es": "catalogo", "fr": "catalogue" }
+        "_link catalogue" : {"en":"catalogue","es": "catalogo", "fr": "catalogue" },
+        "_link about" : {"en":"proyecto","es": "proyecto", "fr": "proyecto" },
+        "_link alboran" : {"en":"alboran","es": "alboran", "fr": "alboran" },
+        "_link contact" : {"en":"contact","es": "contacto", "fr": "contacto" },
+        "_link howto" : {"en":"howto","es": "comousarlo", "fr": "comousarlo" },
+        "_link join" : {"en":"participate","es": "participe", "fr": "participe" },
+        "_link legal" : {"en":"legal","es": "legal", "fr": "legal" },
+        "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "privacidad" },
     },
 
     /* define the route and function maps for this router */
@@ -17,6 +24,13 @@ app.router = Backbone.Router.extend({
             "map/:capas/:activas" : "map",
             "catalogue": "catalogue",
             
+            "about": "about",
+            "alboran": "alboran",
+            "contact": "contact",
+            "howto": "howto",
+            "join": "join",
+            "legal": "legal",
+            "privacy": "privacy",
             
             "notfound" : "notfound",
             "faq" : "faq",
@@ -36,6 +50,13 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link map"][app.lang], "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas", "map");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");        
+        this.route(this.langRoutes["_link about"][app.lang], "about");        
+        this.route(this.langRoutes["_link alboran"][app.lang], "alboran");        
+        this.route(this.langRoutes["_link contact"][app.lang], "contact");        
+        this.route(this.langRoutes["_link howto"][app.lang], "howto");        
+        this.route(this.langRoutes["_link join"][app.lang], "join");        
+        this.route(this.langRoutes["_link legal"][app.lang], "legal");        
+        this.route(this.langRoutes["_link privacy"][app.lang], "privacy");       
     },
     
     home: function(){
@@ -57,9 +78,45 @@ app.router = Backbone.Router.extend({
     },
 
     catalogue: function(){
-    	$("#content").show();
+        $("#content").show();
         $("#map").hide();
         app.showView( new app.view.Catalogue() );
+    },
+
+    about: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.About() );
+    },
+    alboran: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.Alboran() );
+    },
+    contact: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.Contact() );
+    },
+    howto: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.Howto() );
+    },
+    join: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.Join() );
+    },
+    legal: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.Legal() );
+    },
+    privacy: function(){
+    	$("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.Privacy() );
     },
 
     defaultRoute: function(){

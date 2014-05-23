@@ -1,8 +1,8 @@
-app.view.Home = Backbone.View.extend({
-    _template : _.template( $('#home_template').html() ),
+app.view.Contact = Backbone.View.extend({
+    _template : _.template( $('#contact_template').html() ),
     
     initialize: function() {
-        app.events.trigger('menu','home');
+        app.events.trigger('menu','contact');
         this.render();
     },
     
