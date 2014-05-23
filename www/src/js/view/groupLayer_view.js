@@ -10,29 +10,158 @@ app.view.GroupLayer = Backbone.View.extend({
 //				$(ui.item).css("background-color","#f2f7fb");
 				
 			},
+			stop: function( event, ui ) {
+				var id_layer = $(ui.item).attr("idlayer");
+				
+				var l;
+				Map.layers.forEach(function(gSLayerWMS) {
+					if(gSLayerWMS.id == id_layer){
+						l = gSLayerWMS;
+						Map.layers.splice(Map.layers.indexOf(l),1);
+					}
+				});
+				
+				
+//				var l = Map.layers[id_layer];
+//				
+//				Map.layers.splice(id_layer,1);
+				
+				var new_idx = $(ui.item).index()-1;
+				Map.layers.splice(new_idx,0,l);
+				
+				//change priority of all layer with bigger priority
+				for(var i=0;i<Map.layers.length;i++){
+					Map.layers[i].layer.setZIndex(Map.layers.length-i);
+					Map.layers[i].z_index = Map.layers.length-i;
+					
+				}
+			}
     	});
     	this.$el.find(".panel").disableSelection();
     	this.$el.find(".panel").sortable({ cancel: '.disableSortable' });
     	
-    	$("#map_control").on('click', function() {
+    	$($("#map_control").find("img")[0]).on('click', function() {
     		if($("#groupLayer").is(":visible")){
+    			
+    			$(".groupLauyerConfig").css({"background-color":""});
+    			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+    			$("#configPanelMap").fadeOut();
+    			
     			$("#groupLayer").animate({"left":"-320"},300);
     			$("#groupLayer").hide(300);
     			
     			$("#map_control img").removeClass("fleft");
     			$("#map_control .title").hide();
+    			$("#map_control .title").removeClass("fleft");
+    			$(".groupLauyerConfig").hide();
     			$("#map_control span").show();
     			$("#map_control br").show()
     		}else{
+    			
     			$("#groupLayer").animate({"left":"0"},300);
     			$("#groupLayer").show();
     			
     			$("#map_control img").addClass("fleft");
-    			$("#map_control .title").fadeIn(500);
+    			$("#map_control .title").show(300,function(){
+        			$(".groupLauyerConfig").show();
+        			$("#map_control .title").addClass("fleft");
+    			});
     			$("#map_control span").hide()
     			$("#map_control br").hide();
     		}
-       });    	
+       }); 
+    	
+    	$(".groupLauyerConfig").on('click', function(e) {
+    		if(localStorage.getItem('user') && localStorage.getItem('password')){
+    			if($("#configPanelMap").is(":visible")){
+        			$(".groupLauyerConfig").css({"background-color":""});
+        			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+        			$("#configPanelMap").fadeOut();
+        		}else{
+        			$(".groupLauyerConfig").css({"background-color":"#e9eaea"});
+        			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc_abierto.svg"); 
+        			$("#configPanelMap").fadeIn();
+        		}
+    		}else{
+    			$(".login").trigger("click");
+    		}
+    		
+    	});
+    	
+    	$("#saveConfiguration").on('click', function() {
+    		
+    		$(".groupLauyerConfig").css({"background-color":""});
+			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+			$("#configPanelMap").fadeOut();
+    		
+    		$.fancybox($("#confirmSaveConfig"), {
+    			'width':'640',
+    			"height": "auto",
+    		    'autoDimensions':false,
+    		    'autoSize':false,
+    		    'closeBtn' : false,
+    		    'scrolling'   : 'no',
+    		    helpers : { 
+    		    	   overlay: { 
+    		    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
+    		    	   } 
+    		    },
+    		    
+    		    afterShow: function () {
+    		    	$($("#confirmSaveConfig").find("input[type='button']")[0]).on('click', function() {
+    		    		var now = $.now();
+   		    			$.ajax({
+   		    				url : "/api/config/",
+   		    				headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
+   		    				data: {"data":Map.buildRoute()},
+   		    				type: "POST",			
+   		    		        success: function() {
+   		    		        	$.fancybox.close();
+   		    		        }
+   		    		    });   		    		
+    		    	});
+    		    	$($("#confirmSaveConfig").find("input[type='button']")[1]).on('click', function() {
+    		    		$.fancybox.close();
+    		    	});
+    		    }
+    		});
+        });
+    	
+    	$("#loadConfiguration").on('click', function() {
+    		var now = $.now();
+    		$.ajax({
+    			url : "/api/config/",
+    			headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
+    			type: "GET",
+    			dataType: "json",
+    		       success: function(response) {
+    		    	   if(response != ""){
+    		    		   Map.removeAllLayers()
+    		    		   Map.setRoute("/" + response.config)
+    		    	   }
+    		    	   $(".groupLauyerConfig").trigger("click");
+    		       }
+    		   });
+        });
+    	
+    	$("img[idConfig]").on('click', function() {
+    		var now = $.now();
+    		$.ajax({
+    			url : "/api/config/" + $(this).attr("idConfig"),
+    			headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
+    			type: "GET",
+    			dataType: "json",
+    		       success: function(response) {
+    		    	   if(response != ""){
+    		    		   Map.removeAllLayers()
+    		    		   Map.setRoute("/" + response.config)
+    		    	   }
+    		    	   $(".groupLauyerConfig").trigger("click");
+    		       }
+    		   });
+    	});
+    	
+    	
     },
     
     events:{
@@ -91,9 +220,9 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     addLayerClick: function(e){
-    	var categry = $(e.currentTarget).parent().attr("category");
+//    	var categry = $(e.currentTarget).parent().attr("category");
     	app.router.navigate("catalogue",{trigger: true});
-    	$($(".topTabs li")[categry]).trigger("click")
+//    	$($(".topTabs li")[categry]).trigger("click")
     },
     
     infoLayerClick: function(e){
@@ -102,7 +231,7 @@ app.view.GroupLayer = Backbone.View.extend({
     		app.router.navigate("catalogue",{trigger: true});
     		
     		var idLayer = $(e.currentTarget).parent().attr("idLayer");
-        	var categry = $(e.currentTarget).parent().parent().attr("category");
+        	var categry = Map.searchLayerGroup(Map.searchLayer(idLayer))
     		var addButtons = $(".add_btn");
     		
     		for(var i=0; i<addButtons.length; i++){
@@ -136,6 +265,19 @@ app.view.GroupLayer = Backbone.View.extend({
         $li.addClass('active');
         $li.attr('idLayer',id);
         var layer = Map.searchLayer(id);
+        
+        switch(Map.searchLayerGroup(layer)) {
+        case 0:
+        	$li.addClass('green');
+            break;
+        case 1:
+        	$li.addClass('red');
+            break;
+        default:
+        	$li.addClass('blue');
+            break;
+        }
+        
         $li.html(layer.title_es);
         
         var $icon1, $icon2;
@@ -149,10 +291,15 @@ app.view.GroupLayer = Backbone.View.extend({
         $li.append($icon1).append($icon2);
 
         // Obtener el padre de la capa en el JSON para determinar el grupo
-        var groupIndex = Map.searchLayerGroup(layer);
-        var $group = this.$('.panel').eq(groupIndex);
-
-        $li.insertBefore($group.find('li:last-child'));
+//        var groupIndex = Map.searchLayerGroup(layer);
+//        var $group = this.$('.panel').eq(groupIndex);
+//
+//        $li.insertBefore($group.find('li:last-child'));
+        
+        $li.hide();
+        $li.insertAfter($('.panel').find('li:first-child'));
+        $li.show(300);
+        
 
         Map.addLayer(id);
     },
@@ -160,8 +307,10 @@ app.view.GroupLayer = Backbone.View.extend({
     removeLayer: function(id) {
         var $li = this.$('li[idLayer="'+id+'"]');
         if($li.length > 0) {
-            $li.remove();
-            Map.removeLayer(id);
+        	 $li.hide(function(){ 
+        		 $li.remove();
+                 Map.removeLayer(id);
+        	});
         }
     }
    

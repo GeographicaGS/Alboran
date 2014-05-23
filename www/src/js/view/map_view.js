@@ -9,6 +9,11 @@ app.view.Map = Backbone.View.extend({
         });
     	
     	this.render();
+    	
+    	var aux = Backbone.history.fragment.split(app.router.langRoutes["_link map"][[app.lang]]);
+    	if(aux.length >1){
+    		Map.setRoute(aux[1]);
+    	}
 
     },
     
