@@ -33,6 +33,13 @@ app.view.LayerGroup = Backbone.View.extend({
 
 	toggle: function(e) {
 		e.preventDefault();
-		this.$content.toggleClass('contracted');
+		var $target = $(e.currentTarget);
+		if($target.hasClass('contracted')){
+			$target.removeClass('contracted');
+			this.$content.slideDown();
+		}else{
+			$target.addClass('contracted');
+			this.$content.slideUp();
+		}
 	}
 });

@@ -12,6 +12,11 @@
 	background-color: @grey_light;
 	border-bottom: 1px solid @grey_footer;
 	text-align: center;
+	overflow: hidden;
+
+	@media (max-width: 1023px) {
+		padding-left: 30px;
+	}
 
 	input[type="text"] {
 		width: 90%;
@@ -21,7 +26,7 @@
 		font-size: 1.5em;
 		outline: 0;
 		text-align: center;
-		.lato_black;
+		.lato(black);
 		
 		&:focus {
 			outline: 0;
@@ -36,6 +41,10 @@
 		top: 50%;
 		margin-top: -15px;
 
+		@media (max-width: 1023px) {
+			right: 30px;
+		}
+
 		span {display: none;}
 
 		&:after {
@@ -49,7 +58,7 @@
 
 		input[type="text"] {
 			color: @grey_header_dark;
-			font-weight: normal;
+			.lato(regular)
 		}
 
 		button:after {
@@ -81,24 +90,29 @@
 				h2 {
 					text-align: left;
 					position: relative;
-					font-weight: normal;
+					.lato(regular);
+					width: 93%;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
 
 					&:before {
 						position: relative;
 						top: 5px;
 						margin-right: 5px;
 					}
-
-					span {
-						position: absolute;
-						right: 0;
-						text-align: right;
-						margin-left: 1em;
-						padding-top: 3px;
-					}
 				}
 
-				&:last-child {
+				span {
+					position: absolute;
+					right: 5px;
+					top: 50%;
+					margin-top: -0.8em;
+					font-size: 1em;
+					text-align: right;
+				}
+
+				&:last-child, &:nth-child(3) {
 					border-right-width: 1px;
 				}
 
@@ -123,7 +137,7 @@
 				&.selected {
 
 					h2 {
-						font-weight: bold;
+						.lato(bold);
 					}
 
 					&.green {
@@ -174,6 +188,17 @@
 						float: right;
 						border-left: 1px solid #e0e0e1;
 						padding: 20px;
+						
+						span { display: none; }
+						
+						&:after {
+							content: url('@{imgPath}catalogue/ALB_icon_colapsable_abierto.svg');
+							display: block;
+						}
+
+						&.contracted:after {
+							content: url('@{imgPath}catalogue/ALB_icon_colapsable_cerrado.svg');
+						}
 					}
 
 					&:after {
@@ -234,17 +259,27 @@
 
 								.button {
 									padding: 4px 8px;
-									margin-right: 15px;
+									margin-left: 15px;
 									color: @white;
 									border-radius: 2px;
 									font-size: 0.7em;
-									font-weight: bold;
+									.lato(bold);
 									text-transform: uppercase;
 									display: inline-block;
 									overflow: hidden;
 
-									&:last-child {
-										margin-right: 0;
+									span {
+										.lato(bold);
+									}
+
+									@media (max-width: 1023px) {
+										.noLowRes {
+											display: none;
+										}
+									}
+
+									&:first-of-type {
+										margin-left: 0;
 									}
 
 									&.add_btn {
@@ -252,6 +287,10 @@
 										transition: all .5s ease;
 										white-space: nowrap;
 										max-width: 162px;
+
+										@media (max-width: 1023px){
+											transition: border-color .5s ease, background-color .5s ease;
+										}
 										
 										&:before {
 											content: url('@{imgPath}catalogue/ALB_icon_capa_toc.svg');
@@ -347,7 +386,8 @@
 							max-height: 0;
 							color: @grey_infoLayerText;
 							padding-bottom: 0;
-							font-size: 11pt;
+							font-size: 0.95em;
+							line-height: 1.2em;
 							overflow: hidden;
 							transition: max-height .5s ease, padding .5s ease;
 
@@ -357,16 +397,20 @@
 							}
 
 							.source {
-								font-size: 0.85em;
+								font-size: 0.8em;
 
 								& > div:first-of-type p {
 									text-transform: uppercase;
-									font-weight: bold;
+									.lato(bold);
 									color: @grey_groupTitleNumber;
 								}
 
 								& > div:last-of-type {
 									font-size: 1.05em;
+
+									@media (max-width: 980px){
+										padding-left: 2em;
+									}
 								}
 							}
 						}
@@ -396,7 +440,7 @@
 
 					.button.add_btn {
 						background-color: @green;
-						border-color: @green;
+						border-color: @green !important;
 
 						&.add {
 							color: @green;
@@ -422,7 +466,7 @@
 
 					.button.add_btn {
 						background-color: @red;
-						border-color: @red;
+						border-color: @red !important;
 
 						&.add {
 							color: @red;
@@ -448,7 +492,7 @@
 
 					.button.add_btn {
 						background-color: @blue;
-						border-color: @blue;
+						border-color: @blue !important;
 
 						&.add {
 							color: @blue;
