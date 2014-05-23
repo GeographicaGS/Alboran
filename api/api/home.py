@@ -47,7 +47,7 @@ def configByUser():
 		return(jsonify({"config" : config_data}))
 	else:
 		""" Guardamos la configuración del usuario usando sus credenciales """
-		m.setConfigByUsername(request.headers['username'],request.data)
+		m.setConfigByUsername(request.headers['username'],request.form.get('data'))
 		return jsonify({'result':'true'})
 
  

@@ -86,6 +86,11 @@ app.ini = function(){
     	$("#logout").hide();
     }
     
+    var numCategories = Map.getNumLayersByCategory();
+    $(".value.green").text(numCategories[0]);
+    $(".value.red").text(numCategories[1]);
+    $(".value.blue").text(numCategories[2]);
+    
     new app.view.Map();
 
 };

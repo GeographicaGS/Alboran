@@ -42,6 +42,11 @@ app.view.GroupLayer = Backbone.View.extend({
     	
     	$($("#map_control").find("img")[0]).on('click', function() {
     		if($("#groupLayer").is(":visible")){
+    			
+    			$(".groupLauyerConfig").css({"background-color":""});
+    			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+    			$("#configPanelMap").fadeOut();
+    			
     			$("#groupLayer").animate({"left":"-320"},300);
     			$("#groupLayer").hide(300);
     			
@@ -52,6 +57,7 @@ app.view.GroupLayer = Backbone.View.extend({
     			$("#map_control span").show();
     			$("#map_control br").show()
     		}else{
+    			
     			$("#groupLayer").animate({"left":"0"},300);
     			$("#groupLayer").show();
     			
@@ -63,7 +69,99 @@ app.view.GroupLayer = Backbone.View.extend({
     			$("#map_control span").hide()
     			$("#map_control br").hide();
     		}
-       });    	
+       }); 
+    	
+    	$(".groupLauyerConfig").on('click', function(e) {
+    		if(localStorage.getItem('user') && localStorage.getItem('password')){
+    			if($("#configPanelMap").is(":visible")){
+        			$(".groupLauyerConfig").css({"background-color":""});
+        			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+        			$("#configPanelMap").fadeOut();
+        		}else{
+        			$(".groupLauyerConfig").css({"background-color":"#e9eaea"});
+        			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc_abierto.svg"); 
+        			$("#configPanelMap").fadeIn();
+        		}
+    		}else{
+    			$(".login").trigger("click");
+    		}
+    		
+    	});
+    	
+    	$("#saveConfiguration").on('click', function() {
+    		
+    		$(".groupLauyerConfig").css({"background-color":""});
+			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+			$("#configPanelMap").fadeOut();
+    		
+    		$.fancybox($("#confirmSaveConfig"), {
+    			'width':'640',
+    			"height": "auto",
+    		    'autoDimensions':false,
+    		    'autoSize':false,
+    		    'closeBtn' : false,
+    		    'scrolling'   : 'no',
+    		    helpers : { 
+    		    	   overlay: { 
+    		    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
+    		    	   } 
+    		    },
+    		    
+    		    afterShow: function () {
+    		    	$($("#confirmSaveConfig").find("input[type='button']")[0]).on('click', function() {
+    		    		var now = $.now();
+   		    			$.ajax({
+   		    				url : "/api/config/",
+   		    				headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
+   		    				data: {"data":Map.buildRoute()},
+   		    				type: "POST",			
+   		    		        success: function() {
+   		    		        	$.fancybox.close();
+   		    		        }
+   		    		    });   		    		
+    		    	});
+    		    	$($("#confirmSaveConfig").find("input[type='button']")[1]).on('click', function() {
+    		    		$.fancybox.close();
+    		    	});
+    		    }
+    		});
+        });
+    	
+    	$("#loadConfiguration").on('click', function() {
+    		var now = $.now();
+    		$.ajax({
+    			url : "/api/config/",
+    			headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
+    			type: "GET",
+    			dataType: "json",
+    		       success: function(response) {
+    		    	   if(response != ""){
+    		    		   Map.removeAllLayers()
+    		    		   Map.setRoute("/" + response.config)
+    		    	   }
+    		    	   $(".groupLauyerConfig").trigger("click");
+    		       }
+    		   });
+        });
+    	
+    	$("img[idConfig]").on('click', function() {
+    		var now = $.now();
+    		$.ajax({
+    			url : "/api/config/" + $(this).attr("idConfig"),
+    			headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
+    			type: "GET",
+    			dataType: "json",
+    		       success: function(response) {
+    		    	   if(response != ""){
+    		    		   Map.removeAllLayers()
+    		    		   Map.setRoute("/" + response.config)
+    		    	   }
+    		    	   $(".groupLauyerConfig").trigger("click");
+    		       }
+    		   });
+    	});
+    	
+    	
     },
     
     events:{

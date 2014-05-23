@@ -7,6 +7,11 @@ $("#login").on('click', function(e) {
 	    'autoSize':false,
 	    'closeBtn' : false,
 	    'scrolling'   : 'no',
+	    helpers : { 
+	    	   overlay: { 
+	    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
+	    	   } 
+	    },
 	    afterShow: function () {
 	    	$("#initSessionForm").find("input[type='text']").val('');
 	    	$("#initSessionForm").find("input[type='password']").val('');
@@ -27,9 +32,10 @@ $("#login").on('click', function(e) {
 	    		}
 	    		
 	    		if(user!='' && passw!=''){
+	    			var now = $.now();
 	    			$.ajax({
 	    				url : "/api/login/",
-	    				headers:{ "username": user, "timestamp": $.now(), "hash": md5(user + passw + $.now())},
+	    				headers:{ "username": user, "timestamp": now, "hash": md5(user + passw + now)},
 	    				type: "POST",			
 	    		        success: function(xml) {
 	    		        	$.fancybox.close()
@@ -55,14 +61,15 @@ $("#login").on('click', function(e) {
 	return false;
 }); 
 
-$(".groupLauyerConfig").on('click', function(e) {
-	alert("adwda");
-});
-
-
 $("#logout").on('click', function() {
 	localStorage.removeItem('user');
 	localStorage.removeItem('password');
+	
+	$(".groupLauyerConfig").css({"background-color":""});
+	$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+	$("#configPanelMap").fadeOut();
+	
+	
 	$("#login").show();
 	$("#logout").hide();
 	return false;

@@ -465,11 +465,15 @@ body > header {
 
 	.groupLauyerConfig{
 		position: relative;
-		top: 2px;
+		top: 0px;
 		right: 0px;
 		border: none;
 		float: right;
 		display: none;
+		height: 22px;
+		margin-right: -3px;
+		padding-left: 11px;
+		padding-top: 6px;
 	}
 
 	.value {
@@ -735,6 +739,83 @@ body > header {
 	}
 }
 
+#configPanelMap{
+	display:none;
+	position: absolute;
+	top: 21px;
+	left: 288px;	
+	width: 223px;
+	height: 115px;
+	z-index: 10002;
+	background-color: @grey_light;
+	border-radius:2px;
+	box-shadow: 2px 2px 2px 1px @grey_footer;
+	
+	
+	p{
+		font-size:12px;
+		color: @grey_header_dark;
+		font-weight: bold;
+		padding-left: 10px;
+		cursor: pointer;
+	}
+	
+	.preconf{
+		border-top: 1px solid @grey_footer;
+		margin-top: 10px;
+		padding-top: 10px;
+		float:left;
+		width: 100%;
+	}
+	.divImage{
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		margin-bottom: 14px;
+		margin-right: 10px;
+	}
+	img{
+		cursor: pointer;
+		float: left;
+		margin-top: 22px;
+		margin-left: 10px;
+	}
+	
+}
+
+#confirmSaveConfig{
+	display:none;
+	width: 640px;
+	height: 230px;
+	background-color: white;
+	
+	div:FIRST-CHILD{
+		font-size: 24px;
+		color:@grey_4;
+		font-weight: 600;
+		text-align:center;
+		margin-top: 35px;
+		margin-bottom: 25px;
+	}
+	
+	input{
+		border: 2px solid @grey_footer;
+		margin-left: 40px;
+		margin-top: 30px;
+		width: 270px;;
+		height: 50px;
+		text-align: center;
+		color:@grey_footer;
+		font-size: 18px;
+	}
+	
+	input[type='button']{
+		background-color: @grey_5;
+		border: none;
+		color: white;
+	}
+}
+
 /* Pie de página */
 footer {
 	z-index: 10002;
@@ -783,4 +864,8 @@ footer {
 			text-align: right;
 		}
 	}
+}
+
+.fancybox-skin{
+	background-color: white;
 }

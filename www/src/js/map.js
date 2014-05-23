@@ -98,6 +98,16 @@ Map = {
 		return position;
 	},
 	
+	removeAllLayers: function() {
+		this.layers.forEach(function(gSLayerWMS) {
+			gSLayerWMS.setVisibility(false, null, null);
+		});
+		this.layers = [];
+		$("li[idlayer]").remove();
+		
+		this.getRoute();
+	},
+	
 	searchLayer: function(id) {
 		var result = null;
 		app.categories.forEach(function(category) {
@@ -131,23 +141,8 @@ Map = {
 	
 	getRoute: function() {
 		if(Backbone.history.fragment.indexOf(app.router.langRoutes["_link map"][[app.lang]]) == 0){
-			var capas = "";
-			var activas = "";
 			
-			this.layers.forEach(function(layer) {
-				capas += layer.id + "_"
-				
-				if(layer.visible){
-					activas += "1_"
-				}else{
-					activas += "0_"
-				}
-				
-			});
-			capas = capas.replace(/_([^_]*)$/,"/"+'$1');
-			activas = activas.replace(/_([^_]*)$/,""+'$1');
-			
-			var result = capas + activas
+			var result = this.buildRoute();
 			
 			if(result != ""){
 				app.router.navigate(app.router.langRoutes["_link map"][[app.lang]] + "/" + result,{trigger: false});
@@ -155,6 +150,26 @@ Map = {
 				app.router.navigate(app.router.langRoutes["_link map"][[app.lang]],{trigger: false});
 			}
 		}
+	},
+	
+	buildRoute: function() {
+		var capas = "";
+		var activas = "";
+		
+		this.layers.forEach(function(layer) {
+			capas += layer.id + "_"
+			
+			if(layer.visible){
+				activas += "1_"
+			}else{
+				activas += "0_"
+			}
+			
+		});
+		capas = capas.replace(/_([^_]*)$/,"/"+'$1');
+		activas = activas.replace(/_([^_]*)$/,""+'$1');
+		
+		return capas + activas
 	},
 	
 	setRoute: function(route) {
@@ -169,6 +184,18 @@ Map = {
     			}
            	}
     	}
+	},
+	
+	getNumLayersByCategory: function(cate) {
+		var result = [0,0,0];
+		for(var i=0; i<app.categories.length; i++){
+			app.categories[i].topics.forEach(function(topic) {
+				topic.layers.forEach(function(layer) {
+					result[i] ++;
+				});
+			});
+		}
+		return result;
 	},
 	
 }
