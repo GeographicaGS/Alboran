@@ -4,6 +4,7 @@ app.view.Home = Backbone.View.extend({
     _template : _.template( $('#home_template').html() ),
     
     initialize: function() {
+        app.events.trigger('menu','home');
         this.render();
     },
     

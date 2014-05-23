@@ -74,6 +74,7 @@ app.ini = function(){
 
     this.$main = $("main");
     this.$content = $("#content");
+    this.$menu = $("#mainmenu");
 
     //Backbone.history.start();root: "/public/search/"
     Backbone.history.start({pushState: true,root: this.basePath });
@@ -99,7 +100,8 @@ app.events = {};
 _.extend(app.events , Backbone.Events);
 
 app.events.on("menu", function(id){
-   
+    app.$menu.find('li').removeClass('selected');
+    app.$menu.find('[data-menu='+id+']').closest('li').addClass('selected');
 });
 
 app.scrollTop = function(){

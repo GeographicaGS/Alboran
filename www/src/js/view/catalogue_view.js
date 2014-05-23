@@ -9,6 +9,7 @@ app.view.Catalogue = Backbone.View.extend({
 
 	initialize: function() {
         this.collection = new app.collection.Categories(app.categories, {view: this});
+        app.events.trigger('menu','catalogue');
         this.render();
     },
     
