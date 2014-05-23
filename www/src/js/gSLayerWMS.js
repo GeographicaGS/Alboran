@@ -14,7 +14,7 @@ function GSLayerWMS(id,title, url, name, maxZoom){
 			this.layer =  L.tileLayer.wms(this.url, {
 								layers: this.name,
 								format: 'image/png',
-								transparent: true,
+								transparent: true
 							});	
 		}
 		

@@ -473,6 +473,10 @@ body > header {
 		.removeLayer{
 			padding: 9px 7px 7px 7px;
 		}
+		
+		p{
+			max-width: 200px;		
+		}
 	}
 
 	.panel li:BEFORE{
@@ -820,4 +824,10 @@ footer {
 
 .fancybox-skin{
 	background-color: white;
+}
+
+.ellipsis {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }

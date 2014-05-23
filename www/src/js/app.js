@@ -82,6 +82,8 @@ app.ini = function(){
     if(localStorage.getItem('user') && localStorage.getItem('password')){
     	$("#login").hide();
     	$("#logout").show();
+    	app.ajaxSetup();
+
     }else{
     	$("#login").show();
     	$("#logout").hide();
@@ -191,4 +193,15 @@ app.renameID = function(array,oldID,newID){
         delete array[i][oldID];
     }
     return array;
+}
+
+app.ajaxSetup = function(){
+	$.ajaxSetup({
+		headers:app.getHeader()
+	});
+}
+
+app.getHeader = function(){
+	var now = $.now();
+	return { "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)};
 }

@@ -43,6 +43,7 @@ $("#login").on('click', function(e) {
 	    		        	localStorage.setItem('password', passw);
 	    		        	$("#login").hide();
 	    		        	$("#logout").show();
+	    		        	app.ajaxSetup();
 	    		        },
 	    		        error: function(){
 	    		        	localStorage.removeItem('user');
@@ -51,11 +52,14 @@ $("#login").on('click', function(e) {
 	    		        }
 	    		    });
 	    			
-	    			
-	    			
 	    		}
-	    		
 	    	});
+	    	
+	    	$("#initSessionForm").find("input").keydown(function (e){
+	    	    if(e.keyCode == 13){
+	    	    	$("#initSessionForm").find("input[type='button']").trigger("click");
+	    	    }
+	    	})
 	    }
 	});
 	return false;

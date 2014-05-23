@@ -71,84 +71,91 @@ app.view.GroupLayer = Backbone.View.extend({
     		}
        }); 
     	
+    	$($("#map_control").find("div")[0]).on('click', function() {
+    		$($("#map_control").find("img")[0]).trigger("click");
+    	});
+    	
     	$(".groupLauyerConfig").on('click', function(e) {
-    		if(localStorage.getItem('user') && localStorage.getItem('password')){
-    			if($("#configPanelMap").is(":visible")){
-        			$(".groupLauyerConfig").css({"background-color":""});
-        			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
-        			$("#configPanelMap").fadeOut();
-        		}else{
-        			$(".groupLauyerConfig").css({"background-color":"#e9eaea"});
-        			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc_abierto.svg"); 
-        			$("#configPanelMap").fadeIn();
-        		}
-    		}else{
-    			$(".login").trigger("click");
-    		}
-    		
+    		if($("#configPanelMap").is(":visible")){
+    			$(".groupLauyerConfig").css({"background-color":""});
+        		$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+        		$("#configPanelMap").fadeOut();
+        	}else{
+        		$(".groupLauyerConfig").css({"background-color":"#e9eaea"});
+        		$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc_abierto.svg"); 
+        		$("#configPanelMap").fadeIn();
+        	}
     	});
     	
     	$("#saveConfiguration").on('click', function() {
     		
-    		$(".groupLauyerConfig").css({"background-color":""});
-			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
-			$("#configPanelMap").fadeOut();
-    		
-    		$.fancybox($("#confirmSaveConfig"), {
-    			'width':'640',
-    			"height": "auto",
-    		    'autoDimensions':false,
-    		    'autoSize':false,
-    		    'closeBtn' : false,
-    		    'scrolling'   : 'no',
-    		    helpers : { 
-    		    	   overlay: { 
-    		    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
-    		    	   } 
-    		    },
-    		    
-    		    afterShow: function () {
-    		    	$($("#confirmSaveConfig").find("input[type='button']")[0]).on('click', function() {
-    		    		var now = $.now();
-   		    			$.ajax({
-   		    				url : "/api/config/",
-   		    				headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
-   		    				data: {"data":Map.buildRoute()},
-   		    				type: "POST",			
-   		    		        success: function() {
-   		    		        	$.fancybox.close();
-   		    		        }
-   		    		    });   		    		
-    		    	});
-    		    	$($("#confirmSaveConfig").find("input[type='button']")[1]).on('click', function() {
-    		    		$.fancybox.close();
-    		    	});
-    		    }
-    		});
+    		if(localStorage.getItem('user') && localStorage.getItem('password')){
+    			
+    			$(".groupLauyerConfig").css({"background-color":""});
+    			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+    			$("#configPanelMap").fadeOut();
+        		
+        		$.fancybox($("#confirmSaveConfig"), {
+        			'width':'640',
+        			"height": "auto",
+        		    'autoDimensions':false,
+        		    'autoSize':false,
+        		    'closeBtn' : false,
+        		    'scrolling'   : 'no',
+        		    helpers : { 
+        		    	   overlay: { 
+        		    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
+        		    	   } 
+        		    },
+        		    
+        		    afterShow: function () {
+        		    	$($("#confirmSaveConfig").find("input[type='button']")[0]).on('click', function() {
+        		    		var now = $.now();
+       		    			$.ajax({
+       		    				url : "/api/config/",
+       		    				data: {"data":Map.buildRoute()},
+       		    				type: "POST",			
+       		    		        success: function() {
+       		    		        	$.fancybox.close();
+       		    		        }
+       		    		    });   		    		
+        		    	});
+        		    	$($("#confirmSaveConfig").find("input[type='button']")[1]).on('click', function() {
+        		    		$.fancybox.close();
+        		    	});
+        		    }
+        		});
+        		
+    		}else{
+    			$(".login").trigger("click");
+    		}
         });
     	
     	$("#loadConfiguration").on('click', function() {
-    		var now = $.now();
-    		$.ajax({
-    			url : "/api/config/",
-    			headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
-    			type: "GET",
-    			dataType: "json",
-    		       success: function(response) {
-    		    	   if(response != ""){
-    		    		   Map.removeAllLayers()
-    		    		   Map.setRoute("/" + response.config)
-    		    	   }
-    		    	   $(".groupLauyerConfig").trigger("click");
-    		       }
-    		   });
+    		if(localStorage.getItem('user') && localStorage.getItem('password')){
+    			var now = $.now();
+        		$.ajax({
+        			url : "/api/config/",
+        			type: "GET",
+        			dataType: "json",
+        		       success: function(response) {
+        		    	   if(response != ""){
+        		    		   Map.removeAllLayers()
+        		    		   Map.setRoute("/" + response.config)
+        		    	   }
+        		    	   $(".groupLauyerConfig").trigger("click");
+        		       }
+        		   });
+        		
+    		}else{
+    			$(".login").trigger("click");
+    		}
         });
     	
     	$("img[idConfig]").on('click', function() {
     		var now = $.now();
     		$.ajax({
     			url : "/api/config/" + $(this).attr("idConfig"),
-    			headers:{ "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)},
     			type: "GET",
     			dataType: "json",
     		       success: function(response) {
@@ -263,6 +270,7 @@ app.view.GroupLayer = Backbone.View.extend({
         //<li idLayer="1" class="active">Nombre capa <img class="icon removeLayer" src="/img/map/ALB_icon_descartar_capa.svg"> <img class="icon" src="/img/map/ALB_icon_info_capa.svg"> </li>
         var $li = $(document.createElement('li'));
         $li.addClass('active');
+//        $li.addClass('ellipsis');
         $li.attr('idLayer',id);
         var layer = Map.searchLayer(id);
         
@@ -278,7 +286,7 @@ app.view.GroupLayer = Backbone.View.extend({
             break;
         }
         
-        $li.html(layer.title_es);
+        $li.html("<p class='ellipsis fleft'>" + layer.title_es + "</p>");
         
         var $icon1, $icon2;
         $icon1 = $(document.createElement('img'));
@@ -288,7 +296,7 @@ app.view.GroupLayer = Backbone.View.extend({
         $icon2.addClass('icon');
         $icon2.attr('src','/img/map/ALB_icon_info_capa.svg');
 
-        $li.append($icon1).append($icon2);
+        $li.append($icon1).append($icon2).append("<div class='clear'></div>");
 
         // Obtener el padre de la capa en el JSON para determinar el grupo
 //        var groupIndex = Map.searchLayerGroup(layer);
