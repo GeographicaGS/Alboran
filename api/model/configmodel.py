@@ -10,8 +10,10 @@ from psycopg2 import IntegrityError
 
 class ConfigModel(PostgreSQLModel):
 	def getConfigByUsername(self, username):
-		sql = 'SELECT data FROM "layer_configuration" c, "user" u WHERE u.name = \'%s\' and u.id_user = c.id_user'%username;
-		result = self.query(sql).row()
+		sql = "SELECT data FROM layer_configuration c" \
+			  	"	INNER JOIN \"user\" u ON u.id_user=c.id_user" \
+				"	WHERE u.name = %s "
+		result = self.query(sql,[username]).row()
 		if(result is not None):
 			return result['data']
 		else:
