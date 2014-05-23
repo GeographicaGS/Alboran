@@ -112,7 +112,7 @@
 					text-align: right;
 				}
 
-				&:last-child {
+				&:last-child, &:nth-child(3) {
 					border-right-width: 1px;
 				}
 
@@ -188,6 +188,17 @@
 						float: right;
 						border-left: 1px solid #e0e0e1;
 						padding: 20px;
+						
+						span { display: none; }
+						
+						&:after {
+							content: url('@{imgPath}catalogue/ALB_icon_colapsable_abierto.svg');
+							display: block;
+						}
+
+						&.contracted:after {
+							content: url('@{imgPath}catalogue/ALB_icon_colapsable_cerrado.svg');
+						}
 					}
 
 					&:after {
