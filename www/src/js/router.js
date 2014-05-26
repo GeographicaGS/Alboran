@@ -22,6 +22,7 @@ app.router = Backbone.Router.extend({
             
             "map" : "map",
             "map/:capas/:activas" : "map",
+            "map/:config": "mapConf",
             "catalogue": "catalogue",
             
             "about": "about",
@@ -49,6 +50,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link map"][app.lang], "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas", "map");
+        this.route(this.langRoutes["_link map"][app.lang] + "/:config", "mapConf");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");        
         this.route(this.langRoutes["_link about"][app.lang], "about");        
         this.route(this.langRoutes["_link alboran"][app.lang], "alboran");        
@@ -75,6 +77,29 @@ app.router = Backbone.Router.extend({
         if(!capas){
         	Map.getRoute();
         }
+    },
+
+    mapConf: function(config){
+        $("#content").hide();
+        $("#map").show();
+        app.events.trigger('menu','map');
+
+        if(Map.getMap() != null){
+            Map.getMap().invalidateSize("true");
+        }
+
+        var now = $.now();
+        $.ajax({
+            url : "/api/config/" + config,
+            type: "GET",
+            dataType: "json",
+               success: function(response) {
+                   if(response != ""){
+                       Map.removeAllLayers()
+                       Map.setRoute("/" + response.config)
+                   }
+               }
+           });
     },
 
     catalogue: function(){
