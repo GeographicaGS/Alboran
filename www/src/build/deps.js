@@ -3,9 +3,11 @@ deps.JS = {
 	ThirdParty:{
 		src: [
 			"js/lib/jquery-2.0.3.min.js",
+			"js/lib/jquery-ui-1.10.3.custom.min.js",
 			"js/lib/underscore-min.js",
 			"js/lib/backbone-min.js",
 			"js/lib/leaflet/leaflet.js",
+			"js/lib/fancybox/jquery.fancybox.js"
 		],
 		desc: "Third party library"
 	}
@@ -19,11 +21,13 @@ deps.JS = {
 			// --------------------
 			// ------ Models ------
 			// --------------------
+			"js/model/layer.js",
 			"js/model/category.js",
 			
 			// --------------------
 			// ---- Collections ---
 			// --------------------
+			"js/collection/layers.js",
 			"js/collection/categories.js",
 
 			// --------------------
@@ -35,6 +39,13 @@ deps.JS = {
 			"js/view/error_view.js",
 			"js/view/notfound_view.js",
 			"js/view/home_view.js",
+			"js/view/about_view.js",
+			"js/view/alboran_view.js",
+			"js/view/howto_view.js",
+			"js/view/join_view.js",
+			"js/view/contact_view.js",
+			"js/view/legal_view.js",
+			"js/view/privacy_view.js",
 			
 
 			// router
@@ -44,7 +55,9 @@ deps.JS = {
 			"js/catalog.js",
 			"js/gSLayerWMS.js",
 			"js/map.js",
+			"js/global.js",
 			"js/view/map_view.js",
+			"js/view/groupLayer_view.js",
 		],
 		desc: "Core library."
 	}
@@ -54,6 +67,7 @@ deps.CSS = {
 	ThirdParty:{
 		src : [
 		       "js/lib/leaflet/leaflet.css",
+		       "js/lib/fancybox/jquery.fancybox.css",
 		]
 	},
 	Core: {

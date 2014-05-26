@@ -1,14 +1,16 @@
 #presentation {
 	padding: 147px 0 54px;
 	text-align: center;
-	background: url('@{imgPath}home/ALB_img_fondo_presentacion.jpg') 50% 70px no-repeat #292966;
-	background-size: 100%;
+	background: url('@{imgPath}home/ALB_img_fondo_presentacion.jpg') no-repeat #292966;
+	background-size: cover;
 	.lato(light);
 
 	h2 {
 		font-size: 1.8em;
 		line-height: 1.3em;
-		margin-bottom: 54px;
+		margin: 0 auto 54px;
+		display: block;
+		width: 76%;
 		.lato(light);
 	}
 
@@ -16,6 +18,9 @@
 		font-size: 1.45em;
 		line-height: 1.32em;
 		.lato(light);
+		margin: 0 auto;
+		display: block;
+		width: 65%;
 	}
 
 	a {
@@ -46,6 +51,10 @@
 				font-size: 1.2em;
 				line-height: 0.95em;
 				.lato(black);
+
+				&.italic {
+					.lato(italic)
+				}
 			}
 		}
 
@@ -59,7 +68,7 @@
 .prefoot {
 	background-color: @bluegrey;
 	border-top: 1px solid @bluegrey_light;
-	padding: 0 0 71px;
+	padding: 0 0 51px;
 
 	&.first:before {
 		content: "";
@@ -72,7 +81,8 @@
 	.logos_coop {
 		margin-bottom: 8px;
 
-		img {
+		a {
+			display: inline-block;
 			margin: 0 40px 40px 0;
 
 			&:last-of-type {
@@ -88,7 +98,7 @@
 	.logos_socios {
 		.group {
 			display: inline-block;
-			margin-right: 24px;
+			margin: 0 24px 20px 0;
 
 			&:last-child {
 				margin-right: 0;
@@ -106,11 +116,15 @@
 			div {
 				display: block;
 
-				img {
+				a {
 					margin-right: 20px;
 
 					&:last-child {
 						margin-right: 0;
+					}
+
+					img.large {
+						width: 100%;
 					}
 				}
 			}

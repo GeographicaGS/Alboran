@@ -74,9 +74,25 @@ app.ini = function(){
 
     this.$main = $("main");
     this.$content = $("#content");
+    this.$menu = $("#mainmenu");
 
     //Backbone.history.start();root: "/public/search/"
     Backbone.history.start({pushState: true,root: this.basePath });
+
+    if(localStorage.getItem('user') && localStorage.getItem('password')){
+    	$("#login").hide();
+    	$("#logout").show();
+    	app.ajaxSetup();
+
+    }else{
+    	$("#login").show();
+    	$("#logout").hide();
+    }
+    
+    var numCategories = Map.getNumLayersByCategory();
+    $(".value.green").text(numCategories[0]);
+    $(".value.red").text(numCategories[1]);
+    $(".value.blue").text(numCategories[2]);
     
     new app.view.Map();
 
@@ -99,7 +115,8 @@ app.events = {};
 _.extend(app.events , Backbone.Events);
 
 app.events.on("menu", function(id){
-   
+    app.$menu.find('li').removeClass('selected');
+    app.$menu.find('[data-menu='+id+']').closest('li').addClass('selected');
 });
 
 app.scrollTop = function(){
@@ -176,4 +193,15 @@ app.renameID = function(array,oldID,newID){
         delete array[i][oldID];
     }
     return array;
+}
+
+app.ajaxSetup = function(){
+	$.ajaxSetup({
+		headers:app.getHeader()
+	});
+}
+
+app.getHeader = function(){
+	var now = $.now();
+	return { "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)};
 }

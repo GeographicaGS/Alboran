@@ -1,1 +1,1 @@
-PostgreSQLConfig = {'host': 'localhost', 'user': 'postgres', 'passwd': 'postgres','db':'alboran' ,'port':5432}
+PostgreSQLConfig = {'host': 'mother', 'user': 'alboran_admin', 'passwd': 'alboran','db':'alboran' ,'port':5432}

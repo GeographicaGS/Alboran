@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=1024">
+    <meta name="viewport" content="width=768">
     <meta name="description" content="">
     <meta name="author" content="">
         
@@ -14,7 +14,6 @@
         
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-        
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -38,7 +37,8 @@
                         </ul>
                     </div>
                     <div class="col-sm-6 col-md-6 ">
-                        <a class="login" href="#" jslink><lang>Iniciar Sesión</lang></a>
+                        <a id="login" class="login" href="#" jslink><lang>Iniciar Sesión</lang></a>
+                        <a id="logout" class="login" style="display: none;" href="#" jslink><lang>Cerrar sesion</lang></a>
                     </div>
                 </div>
             </div>
@@ -48,33 +48,33 @@
                 <div class="row" id="mainmenu">
                     <div class="col-sm-5 col-md-5">
                         <ul>
-                            <li class="home selected">
+                            <li class="home selected" data-menu="home">
                                 <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><span><lang>Inicio</lang><span></a>
                             </li>
-                            <li>
+                            <li data-menu="map">
                                 <a href="/<lang>lang</lang>/<lang>_link map</lang>" jslink><lang>Mapa</lang></a>
                             </li>
-                            <li>
+                            <li data-menu="catalogue">
                                 <a href="/<lang>lang</lang>/<lang>_link catalogue</lang>" jslink><lang>Catálogo</lang></a>
                             </li>
-                            <li>
+                            <li data-menu="join">
                                 <a href="/<lang>lang</lang>/<lang>_link join</lang>" jslink><lang>Participe</lang></a>
                             </li>
                         </ul>
                     </div>
                     <div class="col-sm-2 col-md-2 title">
-                        <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang>en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span></a>
+                        <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el </lang><br><strong class="highlight black"><lang>Mar de Alborán</lang></strong></a>
                     </div>
                     <div class="col-sm-5 col-md-5">
                         <ul>
-                            <li>
+                            <li data-menu="howto">
                                 <a href="/<lang>lang</lang>/<lang>_link howto</lang>" jslink><lang>Cómo usarlo</lang></a>
                             </li>
-                            <li>
+                            <li data-menu="about">
                                 <a href="/<lang>lang</lang>/<lang>_link about</lang>" jslink><lang>El proyecto</lang></a>
                             </li>
-                            <li class="alboran">
-                                <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><img src="/img/home/ALB_logo_proyecto_cab.svg"></a>
+                            <li class="alboran" data-menu="alboran">
+                                <a href="/<lang>lang</lang>/<lang>_link alboran</lang>" jslink><img src="/img/home/ALB_logo_proyecto_cab.svg"></a>
                             </li>
                         </ul>
                     </div>
@@ -83,29 +83,67 @@
         </nav>
         <div id="map_control">
             <img src="/img/home/ALB_icon_toc.svg">
-            <span class="value green">12</span><br>
+            <div class="title"><lang>TABLA DE CONTENIDO</lang></div>
+            <img class="groupLauyerConfig" src="/img/map/ALB_icon_config_toc.svg">
+            <span class="value green">0</span><br>
             <span class="value red">0</span><br>
-            <span class="value blue">1</span>
+            <span class="value blue">0</span>
         </div>
+        
     </header>
 
     <main style="height:100%;">
     	<div id="content"></div>
     	<div id="map" style="display:none; height: 100%;"></div>
+    	<div id="groupLayer"></div>
     </main>
+    
+    <div id="initSessionForm">
+    	<div>
+			<span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
+		</div>
+		<div><lang>Iniciar sesión</lang></div>
+		<input type="text" placeholder="<lang>Usuario</lang>">
+		<input type="password" placeholder="<lang>Contraseña</lang>">
+		<input type="button" value="<lang>Acceder</lang>">
+		<p class="error">Usuario y contraseña incorrectos</p>
+<!-- 		<div class="footer"> -->
+<!-- 			<p><lang>¿No es usuario de Alborán?</lang></p> -->
+<!-- 			<p><lang>Crear cuenta</lang></span> -->
+<!-- 		</div> -->
+	</div>
+	
+	<div id="configPanelMap">
+		<p id="saveConfiguration" class="mt"><lang>Guardar configuración actual</lang></p>
+		<div class="clear"></div>
+		<p id="loadConfiguration"><lang>Cargar mi configuración</lang></p>
+		<div class="clear"></div>
+		<p class="preconf"><lang>Preconfigurados</lang></p>
+		<div class="divImage">
+			<img idConfig="1" src="/img/map/ALB_icon_config_cargar_mapa-1.svg">
+			<img idConfig="2" src="/img/map/ALB_icon_config_cargar_mapa-2.svg">
+			<img idConfig="3" src="/img/map/ALB_icon_config_cargar_mapa-3.svg">
+		</div>
+	</div>
+	
+	<div id="confirmSaveConfig">
+		<div><lang>¿Desea guardar la configuración actual como su configuración predeterminada?</lang></div>
+		<input type="button" value="<lang>Aceptar</lang>">
+		<input type="button" value="<lang>Cancelar</lang>">
+	</div>
         
     <footer>
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-md-6">
-                    <p><i><lang>Proyecto Alborán</lang> &copy;</i> <lang>UICN, International Union for Conservation of Nature</lang></p>
+                <div class="col-sm-3 col-md-3">
+                    <p><i><lang>Proyecto Alborán</lang> &copy;</i> <lang>UICN</lang><span class="noLowRes">, <lang>International Union for Conservation of Nature</lang></span></p>
                 </div>
-                <div class="col-sm-6 col-md-6">
+                <div class="col-sm-9 col-md-9">
                     <p>
-                        <a href="#"><lang>Contacto</lang></a>
-                        <a href="#"><lang>Información Legal</lang></a>
-                        <a href="#"><lang>Política de privacidad</lang></a>
-                        <a class="geographica" href="#">
+                        <a href="/<lang>lang</lang>/<lang>_link contact</lang>" jslink><lang>Contacto</lang></a>
+                        <a href="/<lang>lang</lang>/<lang>_link legal</lang>" jslink><lang>Información Legal</lang></a>
+                        <a href="/<lang>lang</lang>/<lang>_link privacy</lang>" jslink><lang>Política de privacidad</lang></a>
+                        <a class="geographica" href="http://www.geographica.gs/" target="_blank">
                             <span>D+D</span>
                             Geographica
                         </a>
@@ -116,4 +154,3 @@
     </footer>
 </body>
 </html>
-
