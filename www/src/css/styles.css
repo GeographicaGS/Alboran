@@ -833,3 +833,8 @@ footer {
 	overflow: hidden;
 	white-space: nowrap;
 }
+
+
+.leaflet-top .leaflet-control{
+	margin-top: 90px;
+}
