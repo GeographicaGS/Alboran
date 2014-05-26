@@ -1,3 +1,4 @@
+from flask import request,abort
 from model.usermodel import UserModel
 import md5
 from functools import wraps

@@ -320,9 +320,6 @@ app.view.GroupLayer = Backbone.View.extend({
                  Map.removeLayer(id);
         	});
         }
-    }
-   
-    
+    }    
 });
-
 	
