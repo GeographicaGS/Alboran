@@ -1,4 +1,4 @@
-$("#login").on('click', function(e) {
+/*$("#login").on('click', function(e) {
 	$("#initSessionForm").find(".error").hide();
 	$.fancybox($("#initSessionForm"), {
 		'width':'640',
@@ -63,7 +63,80 @@ $("#login").on('click', function(e) {
 	    }
 	});
 	return false;
-}); 
+});*/
+
+$("#login").on('click', function(e) {
+  $("#loginForms").find(".error").hide();
+  $.fancybox($("#loginForms"), {
+    'width':'640',
+    'height': 'auto',
+    'padding': '0',
+    'autoDimensions':false,
+    'autoSize':false,
+    'closeBtn' : false,
+    'scrolling'   : 'no',
+    helpers : { 
+         overlay: { 
+           css: {'background-color': 'rgba(0,0,102,0.85)'} 
+         } 
+    },
+    afterShow: function () {
+      var $form = $('#createAccountForm');
+      $form.find("input[type='text']").val('');
+      $form.find("input[type='password']").val('');
+      
+      $form.find("input[type='button']").on('click', function(){
+        
+        $form.find("input[type='text']").css({"border":"1px solid #cacbcc"});
+        $form.find("input[type='password']").css({"border":"1px solid #cacbcc"});
+        
+        var user = $form.find("input.user").val();
+        var email = $form.find("input.email").val();
+        var passw = $form.find("input[type='password']").eq(0).val()
+        var passw_conf = $form.find("input[type='password']").eq(1).val();
+
+        if(user == ""){
+          $form.find("input[type='text']").css({"border":"1px solid red"});
+        }
+        
+        if( passw == "" || (passw != passw_conf) ){
+          $form.find("input[type='password']").css({"border":"1px solid red"});
+        }
+
+        var testEmail = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");        
+        if( user!='' && email != '' && passw!='' && (passw == passw_conf) && testEmail.test(email) ){
+          var now = $.now();
+          $.ajax({
+            url : "/api/signin/",
+            headers:{ "username": user, "timestamp": now, "hash": md5(user + passw + now)},
+            type: "POST",     
+                success: function(xml) {
+                  $.fancybox.close()
+                  localStorage.setItem('user', user);
+                  localStorage.setItem('password', passw);
+                  $("#login").hide();
+                  $("#logout").show();
+                  app.ajaxSetup();
+                },
+                error: function(){
+                  localStorage.removeItem('user');
+                  localStorage.removeItem('password');
+                  $form.find(".error").fadeIn();
+                }
+            });
+          
+        }
+      });
+      
+      $form.find("input").keydown(function (e){
+          if(e.keyCode == 13){
+            $form.find("input[type='button']").trigger("click");
+          }
+      })
+    }
+  });
+  return false;
+});
 
 $("#logout").on('click', function() {
 	localStorage.removeItem('user');

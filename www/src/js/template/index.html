@@ -31,9 +31,9 @@
                     <div class="col-sm-6 col-md-6">
                         <span><lang>Idioma</lang>:</span>
                         <ul>
-                            <li class="selected"><a href="#" jslink><lang>Español</lang></a></li>
-                            <li><a href="#" jslink><lang>FR</lang></a></li>
-                            <li><a href="#" jslink><lang>EN</lang></a></li>
+                            <li class="selected"><a href="/es" jslink><lang>Español</lang></a></li>
+                            <li><a href="/fr" jslink><lang>FR</lang></a></li>
+                            <li><a href="/en" jslink><lang>EN</lang></a></li>
                         </ul>
                     </div>
                     <div class="col-sm-6 col-md-6 ">
@@ -98,20 +98,42 @@
     	<div id="groupLayer"></div>
     </main>
     
-    <div id="initSessionForm">
-    	<div>
-			<span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
-		</div>
-		<div><lang>Iniciar sesión</lang></div>
-		<input type="text" placeholder="<lang>Usuario</lang>">
-		<input type="password" placeholder="<lang>Contraseña</lang>">
-		<input type="button" value="<lang>Acceder</lang>">
-		<p class="error">Usuario y contraseña incorrectos</p>
-<!-- 		<div class="footer"> -->
-<!-- 			<p><lang>¿No es usuario de Alborán?</lang></p> -->
-<!-- 			<p><lang>Crear cuenta</lang></span> -->
-<!-- 		</div> -->
-	</div>
+    <div id="loginForms">
+        <div id="initSessionForm" class="loginForm hidden">
+        	<div>
+    			<span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
+    		</div>
+    		<div><lang>Iniciar sesión</lang></div>
+    		<input type="text" placeholder="<lang>Usuario</lang>">
+    		<input type="password" placeholder="<lang>Contraseña</lang>">
+    		<input type="button" value="<lang>Acceder</lang>">
+    		<p class="error">Usuario y contraseña incorrectos</p>
+     		<div class="footer">
+     			<p><lang>¿No es usuario de Alborán?</lang></p>
+     			<p><lang>Crear cuenta</lang></span>
+     		</div>
+    	</div>
+
+        <div id="createAccountForm" class="loginForm">
+            <div>
+                <span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
+            </div>
+            <div>
+                <h2><lang>¿Tiene algo que contar o compartir sobre el Mar de Alborán?</lang></h2>
+                <span><lang>Regístrese y participe</lang>.</span>
+            </div>
+            <input type="text" placeholder="<lang>Su nombre y apellidos</lang>" class="user">
+            <input type="text" placeholder="<lang>Su correo electrónico</lang>" class="email">
+            <input type="password" placeholder="<lang>Escriba su contraseña</lang>">
+            <input type="password" placeholder="<lang>Repita su contraseña</lang>">
+            <input type="button" value="<lang>Crear cuenta</lang>">
+            <p class="legal"><lang>Al crear su cuenta, acepta nuestros</lang> <a href="#" jslink><lang>Términos de Uso</lang></a> <lang>y</lang> <a href="#" jslink><lang>Política de Privacidad</lang></a></p>
+            <p class="error">Usuario y contraseña incorrectos</p>
+            <div class="footer">
+                <p><lang>Es ya usuario de Alborán</lang> <a href="#" jslink><lang>Inicie sesión</lang></a></p>
+            </div>
+        </div>
+    </div>
 	
 	<div id="configPanelMap">
 		<p id="saveConfiguration" class="mt"><lang>Guardar configuración actual</lang></p>
