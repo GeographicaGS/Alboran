@@ -102,8 +102,8 @@
 @grey_footer_dark: #2c3034;
 @grey_4: #697077;
 @grey_5: #909599;
+@grey_6: #f2f2f2;
 @pink: #ff3366;
-
 
 html, body{ height:100%;}
 body {
@@ -196,6 +196,7 @@ i {
 
 
 .uppercase{ text-transform: uppercase;}
+.center {display: block; margin: 0 auto;}
 
 #content {padding-top: 72px;}
 
@@ -946,7 +947,13 @@ footer {
 	white-space: nowrap;
 }
 
-
 .leaflet-top .leaflet-control{
 	margin-top: 90px;
+}
+
+.oldbrowser_container {
+	position: absolute;
+	width: 100%;
+	height: calc(~'100% - 72px');
+	background-color: @grey_6;
 }
