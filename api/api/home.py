@@ -33,9 +33,9 @@ def checkUsername(user):
 	u = UserModel()
 	result = None
 	if u.checkUsername(user):
-		result = jsonify({'result':'true'})
+		result = jsonify({'result':True})
 	else:
-		result = jsonify({'result': 'false'})
+		result = jsonify({'result': False})
 	return result
 
 @app.route('/user/<user>/<code>', methods=['GET'])

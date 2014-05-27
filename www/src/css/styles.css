@@ -673,6 +673,10 @@ body > header {
 			text-align: center;
 			color:@grey_footer;
 			font-size: 18px;
+
+			&.invalid{
+				border: 1px solid red;
+			}
 		}
 		input[type='text']:FOCUS{
 			color:@grey_header_dark;

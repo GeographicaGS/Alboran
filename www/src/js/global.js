@@ -14,6 +14,22 @@ $("#login").on('click', function(e) {
          } 
     },
     afterShow: function () {
+      function checkUsername(input){
+        $.ajax({
+          url : "/api/user/"+ input.val(),
+          type: "GET",     
+              success: function(data) {
+                if(data.result){
+                  input.addClass('invalid');
+                }else{
+                  input.removeClass('invalid');
+                  if(input.val().length > 8)
+                    input.addClass('invalid');
+                }
+              }
+          }); 
+      }
+
       function resetForm(){
         var $form = $('#loginForms .loginForm:not(.hidden)');
         $form.find("input[type='text']").val('');
@@ -21,14 +37,15 @@ $("#login").on('click', function(e) {
         
         $form.find("input[type='button']").on('click', function(){
           
-          $form.find("input[type='text']").css({"border":"1px solid #cacbcc"});
-          $form.find("input[type='password']").css({"border":"1px solid #cacbcc"});
+          $form.find("input[type='text']").removeClass('invalid');
+          $form.find("input[type='password']").removeClass('invalid');
 
           var isCreateForm = $form.attr('id') == 'createAccountForm';
           
           var user = $form.find("input.user").val();
           var passw = $form.find("input[type='password']").eq(0).val()
           var name='', email = '', passw_conf = '';
+          var $user = $form.find("input.user");
           if(isCreateForm){
             name = $form.find("input.name").val();
             email = $form.find("input.email").val();
@@ -36,30 +53,31 @@ $("#login").on('click', function(e) {
           }
 
           if(user == ""){
-            $form.find("input.user").css({"border":"1px solid red"});
+            $form.find("input.user").addClass('invalid');
           }
 
           if(email == ""){
-            $form.find("input.email").css({"border":"1px solid red"}); 
+            $form.find("input.email").addClass('invalid'); 
           }
 
           if(name == ""){
-            $form.find("input.name").css({"border":"1px solid red"}); 
+            $form.find("input.name").addClass('invalid'); 
           }
           
           if(isCreateForm){
             if( passw == "" ){
-              $form.find("input[type='password']").css({"border":"1px solid red"});
+              $form.find("input[type='password']").addClass('invalid');
             }
+            checkUsername($user);
           }else{
             if( passw == "" || passw != passw_conf ){
-              $form.find("input[type='password']").css({"border":"1px solid red"});
+              $form.find("input[type='password']").addClass('invalid');
             }
           }
 
           if(isCreateForm){
             var testEmail = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");        
-            if( user!='' && name != '' && email != '' && passw!='' && (passw == passw_conf) && testEmail.test(email) ){
+            if( user!='' && !$user.hasClass('invalid') && name != '' && email != '' && passw!='' && (passw == passw_conf) && testEmail.test(email) ){
               var now = $.now();
               $.ajax({
                 url : "/api/user/",
@@ -108,6 +126,10 @@ $("#login").on('click', function(e) {
           if(e.keyCode == 13){
             $form.find("input[type='button']").trigger("click");
           }
+        });
+
+        $form.find('input.user').on('keyup',function(e){
+            checkUsername($(this));
         });
       }
 
