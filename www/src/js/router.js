@@ -13,6 +13,8 @@ app.router = Backbone.Router.extend({
         "_link join" : {"en":"participate","es": "participe", "fr": "participe" },
         "_link legal" : {"en":"legal","es": "legal", "fr": "legal" },
         "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "privacidad" },
+        "_link user" : {"en":"user","es": "usuario", "fr": "usuario" },
+        "_link oldbrowser": {"en":"notsupportedbrowser", "es": "navegadornosoportado", "fr": "navegadornosoportado"}
     },
 
     /* define the route and function maps for this router */
@@ -36,6 +38,7 @@ app.router = Backbone.Router.extend({
             "notfound" : "notfound",
             "faq" : "faq",
             "error" : "error",
+            "browsernotsupported" : "oldbrowser",
 
             "user/:username/:code": "signinConfirmation",
             
@@ -60,7 +63,9 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link howto"][app.lang], "howto");        
         this.route(this.langRoutes["_link join"][app.lang], "join");        
         this.route(this.langRoutes["_link legal"][app.lang], "legal");        
-        this.route(this.langRoutes["_link privacy"][app.lang], "privacy");       
+        this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
+        this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
+        this.route(this.langRoutes["_link oldbrowser"][app.lang], "oldbrowser");
     },
     
     home: function(){
@@ -70,38 +75,50 @@ app.router = Backbone.Router.extend({
     },
     
     map: function(capas,activas){
-    	$("#content").hide();
-        $("#map").show();
-        app.events.trigger('menu','map');
-        if(Map.getMap() != null){
-        	Map.getMap().invalidateSize("true");
-        }
-        if(!capas){
-        	Map.getRoute();
+    	if(!app.isSupportedBrowser()){
+            $("#content").show();
+            $("#map").hide();
+            app.router.navigate("browsernotsupported", {trigger: true});
+        }else{
+            $("#content").hide();
+            $("#map").show();
+            app.events.trigger('menu','map');
+            if(Map.getMap() != null){
+            	Map.getMap().invalidateSize("true");
+            }
+            if(!capas){
+            	Map.getRoute();
+            }
         }
     },
 
     mapConf: function(config){
-        $("#content").hide();
-        $("#map").show();
-        app.events.trigger('menu','map');
+        if(!app.isSupportedBrowser()){
+            $("#content").show();
+            $("#map").hide();
+            app.router.navigate("browsernotsupported", {trigger: true});
+        }else{
+            $("#content").hide();
+            $("#map").show();
+            app.events.trigger('menu','map');
 
-        if(Map.getMap() != null){
-            Map.getMap().invalidateSize("true");
-        }
+            if(Map.getMap() != null){
+                Map.getMap().invalidateSize("true");
+            }
 
-        var now = $.now();
-        $.ajax({
-            url : "/api/config/" + config,
-            type: "GET",
-            dataType: "json",
-               success: function(response) {
-                   if(response != ""){
-                       Map.removeAllLayers()
-                       Map.setRoute("/" + response.config)
+            var now = $.now();
+            $.ajax({
+                url : "/api/config/" + config,
+                type: "GET",
+                dataType: "json",
+                   success: function(response) {
+                       if(response != ""){
+                           Map.removeAllLayers()
+                           Map.setRoute("/" + response.config)
+                       }
                    }
-               }
-           });
+               });
+        }
     },
 
     catalogue: function(){
@@ -181,6 +198,12 @@ app.router = Backbone.Router.extend({
 
     error: function(){
         app.showView(new app.view.Error());
+    },
+
+    oldbrowser: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView(new app.view.OldBrowser());
     }
     
 });
