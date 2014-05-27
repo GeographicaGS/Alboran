@@ -15,19 +15,21 @@ $("#login").on('click', function(e) {
     },
     afterShow: function () {
       function checkUsername(input){
-        $.ajax({
-          url : "/api/user/"+ input.val(),
-          type: "GET",     
-              success: function(data) {
-                if(data.result){
-                  input.addClass('invalid');
-                }else{
-                  input.removeClass('invalid');
-                  if(input.val().length > 8)
+        if(input.parent().attr('id')=='#createAccountForm'){
+          $.ajax({
+            url : "/api/user/"+ input.val(),
+            type: "GET",     
+                success: function(data) {
+                  if(data.result){
                     input.addClass('invalid');
+                  }else{
+                    input.removeClass('invalid');
+                    if(input.val().length > 8)
+                      input.addClass('invalid');
+                  }
                 }
-              }
-          }); 
+            });
+        }
       }
 
       function resetForm(){
