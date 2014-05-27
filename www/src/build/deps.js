@@ -47,6 +47,7 @@ deps.JS = {
 			"js/view/legal_view.js",
 			"js/view/privacy_view.js",
 			"js/view/oldbrowser_view.js",
+			"js/view/history-create_view.js",
 			
 
 			// router
