@@ -12,9 +12,13 @@ add constraint translation_pkey
 primary key(key);
 
 CREATE TABLE user(
-  id_user SERIAL,
+  id_user serial NOT NULL,
   name text NOT NULL,
   password text NOT NULL,
+  email text,
+  active boolean,
+  confirmation_code text,
+  real_name text,
   CONSTRAINT user_pkey PRIMARY KEY (id_user)
 );
 

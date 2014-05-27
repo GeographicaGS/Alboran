@@ -89,6 +89,7 @@
 @blue_light : #accee4;
 @blue_trans: rgba(144, 189, 219, .3);
 @white :#fff;
+@black: #000;
 @grey : #909499;
 @grey_light: #e9eaea;
 @grey_trans: rgba(106, 112, 120, .35);
@@ -140,6 +141,7 @@ input[placeholder]{
 /* @style = light, lightitalic, regular, italic, bold, black */ 
 .lato(@style) when(@style=regular){
 	font-weight:400;
+	font-style: normal;
 	font-family: @lato;
 }
 
@@ -151,6 +153,7 @@ input[placeholder]{
 
 .lato(@style) when(@style=light){
 	font-weight:100;
+	font-style: normal;
 	font-family: @lato_light;
 }
 
@@ -168,6 +171,7 @@ input[placeholder]{
 
 .lato(@style) when(@style=black){
 	font-weight:900;
+	font-style: normal;
 	font-family: @lato_black;
 }
 
@@ -606,13 +610,17 @@ body > header {
 	
 }
 
-#initSessionForm{
+/** FIX for overflow **/
+.fancybox-inner {
+	overflow: visible !important;
+}
+
+#loginForms {
 	display:none;
 	width: 640px;
-	height: 380px;
 	background-color: white;
-	
-	div:FIRST-CHILD{
+
+	.header{
 		margin: auto;
 		width: 200px;
 		text-align: center;
@@ -620,6 +628,8 @@ body > header {
 		background-color: @pink;
 		color:@grey_header_dark;
 		font-size: 14px;
+		position: relative;
+		top: -10px;
 		
 		.highlight {
 			color: @white;
@@ -627,64 +637,166 @@ body > header {
 			font-size: 16pt;
 		}
 	}
-	
-	div:nth-child(2){
+
+	.loginForm{
+
+		&.hidden {
+			display: none;
+		}
+		
+		div:first-child{
+			font-size: 24px;
+			color:@grey_4;
+			font-style: italic;
+			font-weight: 600;
+			text-align:center;
+			margin-top: 30px;
+			margin-bottom: 25px;
+
+			h2 {
+				.lato(lightitalic);
+			}
+
+			span {
+				color: @pink;
+				.lato(regular);
+				font-size: 0.75em;
+			}
+		}
+
+		input{
+			border: 2px solid @grey_footer;
+			margin-left: 40px;
+			margin-top: 10px;
+			width: 560px;
+			height: 50px;
+			text-align: center;
+			color:@grey_footer;
+			font-size: 18px;
+
+			&.invalid{
+				border: 1px solid red;
+			}
+		}
+		input[type='text']:FOCUS{
+			color:@grey_header_dark;
+		}
+		
+		input[type='button']{
+			background-color: @grey_5;
+			border: none;
+			color: white;
+			.lato(bold);
+			text-transform: uppercase;
+			font-size: 0.8em;
+
+			&.extraMargin {
+				margin-bottom: 30px;
+			}
+		}
+
+		.legal {
+			.lato(bold);
+			font-size: 0.8em;
+			text-align: center;
+			margin: 10px 0 30px;
+			color: @grey_5;
+
+			a {
+				color: @black;
+				border-bottom: 1px solid @black;
+			}
+		}
+		.footer{
+			width: 640px;
+			height: 110px;
+			background-color: @grey_light;
+			border-top: 1px solid @grey_footer;
+			display: table-cell;
+			vertical-align: middle;
+			
+			p{
+				font-size:18px;
+				color:@grey_4;
+				text-align: center;
+
+				&:before {
+					content: url('@{imgPath}home/ALB_icon_usuario.svg');
+					display: inline-block;
+					margin-right: 10px;
+				}
+
+				a {
+					color: @black;
+					border-bottom: 1px solid @black;
+				}
+			}
+		}
+
+		.error{
+			color:red;
+			text-align: center;
+			margin-top: 10px;
+			display: none;
+		}
+	}
+}
+
+.msgPopup {
+	display: none;
+
+	.header {
+		margin: auto;
+		width: 200px;
+		text-align: center;
+		padding: 10px 10px 20px;
+		background-color: @pink;
+		color:@grey_header_dark;
+		font-size: 14px;
+		position: relative;
+		top: -10px;
+		
+		.highlight {
+			color: @white;
+			font-weight: bold;
+			font-size: 16pt;
+		}
+	}
+
+	.content{
 		font-size: 24px;
-		color:@grey_4;
+		color: @pink;
 		font-style: italic;
 		font-weight: 600;
 		text-align:center;
-		margin-top: 35px;
+		margin-top: 30px;
 		margin-bottom: 25px;
+		padding: 0 40px;
+
+		h2 {
+			.lato(lightitalic);
+		}
+
+		p {
+			color:@grey_4;
+			.lato(regular);
+			font-size: 0.75em;
+		}
 	}
+
 	input{
-		border: 2px solid @grey_footer;
 		margin-left: 40px;
 		margin-top: 10px;
 		width: 560px;
 		height: 50px;
 		text-align: center;
-		color:@grey_footer;
-		font-size: 18px;
-	}
-	input[type='text']:FOCUS{
-		color:@grey_header_dark;
-	}
-	
-	input[type='button']{
 		background-color: @grey_5;
 		border: none;
 		color: white;
-	}
-	.footer{
-		width: 640px;
-		height: 110px;
-		background-color: @grey_light;
-		border-top: 1px solid @grey_footer;
-		position: absolute;
-		bottom: 0px;
-		
-		p{
-			font-size:18px;
-			color:@grey_4;
-			padding: 45px 0px 0px 25%;
-		} 
-		p:FIRST-CHILD{
-			float: left;
-			margin-right: 10px;
-			text-align: center;
-		}
-		p:nth-child(2){
-			color: @grey_header_dark;
-			text-decoration: underline;
-			cursor: pointer;
-		}
-	}
-	.error{
-		color:red;
-		text-align: center;
-		margin-top: 10px;
-		display: none;
+		.lato(bold);
+		text-transform: uppercase;
+		font-size: 0.8em;
+		margin-bottom: 30px;
 	}
 }
 
