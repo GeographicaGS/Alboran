@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-sm-6 col-md-6 ">
                         <a id="login" class="login" href="#" jslink><lang>Iniciar Sesión</lang></a>
-                        <a id="logout" class="login" style="display: none;" href="#" jslink><lang>Cerrar sesion</lang></a>
+                        <a id="logout" class="login" style="display: none;" href="#" jslink><lang>Cerrar sesión</lang></a>
                     </div>
                 </div>
             </div>
@@ -99,40 +99,70 @@
     </main>
     
     <div id="loginForms">
+        <div class="header">
+            <span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
+        </div>
         <div id="initSessionForm" class="loginForm hidden">
-        	<div>
-    			<span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
-    		</div>
-    		<div><lang>Iniciar sesión</lang></div>
-    		<input type="text" placeholder="<lang>Usuario</lang>">
-    		<input type="password" placeholder="<lang>Contraseña</lang>">
-    		<input type="button" value="<lang>Acceder</lang>">
+    		<div>
+                <h2><lang>Bienvenido de nuevo</lang></h2>
+                <span><lang>Inicie sesión</lang></span>
+            </div>
+    		<input type="text" placeholder="<lang>Su usuario</lang>" class="user">
+    		<input type="password" placeholder="<lang>Su contraseña</lang>">
+    		<input type="button" value="<lang>Acceder</lang>" class="extraMargin">
     		<p class="error">Usuario y contraseña incorrectos</p>
      		<div class="footer">
-     			<p><lang>¿No es usuario de Alborán?</lang></p>
-     			<p><lang>Crear cuenta</lang></span>
+     			<p><lang>¿No es usuario de Alborán?</lang> <a class="signinWindow" href="#" jslink><lang>Crear cuenta</lang></a></p>
      		</div>
     	</div>
 
         <div id="createAccountForm" class="loginForm">
             <div>
-                <span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
-            </div>
-            <div>
                 <h2><lang>¿Tiene algo que contar o compartir sobre el Mar de Alborán?</lang></h2>
                 <span><lang>Regístrese y participe</lang>.</span>
             </div>
-            <input type="text" placeholder="<lang>Su nombre y apellidos</lang>" class="user">
+            <input type="text" placeholder="<lang>Su nombre y apellidos</lang>" class="name">
             <input type="text" placeholder="<lang>Su correo electrónico</lang>" class="email">
+            <input type="text" placeholder="<lang>Su nombre de usuario</lang>" class="user">
             <input type="password" placeholder="<lang>Escriba su contraseña</lang>">
             <input type="password" placeholder="<lang>Repita su contraseña</lang>">
             <input type="button" value="<lang>Crear cuenta</lang>">
-            <p class="legal"><lang>Al crear su cuenta, acepta nuestros</lang> <a href="#" jslink><lang>Términos de Uso</lang></a> <lang>y</lang> <a href="#" jslink><lang>Política de Privacidad</lang></a></p>
+            <p class="legal"><lang>Al crear su cuenta, acepta nuestros</lang> <a href="/<lang>lang</lang>/<lang>_link legal</lang>" jslink><lang>Términos de Uso</lang></a> <lang>y</lang> <a href="/<lang>lang</lang>/<lang>_link privacy</lang>" jslink><lang>Política de Privacidad</lang></a></p>
             <p class="error">Usuario y contraseña incorrectos</p>
             <div class="footer">
-                <p><lang>Es ya usuario de Alborán</lang> <a href="#" jslink><lang>Inicie sesión</lang></a></p>
+                <p><lang>¿Es ya usuario de Alborán?</lang> <a class="loginWindow" href="#" jslink><lang>Inicie sesión</lang></a></p>
             </div>
         </div>
+
+        <div id="signinSuccess" class="msgPopup">
+            <div class="content">
+                <h2><lang>Se ha creado su cuenta.</lang></h2>
+                <p><lang>Para confirmarla revise su correo electrónico en unos minutos. Si pasados unos minutos no la encuentra en su buzón de entrada, compruebe la carpeta de SPAM</lang></p>
+            </div>
+            <input type="button" value="<lang>Aceptar</lang>" class="extraMargin">
+        </div>
+    </div>
+
+    <div id="signinConfirmation" class="msgPopup">
+        <div class="header">
+            <span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
+        </div>
+        <div class="content">
+            <h2><lang>Su usuario se ha confirmado</lang></h2>
+            <p><lang>Ahora puede participar en el proyecto y puede guardar sus configuraciones.</lang></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
+    </div>
+
+    <div id="signinError" class="msgPopup">
+        <div class="header">
+            <span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
+        </div>
+        <div class="content">
+            <h2><lang>Error al confirmar el usuario</lang></h2>
+            <p><lang>Inténtelo de nuevo o intente dar de alta su usuario otra vez.</lang></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
     </div>
 	
 	<div id="configPanelMap">

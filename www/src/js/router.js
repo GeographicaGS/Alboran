@@ -36,6 +36,8 @@ app.router = Backbone.Router.extend({
             "notfound" : "notfound",
             "faq" : "faq",
             "error" : "error",
+
+            "user/:username/:code": "signinConfirmation",
             
             /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
@@ -142,6 +144,31 @@ app.router = Backbone.Router.extend({
     	$("#content").show();
         $("#map").hide();
         app.showView( new app.view.Privacy() );
+    },
+
+    signinConfirmation: function(username, code) {
+        $("#content").show();
+        $("#map").hide();
+        app.showView(new app.view.Home());
+
+        // Check code
+        $.ajax({
+            url : "/api/user/" + username + "/" + code,
+            type: "GET",
+            statusCode: {
+                200: function(response) {
+                    showSigninConfirmation(response['user'],response['password']);
+                },
+                404: function(response) {
+                    showSigninError();
+                },
+                401: function(response) {
+                    showSigninError();
+                }
+            }
+        });
+
+        
     },
 
     defaultRoute: function(){

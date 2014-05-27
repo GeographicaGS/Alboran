@@ -7,12 +7,45 @@ from api import app
 from flask import jsonify,request,abort
 from model.usermodel import UserModel
 from model.configmodel import ConfigModel
-from authutil import auth
+from authutil import auth, sendEmail, getConfirmationEmailBody
 
 @app.route('/login/', methods=['POST'])
 @auth
 def login():
 	return jsonify({'result':'true'})
+
+@app.route('/user/', methods=['POST'])
+def signin():
+	# User creation
+	user = request.form.get('user')
+	email = request.form.get('email')
+	password = request.form.get('password')
+	name = request.form.get('name')
+	u = UserModel()
+	code = u.createUser(user,name,email,password)
+
+	# Send confirmation email
+	sendEmail(email, "Email de confirmación de Alborán", getConfirmationEmailBody(user, code))
+	return jsonify({'result': 'true'})
+
+@app.route('/user/<user>', methods=['GET'])
+def checkUsername(user):
+	u = UserModel()
+	result = None
+	if u.checkUsername(user):
+		result = jsonify({'result':'true'})
+	else:
+		result = jsonify({'result': 'false'})
+	return result
+
+@app.route('/user/<user>/<code>', methods=['GET'])
+def confirmUser(user,code):
+	u = UserModel()
+	user = u.confirmUser(user,code)
+	if user is not None:
+		return jsonify({'user': user['user'], 'password': user['password']})
+	else:
+		abort(401)
 
 @app.route('/config/', methods=['GET','POST'])
 @auth

@@ -1,70 +1,3 @@
-/*$("#login").on('click', function(e) {
-	$("#initSessionForm").find(".error").hide();
-	$.fancybox($("#initSessionForm"), {
-		'width':'640',
-		"height": "auto",
-	    'autoDimensions':false,
-	    'autoSize':false,
-	    'closeBtn' : false,
-	    'scrolling'   : 'no',
-	    helpers : { 
-	    	   overlay: { 
-	    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
-	    	   } 
-	    },
-	    afterShow: function () {
-	    	$("#initSessionForm").find("input[type='text']").val('');
-	    	$("#initSessionForm").find("input[type='password']").val('');
-	    	
-	    	$("#initSessionForm").find("input[type='button']").on('click', function(){
-	    		
-	    		$("#initSessionForm").find("input[type='text']").css({"border":"1px solid #cacbcc"});
-	    		$("#initSessionForm").find("input[type='password']").css({"border":"1px solid #cacbcc"});
-	    		
-	    		var user = $("#initSessionForm").find("input[type='text']").val();
-	    		var passw = $("#initSessionForm").find("input[type='password']").val()
-	    		if(user == ""){
-	    			$("#initSessionForm").find("input[type='text']").css({"border":"1px solid red"});
-	    		}
-	    		
-	    		if(passw == ""){
-	    			$("#initSessionForm").find("input[type='password']").css({"border":"1px solid red"});
-	    		}
-	    		
-	    		if(user!='' && passw!=''){
-	    			var now = $.now();
-	    			$.ajax({
-	    				url : "/api/login/",
-	    				headers:{ "username": user, "timestamp": now, "hash": md5(user + passw + now)},
-	    				type: "POST",			
-	    		        success: function(xml) {
-	    		        	$.fancybox.close()
-	    		        	localStorage.setItem('user', user);
-	    		        	localStorage.setItem('password', passw);
-	    		        	$("#login").hide();
-	    		        	$("#logout").show();
-	    		        	app.ajaxSetup();
-	    		        },
-	    		        error: function(){
-	    		        	localStorage.removeItem('user');
-	    		        	localStorage.removeItem('password');
-	    		        	$("#initSessionForm").find(".error").fadeIn();
-	    		        }
-	    		    });
-	    			
-	    		}
-	    	});
-	    	
-	    	$("#initSessionForm").find("input").keydown(function (e){
-	    	    if(e.keyCode == 13){
-	    	    	$("#initSessionForm").find("input[type='button']").trigger("click");
-	    	    }
-	    	})
-	    }
-	});
-	return false;
-});*/
-
 $("#login").on('click', function(e) {
   $("#loginForms").find(".error").hide();
   $.fancybox($("#loginForms"), {
@@ -81,58 +14,128 @@ $("#login").on('click', function(e) {
          } 
     },
     afterShow: function () {
-      var $form = $('#createAccountForm');
-      $form.find("input[type='text']").val('');
-      $form.find("input[type='password']").val('');
-      
-      $form.find("input[type='button']").on('click', function(){
+      function resetForm(){
+        var $form = $('#loginForms .loginForm:not(.hidden)');
+        $form.find("input[type='text']").val('');
+        $form.find("input[type='password']").val('');
         
-        $form.find("input[type='text']").css({"border":"1px solid #cacbcc"});
-        $form.find("input[type='password']").css({"border":"1px solid #cacbcc"});
-        
-        var user = $form.find("input.user").val();
-        var email = $form.find("input.email").val();
-        var passw = $form.find("input[type='password']").eq(0).val()
-        var passw_conf = $form.find("input[type='password']").eq(1).val();
-
-        if(user == ""){
-          $form.find("input[type='text']").css({"border":"1px solid red"});
-        }
-        
-        if( passw == "" || (passw != passw_conf) ){
-          $form.find("input[type='password']").css({"border":"1px solid red"});
-        }
-
-        var testEmail = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");        
-        if( user!='' && email != '' && passw!='' && (passw == passw_conf) && testEmail.test(email) ){
-          var now = $.now();
-          $.ajax({
-            url : "/api/signin/",
-            headers:{ "username": user, "timestamp": now, "hash": md5(user + passw + now)},
-            type: "POST",     
-                success: function(xml) {
-                  $.fancybox.close()
-                  localStorage.setItem('user', user);
-                  localStorage.setItem('password', passw);
-                  $("#login").hide();
-                  $("#logout").show();
-                  app.ajaxSetup();
-                },
-                error: function(){
-                  localStorage.removeItem('user');
-                  localStorage.removeItem('password');
-                  $form.find(".error").fadeIn();
-                }
-            });
+        $form.find("input[type='button']").on('click', function(){
           
-        }
-      });
-      
-      $form.find("input").keydown(function (e){
+          $form.find("input[type='text']").css({"border":"1px solid #cacbcc"});
+          $form.find("input[type='password']").css({"border":"1px solid #cacbcc"});
+
+          var isCreateForm = $form.attr('id') == 'createAccountForm';
+          
+          var user = $form.find("input.user").val();
+          var passw = $form.find("input[type='password']").eq(0).val()
+          var name='', email = '', passw_conf = '';
+          if(isCreateForm){
+            name = $form.find("input.name").val();
+            email = $form.find("input.email").val();
+            passw_conf = $form.find("input[type='password']").eq(1).val();
+          }
+
+          if(user == ""){
+            $form.find("input.user").css({"border":"1px solid red"});
+          }
+
+          if(email == ""){
+            $form.find("input.email").css({"border":"1px solid red"}); 
+          }
+
+          if(name == ""){
+            $form.find("input.name").css({"border":"1px solid red"}); 
+          }
+          
+          if(isCreateForm){
+            if( passw == "" ){
+              $form.find("input[type='password']").css({"border":"1px solid red"});
+            }
+          }else{
+            if( passw == "" || passw != passw_conf ){
+              $form.find("input[type='password']").css({"border":"1px solid red"});
+            }
+          }
+
+          if(isCreateForm){
+            var testEmail = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");        
+            if( user!='' && name != '' && email != '' && passw!='' && (passw == passw_conf) && testEmail.test(email) ){
+              var now = $.now();
+              $.ajax({
+                url : "/api/user/",
+                data: {"user": user, "name": name, "email": email, "password": md5(passw)},
+                type: "POST",     
+                    success: function(xml) {
+                      $form.slideUp();
+                      $('#signinSuccess').slideDown();
+                    },
+                    error: function(){
+                      $form.find(".error").fadeIn();
+                    }
+              });
+            }
+          }else{
+            if(user!='' && passw!=''){
+            var now = $.now();
+            var passw_sum = md5(passw);
+            $.ajax({
+              url : "/api/login/",
+              headers:{ "username": user, "timestamp": now, "hash": md5(user + passw_sum + now)},
+              type: "POST",     
+                  success: function(xml) {
+                    $.fancybox.close()
+                    localStorage.setItem('user', user);
+                    localStorage.setItem('password', passw_sum);
+                    $("#login").hide();
+                    $("#logout").show();
+                    app.ajaxSetup();
+                  },
+                  error: function(){
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('password');
+                    $("#initSessionForm").find(".error").fadeIn();
+                  }
+              }); 
+            }
+          }
+        });
+
+        $form.find(".legal a").on('click',function(e){
+          $.fancybox.close();
+        });
+
+        $form.find("input").keydown(function (e){
           if(e.keyCode == 13){
             $form.find("input[type='button']").trigger("click");
           }
-      })
+        });
+      }
+
+      $('#loginForms a.loginWindow').click(function(e){
+        $('#createAccountForm').slideUp();
+        $('#initSessionForm').slideDown();
+        $('#createAccountForm').promise().done(function(){
+          $('#createAccountForm').addClass('hidden');
+          $('#initSessionForm').removeClass('hidden');
+          resetForm();
+        });
+      });
+
+      $('#loginForms a.signinWindow').click(function(e){
+        $('#initSessionForm').slideUp();
+        $('#createAccountForm').slideDown();
+        $('#createAccountForm').promise().done(function(){
+          $('#initSessionForm').addClass('hidden');
+          $('#createAccountForm').removeClass('hidden');
+          resetForm();
+        });
+      });
+
+      $('#signinSuccess input').click(function(e){
+        $.fancybox.close();
+      });
+
+      resetForm();
     }
   });
   return false;
@@ -151,6 +154,58 @@ $("#logout").on('click', function() {
 	$("#logout").hide();
 	return false;
 });
+
+function showSigninConfirmation(user, passw) {
+  localStorage.setItem('user', user);
+  localStorage.setItem('password', passw);
+  $("#login").hide();
+  $("#logout").show();
+  app.ajaxSetup();
+
+  $.fancybox($("#signinConfirmation"), {
+    'width':'640',
+    'height': 'auto',
+    'padding': '0',
+    'autoDimensions':false,
+    'autoSize':false,
+    'closeBtn' : false,
+    'scrolling'   : 'no',
+    helpers : { 
+         overlay: { 
+           css: {'background-color': 'rgba(0,0,102,0.85)'} 
+         } 
+    },
+    afterShow: function () {
+      $("#signinConfirmation").css('display', 'block');
+      $("#signinConfirmation input").click(function(e){
+        $.fancybox.close();
+      });
+    }
+  });
+}
+
+function showSigninError() {
+  $.fancybox($("#signinError"), {
+    'width':'640',
+    'height': 'auto',
+    'padding': '0',
+    'autoDimensions':false,
+    'autoSize':false,
+    'closeBtn' : false,
+    'scrolling'   : 'no',
+    helpers : { 
+         overlay: { 
+           css: {'background-color': 'rgba(0,0,102,0.85)'} 
+         } 
+    },
+    afterShow: function () {
+      $("#signinError").css('display', 'block');
+      $("#signinError input").click(function(e){
+        $.fancybox.close();
+      });
+    }
+  });
+}
 
 function md5(str) {
   var xl;
