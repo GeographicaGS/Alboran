@@ -6,10 +6,10 @@ app.config.update(
     SECRET_KEY='oN;2R@a-Y&opIY',
     smtpServer='smtp.gmail.com',
     smtpPort=587,
-    smtpUser='raul.yeguas@geographica.gs',
-    smtpPassword='rN30k0r3 on geographica',
-    smtpFromAddr='raul.yeguas@geographica.gs',
-    smtpFromAddrName='Proyecto Alboran'
+    smtpUser='',
+    smtpPassword='',
+    smtpFromAddr='',
+    smtpFromAddrName=''
 )
 
 import home
