@@ -3,3 +3,4 @@
 venv/
 .project
 .pydevproject
+api/model/base/PostgreSQL/config.py
