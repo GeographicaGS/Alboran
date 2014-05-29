@@ -1,0 +1,343 @@
+#createHistory {
+	background-color: @grey_light;
+	min-height: calc(~'100% - 72px');
+	position: absolute;
+	width: 100%;
+	padding-bottom: 36px;
+
+	.roundButton {
+		background-color: @ocre;
+		padding: 20px;
+		border-radius: 45px;
+		border: 4px solid @grey_light;
+		box-shadow: 0 0 0 6px @white;
+		transition: box-shadow .3s ease;
+		margin: 0 auto 17px;
+		width: 80px;
+		height: 80px;
+
+		&:hover {
+			box-shadow: 0 0 0 6px @ocre;
+		}
+	}
+	
+	.title {
+		border-bottom: 1px solid @grey_footer;
+		text-align: center;
+		padding: 34px 0;
+
+		@media (max-width:1023px){
+			padding-left: 30px;
+		}
+
+		h1 {
+			.lato(lightitalic);
+			color: @pink;
+			font-size: 22pt;
+		}
+
+		.button {
+			position: absolute;
+			right: 10px;
+			top: 0;
+		}
+	}
+
+	.selectType {
+		text-align: center;
+		padding-top: 35px;
+
+		h2 {
+			.lato(light);
+			font-size: 18pt;
+			margin-bottom: 48px;
+		}
+
+		.selector {
+			font-size: 11pt;
+
+			& > div {
+				padding-top: 10px;
+				padding-bottom: 30px;
+
+				&:first-child {
+					border-right: 1px solid @grey_footer;
+				}
+			}
+
+			h3 {
+				.lato(bold);
+				font-size: 13pt;
+				margin-bottom: 20px;
+			}
+		}
+	}
+
+	.historyForm {
+		display: none;
+
+		.type {
+			background-color: @white;
+			color: @ocre;
+			border-bottom: 1px solid @ocre;
+			text-align: center;
+			margin-bottom: 40px;
+			transition: background-color .3s ease;
+			cursor: pointer;
+
+			&:hover {
+				background-color: fade(@ocre, 10%);
+			}
+
+			a {
+				text-transform: uppercase;
+				font-size: 8pt;
+				.lato(bold);
+
+				&:before {
+					content: "";
+					background-size: cover;
+					height: 15px;
+					width: 15px;
+					display: inline-block;
+					margin-right: 6px;
+					position: relative;
+					top: 3px;
+				}
+
+				&.sighting:before {
+					background-image: url('@{imgPath}participa/ALB_icon_historias_avista.svg');
+				}
+
+				&.goodpractices:before {
+					background-image: url('@{imgPath}participa/ALB_icon_historias_buenas.svg');
+				}
+			}
+		}
+
+		fieldset {
+			position: relative;
+			margin-bottom: 20px;
+			text-align: center;
+
+			legend {
+				text-align: center;
+				text-transform: uppercase;
+				.lato(bold);
+				font-size: 0.75em;
+				width: 100%;
+				background-color: @grey_light;
+				color: @grey_header_dark;
+
+				&:before, &:after {
+					content: "";
+					display: block;
+					position: absolute;
+					top: 1em;
+					left: 0;
+					width: 42%;
+					border-top: 1px solid @grey_footer;
+				}
+
+				&:after {
+					left: auto;
+					right: 0;
+				}
+			}
+
+			div.row.input {
+				margin-bottom: 25px;
+
+				label {
+					text-transform: uppercase;
+					.lato(regular);
+					font-size: 0.75em;
+					width: 100%;
+					color: @grey_4;
+				}
+
+				input[type="text"], textarea {
+					width: 100%;
+					padding: 18px;
+					text-align: center;
+					border: 1px solid @grey_footer;
+					color: @grey_header_dark;
+					outline: none;
+
+					&:focus {
+						outline: none;
+					}
+
+					&::-webkit-input-placeholder {
+						color: @grey_footer;
+					}
+					
+					&:-moz-placeholder {
+						color: @grey_footer;
+					}
+					
+					&::-moz-placeholder {
+						color: @grey_footer;
+					}
+
+					&:-ms-input-placeholder {
+						color: @grey_footer;
+					}
+				}
+
+				textarea {
+					text-align: left;
+					min-height: 300px;
+					resize: none;
+				}
+
+				input[type="radio"] {
+					display: none;
+
+					& + label {
+						.lato(bold);
+						font-size: 10pt;
+						text-transform: none;
+						margin-right: 20px;
+						color: @grey_5;
+
+						&:before {
+							content: "";
+							display: inline-block;
+							margin-right: 5px;
+							width: 8px;
+							height: 8px;
+							border-radius: 4px;
+							background-color: @grey_5;
+							position: relative;
+							top: -2px;
+						}
+					}
+
+					&:checked {
+						& + label {
+							&.green {
+								color: @green;
+
+								&:before {
+									background-color: @green;
+								}
+							}
+
+							&.red {
+								color: @red;
+
+								&:before {
+									background-color: @red;
+								}
+							}
+
+							&.blue {
+								color: @blue;
+
+								&:before {
+									background-color: @blue;
+								}
+							}
+						}
+					}
+				}
+
+				.separator {
+					border-right: 1px solid @grey_footer;
+				}
+
+				.position_btn {
+					margin-top: 20px;
+					display: inline-block;
+					
+					span {
+						color: @grey_header_dark;
+						font-size: 0.9em;
+						border-bottom: 1px solid @grey_5;
+					}
+
+					&:before{
+						content: "";
+						background: url('@{imgPath}participa/ALB_icon_obtener_coordenadas.svg') no-repeat;
+						background-size: contain;
+						display: inline-block;
+						width: 20px;
+						height: 20px;
+						position: relative;
+						top: 3px;
+					}
+				}
+
+				#filelist {
+					text-align: left;
+
+					li {
+						position: relative;
+						color: @grey_header_dark;
+						border-bottom: 1px solid @grey_footer;
+						padding-bottom: 10px;
+						margin-bottom: 10px;
+
+						.deleteFileEntry {
+							position: absolute;
+							right: 0;
+							cursor: pointer;
+						}
+					}
+				}
+			}
+
+			.info {
+				padding-top: 3px;
+				text-align: left;
+
+				& > a {
+					opacity: 0.5;
+					transition: opacity .3s ease;
+
+					&:hover {
+						opacity: 1;
+					}
+				}
+
+				.content {
+					display: none;
+					font-size: 0.75em;
+					line-height: 1.2em;
+				}
+			}
+		}
+
+		.sendButtons {
+			padding-bottom: 90px;
+			padding-top: 32px;
+
+			a {
+				margin-right: 120px;
+				display: inline-block;
+			}
+
+			#enviar_btn {
+				color: @grey_header_dark;
+				
+				.roundButton {
+					display: inline-block;
+					vertical-align: top;
+					position: relative;
+					top: -32px;
+					margin-right: 18px;
+					width: 80px;
+					height: 80px;
+					padding: 10px 15px 15px;
+				}
+
+				&:hover {
+					.roundButton {
+						box-shadow: 0 0 0 6px @ocre;
+					}
+				}
+			}
+		}
+	}
+}

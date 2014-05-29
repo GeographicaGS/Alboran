@@ -8,7 +8,6 @@
 
 
 #searchbar {
-	padding-top: 72px;
 	background-color: @grey_light;
 	border-bottom: 1px solid @grey_footer;
 	text-align: center;

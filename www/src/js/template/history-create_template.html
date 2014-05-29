@@ -1,0 +1,169 @@
+<div id="createHistory">
+	<div class="title">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<h1><lang>Escribir una historia</lang></h1>
+					<a href="#" class="button"><img src="/img/catalogue/ALB_icon_buscar_cerrar.svg"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row selectType">
+			<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+				<div class="row">
+					<h2><lang>¿Qué tipo de historia quiere compartir?</lang></h2>
+				</div>
+				<div class="row selector">
+					<div class="col-sm-6 col-md-6">
+						<a class="historyType" href="#" type="goodpractices" text="<lang>Buenas prácticas</lang>">
+							<div class="roundButton">
+								<img src="/img/participa/ALB_icon_select_buenas.svg">
+							</div>
+							<h3><lang>Buenas prácticas</lang></h3>
+							<p><lang>Texto selecciona buenas prácticas</lang></p>
+						</a>
+					</div>
+					<div class="col-sm-6 col-md-6">
+						<a class="historyType" href="#" type="sighting" text="<lang>Avistamiento</lang>">
+							<div class="roundButton">
+								<img src="/img/participa/ALB_icon_select_avista.svg">
+							</div>
+							<h3><lang>Avistamiento</lang></h3>
+							<p><lang>Texto selecciona avistamiento</lang></p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="historyForm">
+		<div class="type">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+						<a href="#" id="selectedType">Buenas prácticas</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Título</lang></legend>
+						<input type="text" id="hist-title" placeholder="<lang>Ej.: Jornadas de limpieza en el litoral</lang>">
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda título historia</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Dónde</lang></legend>
+						<input type="text" id="hist-place" placeholder="<lang>Ej.: Playa de Las Negras, Cabo de Gata, Almería (España)</lang>">
+					</div>
+					<div class="row input">
+						<div class="row">
+							<label for="hist-lat"><lang>Geolocalización</lang></label>
+						</div>
+						<div class="row">
+							<div class="col-sm-3 col-md-3 col-sm-offset-3 col-md-offset-3 separator">
+								<input type="text" id="hist-lat" placeholder="<lang>Latitud</lang>">
+							</div>
+							<div class="col-sm-3 col-md-3">
+								<input type="text" id="hist-lon" placeholder="<lang>Latitud</lang>">
+							</div>
+						</div>
+						<div class="row">
+							<a href="#" class="position_btn"><span><lang>Obtener localización sobre un mapa</lang></span></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda posición historia</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Cuándo</lang></legend>
+						<div class="row">
+							<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4">
+								<input type="text" id="hist-when" placeholder="<lang>dd/mm/aaaa</lang>">
+							</div>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>La historia</lang></legend>
+							<textarea id="hist-text" placeholder="<lang>Escriba aquí su historia</lang>"></textarea>
+					</div>
+					<div class="row input">
+						<div class="row">
+							<label for=""><lang>Categorizar en</lang></label>
+						</div>
+						<div class="row">
+							<input type="radio" name="hist-category" value="1" id="hist-category-1" class="green"><label class="green" for="hist-category-1"><lang>Rasgos naturales y actividades humanas</lang></label>
+							<input type="radio" name="hist-category" value="2" id="hist-category-2" class="red"><label for="hist-category-2" class="red"><lang>Presiones e impactos</lang></label>
+							<input type="radio" name="hist-category" value="3" id="hist-category-3" class="blue"><label for="hist-category-3"  class="blue"><lang>Presiones e impactos</lang></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda texto historia</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Imágenes</lang></legend>
+						<ul id="filelist">
+						</ul>
+						<a href="#"><img id="addImage_btn" src="/img/participa/ALB_icon_add_img.svg"></a>
+						<div id="fileinputlist" class="hide">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda imágenes historia</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<div class="row sendButtons">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row">
+						<div class="col-sm-4 col-md-4">
+							<a href="#"><lang>Cancelar</lang></a>
+						</div>
+						<div class="col-sm-8 col-md-8">
+							<a href="#" id="enviar_btn">
+								<div class="roundButton">
+									<img src="/img/participa/ALB_icon_publicar_historia_s.svg">
+								</div>
+								<lang>Compartir historia</lang>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
