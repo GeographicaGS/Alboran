@@ -7,7 +7,14 @@ from api import app
 from flask import jsonify,request,abort
 from model.usermodel import UserModel
 from model.configmodel import ConfigModel
+from model.historymodel import HistoryModel
+from model.imagemodel import ImageModel
 from authutil import auth, sendEmail, getConfirmationEmailBody
+from imageutil import isAllowedFile, hashFromImage, resizeImages
+import os
+import ast
+
+import logging
 
 @app.route('/login/', methods=['POST'])
 @auth
@@ -67,3 +74,42 @@ def configById(config_id):
 	m = ConfigModel()
 	config_data = m.getConfigById(config_id)
 	return(jsonify({"config" : config_data}))
+
+@app.route('/image/', methods=['POST'])
+@auth
+def uploadImage():
+	# If 'data', save temp; else if 'list' confirm image list
+	if request.files['image'] is not None:
+		# Save image in temp named like its hash
+		file = request.files['image']
+		if file and isAllowedFile(file.filename):		
+			filename = hashFromImage(file)+'.'+file.filename.rsplit('.', 1)[1]
+			file.save(os.path.join(app.config['UPLOAD_TEMP_FOLDER'], filename))
+			return jsonify({'filename': filename})
+		else:
+			abort(412)
+	else:
+		abort(412)
+
+@app.route('/history/', methods=['POST'])
+@auth
+def uploadHistory():
+	# Get user id
+	u = UserModel()
+	userid = u.getIdByUsername(request.headers['username'])
+
+	# Save history data
+	h = HistoryModel()
+	historyid = h.createHistory(request.form, userid)
+
+	# Save images and link in DB
+	imagelist = ast.literal_eval(request.form['images'])
+	resizeImages(imagelist)
+	i = ImageModel()
+	i.addImages(imagelist, historyid)
+
+	return jsonify({'admin':'true'})
+
+@app.route('/history/', methods=['GET'])
+def listHistories():
+	return jsonify({'result':'true'})

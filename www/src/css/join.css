@@ -20,6 +20,10 @@
 			box-shadow: 0 0 0 6px @ocre;
 		}
 	}
+
+	.invalid {
+		border: 1px solid red !important;
+	}
 	
 	.title {
 		border-bottom: 1px solid @grey_footer;
@@ -186,6 +190,7 @@
 				}
 
 				textarea {
+					.lato(regular);
 					text-align: left;
 					min-height: 300px;
 					resize: none;
@@ -316,6 +321,10 @@
 			a {
 				margin-right: 120px;
 				display: inline-block;
+
+				&:last-child {
+					margin-right: 0;
+				}
 			}
 
 			#enviar_btn {
