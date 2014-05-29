@@ -4,7 +4,7 @@
 			<div class="row">
 				<div class="col-sm-12 col-md-12">
 					<h1><lang>Escribir una historia</lang></h1>
-					<a href="#" class="button"><img src="/img/catalogue/ALB_icon_buscar_cerrar.svg"></a>
+					<a href="#" class="button cancel_btn"><img src="/img/catalogue/ALB_icon_buscar_cerrar.svg"></a>
 				</div>
 			</div>
 		</div>
@@ -53,7 +53,7 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Título</lang></legend>
-						<input type="text" id="hist-title" placeholder="<lang>Ej.: Jornadas de limpieza en el litoral</lang>">
+						<input type="text" id="hist-title" name="title" placeholder="<lang>Ej.: Jornadas de limpieza en el litoral</lang>">
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
@@ -67,7 +67,7 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Dónde</lang></legend>
-						<input type="text" id="hist-place" placeholder="<lang>Ej.: Playa de Las Negras, Cabo de Gata, Almería (España)</lang>">
+						<input type="text" id="hist-place" name="place" placeholder="<lang>Ej.: Playa de Las Negras, Cabo de Gata, Almería (España)</lang>">
 					</div>
 					<div class="row input">
 						<div class="row">
@@ -75,10 +75,10 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-3 col-md-3 col-sm-offset-3 col-md-offset-3 separator">
-								<input type="text" id="hist-lat" placeholder="<lang>Latitud</lang>">
+								<input type="text" id="hist-lat" name="lat" placeholder="<lang>Latitud</lang>">
 							</div>
 							<div class="col-sm-3 col-md-3">
-								<input type="text" id="hist-lon" placeholder="<lang>Latitud</lang>">
+								<input type="text" id="hist-lon" name="lon" placeholder="<lang>Latitud</lang>">
 							</div>
 						</div>
 						<div class="row">
@@ -99,7 +99,7 @@
 						<legend><lang>Cuándo</lang></legend>
 						<div class="row">
 							<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4">
-								<input type="text" id="hist-when" placeholder="<lang>dd/mm/aaaa</lang>">
+								<input type="text" id="hist-when" name="date" placeholder="<lang>dd/mm/aaaa</lang>">
 							</div>
 						</div>
 					</div>
@@ -109,16 +109,16 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>La historia</lang></legend>
-							<textarea id="hist-text" placeholder="<lang>Escriba aquí su historia</lang>"></textarea>
+							<textarea id="hist-text" name="text" placeholder="<lang>Escriba aquí su historia</lang>"></textarea>
 					</div>
 					<div class="row input">
 						<div class="row">
 							<label for=""><lang>Categorizar en</lang></label>
 						</div>
-						<div class="row">
-							<input type="radio" name="hist-category" value="1" id="hist-category-1" class="green"><label class="green" for="hist-category-1"><lang>Rasgos naturales y actividades humanas</lang></label>
-							<input type="radio" name="hist-category" value="2" id="hist-category-2" class="red"><label for="hist-category-2" class="red"><lang>Presiones e impactos</lang></label>
-							<input type="radio" name="hist-category" value="3" id="hist-category-3" class="blue"><label for="hist-category-3"  class="blue"><lang>Presiones e impactos</lang></label>
+						<div class="row categories_container">
+							<input type="radio" name="category" value="1" id="hist-category-1" class="green"><label class="green" for="hist-category-1"><lang>Rasgos naturales y actividades humanas</lang></label>
+							<input type="radio" name="category" value="2" id="hist-category-2" class="red"><label for="hist-category-2" class="red"><lang>Presiones e impactos</lang></label>
+							<input type="radio" name="category" value="3" id="hist-category-3" class="blue"><label for="hist-category-3"  class="blue"><lang>Presiones e impactos</lang></label>
 						</div>
 					</div>
 				</div>
@@ -151,7 +151,7 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row">
 						<div class="col-sm-4 col-md-4">
-							<a href="#"><lang>Cancelar</lang></a>
+							<a class="cancel_btn" href="#"><lang>Cancelar</lang></a>
 						</div>
 						<div class="col-sm-8 col-md-8">
 							<a href="#" id="enviar_btn">
@@ -166,4 +166,37 @@
 			</div>
 		</div>
 	</div>
+	<!-- Popups -->
+	<div id="historySendSuccess" class="msgPopup">
+        <div class="content">
+            <h2><lang>Su historia ha sido enviada</lang></h2>
+            <p><lang>Muchas gracias por crear su historia. En las próximas 24 horas un administrador lo revisará y lo publicará si no encuentra anomalías. Si se detecta alguna anomalía, nos podremos en contacto con usted.</lang></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
+    </div>
+
+    <div id="historySendSuccessAdmin" class="msgPopup">
+        <div class="content">
+            <h2><lang>Su historia ha sido enviada</lang></h2>
+            <p><lang>Muchas gracias por crear su historia.</lang></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
+    </div>
+
+    <div id="historySendError" class="msgPopup">
+        <div class="content">
+            <h2><lang>Error al enviar su historia</lang></h2>
+            <p><lang>Inténtelo de nuevo o contacte con el administrador</lang></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
+    </div>
+
+    <div id="historyCancelConfirmation" class="msgPopup">
+        <div class="content">
+            <h2><lang>Cancelar creación de historia</lang></h2>
+            <p><lang>¿Está seguro de querer salir? Los datos introducidos se perderán.</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
 </div>

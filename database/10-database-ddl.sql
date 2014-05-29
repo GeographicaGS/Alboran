@@ -47,6 +47,7 @@ CREATE TABLE history
   category integer,
   id_user integer,
   starred boolean DEFAULT false,
+  active boolean DEFAULT false,
   CONSTRAINT history_pkey PRIMARY KEY (id_history),
   CONSTRAINT history_id_user_fkey FOREIGN KEY (id_user)
       REFERENCES "user" (id_user) MATCH SIMPLE

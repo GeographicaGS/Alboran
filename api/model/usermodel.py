@@ -19,6 +19,14 @@ class UserModel(PostgreSQLModel):
 		else:
 			return ''
 
+	def getIdByUsername(self, username):
+		sql = 'SELECT id_user FROM "user" WHERE name = \'%s\''%username
+		result = self.query(sql).row()
+		if(result is not None):
+			return result['id_user']
+		else:
+			return ''
+
 	def checkUsername(self, username):
 		sql = "SELECT name FROM \"user\" WHERE name = %s"
 		result = self.query(sql,[username]).row()

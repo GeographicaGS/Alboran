@@ -771,9 +771,8 @@ body > header {
 		font-style: italic;
 		font-weight: 600;
 		text-align:center;
-		margin-top: 30px;
 		margin-bottom: 25px;
-		padding: 0 40px;
+		padding: 30px 40px 0;
 
 		h2 {
 			.lato(lightitalic);
@@ -799,6 +798,11 @@ body > header {
 		text-transform: uppercase;
 		font-size: 0.8em;
 		margin-bottom: 30px;
+
+		&.btn_yesno {
+			display: inline-block;
+			width: 40%;
+		}
 	}
 }
 
