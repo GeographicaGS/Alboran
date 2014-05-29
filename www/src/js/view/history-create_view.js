@@ -138,7 +138,7 @@ app.view.HistoryCreate = Backbone.View.extend({
         var type= $('#selectedType').hasClass('goodpractices') ? '0': '1';
 
         $.each(items, function(index, element){
-            this.validate(element, false);
+            that.validate(element, false);
         });
 
         if(items.$category.length == 0){
