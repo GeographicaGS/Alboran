@@ -21,11 +21,6 @@ app.view.GroupLayer = Backbone.View.extend({
 					}
 				});
 				
-				
-//				var l = Map.layers[id_layer];
-//				
-//				Map.layers.splice(id_layer,1);
-				
 				var new_idx = $(ui.item).index()-1;
 				Map.layers.splice(new_idx,0,l);
 				
@@ -176,6 +171,8 @@ app.view.GroupLayer = Backbone.View.extend({
     	"mouseover li": "layerOver",
     	"mouseleave li": "layerLeave",
     	"click .removeLayer": "removeLayerClick",
+    	"click .leyend" : "leyendClick",
+    	"click .opacity": "opacityClick",
     	"click .panel li:LAST-CHILD": "addLayerClick",
     	"click .icon": "infoLayerClick",
 	},
@@ -197,6 +194,7 @@ app.view.GroupLayer = Backbone.View.extend({
     	if($(e.currentTarget).attr("idLayer")){
     		$(e.currentTarget).css({"background-color":"#f4f4f4"});
     		$(e.currentTarget).find("img").show();
+    		$(e.currentTarget).find("p").css({"maxWidth":"160px"});
     	}
     },
     
@@ -204,6 +202,7 @@ app.view.GroupLayer = Backbone.View.extend({
     	if($(e.currentTarget).attr("idLayer")){
     		$(e.currentTarget).css({"background-color":"white"});
     		$(e.currentTarget).find("img").hide();
+    		$(e.currentTarget).find("p").css({"maxWidth":"265px"});
     	}
     },
     
@@ -288,15 +287,24 @@ app.view.GroupLayer = Backbone.View.extend({
         
         $li.html("<p class='ellipsis fleft'>" + layer.title_es + "</p>");
         
-        var $icon1, $icon2;
+        var $icon1, $icon2, $icon3, $icon4;
+        
         $icon1 = $(document.createElement('img'));
-        $icon1.addClass('icon removeLayer');
+        $icon1.addClass('icon leyend');
         $icon1.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        
         $icon2 = $(document.createElement('img'));
-        $icon2.addClass('icon');
-        $icon2.attr('src','/img/map/ALB_icon_info_capa.svg');
+        $icon2.addClass('icon opacity');
+        $icon2.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        
+        $icon3 = $(document.createElement('img'));
+        $icon3.addClass('icon removeLayer');
+        $icon3.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        $icon4 = $(document.createElement('img'));
+        $icon4.addClass('icon');
+        $icon4.attr('src','/img/map/ALB_icon_info_capa.svg');
 
-        $li.append($icon1).append($icon2).append("<div class='clear'></div>");
+        $li.append($icon1).append($icon2).append($icon3).append($icon4).append("<div class='clear'></div>");
 
         // Obtener el padre de la capa en el JSON para determinar el grupo
 //        var groupIndex = Map.searchLayerGroup(layer);
@@ -320,6 +328,76 @@ app.view.GroupLayer = Backbone.View.extend({
                  Map.removeLayer(id);
         	});
         }
-    }    
+    },
+    
+    leyendClick: function(e) {
+    	e.stopImmediatePropagation();
+    	
+    	var id_layer = $(e.currentTarget).parent().attr("idLayer");
+		var $container = $("main");
+		var $el = $("<div class='flotable_legend ui-widget ui-widget-content' >"
+				+	"<h4>" 
+				+		"<img class='ml5 mt5 mr5 mb5 fleft' src='application/views/img/MED_icon_leyenda.png' />"
+				+		"<p class='titleLegend'></p>"
+				+		"<img class='closeLegend' src='/img/map/ALB_icon_descartar_capa.svg' />"
+				+	"</h4>"
+				+	"<div class='co_legend'>"							
+				+	"</div>"			
+				+	"</div>");
+		
+		
+		$el.hide(); //Para que aparezca de forma animada
+		var dibjuarLeyenda = true;
+		
+		var layer;
+		Map.layers.forEach(function(gSLayerWMS) {
+			if(gSLayerWMS.id == id_layer){
+				layer = gSLayerWMS;
+			}
+		});
+		
+		$el.find("h4").find("p").text(layer.title);
+		
+		var legendUrl = layer.url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+		+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
+		
+		$el.find(".co_legend").html("<img src='" + legendUrl +"'/>");
+		
+		//Si esta leyenda ya se esta mostrando la elimino
+		var leyendas = $container.find(".flotable_legend");
+		for(var i=0; i<leyendas.length; i++){
+			if($(leyendas[i]).find("h4").find("p").text() == $el.find("h4").find("p").text()){
+				
+				$(leyendas[i]).fadeOut(function () {
+					$(this).remove();
+				});
+				dibjuarLeyenda = false;
+				break;
+			}	
+		}
+		if(dibjuarLeyenda){
+			$container.prepend($el);
+			
+			$el.css("left",($container.width() / 2 ) - $el.width());
+			$el.css("top",($container.height() / 2 ) - ($el.height() / 2));
+						
+			$el.find(".closeLegend").click(function(){
+				$el.fadeOut(function () {
+					$(this).remove();
+				});
+			});
+			
+			$el.draggable();
+			
+			$el.fadeIn(); //Para que aparezca de forma animada
+		}
+    	
+    	
+    },
+    
+    opacityClick: function(e) {
+    	e.stopImmediatePropagation();
+    	
+    }
 });
 	

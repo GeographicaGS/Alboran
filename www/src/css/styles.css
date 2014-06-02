@@ -465,19 +465,31 @@ body > header {
 		color: #909499;
 		
 		.icon{
-			float:right;
+/* 			float:right; */
 			padding: 7px 7px 5px 7px;
 			border-left: 1px solid #cacbcc;
 			cursor: pointer;
-			display: none;
+/* 			display: none; */
+			position: absolute;
+			right: 37px;
+			background-color: #f4f4f4;
 			
 		}
 		.removeLayer{
 			padding: 9px 7px 7px 7px;
+			right: 10px;
+		}
+		
+		.leyend{
+			right: 96px;
+		}
+		
+		.opacity{
+			right: 69px;
 		}
 		
 		p{
-			max-width: 200px;		
+			max-width: 265px;		
 		}
 	}
 
@@ -837,4 +849,44 @@ footer {
 
 .leaflet-top .leaflet-control{
 	margin-top: 90px;
+}
+
+#container_feature_info{
+	width: 800px;
+	height: 400px;
+/* 	overflow:auto; */
+	display: none;
+}
+
+.flotable_legend {
+	z-index: 2;
+	background-color: #f1f1f1;
+	width: 300px;
+	border: 1px solid #a3a3a3;
+	position: absolute;
+	left: 0;
+	right: 0;
+	z-index: 1;
+	cursor: move;
+	
+	.co_legend 
+	{
+		overflow: auto;
+		height: 250px;
+		width: 100%;
+		border-top: 1px solid #d1d1d1;
+	}
+}
+
+.closeLegend{
+	 float:right;
+	 margin-top: 10px;
+	 margin-right: 10px;
+	 cursor: pointer;
+}
+
+.titleLegend{
+	float: left;
+	font-size: 13px;
+	margin-top: 4px;
 }

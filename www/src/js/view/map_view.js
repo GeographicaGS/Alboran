@@ -14,6 +14,30 @@ app.view.Map = Backbone.View.extend({
     	if(aux.length >1){
     		Map.setRoute(aux[1]);
     	}
+    	
+    	Map.getMap().on("click",function(e){
+    		
+    		$.fancybox($("#container_feature_info"), {
+    			'width':'800',
+    			"height": "auto",
+    		    'autoDimensions':false,
+    		    'autoSize':false,
+    		    'closeBtn' : false,
+    		    'scrolling'   : 'no',
+//    		    helpers : { 
+//    		    	   overlay: { 
+//    		    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
+//    		    	   } 
+//    		    },
+//    		    
+//    		    afterShow: function () {
+//    		    	
+//    		    }
+    		});
+    		
+    		Map.featureInfo(e);
+    		
+		});
 
     },
     
