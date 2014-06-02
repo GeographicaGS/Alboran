@@ -14,7 +14,7 @@ from imageutil import isAllowedFile, hashFromImage, resizeImages
 import os
 import ast
 
-import logging
+# import logging
 
 @app.route('/login/', methods=['POST'])
 @auth
@@ -112,4 +112,8 @@ def uploadHistory():
 
 @app.route('/history/', methods=['GET'])
 def listHistories():
-	return jsonify({'result':'true'})
+	htype = request.args.get('type')
+	fromid = request.args.get('id')
+	h = HistoryModel()
+	result = h.getHistoriesByType(htype,fromid)
+	return jsonify({'result': result})

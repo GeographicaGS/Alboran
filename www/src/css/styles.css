@@ -24,6 +24,17 @@
 }
 
 @font-face {
+    font-family: 'latobold_italic';
+    src: url('@{fontPath}lato-bolita-webfont.eot');
+    src: url('@{fontPath}lato-bolita-webfont.eot?#iefix') format('embedded-opentype'),
+         url('@{fontPath}lato-bolita-webfont.woff') format('woff'),
+         url('@{fontPath}lato-bolita-webfont.ttf') format('truetype'),
+         url('@{fontPath}lato-bolita-webfont.svg#latobold_italic') format('svg');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
     font-family: 'latolight';
     src: url('@{fontPath}lato-lig-webfont.eot');
     src: url('@{fontPath}lato-lig-webfont.eot?#iefix') format('embedded-opentype'),
@@ -74,6 +85,7 @@
 @lato_light : 'latolight', sans-serif;
 @lato_light_italic : 'latolight_italic', sans-serif;
 @lato_bold: 'latobold', sans-serif;
+@lato_bold_italic: 'latobold_italic', sans-serif;
 @lato_black : 'latoblack', sans-serif;
 
 /* Color palette */
@@ -168,6 +180,12 @@ input[placeholder]{
 	font-weight: 700;
 	font-style: normal;
 	font-family: @lato_bold;
+}
+
+.lato(@style) when(@style=bolditalic){
+	font-weight: 700;
+	font-style: italic;
+	font-family: @lato_bold_italic;
 }
 
 .lato(@style) when(@style=black){
