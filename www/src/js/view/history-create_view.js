@@ -69,6 +69,12 @@ app.view.HistoryCreate = Backbone.View.extend({
         imgdata.append('image',e.target.files[0]);
 
         var that = this;
+        var $progress = this.$('progress');
+        var $btn = this.$('#addImage_btn');
+
+        $progress.fadeIn();
+        $btn.fadeOut();
+
         $.ajax({
             url : '/api/image/',
             data: imgdata,
@@ -76,6 +82,17 @@ app.view.HistoryCreate = Backbone.View.extend({
             dataType: 'json',
             processData: false, // Don't process the files
             contentType: false,
+            xhr: function() { // custom xhr
+                var myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload){ // check if upload property exists
+                    myXhr.upload.addEventListener('progress',function(e){
+                        if(e.lengthComputable){
+                            $progress.attr({value:e.loaded,max:e.total});
+                        }
+                    }, false); // for handling the progress of the upload
+                }
+                return myXhr;
+            },
             success: function(data) {
                 var $hiddenFileEntry = $('<input />', {
                     type: 'hidden',
@@ -95,6 +112,9 @@ app.view.HistoryCreate = Backbone.View.extend({
                 $fileEntry.append($button);
                 $fileEntry.append($hiddenFileEntry);
                 that.$fileEntryList.append($fileEntry);
+
+                $btn.fadeIn();
+                $progress.fadeOut();
             },
             error: function(){
                 console.log('TODO: Error');

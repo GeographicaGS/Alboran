@@ -154,6 +154,7 @@
 
 			div.row.input {
 				margin-bottom: 25px;
+				min-height: 50px;
 
 				label {
 					text-transform: uppercase;
@@ -293,6 +294,23 @@
 							cursor: pointer;
 						}
 					}
+				}
+
+				#addImage_btn {
+					position: absolute;
+					left: 50%;
+					margin-left: -13px;
+					display: block;
+				}
+
+				progress {
+					display: none;
+
+					position: absolute;
+					left: 50%;
+					bottom: 4px;
+					width: 150px;
+					margin-left: -75px;
 				}
 			}
 
