@@ -12,6 +12,7 @@ app.router = Backbone.Router.extend({
         "_link howto" : {"en":"howto","es": "comousarlo", "fr": "comousarlo" },
         "_link join" : {"en":"participate","es": "participe", "fr": "participe" },
         "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "escribirhistoria" },
+        "_link history" : {"en":"history","es": "historia", "fr": "historia" },
         "_link legal" : {"en":"legal","es": "legal", "fr": "legal" },
         "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "privacidad" },
         "_link user" : {"en":"user","es": "usuario", "fr": "usuario" },
@@ -37,6 +38,7 @@ app.router = Backbone.Router.extend({
 
             "join": "join",
             "join/writehistory": "writehistory",
+            "join/history/:id": "showhistory",
             
             "notfound" : "notfound",
             "faq" : "faq",
@@ -66,6 +68,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link howto"][app.lang], "howto");        
         this.route(this.langRoutes["_link join"][app.lang], "join");        
         this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link writehistory"][app.lang] , "writehistory");
+        this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id" , "showhistory");
         this.route(this.langRoutes["_link legal"][app.lang], "legal");        
         this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
@@ -162,6 +165,12 @@ app.router = Backbone.Router.extend({
         $("#content").show();
         $("#map").hide();
         app.showView( new app.view.HistoryCreate() );
+    },
+
+    showhistory: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.HistoryDetail() );
     },
 
     legal: function(){

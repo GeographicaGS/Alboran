@@ -48,7 +48,22 @@ class HistoryModel(PostgreSQLModel):
 		return result
 
 	def getHistoryById(self, id):
-		return True
+		sql = "SELECT h.id_history, title, date_history as \"date\", place, geo_lat as \"lat\", geo_lon as \"lon\", text_history, type_history as \"type\", category, real_name as \"author\", u.id_user " \
+			"FROM \"history\" h " \
+			"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
+			"WHERE h.id_history = %s AND h.active = true"
+		result = self.query(sql, [id]).row()
+
+		# Date to string
+		result['date'] = result['date'].strftime("%d/%m/%Y")
+
+		sql = "SELECT filename "\
+			"FROM \"image\" i "\
+			"INNER JOIN \"history\" h ON i.id_history = h.id_history "\
+			"WHERE i.id_history = %s"
+		images = self.query(sql,[id]).result()
+		result['images'] = images
+		return result
 
 	def createHistory(self, data, id_user):
 		insertData = {

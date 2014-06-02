@@ -117,3 +117,9 @@ def listHistories():
 	h = HistoryModel()
 	result = h.getHistoriesByType(htype,fromid)
 	return jsonify({'result': result})
+
+@app.route('/history/<int:id>', methods=['GET'])
+def getHistory(id):
+	h = HistoryModel()
+	result = h.getHistoryById(id)
+	return jsonify({'result': result})
