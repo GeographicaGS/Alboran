@@ -19,6 +19,10 @@ app.view.LayerGroup = Backbone.View.extend({
 		this.$el.html(this._template( this.model ));
 
 		this.$content = this.$('.content');
+		if(this.model.title_es == ''){
+			this.$('.groupName').remove();
+		}
+
 		this.renderGroup();
 
         return this;
