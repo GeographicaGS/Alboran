@@ -466,26 +466,28 @@ body > header {
 		
 		.icon{
 /* 			float:right; */
-			padding: 7px 7px 5px 7px;
+			padding: 8px 5px 5px 6px;
 			border-left: 1px solid #cacbcc;
 			cursor: pointer;
-/* 			display: none; */
+			display: none;
 			position: absolute;
-			right: 37px;
+			right: 38px;
 			background-color: #f4f4f4;
 			
 		}
 		.removeLayer{
-			padding: 9px 7px 7px 7px;
+			padding: 10px 8px 7px 7px;
 			right: 10px;
 		}
 		
 		.leyend{
-			right: 96px;
+			right: 93px;
+			padding: 10px 6px 8px 5px;
 		}
 		
 		.opacity{
-			right: 69px;
+			right: 66px;
+			padding: 10px 8px 8px 8px;
 		}
 		
 		p{
@@ -889,4 +891,42 @@ footer {
 	float: left;
 	font-size: 13px;
 	margin-top: 4px;
+}
+
+.opacity_panel {
+	height: 28px;
+	background: #f1f1f1 url("../img/map/MED_back_opacity.png") repeat-x top left;
+	border-top: 1px solid #a3a3a3;
+	border-bottom: 1px solid #a3a3a3;
+	cursor: text;
+	margin-left: -10px;
+	margin-bottom: -1px;
+	margin-top: 1px;
+	display:none;
+	
+	.slider{
+		float: right;
+		height: 7px;
+		width: 95px;
+		margin: 10px 15px 0 0;
+		border: 1px solid #999;
+		cursor: pointer;
+	}
+	.opacity_label{
+		margin-left: 30px;
+		font-size: 13px;
+		font-weight: 400;
+		color:@grey_header_dark
+	}
+	
+}
+
+.ui-slider{ 
+	.ui-slider-handle {
+		height: 13px;
+		width: 13px;
+		background: none;
+		background-color: #666;
+		border-radius: 50%;
+	}
 }

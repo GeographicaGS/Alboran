@@ -291,20 +291,27 @@ app.view.GroupLayer = Backbone.View.extend({
         
         $icon1 = $(document.createElement('img'));
         $icon1.addClass('icon leyend');
-        $icon1.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        $icon1.attr('src','/img/map/ALB_icon_leyenda.svg');
         
         $icon2 = $(document.createElement('img'));
         $icon2.addClass('icon opacity');
-        $icon2.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        $icon2.attr('src','/img/map/ALB_icon_opacidad.svg');
         
         $icon3 = $(document.createElement('img'));
         $icon3.addClass('icon removeLayer');
         $icon3.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        
         $icon4 = $(document.createElement('img'));
         $icon4.addClass('icon');
         $icon4.attr('src','/img/map/ALB_icon_info_capa.svg');
 
         $li.append($icon1).append($icon2).append($icon3).append($icon4).append("<div class='clear'></div>");
+        $li.append("<div class='opacity_panel' style=''>" +
+	        			"<span class='opacity_label'>Opacity 100 %</span>" +
+	        			"<div class='slider'></div>" +
+        			"</div>");
+        
+        $li.append("<div class='clear'></div>");
 
         // Obtener el padre de la capa en el JSON para determinar el grupo
 //        var groupIndex = Map.searchLayerGroup(layer);
@@ -318,6 +325,24 @@ app.view.GroupLayer = Backbone.View.extend({
         
 
         Map.addLayer(id);
+        
+        $("#groupLayer").find(".slider").slider({
+			max: 100,
+			min: 0,
+			value: 100,
+			stop: function( event, ui ){
+				$(ui.handle).closest(".opacity_panel").find(".opacity_label").html("Opacity "+ ui.value + " %");
+				var id_layer = $(ui.handle).closest("li").attr("idlayer");
+				$(ui.handle).closest(".opacity_panel").siblings("img").attr("title","Opacity " + ui.value +" %");
+				var layer;
+				Map.layers.forEach(function(gSLayerWMS) {
+					if(gSLayerWMS.id == id_layer){
+						layer = gSLayerWMS;
+					}
+				});
+				layer.layer.setOpacity(ui.value/100);
+			}
+		});
     },
 
     removeLayer: function(id) {
@@ -397,6 +422,20 @@ app.view.GroupLayer = Backbone.View.extend({
     
     opacityClick: function(e) {
     	e.stopImmediatePropagation();
+    	
+    	var $opacity_panel = $(e.currentTarget).siblings(".opacity_panel");
+		
+    	var $li = $(e.currentTarget).closest("li"); 
+		if ($opacity_panel.is(":visible")){
+//			$li.animate({"height": $li.height() - $opacity_panel.outerHeight()});
+			$opacity_panel.slideUp();
+//			$li.css("border-bottom","1px solid #ccc");
+		}
+		else{
+//			$li.animate({"height": $li.height() + $opacity_panel.outerHeight()});
+			$opacity_panel.slideDown();
+//			$li.css("border-bottom","none");
+		}
     	
     }
 });

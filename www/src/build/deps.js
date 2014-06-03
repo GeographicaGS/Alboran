@@ -68,6 +68,7 @@ deps.CSS = {
 		src : [
 		       "js/lib/leaflet/leaflet.css",
 		       "js/lib/fancybox/jquery.fancybox.css",
+		       "js/lib/ui-lightness/jquery-ui-1.10.3.custom.min.css",
 		]
 	},
 	Core: {
