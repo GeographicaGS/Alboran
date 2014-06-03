@@ -230,6 +230,7 @@ header {
 /* Menu ppal */
 body > header {
 	color: @grey_header_dark;
+	z-index: 2;
 
 	@media (max-width: 1023px) {
 		padding-left: 30px;

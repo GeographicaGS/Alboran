@@ -167,10 +167,10 @@ app.router = Backbone.Router.extend({
         app.showView( new app.view.HistoryCreate() );
     },
 
-    showhistory: function(){
+    showhistory: function(id){
         $("#content").show();
         $("#map").hide();
-        app.showView( new app.view.HistoryDetail() );
+        app.showView( new app.view.HistoryDetail({historyId: id}) );
     },
 
     legal: function(){

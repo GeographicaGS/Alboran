@@ -459,26 +459,32 @@
 		ul {
 			display: none;
 
-			-webkit-column-count:4;
-			-moz-column-count:4;
-			column-count:4;
-			-webkit-column-gap:20px;
-			-moz-column-gap:20px;
-			column-gap:20px;
-
 			&.selected {
 				display: block;
 			}
 
 			li {
 				max-width: 220px;
-				width: 100%;
+				width: 22%;
 				padding-bottom: 20px;
-				border-bottom: 1px solid @grey_footer;
-				margin-bottom: 18px;
 				-webkit-column-break-inside: avoid;
 				page-break-inside:avoid;
 				break-inside: avoid-column;
+
+				display: inline-block;
+				vertical-align: top;
+				margin-right: 2%;
+
+				&:nth-child(4n)
+				{
+					margin-right: 0;
+				}
+
+				&:nth-child(n+5)
+				{
+					border-top: 1px solid @grey_footer;
+					padding-top: 18px;
+				}
 
 				&:last-child {
 					padding-bottom: 0;
@@ -512,7 +518,7 @@
 					text-align: center;
 					background-color: @grey_light;
 					display: inline-block;
-					padding: 70px 0;
+					padding: 60px 0;
 					width: 100%;
 				}
 			}
@@ -533,4 +539,264 @@
 			margin-right: 14px;
 		}
 	}
+}
+
+#historyDetail {
+	.mainPhoto {
+		background-color: @grey_light;
+		a {
+			display: block;
+			width: 100%;
+			height: 400px;
+			overflow: hidden;
+			text-align: center;
+			position: relative;
+
+			&:before {
+				content: url('@{imgPath}participa/ALB_icon_ampliar_galeria.svg');
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -54px;
+				margin-top: -51px;
+				opacity: 0;
+				z-index: 1;
+				transition: opacity .3s ease;
+			}
+
+			&:hover {
+				&:before {
+					opacity: 1;
+				}
+			}
+
+			img {
+				max-width: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		}
+
+		.gallery {
+			display: none;
+		}
+	}
+
+	.mainTitle {
+		background-color: @grey_light;
+		border-bottom: 1px solid @grey_footer;
+		text-align: center;
+		overflow: hidden;
+		padding: 32px 0 34px;
+
+		h1 {
+			color: @pink;
+			font-size: 1.8em;
+			.lato(bolditalic);
+		}
+	}
+
+	.type {
+		background-color: @white;
+		color: @ocre;
+		border-bottom: 1px solid @ocre;
+		text-align: center;
+		margin-bottom: 40px;
+
+		a {
+			text-transform: uppercase;
+			font-size: 8pt;
+			.lato(bold);
+
+			&:before {
+				content: "";
+				background-size: cover;
+				height: 15px;
+				width: 15px;
+				display: inline-block;
+				margin-right: 6px;
+				position: relative;
+				top: 3px;
+			}
+
+			&.sighting:before {
+				background-image: url('@{imgPath}participa/ALB_icon_historias_avista.svg');
+			}
+
+			&.goodpractices:before {
+				background-image: url('@{imgPath}participa/ALB_icon_historias_buenas.svg');
+			}
+		}
+	}
+
+	.title {
+		text-align: center;
+		padding-bottom: 35px;
+		border-bottom: 1px solid @grey_tabBorder;
+		margin-bottom: 36px;
+
+		h1 {
+			color: @pink;
+			.lato(lightitalic);
+			font-size: 2.2em;
+			line-height: 1em;
+			margin-bottom: 24px;
+		}
+
+		p {
+			font-size: 10pt;
+			color: @grey_4;
+
+			a {
+				color: @grey_header_dark;
+				border-bottom: 1px solid @grey_5;
+			}
+		}
+
+
+		.arrow-prev {
+			text-align: left;
+		}
+
+		.arrow-next {
+			text-align: right;
+		}
+
+		a {
+			img {
+				opacity: .25;
+				transition: opacity .3s ease;
+			}
+
+			&:hover img {
+				opacity: 1;
+			}
+		}
+	}
+
+	.historyText {
+		color: @grey_4;
+		font-size: 1.05em;
+		margin-bottom: 26px;
+		white-space: pre-wrap;
+	}
+
+	.category {
+		color: @grey;
+		font-size: 9pt;
+		.lato(bold);
+		text-transform: uppercase;
+		margin-bottom: 75px;
+
+		span {
+			text-transform: none;
+			margin-left: 11px;
+			color: @grey_5;
+			.lato(bold);
+
+			&:before {
+				content: "";
+				display: inline-block;
+				margin-right: 5px;
+				width: 8px;
+				height: 8px;
+				border-radius: 4px;
+				background-color: @grey_5;
+			}
+
+			&.category-1 {
+				color: @green;
+				&:before {
+					background-color: @green;
+				}
+			}
+
+			&.category-2 {
+				color: @red;
+				&:before {
+					background-color: @red;
+				}
+			}
+
+			&.category-3 {
+				color: @blue;
+				&:before {
+					background-color: @blue;
+				}
+			}
+		}
+	}
+
+	.map {
+		/* FIX Temp Image */
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.posContainer {
+		background-color: @grey_light;
+		color: @grey_4;
+		padding: 20px 22px 18px;
+		font-size: 10pt;
+
+		/* FIX Extra space */
+		position: relative;
+		top: -7px;
+		
+		.place {
+			padding-bottom: 18px;
+			border-bottom: 1px solid @grey_footer;
+			margin-bottom: 15px;
+		}
+
+		.position {
+			color: @grey;
+			text-transform: uppercase;
+			font-size: 9pt;
+
+			span {
+				color: @grey_4;
+				margin: 0 2px;
+			}
+		}
+	}
+
+	.shareBox {
+		font-size: 9pt;
+		.lato(bold);
+		text-transform: uppercase;
+		color: @grey;
+		margin-bottom: 75px;
+
+		.icons {
+			display: inline-block;
+
+			a {
+				margin-left: 10px;
+				display: inline-block;
+
+				img {
+					vertical-align: bottom;
+					position: relative;
+					top: 4px;
+					opacity: .5;
+					transition: opacity .3s ease;
+				}
+
+				&:hover img {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+.myClose {
+	width: 24px;
+	height: 30px;
+	top: -12px;
+	right: -12px;
 }

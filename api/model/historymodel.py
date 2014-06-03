@@ -23,7 +23,7 @@ class HistoryModel(PostgreSQLModel):
 					"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 					"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 					"WHERE type_history = %s AND h.id_history < %s AND h.active = true " \
-					"ORDER BY h.id_history DESC " \
+					"ORDER BY h.id_history DESC, i.id_image ASC " \
 					"LIMIT 5"
 				result = self.query(sql,[htype, fromId]).result()
 			else:
@@ -32,7 +32,7 @@ class HistoryModel(PostgreSQLModel):
 					"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 					"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 					"WHERE type_history = %s AND h.active = true " \
-					"ORDER BY h.id_history DESC " \
+					"ORDER BY h.id_history DESC, i.id_image ASC " \
 					"LIMIT 5"
 				result = self.query(sql,[htype]).result()
 		else:
@@ -41,7 +41,7 @@ class HistoryModel(PostgreSQLModel):
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 				"WHERE h.active = true " \
-				"ORDER BY h.id_history DESC " \
+				"ORDER BY h.id_history DESC, i.id_image ASC " \
 				"LIMIT 10"
 			result = self.query(sql,[htype]).result()
 
@@ -54,15 +54,38 @@ class HistoryModel(PostgreSQLModel):
 			"WHERE h.id_history = %s AND h.active = true"
 		result = self.query(sql, [id]).row()
 
-		# Date to string
-		result['date'] = result['date'].strftime("%d/%m/%Y")
+		if result is not None:
+			# Date to string
+			result['date'] = result['date'].strftime("%d/%m/%Y")
 
-		sql = "SELECT filename "\
-			"FROM \"image\" i "\
-			"INNER JOIN \"history\" h ON i.id_history = h.id_history "\
-			"WHERE i.id_history = %s"
-		images = self.query(sql,[id]).result()
-		result['images'] = images
+			sql = "SELECT filename as \"href\" "\
+				"FROM \"image\" i "\
+				"INNER JOIN \"history\" h ON i.id_history = h.id_history "\
+				"WHERE i.id_history = %s "\
+				"ORDER BY i.id_image ASC"
+			images = self.query(sql,[id]).result()
+			result['images'] = images
+
+			# Get previous...
+			sql = "SELECT id_history as \"id\",title "\
+				"FROM \"history\" h "\
+				"WHERE id_history < %s AND type_history = %s "\
+				"ORDER BY id_history DESC "\
+				"LIMIT 1"
+			prev = self.query(sql,[id, result['type']]).row()
+			if prev is not None:
+				result['prev_id'] = prev['id'];
+
+			# ...and next history
+			sql = "SELECT id_history as \"id\",title "\
+				"FROM \"history\" h "\
+				"WHERE id_history > %s AND type_history = %s "\
+				"ORDER BY id_history ASC "\
+				"LIMIT 1"
+			next = self.query(sql,[id, result['type']]).row()
+			if next is not None:
+				result['next_id'] = next['id'];
+
 		return result
 
 	def createHistory(self, data, id_user):

@@ -1,61 +1,93 @@
 <div id="historyDetail">
-	<div class="mainPhoto">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12 col-md-12">
-					
+	<% if (result.images[0]) { %>
+		<div class="mainPhoto">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<a href="#" id="gallery_btn" class="fancybox">
+							<img src="/images/<%= result.images[0].href %>">
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	<% }else{ %>
+		<div class="mainTitle">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<h1>Historia</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% } %>
 	<div class="type">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
-					<a href="#" id="selectedType">Buenas prácticas</a>
+					<a id="selectedType" class="<%= result.type == 0 ? 'goodpractices': 'sighting' %>">
+						<%= result.type == 0 ? '<lang>Buenas prácticas</lang>': '<lang>Avistamientos</lang>' %>
+					</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="container">
 		<div class="row title">
-			<div class="col-sm-1 col-md-1">
-				<a href="#" jslink><img src="/img/participa/ALB_flecha_ant.svg"></a>
+			<div class="col-sm-2 col-md-2 arrow-prev">
+				<% if(result.prev_id){ %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= result.prev_id %>" jslink><img src="/img/participa/ALB_flecha_ant.svg" title="<lang>Historia anterior</lang>"></a>
+				<% } %>
 			</div>
-			<div class="col-sm-10 col-md-10">
-				<h1><%= title %></h1>
-				<p><%= date %> · Historia enviada por <a href="#" jslink><%= author %></a> desde <%= country %></p>
+			<div class="col-sm-8 col-md-8">
+				<h1><%= result.title %></h1>
+				<p><%= result.date %> · Historia enviada por <a href="#" jslink><%= result.author %></a> desde <%= result.country %></p>
 			</div>
-			<div class="col-sm-1 col-md-1">
-				<a href="#" jslink><img src="/img/participa/ALB_flecha_ant.svg"></a>
+			<div class="col-sm-2 col-md-2 arrow-next">
+				<% if(result.next_id){ %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= result.next_id %>" jslink><img src="/img/participa/ALB_flecha_sig.svg" title="<lang>Siguiente historia</lang>"></a>
+				<% } %>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-8 col-md-8">
 				<div class="historyText">
-					<%= history_text %>
+					<%= result.text_history %>
 				</div>
 				<div class="category">
 					<lang>Categoría</lang>
-					<span class="category-<%= id_category %>"><lang><%= category %></lang></span>
+					<span class="category-<%= result.category %>">
+						<% switch(result.category){	case 1: %>
+							<lang>Rasgos naturales y actividades humanas</lang>
+						<% break; case 2: %>
+							<lang>Presiones e impactos</lang>
+						<% break; case 3: %>
+							<lang>Protección y conservación</lang>
+						<% break; } %>
+					</span>
 				</div>
 
 			</div>
 			<div class="col-sm-4 col-md-4">
-				<div class="map">
+				<div class="row map">
 					<!-- TODO Cambiar -->
-					<img src="/images/map_placeholder.jpg">
-					<p class="place"><%= place %></p>
+					<img src="/img/participa/map_placeholder.jpg">
+				</div>
+				<div class="row posContainer">
+					<p class="place"><%= result.place %></p>
 					<p class="position">
-						<lang>Latitud</lang> <span><%= lat %></span> / <lang>Longitud</lang> <span><%= lon %></span>
+						<lang>Latitud</lang> <span><%= result.lat %></span> /&nbsp;&nbsp;<lang>Longitud</lang> <span><%= result.lon %></span>
 					</p>
 				</div>
 				<div class="shareBox">
 					<lang>Compartir historia</lang>
-					<a href="#"><img src="/img/participa/ALB_icon_compartir_twitter.svg"></a>
-					<a href="#"><img src="/img/participa/ALB_icon_compartir_facebook.svg"></a>
-					<a href="#"><img src="/img/participa/ALB_icon_compartir_googlep.svg"></a>
-					<a href="#"><img src="/img/participa/ALB_icon_compartir_email.svg"></a>
+					<div class="icons">
+						<a href="#"><img src="/img/participa/ALB_icon_compartir_twitter.svg"></a>
+						<a href="#"><img src="/img/participa/ALB_icon_compartir_facebook.svg"></a>
+						<a href="#"><img src="/img/participa/ALB_icon_compartir_googlep.svg"></a>
+						<a href="#"><img src="/img/participa/ALB_icon_compartir_email.svg"></a>
+					</div>
 				</div>
 			</div>
 		</div>
