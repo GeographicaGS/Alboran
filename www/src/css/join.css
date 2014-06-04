@@ -301,6 +301,12 @@
 					left: 50%;
 					margin-left: -13px;
 					display: block;
+					opacity: .5;
+					transition: opacity .3s ease;
+
+					&:hover {
+						opacity: 1;
+					}
 				}
 
 				progress {
@@ -345,6 +351,15 @@
 
 				&:last-child {
 					margin-right: 0;
+				}
+			}
+
+			#cancel_btn {
+				border-bottom: 1px solid transparent;
+				transition: color .3s ease, border-color .3s ease;
+				&:hover {
+					color: @grey_header_dark;
+					border-bottom-color: @grey_5;
 				}
 			}
 

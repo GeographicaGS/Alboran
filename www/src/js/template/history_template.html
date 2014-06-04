@@ -26,7 +26,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
-					<a id="selectedType" class="<%= result.type == 0 ? 'goodpractices': 'sighting' %>">
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<%= result.type == 0 ? '<lang>goodpractices</lang>': '<lang>sighting</lang>' %>" id="selectedType" class="<%= result.type == 0 ? 'goodpractices': 'sighting' %>">
 						<%= result.type == 0 ? '<lang>Buenas prácticas</lang>': '<lang>Avistamientos</lang>' %>
 					</a>
 				</div>
@@ -42,7 +42,7 @@
 			</div>
 			<div class="col-sm-8 col-md-8">
 				<h1><%= result.title %></h1>
-				<p><%= result.date %> · Historia enviada por <a href="#" jslink><%= result.author %></a> desde <%= result.country %></p>
+				<p><%= result.date %> · Historia enviada por <a><%= result.author %></a></p>
 			</div>
 			<div class="col-sm-2 col-md-2 arrow-next">
 				<% if(result.next_id){ %>
@@ -55,19 +55,20 @@
 				<div class="historyText">
 					<%= result.text_history %>
 				</div>
-				<div class="category">
-					<lang>Categoría</lang>
-					<span class="category-<%= result.category %>">
-						<% switch(result.category){	case 1: %>
-							<lang>Rasgos naturales y actividades humanas</lang>
-						<% break; case 2: %>
-							<lang>Presiones e impactos</lang>
-						<% break; case 3: %>
-							<lang>Protección y conservación</lang>
-						<% break; } %>
-					</span>
-				</div>
-
+				<% if(result.category > 0){ %>
+					<div class="category">
+						<lang>Categoría</lang>
+						<span class="category-<%= result.category %>">
+							<% switch(result.category){	case 1: %>
+								<lang>Rasgos naturales y actividades humanas</lang>
+							<% break; case 2: %>
+								<lang>Presiones e impactos</lang>
+							<% break; case 3: %>
+								<lang>Protección y conservación</lang>
+							<% break; } %>
+						</span>
+					</div>
+				<% } %>
 			</div>
 			<div class="col-sm-4 col-md-4">
 				<div class="row map">
@@ -83,10 +84,10 @@
 				<div class="shareBox">
 					<lang>Compartir historia</lang>
 					<div class="icons">
-						<a href="#"><img src="/img/participa/ALB_icon_compartir_twitter.svg"></a>
-						<a href="#"><img src="/img/participa/ALB_icon_compartir_facebook.svg"></a>
-						<a href="#"><img src="/img/participa/ALB_icon_compartir_googlep.svg"></a>
-						<a href="#"><img src="/img/participa/ALB_icon_compartir_email.svg"></a>
+						<a id="share-twitter" href="#" target="_blank"><img src="/img/participa/ALB_icon_compartir_twitter.svg"></a>
+						<a id="share-fb" href="#" target="_blank"><img src="/img/participa/ALB_icon_compartir_facebook.svg"></a>
+						<a id="share-gplus" href="#" target="_blank"><img src="/img/participa/ALB_icon_compartir_googlep.svg"></a>
+						<a id="share-email" href="#" target="_blank"><img src="/img/participa/ALB_icon_compartir_email.svg"></a>
 					</div>
 				</div>
 			</div>

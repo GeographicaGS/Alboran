@@ -14,8 +14,6 @@ import md5
 
 class HistoryModel(PostgreSQLModel):
 	def getHistoriesByType(self, htype, fromId):
-		result= []
-
 		if htype is not None:
 			if(fromId is not None):
 				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
@@ -36,14 +34,41 @@ class HistoryModel(PostgreSQLModel):
 					"LIMIT 5"
 				result = self.query(sql,[htype]).result()
 		else:
+			# Send 16 histories for each type and the number of total histories
 			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
 				"FROM \"history\" h " \
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
-				"WHERE h.active = true " \
+				"WHERE h.active = true AND type_history = 0" \
 				"ORDER BY h.id_history DESC, i.id_image ASC " \
-				"LIMIT 10"
-			result = self.query(sql,[htype]).result()
+				"LIMIT 16"
+			result1 = self.query(sql).result()
+
+			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
+				"FROM \"history\" h " \
+				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
+				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
+				"WHERE h.active = true AND type_history = 1" \
+				"ORDER BY h.id_history DESC, i.id_image ASC " \
+				"LIMIT 16"
+			result2 = self.query(sql).result();
+
+			sql = "SELECT COUNT(DISTINCT h.id_history) as \"total\" FROM \"history\" h " \
+				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
+				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
+				"WHERE type_history = 0"
+			count1 = self.query(sql).row()['total']
+
+			sql = "SELECT COUNT(DISTINCT h.id_history) as \"total\" FROM \"history\" h " \
+				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
+				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
+				"WHERE type_history = 1"
+			count2 = self.query(sql).row()['total']
+
+			result = {}
+			result.update({'histories': result1 + result2})
+			result['goodpractices_total'] = count1
+			result['sightings_total'] = count2
 
 		return result
 

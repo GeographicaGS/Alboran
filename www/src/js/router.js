@@ -37,6 +37,7 @@ app.router = Backbone.Router.extend({
             "privacy": "privacy",
 
             "join": "join",
+            "join/:section": "join", 
             "join/writehistory": "writehistory",
             "join/history/:id": "showhistory",
             
@@ -66,7 +67,8 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link alboran"][app.lang], "alboran");        
         this.route(this.langRoutes["_link contact"][app.lang], "contact");        
         this.route(this.langRoutes["_link howto"][app.lang], "howto");        
-        this.route(this.langRoutes["_link join"][app.lang], "join");        
+        this.route(this.langRoutes["_link join"][app.lang], "join");       
+        this.route(this.langRoutes["_link join"][app.lang] + "/:section", "join");       
         this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link writehistory"][app.lang] , "writehistory");
         this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id" , "showhistory");
         this.route(this.langRoutes["_link legal"][app.lang], "legal");        
@@ -155,10 +157,10 @@ app.router = Backbone.Router.extend({
         app.showView( new app.view.Howto() );
     },
 
-    join: function(){
+    join: function(section){
         $("#content").show();
         $("#map").hide();
-        app.showView( new app.view.Join() );
+        app.showView( new app.view.Join({activeSection: section}) );
     },
 
     writehistory: function(){

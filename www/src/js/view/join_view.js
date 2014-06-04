@@ -7,13 +7,18 @@ app.view.Join = Backbone.View.extend({
         'click a.loadMore': 'loadMore'
     },
 
-    initialize: function() {
+    initialize: function(options) {
         app.events.trigger('menu','join');
+
+        this.activeSection = options.activeSection;
+        this.goodprLength = 0;
+        this.sightLength = 0;
 
         this.collection = new app.collection.Histories();
         
         this.listenTo(this.collection, 'reset', this.renderHistories);
         this.listenTo(this.collection, 'add', this.renderHistory);
+        this.listenTo(this.collection, 'sync', this.checkLastFetch);
         this.collection.fetch({reset: true});
 
         this.render();
@@ -31,12 +36,20 @@ app.view.Join = Backbone.View.extend({
         this.$historyLists = this.$('.listContainer .list');
         this.$loadButtons = this.$('.listContainer a.loadMore');
 
+        if(this.activeSection){
+            var index = this.$topTabs.filter('.'+this.activeSection).index();
+            this.changeTab(null,index);
+        }
+
         return this;
     },
 
     renderHistories: function() {
         this.$historyLists.filter('.selected').find('li').not('.loadMore').remove();
         this.collection.each(this.renderHistory, this);
+
+        this.$topTabs.filter('.goodpractices').find('span').html(this.collection.goodpractices_total);
+        this.$topTabs.filter('.sightings').find('span').html(this.collection.sightings_total);
     },
 
     renderHistory: function(item, index) {
@@ -54,7 +67,7 @@ app.view.Join = Backbone.View.extend({
         // Update lower index
         var lastId = this.$loadButtons.eq(item.get('type')).attr('index');
         if(lastId > item.get('id') || !lastId)
-            this.$loadButtons.eq(item.get('type')).attr('index',item.get('id'));
+            this.$loadButtons.eq(item.get('type')).attr('index',item.get('id'));      
     },
 
     changeTab: function(e, index) {
@@ -85,5 +98,12 @@ app.view.Join = Backbone.View.extend({
             this.collection.url = this.collection.url + '&id='+lastId;
         
         this.collection.fetch({remove: false});
+    },
+
+    checkLastFetch: function(collection, resp, options){
+        if(this.collection.getHistoriesCountByType(0) >= this.collection.goodpractices_total)
+            this.$historyLists.eq(0).find('li.loadMore').remove();
+        if(this.collection.getHistoriesCountByType(1) >= this.collection.sightings_total)
+            this.$historyLists.eq(1).find('li.loadMore').remove();
     }
 });

@@ -13,8 +13,12 @@ app.view.HistoryCreate = Backbone.View.extend({
         'click #addImage_btn': 'addImage',
         'change input[type="file"]': 'uploadImage',
         'click .deleteFileEntry': 'removeImage',
+        'mousedown input[type=radio] ~ label': 'toggleRadio',
+        'mouseup input[type=radio] ~ label': 'removeEvent',
+        'click input[type=radio] ~ label': 'removeEvent',
+        'change input[type=radio]': 'removeEvent',
         'click #enviar_btn': 'sendHistory',
-        'click .cancel_btn': 'cancelHistory',
+        'click #cancel_btn': 'cancelHistory',
         'blur input': 'validate'
     },
     
@@ -30,6 +34,11 @@ app.view.HistoryCreate = Backbone.View.extend({
         this.$historyForm = this.$('.historyForm');
         this.$fileInputList = this.$('#fileinputlist');
         this.$fileEntryList = this.$('#filelist');
+
+        // Check session
+        if(!(localStorage.password && localStorage.user)){
+            $('#login').trigger('click');
+        }
 
         return this;
     },
@@ -72,8 +81,7 @@ app.view.HistoryCreate = Backbone.View.extend({
         var $progress = this.$('progress');
         var $btn = this.$('#addImage_btn');
 
-        $progress.fadeIn();
-        $btn.fadeOut();
+        $btn.fadeOut(function(){$progress.fadeIn();});
 
         $.ajax({
             url : '/api/image/',
@@ -112,9 +120,13 @@ app.view.HistoryCreate = Backbone.View.extend({
                 $fileEntry.append($button);
                 $fileEntry.append($hiddenFileEntry);
                 that.$fileEntryList.append($fileEntry);
-
-                $btn.fadeIn();
-                $progress.fadeOut();
+                
+                $btn.promise().done(function(){
+                    $progress.fadeOut(function(){
+                        $btn.fadeIn();
+                    });
+                });
+                
                 that.$('#imagesFieldset').removeClass('invalid');
             },
             error: function(){
@@ -126,6 +138,23 @@ app.view.HistoryCreate = Backbone.View.extend({
     removeImage: function(e) {
         e.preventDefault();
         $(e.currentTarget).parent().remove();
+    },
+
+    toggleRadio: function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.returnValue = false;
+        e.cancelBubble = true;
+
+        $target = $(e.currentTarget).prev();
+        $target.prop('checked', !$target.prop('checked'));
+    },
+
+    removeEvent: function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.returnValue = false;
+        e.cancelBubble = true;
     },
 
     sendHistory: function(e) {
@@ -162,11 +191,6 @@ app.view.HistoryCreate = Backbone.View.extend({
             that.validate(element, false);
         });
 
-        if(items.$category.length == 0){
-            this.$('.categories_container').addClass('invalid');
-            error = true;
-        }
-
         var images = [];
         var $images = this.$('input[type=hidden]');
         $.each($images,function(index, elem){
@@ -177,6 +201,15 @@ app.view.HistoryCreate = Backbone.View.extend({
             this.$('#imagesFieldset').addClass('invalid');
             error = true;
         }
+
+        var parts = date.split("/");
+        var dateData = Date.parse(parts[2]+'/'+parts[1]+'/'+parts[0]);
+        if(isNaN(dateData) || dateData == undefined){
+            items.$date.addClass('invalid');
+            error = true;
+        }
+
+        if(!category) category=0;
 
         if(!error){            
             var formData = {
