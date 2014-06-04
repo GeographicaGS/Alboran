@@ -163,7 +163,20 @@ app.view.GroupLayer = Backbone.View.extend({
     		   });
     	});
     	
-    	
+    	// Histories icon config
+        this.icon_goodpractice = L.icon({
+            iconUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
+            iconRetinaUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
+            iconSize: [40, 32],
+            iconAnchor: [8, 32]
+        });
+
+        this.icon_sighting = L.icon({
+            iconUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
+            iconRetinaUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
+            iconSize: [40, 32],
+            iconAnchor: [8, 32]
+        });
     },
     
     events:{
@@ -175,6 +188,7 @@ app.view.GroupLayer = Backbone.View.extend({
     	"click .opacity": "opacityClick",
     	"click .panel li:LAST-CHILD": "addLayerClick",
     	"click .icon": "infoLayerClick",
+        "click #mapHistoryControl": "toggleHistories"
 	},
 	
 	layerClick: function(e){
@@ -436,7 +450,71 @@ app.view.GroupLayer = Backbone.View.extend({
 			$opacity_panel.slideDown();
 //			$li.css("border-bottom","none");
 		}
-    	
+    },
+
+    toggleHistories: function(e) {
+        var $target = $(e.currentTarget);
+        if(!this.historyGeoJson){
+            var that = this;
+            $.ajax({
+                url : '/api/historygeo/',
+                type: 'GET',
+                success: function(data) {
+                    
+                    function onEachFeature(feature, layer) {
+                        // bind a popup with history's basic info
+                        if (feature.properties && feature.properties.h_id) {
+                            layer.bindPopup(''+feature.properties.h_id);
+                            layer.on('popupopen',getPopupInfo);
+                        }
+                    }
+
+                    function getPopupInfo(e){
+                        var h_id = parseInt(e.popup._content,10);
+                        var currentWidth = e.popup._container.offsetWidth;
+                        e.popup._container.childNodes[1].innerText = '<lang>Cargando...</lang>';
+                        $.ajax({
+                            url : '/api/history/'+h_id,
+                            type: 'GET',
+                            success: function(data) {
+                                var html = '<div class="info-popup">';
+                                html += '<h1>'+data.result.title+'</h1>';
+                                html += '<img src="/images/'+data.result.images[0].href+'">';
+                                html += '<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/'+data.result.id_history +'" jslink><lang>Ver más</lang></a>';
+                                html += '</div>';
+                                e.popup._container.childNodes[1].innerHTML = html;
+                                $(e.popup._container).css('left',-161);
+                            }
+                        });                        
+                    }
+
+                    that.historyGeoJson = data.result;
+                    that.historiesLayer = L.geoJson(that.historyGeoJson, {
+                        pointToLayer: function (feature, latlng) {
+                            if(feature.properties.h_type==0){
+                                var marker = L.marker(latlng, {icon: that.icon_goodpractice});
+                                //marker.on('popupopen',getPopupInfo);
+                                return marker;
+                            }else
+                                var marker = L.marker(latlng, {icon: that.icon_sighting});
+                                //marker.on('popupopen',getPopupInfo);
+                                return marker;
+                        },
+                        onEachFeature: onEachFeature
+                    });
+                    that.historiesLayer.addTo(Map.__map);
+                    $target.next('label').addClass('active');
+                }
+            });
+        }else{
+            if($target.prop('checked')){
+                $target.next('label').addClass('active');
+                Map.__map.addLayer(this.historiesLayer);
+            }else{
+                $target.next('label').removeClass('active');
+                Map.__map.removeLayer(this.historiesLayer);
+            }
+        }
     }
 });
 	

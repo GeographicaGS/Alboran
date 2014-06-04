@@ -13,6 +13,7 @@ from authutil import auth, sendEmail, getConfirmationEmailBody
 from imageutil import isAllowedFile, hashFromImage, resizeImages
 import os
 import ast
+import json
 
 # import logging
 
@@ -121,6 +122,20 @@ def listHistories():
 		return jsonify(result)
 	else:
 		return jsonify({'result': result})
+
+@app.route('/historygeo/', methods=['GET'])
+def listHistoryPoints():
+	h = HistoryModel()
+	points = h.getHistoryPoints()
+	result = []
+	for point in points:
+		item = {}
+		item['type'] = 'Feature'
+		item['geometry'] = json.loads(point['geom'])
+		h_property = {'h_id': point['id'], 'h_type': point['type']}
+		item['properties'] = h_property
+		result.append(item)
+	return jsonify({'result': result})
 
 @app.route('/history/<int:id>', methods=['GET'])
 def getHistory(id):
