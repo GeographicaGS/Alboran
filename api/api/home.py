@@ -116,7 +116,10 @@ def listHistories():
 	fromid = request.args.get('id')
 	h = HistoryModel()
 	result = h.getHistoriesByType(htype,fromid)
-	return jsonify({'result': result})
+	if isinstance(result, dict):
+		return jsonify(result)
+	else:
+		return jsonify({'result': result})
 
 @app.route('/history/<int:id>', methods=['GET'])
 def getHistory(id):

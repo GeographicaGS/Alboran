@@ -30,6 +30,8 @@ app.view.HistoryDetail = Backbone.View.extend({
             item.href = '/images/'+item.href;
         });
 
+        this.setShareLinks();
+
         return this;
     },
 
@@ -52,5 +54,13 @@ app.view.HistoryDetail = Backbone.View.extend({
                 } 
             },
         });
+    },
+
+    setShareLinks: function() {
+        var title = this.model.get('result').title;
+        this.$('#share-fb').attr('href','http://www.facebook.com/sharer.php?u='+ document.URL +'&t='+ title);
+        this.$('#share-twitter').attr('href','https://twitter.com/?status='+ title +' - '+ document.URL);
+        this.$('#share-gplus').attr('href','https://plus.google.com/share?url='+ document.URL);
+        this.$('#share-email').attr('href','mailto:?subject='+ title +'&body=<lang>Te comparto esta historia del Proyecto Alborán: </lang>'+ title +' - '+ document.URL);
     }
 })
