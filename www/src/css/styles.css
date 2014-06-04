@@ -628,6 +628,54 @@ body > header {
 		width: 205px;
 		height: 150px;
 	}
+
+	.historyControl-container {
+		position: absolute;
+		bottom: 60px;
+		left: 0;
+		width: 100%;
+		padding: 10px;
+		font-size: 9pt;
+		color: @grey_footer;
+
+		#mapHistoryControl {
+			display: none;
+		}
+
+		label {
+			.lato(bold);
+			text-transform: uppercase;
+
+			&:before {
+				content: url('/img/map/ALB_icon_historias_desactivadas.svg');
+				display: inline-block;
+				margin-right: 10px;
+				vertical-align: top;
+			}
+
+			&.active {
+				color: @ocre;
+
+				&:before {
+					content: url('/img/map/ALB_icon_historias.svg');
+				}
+			}
+		}
+
+		& > a {
+			color: @ocre;
+			font-size: 10pt;
+			.lato(regular);
+			float: right;
+
+			&:before {
+				content:url('/img/map/ALB_icon_escribir.svg');
+				display: inline-block;
+				margin-right: 10px;
+				vertical-align: sub;
+			}
+		}
+	}
 	
 }
 
@@ -976,4 +1024,13 @@ footer {
 	width: 100%;
 	height: calc(~'100% - 72px');
 	background-color: @grey_6;
+}
+
+.info-popup {
+	padding: 5px;
+	width: 320px;
+
+	img {
+		width: 310px;
+	}
 }

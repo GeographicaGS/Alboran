@@ -73,7 +73,7 @@ class HistoryModel(PostgreSQLModel):
 		return result
 
 	def getHistoryById(self, id):
-		sql = "SELECT h.id_history, title, date_history as \"date\", place, geo_lat as \"lat\", geo_lon as \"lon\", text_history, type_history as \"type\", category, real_name as \"author\", u.id_user " \
+		sql = "SELECT h.id_history, title, date_history as \"date\", place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", u.id_user " \
 			"FROM \"history\" h " \
 			"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 			"WHERE h.id_history = %s AND h.active = true"
@@ -113,17 +113,26 @@ class HistoryModel(PostgreSQLModel):
 
 		return result
 
+	def getHistoryPoints(self):
+		sql = "SELECT h.id_history as \"id\", h.type_history as \"type\", ST_AsGeoJSON(geom) as \"geom\" " \
+			"FROM \"history\" h " \
+			"WHERE h.active = true " \
+			"ORDER BY h.id_history DESC"
+		result = self.query(sql).result()
+		return result
+
 	def createHistory(self, data, id_user):
+		sql = "SELECT ST_SetSRID(ST_MakePoint(%s,%s),4326) as geom"
+		geom = self.query(sql,[data['lon'],data['lat']]).row()['geom']
 		insertData = {
 			'title':data['title'],
 			'place':data['place'],
-			'geo_lat':data['lat'],
-			'geo_lon':data['lon'],
 			'date_history':data['date'],
 			'text_history':data['text'],
 			'type_history':data['type'],
 			'category':data['category'],
-			'id_user':id_user
+			'id_user':id_user,
+			'geom': geom
 		}
 		history_id = self.insert("history",insertData,"id_history")
 		return history_id
