@@ -1,5 +1,6 @@
 app.view.Join = Backbone.View.extend({
     _template : _.template( $('#join_template').html() ),
+    _itemTemplate : _.template( $('#join-historyitem_template').html() ),
     
     events: {
         'click .topTabs .title': 'changeTab',
@@ -8,10 +9,11 @@ app.view.Join = Backbone.View.extend({
 
     initialize: function() {
         app.events.trigger('menu','join');
-        
+
         this.collection = new app.collection.Histories();
         
         this.listenTo(this.collection, 'reset', this.renderHistories);
+        this.listenTo(this.collection, 'add', this.renderHistory);
         this.collection.fetch({reset: true});
 
         this.render();
@@ -34,37 +36,25 @@ app.view.Join = Backbone.View.extend({
 
     renderHistories: function() {
         this.$historyLists.filter('.selected').find('li').not('.loadMore').remove();
-        this.collection.each(function(item, index){
-            _.each(item.get('result'), this.renderHistory, this);
-        }, this);
+        this.collection.each(this.renderHistory, this);
     },
 
     renderHistory: function(item, index) {
         // Create element
-        var element = $('<li/>');
-        var link = $('<a/>');
-        link.attr('href','/<lang>lang</lang>/<lang>_link history</lang>/' + item.id);
-        var img = $('<img/>');
-        var extensionIndex = item.filename.indexOf('.');
-        var thumb_filename = item.filename.substring(0,extensionIndex);
+        var extensionIndex = item.get('filename').indexOf('.');
+        var thumb_filename = item.get('filename').substring(0,extensionIndex);
         thumb_filename = thumb_filename.concat('_thumb');
-        thumb_filename = thumb_filename.concat(item.filename.substring(extensionIndex));
-        img.attr('src', '/images/' + thumb_filename);
-        var author = $('<h4/>');
-        author.html(item.author);
-        var title = $('<h3/>');
-        title.html(item.title);
-
-        link.append(img).append(author).append(title);
-        element.append(link);
+        thumb_filename = thumb_filename.concat(item.get('filename').substring(extensionIndex));
+        item.set('thumb',thumb_filename);
+        var element = this._itemTemplate( item.toJSON() );
 
         // Append in the correct list
-        this.$historyLists.eq(item.type).prepend(element);
+        $(element).insertBefore(this.$loadButtons.eq(item.get('type')).parent());
 
         // Update lower index
-        var lastId = this.$loadButtons.eq(item.type).attr('index');
-        if(lastId > item.id || !lastId)
-            this.$loadButtons.eq(item.type).attr('index',item.id)
+        var lastId = this.$loadButtons.eq(item.get('type')).attr('index');
+        if(lastId > item.get('id') || !lastId)
+            this.$loadButtons.eq(item.get('type')).attr('index',item.get('id'));
     },
 
     changeTab: function(e, index) {
@@ -92,8 +82,8 @@ app.view.Join = Backbone.View.extend({
         
         var lastId = $target.attr('index');
         if(lastId)
-            this.collection.url = this.collection.url + '&index='+lastId;
+            this.collection.url = this.collection.url + '&id='+lastId;
         
-        this.collection.fetch({add: true, reset:true});
+        this.collection.fetch({remove: false});
     }
 });

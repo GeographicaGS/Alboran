@@ -115,6 +115,7 @@ app.view.HistoryCreate = Backbone.View.extend({
 
                 $btn.fadeIn();
                 $progress.fadeOut();
+                that.$('#imagesFieldset').removeClass('invalid');
             },
             error: function(){
                 console.log('TODO: Error');
@@ -166,14 +167,18 @@ app.view.HistoryCreate = Backbone.View.extend({
             error = true;
         }
 
-        if(!error){
-        
-            var images = [];
-            var $images = this.$('input[type=hidden]');
-            $.each($images,function(index, elem){
-                images.push(elem.value);
-            });
-            
+        var images = [];
+        var $images = this.$('input[type=hidden]');
+        $.each($images,function(index, elem){
+            images.push(elem.value);
+        });
+
+        if(images.length < 1){
+            this.$('#imagesFieldset').addClass('invalid');
+            error = true;
+        }
+
+        if(!error){            
             var formData = {
                 'title': title,
                 'place': place,
