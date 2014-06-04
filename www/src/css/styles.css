@@ -1065,10 +1065,12 @@ footer {
 		background-color: #666;
 		border-radius: 50%;
 	}
+}
 
 .oldbrowser_container {
 	position: absolute;
 	width: 100%;
 	height: calc(~'100% - 72px');
 	background-color: @grey_6;
+
 }

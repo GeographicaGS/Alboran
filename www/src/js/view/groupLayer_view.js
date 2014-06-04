@@ -362,7 +362,7 @@ app.view.GroupLayer = Backbone.View.extend({
 		var $container = $("main");
 		var $el = $("<div class='flotable_legend ui-widget ui-widget-content' >"
 				+	"<h4>" 
-				+		"<img class='ml5 mt5 mr5 mb5 fleft' src='application/views/img/MED_icon_leyenda.png' />"
+				+		"<img class='ml mt mr mb fleft' src='/img/map/ALB_icon_leyenda.svg' />"
 				+		"<p class='titleLegend'></p>"
 				+		"<img class='closeLegend' src='/img/map/ALB_icon_descartar_capa.svg' />"
 				+	"</h4>"
