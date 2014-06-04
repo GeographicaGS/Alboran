@@ -11,8 +11,12 @@ app.router = Backbone.Router.extend({
         "_link contact" : {"en":"contact","es": "contacto", "fr": "contacto" },
         "_link howto" : {"en":"howto","es": "comousarlo", "fr": "comousarlo" },
         "_link join" : {"en":"participate","es": "participe", "fr": "participe" },
+        "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "escribirhistoria" },
+        "_link history" : {"en":"history","es": "historia", "fr": "historia" },
         "_link legal" : {"en":"legal","es": "legal", "fr": "legal" },
         "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "privacidad" },
+        "_link user" : {"en":"user","es": "usuario", "fr": "usuario" },
+        "_link oldbrowser": {"en":"notsupportedbrowser", "es": "navegadornosoportado", "fr": "navegadornosoportado"}
     },
 
     /* define the route and function maps for this router */
@@ -29,13 +33,19 @@ app.router = Backbone.Router.extend({
             "alboran": "alboran",
             "contact": "contact",
             "howto": "howto",
-            "join": "join",
             "legal": "legal",
             "privacy": "privacy",
+
+            "join": "join",
+            "join/writehistory": "writehistory",
+            "join/history/:id": "showhistory",
             
             "notfound" : "notfound",
             "faq" : "faq",
             "error" : "error",
+            "browsernotsupported" : "oldbrowser",
+
+            "user/:username/:code": "signinConfirmation",
             
             /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
@@ -57,8 +67,12 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link contact"][app.lang], "contact");        
         this.route(this.langRoutes["_link howto"][app.lang], "howto");        
         this.route(this.langRoutes["_link join"][app.lang], "join");        
+        this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link writehistory"][app.lang] , "writehistory");
+        this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id" , "showhistory");
         this.route(this.langRoutes["_link legal"][app.lang], "legal");        
-        this.route(this.langRoutes["_link privacy"][app.lang], "privacy");       
+        this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
+        this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
+        this.route(this.langRoutes["_link oldbrowser"][app.lang], "oldbrowser");
     },
     
     home: function(){
@@ -68,38 +82,50 @@ app.router = Backbone.Router.extend({
     },
     
     map: function(capas,activas){
-    	$("#content").hide();
-        $("#map").show();
-        app.events.trigger('menu','map');
-        if(Map.getMap() != null){
-        	Map.getMap().invalidateSize("true");
-        }
-        if(!capas){
-        	Map.getRoute();
+    	if(!app.isSupportedBrowser()){
+            $("#content").show();
+            $("#map").hide();
+            app.router.navigate("browsernotsupported", {trigger: true});
+        }else{
+            $("#content").hide();
+            $("#map").show();
+            app.events.trigger('menu','map');
+            if(Map.getMap() != null){
+            	Map.getMap().invalidateSize("true");
+            }
+            if(!capas){
+            	Map.getRoute();
+            }
         }
     },
 
     mapConf: function(config){
-        $("#content").hide();
-        $("#map").show();
-        app.events.trigger('menu','map');
+        if(!app.isSupportedBrowser()){
+            $("#content").show();
+            $("#map").hide();
+            app.router.navigate("browsernotsupported", {trigger: true});
+        }else{
+            $("#content").hide();
+            $("#map").show();
+            app.events.trigger('menu','map');
 
-        if(Map.getMap() != null){
-            Map.getMap().invalidateSize("true");
-        }
+            if(Map.getMap() != null){
+                Map.getMap().invalidateSize("true");
+            }
 
-        var now = $.now();
-        $.ajax({
-            url : "/api/config/" + config,
-            type: "GET",
-            dataType: "json",
-               success: function(response) {
-                   if(response != ""){
-                       Map.removeAllLayers()
-                       Map.setRoute("/" + response.config)
+            var now = $.now();
+            $.ajax({
+                url : "/api/config/" + config,
+                type: "GET",
+                dataType: "json",
+                   success: function(response) {
+                       if(response != ""){
+                           Map.removeAllLayers()
+                           Map.setRoute("/" + response.config)
+                       }
                    }
-               }
-           });
+               });
+        }
     },
 
     catalogue: function(){
@@ -128,11 +154,25 @@ app.router = Backbone.Router.extend({
         $("#map").hide();
         app.showView( new app.view.Howto() );
     },
+
     join: function(){
         $("#content").show();
         $("#map").hide();
         app.showView( new app.view.Join() );
     },
+
+    writehistory: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.HistoryCreate() );
+    },
+
+    showhistory: function(id){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.HistoryDetail({historyId: id}) );
+    },
+
     legal: function(){
         $("#content").show();
         $("#map").hide();
@@ -142,6 +182,31 @@ app.router = Backbone.Router.extend({
     	$("#content").show();
         $("#map").hide();
         app.showView( new app.view.Privacy() );
+    },
+
+    signinConfirmation: function(username, code) {
+        $("#content").show();
+        $("#map").hide();
+        app.showView(new app.view.Home());
+
+        // Check code
+        $.ajax({
+            url : "/api/user/" + username + "/" + code,
+            type: "GET",
+            statusCode: {
+                200: function(response) {
+                    showSigninConfirmation(response['user'],response['password']);
+                },
+                404: function(response) {
+                    showSigninError();
+                },
+                401: function(response) {
+                    showSigninError();
+                }
+            }
+        });
+
+        
     },
 
     defaultRoute: function(){
@@ -154,6 +219,12 @@ app.router = Backbone.Router.extend({
 
     error: function(){
         app.showView(new app.view.Error());
+    },
+
+    oldbrowser: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView(new app.view.OldBrowser());
     }
     
 });

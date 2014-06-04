@@ -1,0 +1,139 @@
+<div id="historyDetail">
+	<% if (result.images[0]) { %>
+		<div class="mainPhoto">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<a href="#" id="gallery_btn" class="fancybox">
+							<img src="/images/<%= result.images[0].href %>">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% }else{ %>
+		<div class="mainTitle">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<h1>Historia</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% } %>
+	<div class="type">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<a id="selectedType" class="<%= result.type == 0 ? 'goodpractices': 'sighting' %>">
+						<%= result.type == 0 ? '<lang>Buenas prácticas</lang>': '<lang>Avistamientos</lang>' %>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row title">
+			<div class="col-sm-2 col-md-2 arrow-prev">
+				<% if(result.prev_id){ %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= result.prev_id %>" jslink><img src="/img/participa/ALB_flecha_ant.svg" title="<lang>Historia anterior</lang>"></a>
+				<% } %>
+			</div>
+			<div class="col-sm-8 col-md-8">
+				<h1><%= result.title %></h1>
+				<p><%= result.date %> · Historia enviada por <a href="#" jslink><%= result.author %></a> desde <%= result.country %></p>
+			</div>
+			<div class="col-sm-2 col-md-2 arrow-next">
+				<% if(result.next_id){ %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= result.next_id %>" jslink><img src="/img/participa/ALB_flecha_sig.svg" title="<lang>Siguiente historia</lang>"></a>
+				<% } %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-8 col-md-8">
+				<div class="historyText">
+					<%= result.text_history %>
+				</div>
+				<div class="category">
+					<lang>Categoría</lang>
+					<span class="category-<%= result.category %>">
+						<% switch(result.category){	case 1: %>
+							<lang>Rasgos naturales y actividades humanas</lang>
+						<% break; case 2: %>
+							<lang>Presiones e impactos</lang>
+						<% break; case 3: %>
+							<lang>Protección y conservación</lang>
+						<% break; } %>
+					</span>
+				</div>
+
+			</div>
+			<div class="col-sm-4 col-md-4">
+				<div class="row map">
+					<!-- TODO Cambiar -->
+					<img src="/img/participa/map_placeholder.jpg">
+				</div>
+				<div class="row posContainer">
+					<p class="place"><%= result.place %></p>
+					<p class="position">
+						<lang>Latitud</lang> <span><%= result.lat %></span> /&nbsp;&nbsp;<lang>Longitud</lang> <span><%= result.lon %></span>
+					</p>
+				</div>
+				<div class="shareBox">
+					<lang>Compartir historia</lang>
+					<div class="icons">
+						<a href="#"><img src="/img/participa/ALB_icon_compartir_twitter.svg"></a>
+						<a href="#"><img src="/img/participa/ALB_icon_compartir_facebook.svg"></a>
+						<a href="#"><img src="/img/participa/ALB_icon_compartir_googlep.svg"></a>
+						<a href="#"><img src="/img/participa/ALB_icon_compartir_email.svg"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="prefoot grey_light first">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-md-6">
+					<p><lang>El <i>proyecto Alborán</i> tiene como finalidad poner en marcha un procedimiento de gestión ambiental común en el ámbito del Mar del Alborán, facilitando el intercambio de experiencias entre todos los actores y los grupos de interés. De esta manera, se persigue identificar y unificar las pioridades que mejoren la gestión del Mar de Alborán y su entorno.</lang></p>
+				</div>
+				<div class="logos_coop col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1">
+					<a href="http://www.poctefex.eu/" target="_blank"><img src="/img/footer/ALB_logo_cooperacion_transf.svg"></a>
+					<img src="/img/footer/ALB_logo_UE.svg">
+					<p><lang>Cofinanciado por el Fondo Europeo de Desarrollo Regional (FEDER)</lang></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="prefoot grey_light">
+		<div class="container">
+			<div class="logos_socios row">
+				<div class="col-sm-8 col-md-8">
+					<div class="group">
+						<p><lang>Socios beneficiarios</lang></p>
+						<div>
+							<a href="http://www.iucn.org/" target="_blank"><img src="/img/footer/ALB_logo_UICN.svg"></a>
+							<a href="http://www.ual.es/" target="_blank"><img src="/img/footer/ALB_logo_Univ_Almeria.svg"></a>
+							<a href="http://www.juntadeandalucia.es/medioambiente/site/portalweb/" target="_blank"><img src="/img/footer/ALB_logo_Junta.svg"></a>
+						</div>
+					</div>
+					<div class="group">
+						<p><lang>Socio participante</lang></p>
+						<div>
+							<a href="http://www.mpm.gov.ma/" target="_blank"><img src="/img/footer/ALB_logo_Maroc.svg"></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4 col-ms-4">
+					<div class="group">
+						<p><lang>Con el apoyo de</lang></p>
+						<div>
+							<a href="http://www.fundacion-biodiversidad.es/" target="_blank"><img class="large" src="/img/footer/ALB_logo_FBiodiversidad.svg"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

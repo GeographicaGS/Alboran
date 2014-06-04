@@ -1,0 +1,802 @@
+@grey_tabBack: #f4f4f4;
+@grey_tabBorder: #e0e0e1;
+
+#createHistory {
+	background-color: @grey_light;
+	min-height: calc(~'100% - 72px');
+	position: absolute;
+	width: 100%;
+	padding-bottom: 36px;
+
+	.roundButton {
+		background-color: @ocre;
+		padding: 20px;
+		border-radius: 45px;
+		border: 4px solid @grey_light;
+		box-shadow: 0 0 0 6px @white;
+		transition: box-shadow .3s ease;
+		margin: 0 auto 17px;
+		width: 80px;
+		height: 80px;
+
+		&:hover {
+			box-shadow: 0 0 0 6px @ocre;
+		}
+	}
+
+	.invalid {
+		border: 1px solid red !important;
+	}
+	
+	.title {
+		border-bottom: 1px solid @grey_footer;
+		text-align: center;
+		padding: 34px 0;
+
+		@media (max-width:1023px){
+			padding-left: 30px;
+		}
+
+		h1 {
+			.lato(lightitalic);
+			color: @pink;
+			font-size: 22pt;
+		}
+
+		.button {
+			position: absolute;
+			right: 10px;
+			top: 0;
+		}
+	}
+
+	.selectType {
+		text-align: center;
+		padding-top: 35px;
+
+		h2 {
+			.lato(light);
+			font-size: 18pt;
+			margin-bottom: 48px;
+		}
+
+		.selector {
+			font-size: 11pt;
+
+			& > div {
+				padding-top: 10px;
+				padding-bottom: 30px;
+
+				&:first-child {
+					border-right: 1px solid @grey_footer;
+				}
+			}
+
+			h3 {
+				.lato(bold);
+				font-size: 13pt;
+				margin-bottom: 20px;
+			}
+		}
+	}
+
+	.historyForm {
+		display: none;
+
+		.type {
+			background-color: @white;
+			color: @ocre;
+			border-bottom: 1px solid @ocre;
+			text-align: center;
+			margin-bottom: 40px;
+			transition: background-color .3s ease;
+			cursor: pointer;
+
+			&:hover {
+				background-color: fade(@ocre, 10%);
+			}
+
+			a {
+				text-transform: uppercase;
+				font-size: 8pt;
+				.lato(bold);
+
+				&:before {
+					content: "";
+					background-size: cover;
+					height: 15px;
+					width: 15px;
+					display: inline-block;
+					margin-right: 6px;
+					position: relative;
+					top: 3px;
+				}
+
+				&.sighting:before {
+					background-image: url('@{imgPath}participa/ALB_icon_historias_avista.svg');
+				}
+
+				&.goodpractices:before {
+					background-image: url('@{imgPath}participa/ALB_icon_historias_buenas.svg');
+				}
+			}
+		}
+
+		fieldset {
+			position: relative;
+			margin-bottom: 20px;
+			text-align: center;
+
+			legend {
+				text-align: center;
+				text-transform: uppercase;
+				.lato(bold);
+				font-size: 0.75em;
+				width: 100%;
+				background-color: @grey_light;
+				color: @grey_header_dark;
+
+				&:before, &:after {
+					content: "";
+					display: block;
+					position: absolute;
+					top: 1em;
+					left: 0;
+					width: 42%;
+					border-top: 1px solid @grey_footer;
+				}
+
+				&:after {
+					left: auto;
+					right: 0;
+				}
+			}
+
+			div.row.input {
+				margin-bottom: 25px;
+				min-height: 50px;
+
+				label {
+					text-transform: uppercase;
+					.lato(regular);
+					font-size: 0.75em;
+					width: 100%;
+					color: @grey_4;
+				}
+
+				input[type="text"], textarea {
+					width: 100%;
+					padding: 18px;
+					text-align: center;
+					border: 1px solid @grey_footer;
+					color: @grey_header_dark;
+					outline: none;
+
+					&:focus {
+						outline: none;
+					}
+
+					&::-webkit-input-placeholder {
+						color: @grey_footer;
+					}
+					
+					&:-moz-placeholder {
+						color: @grey_footer;
+					}
+					
+					&::-moz-placeholder {
+						color: @grey_footer;
+					}
+
+					&:-ms-input-placeholder {
+						color: @grey_footer;
+					}
+				}
+
+				textarea {
+					.lato(regular);
+					text-align: left;
+					min-height: 300px;
+					resize: none;
+				}
+
+				input[type="radio"] {
+					display: none;
+
+					& + label {
+						.lato(bold);
+						font-size: 10pt;
+						text-transform: none;
+						margin-right: 20px;
+						color: @grey_5;
+
+						&:before {
+							content: "";
+							display: inline-block;
+							margin-right: 5px;
+							width: 8px;
+							height: 8px;
+							border-radius: 4px;
+							background-color: @grey_5;
+							position: relative;
+							top: -2px;
+						}
+					}
+
+					&:checked {
+						& + label {
+							&.green {
+								color: @green;
+
+								&:before {
+									background-color: @green;
+								}
+							}
+
+							&.red {
+								color: @red;
+
+								&:before {
+									background-color: @red;
+								}
+							}
+
+							&.blue {
+								color: @blue;
+
+								&:before {
+									background-color: @blue;
+								}
+							}
+						}
+					}
+				}
+
+				.separator {
+					border-right: 1px solid @grey_footer;
+				}
+
+				.position_btn {
+					margin-top: 20px;
+					display: inline-block;
+					
+					span {
+						color: @grey_header_dark;
+						font-size: 0.9em;
+						border-bottom: 1px solid @grey_5;
+					}
+
+					&:before{
+						content: "";
+						background: url('@{imgPath}participa/ALB_icon_obtener_coordenadas.svg') no-repeat;
+						background-size: contain;
+						display: inline-block;
+						width: 20px;
+						height: 20px;
+						position: relative;
+						top: 3px;
+					}
+				}
+
+				#filelist {
+					text-align: left;
+
+					li {
+						position: relative;
+						color: @grey_header_dark;
+						border-bottom: 1px solid @grey_footer;
+						padding-bottom: 10px;
+						margin-bottom: 10px;
+
+						.deleteFileEntry {
+							position: absolute;
+							right: 0;
+							cursor: pointer;
+						}
+					}
+				}
+
+				#addImage_btn {
+					position: absolute;
+					left: 50%;
+					margin-left: -13px;
+					display: block;
+				}
+
+				progress {
+					display: none;
+
+					position: absolute;
+					left: 50%;
+					bottom: 4px;
+					width: 150px;
+					margin-left: -75px;
+				}
+			}
+
+			.info {
+				padding-top: 3px;
+				text-align: left;
+
+				& > a {
+					opacity: 0.5;
+					transition: opacity .3s ease;
+
+					&:hover {
+						opacity: 1;
+					}
+				}
+
+				.content {
+					display: none;
+					font-size: 0.75em;
+					line-height: 1.2em;
+				}
+			}
+		}
+
+		.sendButtons {
+			padding-bottom: 90px;
+			padding-top: 32px;
+
+			a {
+				margin-right: 120px;
+				display: inline-block;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+
+			#enviar_btn {
+				color: @grey_header_dark;
+				
+				.roundButton {
+					display: inline-block;
+					vertical-align: top;
+					position: relative;
+					top: -32px;
+					margin-right: 18px;
+					width: 80px;
+					height: 80px;
+					padding: 10px 15px 15px;
+				}
+
+				&:hover {
+					.roundButton {
+						box-shadow: 0 0 0 6px @ocre;
+					}
+				}
+			}
+		}
+	}
+}
+
+#historyList {
+	& > .title {
+		background-color: @grey_light;
+		border-bottom: 1px solid @grey_footer;
+		text-align: center;
+		overflow: hidden;
+		padding: 32px 0 34px;
+
+		@media (max-width: 1023px) {
+			padding-left: 30px;
+		}
+
+		h1 {
+			color: @pink;
+			font-size: 1.8em;
+			.lato(bolditalic);
+			margin-bottom: 20px;
+		}
+
+		p {
+			color: @grey_4;
+			font-size: 1.05em;
+
+			a {
+				color: @grey_header_dark;
+				border-bottom: 1px solid @grey_5;
+				padding-bottom: 2px;
+			}
+		}
+	}
+
+	.tabsContainer {
+		border-bottom: 1px solid @grey_tabBorder;
+		height: 49px;
+
+		.container {
+			border: solid @grey_tabBorder;
+			border-width: 0 1px;
+
+			.topTabs li {
+				border-right: 1px solid @grey_tabBorder;
+				border-bottom: 1px solid @grey_tabBorder;
+				padding: 12px 9px 11px;
+				cursor: pointer;
+				height: 49px;
+				position: relative;
+
+				img {
+					display: inline-block;
+					margin-right: 6px;
+					vertical-align: bottom;
+					position: relative;
+					top: -2px;
+				}
+
+				h2 {
+					display: inline;
+					.lato(regular);
+					font-size: 11pt;
+					color: @grey_header_dark;
+				}
+
+				span {
+					color: @grey;
+					font-size: 9pt;
+					position: absolute;
+					right: 9px;
+				}
+
+				&.selected {
+					border-bottom: 1px solid @ocre;
+					background-color: @grey_tabBack;
+
+					h2 {
+						color: @ocre;
+						.lato(bold);
+					}
+				}
+			}
+		}
+	}
+
+	.listContainer {
+		padding: 36px 10px;
+		ul {
+			display: none;
+
+			&.selected {
+				display: block;
+			}
+
+			li {
+				max-width: 220px;
+				width: 22%;
+				padding-bottom: 20px;
+				-webkit-column-break-inside: avoid;
+				page-break-inside:avoid;
+				break-inside: avoid-column;
+
+				display: inline-block;
+				vertical-align: top;
+				margin-right: 2%;
+
+				&:nth-child(4n)
+				{
+					margin-right: 0;
+				}
+
+				&:nth-child(n+5)
+				{
+					border-top: 1px solid @grey_footer;
+					padding-top: 18px;
+				}
+
+				&:last-child {
+					padding-bottom: 0;
+					border-bottom: none;
+					margin-bottom: 0;
+				}
+
+				& > a {
+					display: block;
+				}
+
+				img {
+					display: block;
+					margin: 0 auto 20px;
+				}
+
+
+				h4 {
+					color: @grey_4;
+					font-size: 10pt;
+					.lato(regular);
+				}
+
+				h3 {
+					color: @grey_header_dark;
+					.lato(italic);
+					font-size: 14pt;
+				}
+
+				a.loadMore {
+					text-align: center;
+					background-color: @grey_light;
+					display: inline-block;
+					padding: 60px 0;
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	.writeHistory {
+		display: block;
+		padding: 11px 0 60px;
+		text-align: center;
+		color: @grey_header_dark;
+		font-size: 13pt;
+
+		img {
+			vertical-align: bottom;
+			position: relative;
+			top: 25px;
+			margin-right: 14px;
+		}
+	}
+}
+
+#historyDetail {
+	.mainPhoto {
+		background-color: @grey_light;
+		a {
+			display: block;
+			width: 100%;
+			height: 400px;
+			overflow: hidden;
+			text-align: center;
+			position: relative;
+
+			&:before {
+				content: url('@{imgPath}participa/ALB_icon_ampliar_galeria.svg');
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -54px;
+				margin-top: -51px;
+				opacity: 0;
+				z-index: 1;
+				transition: opacity .3s ease;
+			}
+
+			&:hover {
+				&:before {
+					opacity: 1;
+				}
+			}
+
+			img {
+				max-width: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		}
+
+		.gallery {
+			display: none;
+		}
+	}
+
+	.mainTitle {
+		background-color: @grey_light;
+		border-bottom: 1px solid @grey_footer;
+		text-align: center;
+		overflow: hidden;
+		padding: 32px 0 34px;
+
+		h1 {
+			color: @pink;
+			font-size: 1.8em;
+			.lato(bolditalic);
+		}
+	}
+
+	.type {
+		background-color: @white;
+		color: @ocre;
+		border-bottom: 1px solid @ocre;
+		text-align: center;
+		margin-bottom: 40px;
+
+		a {
+			text-transform: uppercase;
+			font-size: 8pt;
+			.lato(bold);
+
+			&:before {
+				content: "";
+				background-size: cover;
+				height: 15px;
+				width: 15px;
+				display: inline-block;
+				margin-right: 6px;
+				position: relative;
+				top: 3px;
+			}
+
+			&.sighting:before {
+				background-image: url('@{imgPath}participa/ALB_icon_historias_avista.svg');
+			}
+
+			&.goodpractices:before {
+				background-image: url('@{imgPath}participa/ALB_icon_historias_buenas.svg');
+			}
+		}
+	}
+
+	.title {
+		text-align: center;
+		padding-bottom: 35px;
+		border-bottom: 1px solid @grey_tabBorder;
+		margin-bottom: 36px;
+
+		h1 {
+			color: @pink;
+			.lato(lightitalic);
+			font-size: 2.2em;
+			line-height: 1em;
+			margin-bottom: 24px;
+		}
+
+		p {
+			font-size: 10pt;
+			color: @grey_4;
+
+			a {
+				color: @grey_header_dark;
+				border-bottom: 1px solid @grey_5;
+			}
+		}
+
+
+		.arrow-prev {
+			text-align: left;
+		}
+
+		.arrow-next {
+			text-align: right;
+		}
+
+		a {
+			img {
+				opacity: .25;
+				transition: opacity .3s ease;
+			}
+
+			&:hover img {
+				opacity: 1;
+			}
+		}
+	}
+
+	.historyText {
+		color: @grey_4;
+		font-size: 1.05em;
+		margin-bottom: 26px;
+		white-space: pre-wrap;
+	}
+
+	.category {
+		color: @grey;
+		font-size: 9pt;
+		.lato(bold);
+		text-transform: uppercase;
+		margin-bottom: 75px;
+
+		span {
+			text-transform: none;
+			margin-left: 11px;
+			color: @grey_5;
+			.lato(bold);
+
+			&:before {
+				content: "";
+				display: inline-block;
+				margin-right: 5px;
+				width: 8px;
+				height: 8px;
+				border-radius: 4px;
+				background-color: @grey_5;
+			}
+
+			&.category-1 {
+				color: @green;
+				&:before {
+					background-color: @green;
+				}
+			}
+
+			&.category-2 {
+				color: @red;
+				&:before {
+					background-color: @red;
+				}
+			}
+
+			&.category-3 {
+				color: @blue;
+				&:before {
+					background-color: @blue;
+				}
+			}
+		}
+	}
+
+	.map {
+		/* FIX Temp Image */
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.posContainer {
+		background-color: @grey_light;
+		color: @grey_4;
+		padding: 20px 22px 18px;
+		font-size: 10pt;
+
+		/* FIX Extra space */
+		position: relative;
+		top: -7px;
+		
+		.place {
+			padding-bottom: 18px;
+			border-bottom: 1px solid @grey_footer;
+			margin-bottom: 15px;
+		}
+
+		.position {
+			color: @grey;
+			text-transform: uppercase;
+			font-size: 9pt;
+
+			span {
+				color: @grey_4;
+				margin: 0 2px;
+			}
+		}
+	}
+
+	.shareBox {
+		font-size: 9pt;
+		.lato(bold);
+		text-transform: uppercase;
+		color: @grey;
+		margin-bottom: 75px;
+
+		.icons {
+			display: inline-block;
+
+			a {
+				margin-left: 10px;
+				display: inline-block;
+
+				img {
+					vertical-align: bottom;
+					position: relative;
+					top: 4px;
+					opacity: .5;
+					transition: opacity .3s ease;
+				}
+
+				&:hover img {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+.myClose {
+	width: 24px;
+	height: 30px;
+	top: -12px;
+	right: -12px;
+}

@@ -23,12 +23,14 @@ deps.JS = {
 			// --------------------
 			"js/model/layer.js",
 			"js/model/category.js",
+			"js/model/history.js",
 			
 			// --------------------
 			// ---- Collections ---
 			// --------------------
 			"js/collection/layers.js",
 			"js/collection/categories.js",
+			"js/collection/histories.js",
 
 			// --------------------
 			// ------  Views ------
@@ -46,7 +48,10 @@ deps.JS = {
 			"js/view/contact_view.js",
 			"js/view/legal_view.js",
 			"js/view/privacy_view.js",
-			
+			"js/view/oldbrowser_view.js",
+			"js/view/history-create_view.js",
+			"js/view/history_view.js",
+
 
 			// router
 			"js/router.js",
@@ -78,6 +83,7 @@ deps.CSS = {
 			"css/styles.css",
 			"css/home.css",
 			"css/catalogue.css",
+			"css/join.css",
 		]
 	}
 };
