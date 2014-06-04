@@ -13,7 +13,7 @@ app.view.Join = Backbone.View.extend({
         this.collection = new app.collection.Histories();
         
         this.listenTo(this.collection, 'reset', this.renderHistories);
-        this.listenTo(this.collection, 'add', this.renderHistories);
+        this.listenTo(this.collection, 'add', this.renderHistory);
         this.collection.fetch({reset: true});
 
         this.render();
@@ -49,7 +49,7 @@ app.view.Join = Backbone.View.extend({
         var element = this._itemTemplate( item.toJSON() );
 
         // Append in the correct list
-        this.$historyLists.eq(item.get('type')).prepend(element);
+        $(element).insertBefore(this.$loadButtons.eq(item.get('type')).parent());
 
         // Update lower index
         var lastId = this.$loadButtons.eq(item.get('type')).attr('index');
@@ -82,8 +82,8 @@ app.view.Join = Backbone.View.extend({
         
         var lastId = $target.attr('index');
         if(lastId)
-            this.collection.url = this.collection.url + '&index='+lastId;
+            this.collection.url = this.collection.url + '&id='+lastId;
         
-        this.collection.fetch({add: true});
+        this.collection.fetch({remove: false});
     }
 });
