@@ -84,6 +84,7 @@ deps.CSS = {
 			"css/home.css",
 			"css/catalogue.css",
 			"css/join.css",
+			"css/about.css",
 		]
 	}
 };

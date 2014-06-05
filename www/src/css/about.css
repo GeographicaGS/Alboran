@@ -1,0 +1,158 @@
+#aboutProject {
+	@grey_border: #e0e0e1;
+
+	.title {
+		background-color: @grey_light;
+		border-bottom: 1px solid @grey_footer;
+		.lato(bold);
+		color: @pink;
+		text-align: center;
+		padding: 30px 0 25px;
+		margin-bottom: 8px;
+
+		h1 {
+			font-size: 1.8em;
+
+			em {
+				.lato(bolditalic);
+			}
+		}
+	}
+
+	.content {
+		.container {
+
+			&:last-child {
+				margin-bottom: 70px;
+			}
+
+			& > .row {
+				margin-top: 36px;
+			}
+
+			&.relative {
+				position: relative;
+
+				.bottom {
+					position: absolute;
+					right: 0;
+					bottom: 2em;
+					text-align: right;
+				}
+			}
+		}
+
+		h2 {
+			.lato(bold);
+			color: @grey_header_dark;
+			text-transform: uppercase;
+			font-size: 9pt;
+			margin-bottom: 30px;
+
+			&.center {
+				text-align: center;
+				margin-bottom: 0;
+
+				&:before, &:after {
+					content: "";
+					display: inline-block;
+					width: 174px;
+					height: 1px;
+					background-color: @grey_footer;
+					margin: 0 10px;
+					vertical-align: middle;
+				}
+			}
+		}
+
+		h3 {
+			.lato(bold);
+			font-size: 1.05em;
+		}
+
+		p {
+			color: @grey_4;
+			.lato(regular);
+			font-size: 1.05em;
+			margin-bottom: 30px;
+
+			&.big {
+				text-align: center;
+				.lato(light);
+				font-size: 1.3em;
+				line-height: 1.75em;
+				padding-bottom: 26px;
+				border-bottom: 1px solid @grey_border;
+			}
+
+			&.noMargin {
+				margin-bottom: 0;
+			}
+
+			a {
+				color: @grey_header_dark;
+				padding-bottom: 3px;
+				border-bottom: 1px solid @grey_5;
+			}
+		}
+
+		nav ul li {
+			color: @grey_header_dark;
+
+			&:before {
+				content: ">";
+				color: @grey_5;
+				font-size: 1.4em;
+				margin-right: 10px;
+				vertical-align: top;
+			}
+		}
+
+		a.goBack {
+			color: @grey_header_dark;
+			&:before {
+				content: "^";
+				color: @grey_5;
+				margin-right: 3px;
+			}
+		}
+	}
+
+	.photoContainer {
+		background-color: @grey_light;
+		font-size: 11pt;
+
+		.container .row {
+			margin: 0;
+
+			.photoHolder img {
+				margin-bottom: -0.25em;
+			}
+
+			p {
+				margin: 0;
+
+				&:first-child{
+					margin-top: 25px;
+				}
+			}
+		}
+	}
+
+	.logos_socios {
+		font-size: 0.8em;
+
+		.group {
+			display: inline-block;
+		}
+	}
+
+	.address {
+		font-size: 0.9em;
+		line-height: 1.2em;
+
+		p {
+			margin-bottom: 20px;
+		}
+	}
+}
