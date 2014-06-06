@@ -478,8 +478,9 @@ app.view.GroupLayer = Backbone.View.extend({
                             type: 'GET',
                             success: function(data) {
                                 var html = '<div class="info-popup">';
+                                html += '<div style="background-image:url(\'/images/'+data.result.images[0].href+'\')">';
+                                html += '<h2>'+data.result.author+'</h2>';
                                 html += '<h1>'+data.result.title+'</h1>';
-                                html += '<img src="/images/'+data.result.images[0].href+'">';
                                 html += '<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/'+data.result.id_history +'" jslink><lang>Ver más</lang></a>';
                                 html += '</div>';
                                 e.popup._container.childNodes[1].innerHTML = html;
