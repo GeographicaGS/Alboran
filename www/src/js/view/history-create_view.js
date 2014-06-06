@@ -3,6 +3,7 @@ app.view.HistoryCreate = Backbone.View.extend({
     
     initialize: function() {
         app.events.trigger('menu','join');
+        this.isSending = false;
         this.render();
     },
 
@@ -37,7 +38,8 @@ app.view.HistoryCreate = Backbone.View.extend({
 
         // Check session
         if(!(localStorage.password && localStorage.user)){
-            $('#login').trigger('click');
+            //$('#login').trigger('click');
+            this.showLogin();
         }
 
         return this;
@@ -159,89 +161,93 @@ app.view.HistoryCreate = Backbone.View.extend({
 
     sendHistory: function(e) {
         e.preventDefault();
+        if(!this.isSending){
+            this.isSending = true;
 
-        // Clear validation errors
-        this.$('.invalid').removeClass('invalid');
+            // Clear validation errors
+            this.$('.invalid').removeClass('invalid');
 
-        var that = this;
+            var that = this;
 
-        // Prepare form data
-        var items = {};
-        var error = false;
+            // Prepare form data
+            var items = {};
+            var error = false;
 
-        items.$title= this.$('#hist-title');
-        items.$place= this.$('#hist-place');
-        items.$lat= this.$('#hist-lat');
-        items.$lon= this.$('#hist-lon');
-        items.$date= this.$('#hist-when');
-        items.$text= this.$('#hist-text');
-        items.$category= this.$(':radio:checked');
+            items.$title= this.$('#hist-title');
+            items.$place= this.$('#hist-place');
+            items.$lat= this.$('#hist-lat');
+            items.$lon= this.$('#hist-lon');
+            items.$date= this.$('#hist-when');
+            items.$text= this.$('#hist-text');
+            items.$category= this.$(':radio:checked');
 
-        var title= items.$title.val();
-        var place= items.$place.val();
-        var lat= items.$lat.val();
-        var lon= items.$lon.val();
-        var date= items.$date.val();
-        var text= items.$text.val();
-        var category= items.$category.val();
+            var title= _.escape(items.$title.val());
+            var place= _.escape(items.$place.val());
+            var lat= _.escape(items.$lat.val());
+            var lon= _.escape(items.$lon.val());
+            var date= _.escape(items.$date.val());
+            var text= _.escape(items.$text.val());
+            var category= _.escape(items.$category.val());
 
-        var type= $('#selectedType').hasClass('goodpractices') ? '0': '1';
+            var type= $('#selectedType').hasClass('goodpractices') ? '0': '1';
 
-        $.each(items, function(index, element){
-            that.validate(element, false);
-        });
-
-        var images = [];
-        var $images = this.$('input[type=hidden]');
-        $.each($images,function(index, elem){
-            images.push(elem.value);
-        });
-
-        if(images.length < 1){
-            this.$('#imagesFieldset').addClass('invalid');
-            error = true;
-        }
-
-        var parts = date.split("/");
-        var dateData = Date.parse(parts[2]+'/'+parts[1]+'/'+parts[0]);
-        if(isNaN(dateData) || dateData == undefined){
-            items.$date.addClass('invalid');
-            error = true;
-        }
-
-        if(!category) category=0;
-
-        if(!error){            
-            var formData = {
-                'title': title,
-                'place': place,
-                'lat': lat,
-                'lon': lon,
-                'date': date,
-                'text': text,
-                'category': category,
-                'type': type,
-                'images': JSON.stringify(images)
-            };
-            
-            $.ajax({
-                url : '/api/history/',
-                data: formData,
-                type: 'POST',
-                dataType: 'json',
-                success: function(data) {
-                    // Show success popup
-                    if(data.admin){
-                        that.showMessage('#historySendSuccessAdmin');
-                    }else{
-                        that.showMessage('#historySendSuccess')
-                    }
-                },
-                error: function() {
-                   // Show error popup
-                   that.showMessage('#historySendError');
-                }
+            $.each(items, function(index, element){
+                that.validate(element, false);
             });
+
+            var images = [];
+            var $images = this.$('input[type=hidden]');
+            $.each($images,function(index, elem){
+                images.push(elem.value);
+            });
+
+            if(images.length < 1){
+                this.$('#imagesFieldset').addClass('invalid');
+                error = true;
+            }
+
+            var parts = date.split("/");
+            var dateData = Date.parse(parts[2]+'/'+parts[1]+'/'+parts[0]);
+            if(isNaN(dateData) || dateData == undefined){
+                items.$date.addClass('invalid');
+                error = true;
+            }
+
+            if(!category) category=0;
+
+            if(!error){            
+                var formData = {
+                    'title': title,
+                    'place': place,
+                    'lat': lat,
+                    'lon': lon,
+                    'date': date,
+                    'text': text,
+                    'category': category,
+                    'type': type,
+                    'images': JSON.stringify(images)
+                };
+                
+                $.ajax({
+                    url : '/api/history/',
+                    data: formData,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(data) {
+                        // Show success popup
+                        if(data.admin){
+                            that.showMessage('#historySendSuccessAdmin');
+                        }else{
+                            that.showMessage('#historySendSuccess')
+                        }
+                    },
+                    error: function() {
+                       // Show error popup
+                       that.showMessage('#historySendError');
+                       that.isSending = false;
+                    }
+                });
+            }
         }
     },
 
@@ -264,6 +270,26 @@ app.view.HistoryCreate = Backbone.View.extend({
         return error;
     },
 
+    showLogin: function() {
+        $.fancybox($("#loginForms"), {
+            'width':'640',
+            'height': 'auto',
+            'padding': '0',
+            'autoDimensions':false,
+            'autoSize':false,
+            'closeBtn' : false,
+            'scrolling'   : 'no',
+            helpers : { 
+                overlay: { 
+                    css: {'background-color': 'rgba(0,0,102,0.85)'}
+                } 
+            },
+            afterShow: resetForm,
+            afterClose: function(){app.router.navigate("join",{trigger: true})}
+        });
+        return false;
+    },
+
     showMessage: function(id) {
         $.fancybox($(id), {
             'width':'640',
@@ -275,7 +301,8 @@ app.view.HistoryCreate = Backbone.View.extend({
             'scrolling'   : 'no',
             helpers : { 
                  overlay: { 
-                   css: {'background-color': 'rgba(0,0,102,0.85)'} 
+                   css: {'background-color': 'rgba(0,0,102,0.85)'} ,
+                   closeClick: false
                  } 
             },
             afterShow: function () {
@@ -300,7 +327,8 @@ app.view.HistoryCreate = Backbone.View.extend({
             'scrolling'   : 'no',
             helpers : { 
                  overlay: { 
-                   css: {'background-color': 'rgba(0,0,102,0.85)'} 
+                   css: {'background-color': 'rgba(0,0,102,0.85)'},
+                   closeClick: false
                  } 
             },
             afterShow: function () {

@@ -23,11 +23,18 @@ app.view.SignUp = Backbone.View.extend({
         
         // Check if the model is valid before saving
         if(this.model.isValid(true)){
+            var $submit_btn = this.$('#signup_btn');
+            $submit_btn.attr('disabled','disabled');
             var now = $.now();
             var that = this;
             $.ajax({
                 url : "/api/user/",
-                data: {"user": this.model.get('user'), "name": this.model.get('name'), "email": this.model.get('email'), "password": md5(this.model.get('password'))},
+                data: {
+                    "user": _.escape(this.model.get('user')),
+                    "name": _.escape(this.model.get('name')),
+                    "email": _.escape(this.model.get('email')),
+                    "password": md5(this.model.get('password'))
+                },
                 type: "POST",     
                     success: function(data) {
                         if(data.result){
@@ -43,11 +50,13 @@ app.view.SignUp = Backbone.View.extend({
                                 $error.insertAfter(that.$('input[type="button"]'));
                             }
                         }
+                        $submit_btn.removeAttr('disabled');
                     },
                     error: function(data){
                         var $error = $('<span/>');
                         $error.html('<lang>Ha ocurrido un error inesperado al crear su usuario. Inténtelo de nuevo más tarde</lang>');
                         $error.insertAfter(that.$('input[type="button"]'));
+                        $submit_btn.removeAttr('disabled');
                     }
             });
         }else{

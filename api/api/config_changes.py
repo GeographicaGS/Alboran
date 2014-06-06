@@ -10,10 +10,16 @@ app.config.update(
     smtpPort=,
     smtpUser='',
     smtpPassword='',
+    smtpTLS=False,
+    smtpAuth=False,
     smtpFromAddr='',
     smtpFromAddrName='',
     UPLOAD_TEMP_FOLDER='../tempimages/',
     IMAGES_FOLDER='../images/',
     ALLOWED_EXTENSIONS=set(['jpg','jpeg','png']),
-    MAX_CONTENT_LENGTH=16 * 1024 * 1024
+    MAX_CONTENT_LENGTH=16 * 1024 * 1024,
+    convertBin='',
+    baseURL='',
+    historyFirstPagSize=,
+    historyPagSize=
 )

@@ -8,6 +8,7 @@ from datetime import datetime
 from psycopg2 import IntegrityError
 import time
 import md5
+from api import app
 
 # import logging
 
@@ -22,8 +23,8 @@ class HistoryModel(PostgreSQLModel):
 					"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 					"WHERE type_history = %s AND h.id_history < %s AND h.active = true " \
 					"ORDER BY h.id_history DESC, i.id_image ASC " \
-					"LIMIT 5"
-				result = self.query(sql,[htype, fromId]).result()
+					"LIMIT %s"
+				result = self.query(sql,[htype, fromId, app.config["historyPagSize"]]).result()
 			else:
 				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
 					"FROM \"history\" h " \
@@ -31,8 +32,8 @@ class HistoryModel(PostgreSQLModel):
 					"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 					"WHERE type_history = %s AND h.active = true " \
 					"ORDER BY h.id_history DESC, i.id_image ASC " \
-					"LIMIT 5"
-				result = self.query(sql,[htype]).result()
+					"LIMIT %s"
+				result = self.query(sql,[htype, app.config["historyPagSize"]]).result()
 		else:
 			# Send 16 histories for each type and the number of total histories
 			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
@@ -41,8 +42,8 @@ class HistoryModel(PostgreSQLModel):
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 				"WHERE h.active = true AND type_history = 0" \
 				"ORDER BY h.id_history DESC, i.id_image ASC " \
-				"LIMIT 16"
-			result1 = self.query(sql).result()
+				"LIMIT %s"
+			result1 = self.query(sql,[app.config["historyFirstPagSize"]]).result()
 
 			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
 				"FROM \"history\" h " \
@@ -50,19 +51,19 @@ class HistoryModel(PostgreSQLModel):
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 				"WHERE h.active = true AND type_history = 1" \
 				"ORDER BY h.id_history DESC, i.id_image ASC " \
-				"LIMIT 16"
-			result2 = self.query(sql).result();
+				"LIMIT %s"
+			result2 = self.query(sql,[app.config["historyFirstPagSize"]]).result();
 
 			sql = "SELECT COUNT(DISTINCT h.id_history) as \"total\" FROM \"history\" h " \
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
-				"WHERE type_history = 0"
+				"WHERE type_history = 0 AND h.active = true"
 			count1 = self.query(sql).row()['total']
 
 			sql = "SELECT COUNT(DISTINCT h.id_history) as \"total\" FROM \"history\" h " \
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
-				"WHERE type_history = 1"
+				"WHERE type_history = 1 AND h.active = true"
 			count2 = self.query(sql).row()['total']
 
 			result = {}

@@ -28,4 +28,6 @@ def resizeImages(images):
         cmd = "%s %s -quality 60 -resize %dx%d\> %s" % (app.config["convertBin"],fsrc,3840,2160,fdest)       
         os.system(cmd)
 
+        os.remove(fsrc)
+
         app.logger.info(cmd)

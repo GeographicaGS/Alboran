@@ -25,6 +25,8 @@ $("#signin_btn").on('click', function(){
   var $form = $('#initSessionForm');
   $form.find("input[type='text']").removeClass('invalid');
   $form.find("input[type='password']").removeClass('invalid');
+  var $submit_btn = $form.find('#signin_btn');
+  $submit_btn.attr('disabled','disabled');
 
   var user = $form.find("input.user").val();
   var passw = $form.find("input[type='password']").eq(0).val()
@@ -57,7 +59,7 @@ $("#signin_btn").on('click', function(){
         var passw_sum = md5(passw);
         $.ajax({
             url : "/api/login/",
-            headers:{ "username": user, "timestamp": now, "hash": md5(user + passw_sum + now)},
+            headers:{ "username": _.escape(user), "timestamp": now, "hash": md5(user + passw_sum + now)},
             type: "POST",     
             success: function(xml) {
                 $.fancybox.close()
@@ -66,11 +68,13 @@ $("#signin_btn").on('click', function(){
                 $("#login").hide();
                 $("#logout").show();
                 app.ajaxSetup();
+                $submit_btn.removeAttr('disabled');
             },
             error: function(){
                 localStorage.removeItem('user');
                 localStorage.removeItem('password');
                 $("#initSessionForm").find(".error").fadeIn();
+                $submit_btn.removeAttr('disabled');
             }
         }); 
     }
@@ -87,6 +91,8 @@ $("#logout").on('click', function() {
 	
 	$("#login").show();
 	$("#logout").hide();
+  app.router.navigate("",{trigger: true});
+  
 	return false;
 });
 
