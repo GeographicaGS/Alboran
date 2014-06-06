@@ -9,12 +9,13 @@ deps.JS = {
 			"js/lib/underscore-min.js",
 			"js/lib/backbone-min.js",
 			"js/lib/leaflet/leaflet.js",
-			"js/lib/fancybox/jquery.fancybox.js"
+			
 		],
 		desc: "Third party library"
 	}
 	,Core: {
 		src: [
+			"js/lib/fancybox/jquery.fancybox.js",
 			// Namespace
 			"js/namespace.js",
 			// Config file
@@ -74,12 +75,12 @@ deps.CSS = {
 	ThirdParty:{
 		src : [
 		       "js/lib/leaflet/leaflet.css",
-		       "js/lib/fancybox/jquery.fancybox.css",
 		       "js/lib/ui-lightness/jquery-ui-1.10.3.custom.min.css",
 		]
 	},
 	Core: {
 		src: [
+			"js/lib/fancybox/jquery.fancybox.css",
 			"css/lib/WWW-Styles/reset.css",
 			"css/lib/WWW-Styles/base.css",
 			"css/styles.css",

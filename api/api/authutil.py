@@ -35,10 +35,15 @@ def sendEmail(toAddresses,subject,body):
     from email.header import Header
     
     server = smtplib.SMTP(app.config["smtpServer"], app.config["smtpPort"])
+
+    if app.config["smtpTLS"]: 
+    	server.starttls()
+    	
     server.ehlo()
-    server.starttls()
-    server.ehlo()
-    server.login(app.config["smtpUser"], app.config["smtpPassword"])
+
+    if app.config["smtpAuth"]: 
+    	server.login(app.config["smtpUser"], app.config["smtpPassword"])
+
     fromAddr = app.config["smtpFromAddr"]
     
     msg = MIMEMultipart('alternative')
@@ -54,8 +59,8 @@ def sendEmail(toAddresses,subject,body):
     finally:
         server.quit()
 
-def getConfirmationEmailBody(user,code):
-	link = "<a href='http://dev.alboran.es/es/user/" + user + "/" + code + "' target='_blank'>aqu&iacute;</a>"
+def getConfirmationEmailBody(user,code,lang="es"):
+	link = "<a href='"+ app.config["baseURL"] +"/" + lang + "/user/" + user + "/" + code + "' target='_blank'>aqu&iacute;</a>"
 	m = "<h1>Albor&aacute;n</h1>"
 	m += "<h2>Confirme su cuenta</h2>"
 	m += "<p>Haga clic " + link + " para confirmar su cuenta."

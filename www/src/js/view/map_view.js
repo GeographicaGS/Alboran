@@ -18,11 +18,11 @@ app.view.Map = Backbone.View.extend({
     	Map.getMap().on("click",function(e){
     		
     		$.fancybox($("#container_feature_info"), {
-    			'width':'800',
+    			'width':"auto",
     			"height": "auto",
-    		    'autoDimensions':false,
-    		    'autoSize':false,
-    		    'closeBtn' : false,
+    		    'autoDimensions':true,
+    		    'autoSize':true,
+    		    'closeBtn' : true,
     		    'scrolling'   : 'no',
 //    		    helpers : { 
 //    		    	   overlay: { 
