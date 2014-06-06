@@ -186,7 +186,7 @@ app.view.GroupLayer = Backbone.View.extend({
     	"click .removeLayer": "removeLayerClick",
     	"click .leyend" : "leyendClick",
     	"click .opacity": "opacityClick",
-    	"click .panel li:LAST-CHILD": "addLayerClick",
+    	"click .panelFooter": "addLayerClick",
     	"click .icon": "infoLayerClick",
         "click #mapHistoryControl": "toggleHistories"
 	},
