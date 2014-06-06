@@ -7,7 +7,7 @@ var param = (process.argv.length == 3 && process.argv[2]=="debug") ? "debug" : "
 console.log("Watching "+ mode );
 
 watch(["js","css"], function(filename) {
-    exec("node build.js debug " + param,function (error, stdout, stderr){
+    exec("node build.js " + param,function (error, stdout, stderr){
         if (error) {
             console.log(error);
             console.log(stderr);

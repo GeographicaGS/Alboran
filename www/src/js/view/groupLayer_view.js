@@ -208,7 +208,7 @@ app.view.GroupLayer = Backbone.View.extend({
     	if($(e.currentTarget).attr("idLayer")){
     		$(e.currentTarget).css({"background-color":"#f4f4f4"});
     		$(e.currentTarget).find("img").show();
-    		$(e.currentTarget).find("p").css({"maxWidth":"160px"});
+    		$(e.currentTarget).find("p").css({"maxWidth":"145px"});
     	}
     },
     
@@ -216,7 +216,7 @@ app.view.GroupLayer = Backbone.View.extend({
     	if($(e.currentTarget).attr("idLayer")){
     		$(e.currentTarget).css({"background-color":"white"});
     		$(e.currentTarget).find("img").hide();
-    		$(e.currentTarget).find("p").css({"maxWidth":"265px"});
+    		$(e.currentTarget).find("p").css({"maxWidth":"252px"});
     	}
     },
     
@@ -334,7 +334,8 @@ app.view.GroupLayer = Backbone.View.extend({
 //        $li.insertBefore($group.find('li:last-child'));
         
         $li.hide();
-        $li.insertAfter($('.panel').find('li:first-child'));
+        //$li.insertAfter($('.panel').find('li:first-child'));
+        $('.panel').prepend($li);
         $li.show(300);
         
 
@@ -477,12 +478,12 @@ app.view.GroupLayer = Backbone.View.extend({
                             url : '/api/history/'+h_id,
                             type: 'GET',
                             success: function(data) {
-                                var html = '<div class="info-popup">';
-                                html += '<div style="background-image:url(\'/images/'+data.result.images[0].href+'\')">';
+                                var html = '<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/'+data.result.id_history +'" jslink class="info-popup">';
+                                html += '<div style="background-image:url(\'/images/'+data.result.images[0].href+'\')"></div>';
                                 html += '<h2>'+data.result.author+'</h2>';
                                 html += '<h1>'+data.result.title+'</h1>';
-                                html += '<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/'+data.result.id_history +'" jslink><lang>Ver más</lang></a>';
-                                html += '</div>';
+                                html += '<p><img src="/img/about/ALB_icon_li_menu_sec.svg"><lang>Ver más</lang></p>';
+                                html += '</a>';
                                 e.popup._container.childNodes[1].innerHTML = html;
                                 $(e.popup._container).css('left',-161);
                             }
