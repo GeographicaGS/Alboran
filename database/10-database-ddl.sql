@@ -19,7 +19,10 @@ CREATE TABLE user(
   active boolean DEFAULT false,
   confirmation_code text,
   real_name text,
-  CONSTRAINT user_pkey PRIMARY KEY (id_user)
+  admin boolean DEFAULT false,
+  CONSTRAINT user_pkey PRIMARY KEY (id_user),
+  CONSTRAINT email_unique UNIQUE (email),
+  CONSTRAINT name_unique UNIQUE (name)
 );
 
 CREATE TABLE layer_configuration

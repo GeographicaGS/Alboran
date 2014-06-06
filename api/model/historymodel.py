@@ -122,6 +122,9 @@ class HistoryModel(PostgreSQLModel):
 		return result
 
 	def createHistory(self, data, id_user):
+		# Check if User is Admin
+		sql = "SELECT admin FROM \"user\" WHERE id_user = %s";
+		isAdmin = self.query(sql,[id_user]).row()['admin'];
 		sql = "SELECT ST_SetSRID(ST_MakePoint(%s,%s),4326) as geom"
 		geom = self.query(sql,[data['lon'],data['lat']]).row()['geom']
 		insertData = {
@@ -134,8 +137,12 @@ class HistoryModel(PostgreSQLModel):
 			'id_user':id_user,
 			'geom': geom
 		}
+		if(isAdmin):
+			insertData['active'] = True
+
 		history_id = self.insert("history",insertData,"id_history")
-		return history_id
+		result = {'history_id': history_id, 'isAdmin': isAdmin}
+		return result
 
 	def confirmHistory(self, id):
 		sql = "UPDATE \"history\" set active = true where id_history = %s"

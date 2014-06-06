@@ -43,7 +43,11 @@ class UserModel(PostgreSQLModel):
 		code = m.hexdigest()
 		sql = "INSERT INTO \"user\" (name, real_name, password, email, active, confirmation_code)" \
 				" VALUES (%s,%s,%s,%s, false, %s)"
-		result = self.queryCommit(sql,[username, realname, password, email, code])
+		try:
+			result = self.queryCommit(sql,[username, realname, password, email, code])
+		except IntegrityError:
+			code = None
+
 		return code
 
 	def confirmUser(self, user, code):

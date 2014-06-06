@@ -1,5 +1,8 @@
 $("#login").on('click', function(e) {
   $("#loginForms").find(".error").hide();
+  $("#loginForms .msgPopup").hide();
+  $("#loginForms #createAccountForm").hide();
+  $("#loginForms #initSessionForm").show();
   $.fancybox($("#loginForms"), {
     'width':'640',
     'height': 'auto',
@@ -13,156 +16,64 @@ $("#login").on('click', function(e) {
            css: {'background-color': 'rgba(0,0,102,0.85)'} 
          } 
     },
-    afterShow: function () {
-      function checkUsername(input){
-        if(input.parent().attr('id')=='#createAccountForm'){
-          $.ajax({
-            url : "/api/user/"+ input.val(),
-            type: "GET",     
-                success: function(data) {
-                  if(data.result){
-                    input.addClass('invalid');
-                  }else{
-                    input.removeClass('invalid');
-                    if(input.val().length > 8)
-                      input.addClass('invalid');
-                  }
-                }
-            });
-        }
-      }
-
-      function resetForm(){
-        var $form = $('#loginForms .loginForm:not(.hidden)');
-        $form.find("input[type='text']").val('');
-        $form.find("input[type='password']").val('');
-        
-        $form.find("input[type='button']").on('click', function(){
-          
-          $form.find("input[type='text']").removeClass('invalid');
-          $form.find("input[type='password']").removeClass('invalid');
-
-          var isCreateForm = $form.attr('id') == 'createAccountForm';
-          
-          var user = $form.find("input.user").val();
-          var passw = $form.find("input[type='password']").eq(0).val()
-          var name='', email = '', passw_conf = '';
-          var $user = $form.find("input.user");
-          if(isCreateForm){
-            name = $form.find("input.name").val();
-            email = $form.find("input.email").val();
-            passw_conf = $form.find("input[type='password']").eq(1).val();
-          }
-
-          if(user == ""){
-            $form.find("input.user").addClass('invalid');
-          }
-
-          if(email == ""){
-            $form.find("input.email").addClass('invalid'); 
-          }
-
-          if(name == ""){
-            $form.find("input.name").addClass('invalid'); 
-          }
-          
-          if(isCreateForm){
-            if( passw == "" ){
-              $form.find("input[type='password']").addClass('invalid');
-            }
-            checkUsername($user);
-          }else{
-            if( passw == "" || passw != passw_conf ){
-              $form.find("input[type='password']").addClass('invalid');
-            }
-          }
-
-          if(isCreateForm){
-            var testEmail = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");        
-            if( user!='' && !$user.hasClass('invalid') && name != '' && email != '' && passw!='' && (passw == passw_conf) && testEmail.test(email) ){
-              var now = $.now();
-              $.ajax({
-                url : "/api/user/",
-                data: {"user": user, "name": name, "email": email, "password": md5(passw)},
-                type: "POST",     
-                    success: function(xml) {
-                      $form.slideUp();
-                      $('#signinSuccess').slideDown();
-                    },
-                    error: function(){
-                      $form.find(".error").fadeIn();
-                    }
-              });
-            }
-          }else{
-            if(user!='' && passw!=''){
-            var now = $.now();
-            var passw_sum = md5(passw);
-            $.ajax({
-              url : "/api/login/",
-              headers:{ "username": user, "timestamp": now, "hash": md5(user + passw_sum + now)},
-              type: "POST",     
-                  success: function(xml) {
-                    $.fancybox.close()
-                    localStorage.setItem('user', user);
-                    localStorage.setItem('password', passw_sum);
-                    $("#login").hide();
-                    $("#logout").show();
-                    app.ajaxSetup();
-                  },
-                  error: function(){
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('password');
-                    $("#initSessionForm").find(".error").fadeIn();
-                  }
-              }); 
-            }
-          }
-        });
-
-        $form.find(".legal a").on('click',function(e){
-          $.fancybox.close();
-        });
-
-        $form.find("input").keydown(function (e){
-          if(e.keyCode == 13){
-            $form.find("input[type='button']").trigger("click");
-          }
-        });
-
-        $form.find('input.user').on('keyup',function(e){
-            checkUsername($(this));
-        });
-      }
-
-      $('#loginForms a.loginWindow').click(function(e){
-        $('#createAccountForm').slideUp();
-        $('#initSessionForm').slideDown();
-        $('#createAccountForm').promise().done(function(){
-          $('#createAccountForm').addClass('hidden');
-          $('#initSessionForm').removeClass('hidden');
-          resetForm();
-        });
-      });
-
-      $('#loginForms a.signinWindow').click(function(e){
-        $('#initSessionForm').slideUp();
-        $('#createAccountForm').slideDown();
-        $('#createAccountForm').promise().done(function(){
-          $('#initSessionForm').addClass('hidden');
-          $('#createAccountForm').removeClass('hidden');
-          resetForm();
-        });
-      });
-
-      $('#signinSuccess input').click(function(e){
-        $.fancybox.close();
-      });
-
-      resetForm();
-    }
+    afterShow: resetForm
   });
   return false;
+});
+
+$("#signin_btn").on('click', function(){
+  var $form = $('#initSessionForm');
+  $form.find("input[type='text']").removeClass('invalid');
+  $form.find("input[type='password']").removeClass('invalid');
+
+  var user = $form.find("input.user").val();
+  var passw = $form.find("input[type='password']").eq(0).val()
+  var name='', email = '', passw_conf = '';
+  var $user = $form.find("input.user");
+
+
+  name = $form.find("input.name").val();
+  email = $form.find("input.email").val();
+  passw_conf = $form.find("input[type='password']").eq(1).val();
+
+  if(user == ""){
+    $form.find("input.user").addClass('invalid');
+  }
+
+  if(email == ""){
+    $form.find("input.email").addClass('invalid'); 
+  }
+
+  if(name == ""){
+    $form.find("input.name").addClass('invalid'); 
+  }
+
+  if( passw == "" || passw != passw_conf ){
+    $form.find("input[type='password']").addClass('invalid');
+  }
+
+    if(user!='' && passw!=''){
+        var now = $.now();
+        var passw_sum = md5(passw);
+        $.ajax({
+            url : "/api/login/",
+            headers:{ "username": user, "timestamp": now, "hash": md5(user + passw_sum + now)},
+            type: "POST",     
+            success: function(xml) {
+                $.fancybox.close()
+                localStorage.setItem('user', user);
+                localStorage.setItem('password', passw_sum);
+                $("#login").hide();
+                $("#logout").show();
+                app.ajaxSetup();
+            },
+            error: function(){
+                localStorage.removeItem('user');
+                localStorage.removeItem('password');
+                $("#initSessionForm").find(".error").fadeIn();
+            }
+        }); 
+    }
 });
 
 $("#logout").on('click', function() {
@@ -178,6 +89,59 @@ $("#logout").on('click', function() {
 	$("#logout").hide();
 	return false;
 });
+
+$('#initSessionForm input').keydown(function (e){
+  if(e.keyCode == 13){
+    $("#signin_btn").trigger("click");
+  }
+});
+
+$('#loginForms a.loginWindow').click(function(e){
+  $('#createAccountForm').slideUp();
+  $('#initSessionForm').slideDown();
+  $('#createAccountForm').promise().done(function(){
+    $('#createAccountForm').addClass('hidden');
+    $('#initSessionForm').removeClass('hidden');
+    resetForm();
+    $(window).trigger('resize');
+  });
+});
+
+$('#loginForms a.signinWindow').click(function(e){
+    $('#initSessionForm').slideUp();
+    $('#createAccountForm').slideDown();
+    $('#createAccountForm').promise().done(function(){
+        $('#initSessionForm').addClass('hidden');
+        $('#createAccountForm').removeClass('hidden');
+        resetForm();
+        $(window).trigger('resize');
+    });
+});
+
+$('#signinSuccess input').click(function(e){
+    $.fancybox.close();
+});
+
+$("#loginForms .legal a").on('click',function(e){
+    $.fancybox.close();
+});
+
+$("#signinConfirmation input").click(function(e){
+    $.fancybox.close();
+});
+
+$("#signinError input").click(function(e){
+    $.fancybox.close();
+});
+
+function resetForm() {
+    var $form = $('#loginForms .loginForm:not(.hidden)');
+
+    $form.find("input[type='text']").val('');
+    $form.find("input[type='password']").val('');
+    $form.find(".invalid").removeClass("invalid");
+    $form.find("span").remove();
+}
 
 function showSigninConfirmation(user, passw) {
   localStorage.setItem('user', user);
@@ -201,9 +165,6 @@ function showSigninConfirmation(user, passw) {
     },
     afterShow: function () {
       $("#signinConfirmation").css('display', 'block');
-      $("#signinConfirmation input").click(function(e){
-        $.fancybox.close();
-      });
     }
   });
 }
@@ -224,9 +185,6 @@ function showSigninError() {
     },
     afterShow: function () {
       $("#signinError").css('display', 'block');
-      $("#signinError input").click(function(e){
-        $.fancybox.close();
-      });
     }
   });
 }
@@ -487,3 +445,13 @@ function utf8_encode(argString) {
 
 	  return utftext;
 	}
+
+// Dado un formulario o capa que contenga un formulario, crea un objeto con todos los campos y sus valores
+$.fn.serializeObject = function () {
+    "use strict";
+    var a = {}, b = function (b, c) {
+        var d = a[c.name];
+        "undefined" != typeof d && d !== null ? $.isArray(d) ? d.push(c.value) : a[c.name] = [d, c.value] : a[c.name] = c.value
+    };
+    return $.each(this.children().serializeArray(), b), a
+};

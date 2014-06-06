@@ -8,6 +8,8 @@ deps.JS = {
 			"js/lib/jquery-ui-1.10.3.custom.min.js",
 			"js/lib/underscore-min.js",
 			"js/lib/backbone-min.js",
+			"js/lib/backbone-validation-min.js",
+			"js/lib/async.backbone.validation.js",
 			"js/lib/leaflet/leaflet.js",
 			
 		],
@@ -27,6 +29,7 @@ deps.JS = {
 			"js/model/layer.js",
 			"js/model/category.js",
 			"js/model/history.js",
+			"js/model/user.js",
 			
 			// --------------------
 			// ---- Collections ---
@@ -54,6 +57,7 @@ deps.JS = {
 			"js/view/oldbrowser_view.js",
 			"js/view/history-create_view.js",
 			"js/view/history_view.js",
+			"js/view/signup_view.js",
 
 
 			// router

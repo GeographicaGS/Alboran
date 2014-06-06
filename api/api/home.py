@@ -31,10 +31,12 @@ def signin():
 	name = request.form.get('name')
 	u = UserModel()
 	code = u.createUser(user,name,email,password)
-
-	# Send confirmation email
-	sendEmail([email], "Email de confirmación de Alborán", getConfirmationEmailBody(user, code))
-	return jsonify({'result': 'true'})
+	if code is not None:
+		# Send confirmation email
+		sendEmail([email], "Email de confirmación de Alborán", getConfirmationEmailBody(user, code))
+		return jsonify({'result': 'true'})
+	else:
+		return jsonify({'error': 'userexists'})
 
 @app.route('/user/<user>', methods=['GET'])
 def checkUsername(user):
@@ -102,15 +104,15 @@ def uploadHistory():
 
 	# Save history data
 	h = HistoryModel()
-	historyid = h.createHistory(request.form, userid)
+	result = h.createHistory(request.form, userid)
 
 	# Save images and link in DB
 	imagelist = ast.literal_eval(request.form['images'])
 	resizeImages(imagelist)
 	i = ImageModel()
-	i.addImages(imagelist, historyid)
+	i.addImages(imagelist, result['history_id'])
 
-	return jsonify({'admin':'true'})
+	return jsonify({'admin':result['isAdmin']})
 
 @app.route('/history/', methods=['GET'])
 def listHistories():

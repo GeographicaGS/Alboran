@@ -237,3 +237,8 @@ app.getBrowser = function(){
     if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
     return M;
 };
+
+var signupview = new app.view.SignUp({
+    el: '#createAccountForm',
+    model: new app.model.User()
+});
