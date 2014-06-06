@@ -215,7 +215,8 @@ Map = {
 	},
 	
 	featureInfo : function(e,id){
-		$("#container_feature_info").show();
+
+		$("#container_feature_info").html("<div class='loading'>Loading</div>").show();
 		if(!id){
 			id = 0;
 		}

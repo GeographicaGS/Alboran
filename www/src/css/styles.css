@@ -1038,8 +1038,8 @@ footer {
 }
 
 #container_feature_info{
-	width: 800px;
-	height: 400px;
+	/*width: 800px;
+	height: 400px;*/
 /* 	overflow:auto; */
 	display: none;
 }

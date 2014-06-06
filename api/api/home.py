@@ -33,7 +33,7 @@ def signin():
 	code = u.createUser(user,name,email,password)
 
 	# Send confirmation email
-	sendEmail(email, "Email de confirmación de Alborán", getConfirmationEmailBody(user, code))
+	sendEmail([email], "Email de confirmación de Alborán", getConfirmationEmailBody(user, code))
 	return jsonify({'result': 'true'})
 
 @app.route('/user/<user>', methods=['GET'])
