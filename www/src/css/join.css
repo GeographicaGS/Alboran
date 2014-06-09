@@ -923,3 +923,8 @@
 	height: 500px;
 	width: 500px;
 }
+
+.howto {
+	max-width: 490px;
+	font-size: 0.8em;
+}
