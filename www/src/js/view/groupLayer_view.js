@@ -35,40 +35,8 @@ app.view.GroupLayer = Backbone.View.extend({
     	this.$el.find(".panel").disableSelection();
     	this.$el.find(".panel").sortable({ cancel: '.disableSortable' });
     	
-    	$($("#map_control").find("img")[0]).on('click', function() {
-    		if($("#groupLayer").is(":visible")){
-    			
-    			$(".groupLauyerConfig").css({"background-color":""});
-    			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
-    			$("#configPanelMap").fadeOut();
-    			
-    			$("#groupLayer").animate({"left":"-320"},300);
-    			$("#groupLayer").hide(300);
-    			
-    			$("#map_control img").removeClass("fleft");
-    			$("#map_control .title").hide();
-    			$("#map_control .title").removeClass("fleft");
-    			$(".groupLauyerConfig").hide();
-    			$("#map_control span").show();
-    			$("#map_control br").show()
-    		}else{
-    			
-    			$("#groupLayer").animate({"left":"0"},300);
-    			$("#groupLayer").show();
-    			
-    			$("#map_control img").addClass("fleft");
-    			$("#map_control .title").show(300,function(){
-        			$(".groupLauyerConfig").show();
-        			$("#map_control .title").addClass("fleft");
-    			});
-    			$("#map_control span").hide()
-    			$("#map_control br").hide();
-    		}
-       }); 
-    	
-    	$($("#map_control").find("div")[0]).on('click', function() {
-    		$($("#map_control").find("img")[0]).trigger("click");
-    	});
+    	$("#map_control").find("img").eq(0).on('click', this.toggleSidebar); 
+    	$("#map_control").find("div").eq(0).on('click', this.toggleSidebar);
     	
     	$(".groupLauyerConfig").on('click', function(e) {
     		if($("#configPanelMap").is(":visible")){
@@ -478,7 +446,7 @@ app.view.GroupLayer = Backbone.View.extend({
                             url : '/api/history/'+h_id,
                             type: 'GET',
                             success: function(data) {
-                                var html = '<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/'+data.result.id_history +'" jslink class="info-popup">';
+                                var html = '<a href="/es/join/history/'+data.result.id_history +'" jslink class="info-popup">';
                                 html += '<div style="background-image:url(\'/images/'+data.result.images[0].href+'\')"></div>';
                                 html += '<h2>'+data.result.author+'</h2>';
                                 html += '<h1>'+data.result.title+'</h1>';
@@ -487,7 +455,7 @@ app.view.GroupLayer = Backbone.View.extend({
                                 e.popup._container.childNodes[1].innerHTML = html;
                                 $(e.popup._container).css('left',-161);
                             }
-                        });                        
+                        });
                     }
 
                     that.historyGeoJson = data.result;
@@ -517,6 +485,37 @@ app.view.GroupLayer = Backbone.View.extend({
                 Map.__map.removeLayer(this.historiesLayer);
             }
         }
-    }
+    },
+
+    toggleSidebar: function() {
+        if($("#groupLayer").is(":visible")){
+            
+            $(".groupLauyerConfig").css({"background-color":""});
+            $(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+            $("#configPanelMap").fadeOut();
+            
+            $("#groupLayer").animate({"left":"-320"},300);
+            $("#groupLayer").hide(300);
+            
+            $("#map_control img").removeClass("fleft");
+            $("#map_control .title").hide();
+            $("#map_control .title").removeClass("fleft");
+            $(".groupLauyerConfig").hide();
+            $("#map_control span").show();
+            $("#map_control br").show()
+        }else{
+            
+            $("#groupLayer").animate({"left":"0"},300);
+            $("#groupLayer").show();
+            
+            $("#map_control img").addClass("fleft");
+            $("#map_control .title").show(300,function(){
+                $(".groupLauyerConfig").show();
+                $("#map_control .title").addClass("fleft");
+            });
+            $("#map_control span").hide()
+            $("#map_control br").hide();
+        }
+   }
 });
 	

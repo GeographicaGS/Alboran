@@ -237,19 +237,22 @@ app.view.HistoryCreate = Backbone.View.extend({
                     success: function(data) {
                         // Show success popup
                         if(data.admin){
-                            that.showMessage('#historySendSuccessAdmin');
+                            that.showMessage('#historySendSuccessAdmin', data.history_id);
                         }else{
                             that.showMessage('#historySendSuccess')
                         }
-                        this.$('#enviar_btn span').html('<lang>Historia enviada</lang>');
+                        that.$('#enviar_btn span').html('<lang>Historia enviada</lang>');
                     },
                     error: function() {
                        // Show error popup
                        that.showMessage('#historySendError');
                        that.isSending = false;
-                       this.$('#enviar_btn span').html('<lang>Compartir historia</lang>');
+                       that.$('#enviar_btn span').html('<lang>Compartir historia</lang>');
                     }
                 });
+            }else{
+                that.isSending = false;
+                this.$('#enviar_btn span').html('<lang>Compartir historia</lang>');
             }
         }
     },
@@ -293,7 +296,7 @@ app.view.HistoryCreate = Backbone.View.extend({
         return false;
     },
 
-    showMessage: function(id) {
+    showMessage: function(id, opt) {
         $.fancybox($(id), {
             'width':'640',
             'height': 'auto',
@@ -313,7 +316,7 @@ app.view.HistoryCreate = Backbone.View.extend({
                 $(id + " input").click(function(e){
                     $.fancybox.close();
                     if(id.indexOf('uccess') != -1)
-                        app.router.navigate('join',{trigger: true});
+                        app.router.navigate('join/history/'+opt ,{trigger: true});
                 });
             }
         });

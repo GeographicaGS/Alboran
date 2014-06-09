@@ -112,7 +112,7 @@ def uploadHistory():
 	i = ImageModel()
 	i.addImages(imagelist, result['history_id'])
 
-	return jsonify({'admin':result['isAdmin']})
+	return jsonify({'admin':result['isAdmin'], 'history_id': result['history_id']})
 
 @app.route('/history/', methods=['GET'])
 def listHistories():

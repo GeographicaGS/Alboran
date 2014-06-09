@@ -1041,6 +1041,18 @@ footer {
 	background-color: white;
 }
 
+.myClose {
+	width: 24px;
+	height: 30px;
+	top: -12px;
+	right: -12px;
+	background: none;
+}
+
+.fancybox-close, .fancybox-prev span, .fancybox-next span {
+	background: none;
+}
+
 .ellipsis {
 	text-overflow: ellipsis;
 	overflow: hidden;

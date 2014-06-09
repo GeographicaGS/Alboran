@@ -434,6 +434,7 @@
 			border-width: 0 1px;
 
 			.topTabs li {
+				background-color: @grey_tabBack;
 				border-right: 1px solid @grey_tabBorder;
 				border-bottom: 1px solid @grey_tabBorder;
 				padding: 12px 9px 11px;
@@ -465,12 +466,16 @@
 
 				&.selected {
 					border-bottom: 1px solid @ocre;
-					background-color: @grey_tabBack;
+					background-color: @white;
 
 					h2 {
 						color: @ocre;
 						.lato(bold);
 					}
+				}
+
+				&:hover h2 {
+					color: @ocre;
 				}
 			}
 		}
@@ -528,12 +533,16 @@
 					color: @grey_4;
 					font-size: 10pt;
 					.lato(regular);
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 
 				h3 {
 					color: @grey_header_dark;
 					.lato(italic);
 					font-size: 14pt;
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 
 				a.loadMore {
@@ -814,12 +823,4 @@
 			}
 		}
 	}
-}
-
-.myClose {
-	width: 24px;
-	height: 30px;
-	top: -12px;
-	right: -12px;
-	background: none;
 }

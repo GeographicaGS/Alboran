@@ -24,6 +24,9 @@ app.view.Map = Backbone.View.extend({
     		    'autoSize':true,
     		    'closeBtn' : true,
     		    'scrolling'   : 'no',
+                tpl: {
+                    closeBtn: '<a title="Close" class="fancybox-item fancybox-close myClose" href="javascript:;"><img src="/img/participa/ALB_cerrar_galeria.svg"></a>'
+                }
 //    		    helpers : { 
 //    		    	   overlay: { 
 //    		    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
