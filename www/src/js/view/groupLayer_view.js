@@ -133,14 +133,14 @@ app.view.GroupLayer = Backbone.View.extend({
     	
     	// Histories icon config
         this.icon_goodpractice = L.icon({
-            iconUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
+            iconUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
             iconRetinaUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
             iconSize: [40, 32],
             iconAnchor: [8, 32]
         });
 
         this.icon_sighting = L.icon({
-            iconUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
+            iconUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
             iconRetinaUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
             iconSize: [40, 32],
             iconAnchor: [8, 32]
