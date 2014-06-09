@@ -25,6 +25,8 @@ app.view.SignUp = Backbone.View.extend({
         if(this.model.isValid(true)){
             var $submit_btn = this.$('#signup_btn');
             $submit_btn.attr('disabled','disabled');
+            $submit_btn.attr('value','<lang>Enviando...</lang>');
+
             var now = $.now();
             var that = this;
             $.ajax({
@@ -51,12 +53,14 @@ app.view.SignUp = Backbone.View.extend({
                             }
                         }
                         $submit_btn.removeAttr('disabled');
+                        $submit_btn.attr('value','<lang>Crear cuenta</lang>');
                     },
                     error: function(data){
                         var $error = $('<span/>');
                         $error.html('<lang>Ha ocurrido un error inesperado al crear su usuario. Inténtelo de nuevo más tarde</lang>');
                         $error.insertAfter(that.$('input[type="button"]'));
                         $submit_btn.removeAttr('disabled');
+                        $submit_btn.attr('value','<lang>Crear cuenta</lang>');
                     }
             });
         }else{
