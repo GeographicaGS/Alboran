@@ -74,7 +74,7 @@ class HistoryModel(PostgreSQLModel):
 		return result
 
 	def getHistoryById(self, id):
-		sql = "SELECT h.id_history, title, date_history as \"date\", place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", u.id_user " \
+		sql = "SELECT h.id_history, title, date_history as \"date\", place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", u.id_user, u.name as \"username\" " \
 			"FROM \"history\" h " \
 			"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 			"WHERE h.id_history = %s AND h.active = true"

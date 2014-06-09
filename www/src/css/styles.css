@@ -1049,8 +1049,17 @@ footer {
 	background: none;
 }
 
+.myCloseRound {
+	width: 24px;
+	height: 24px;
+	top: -12px;
+	right: -12px;
+	background-color: @white;
+	border-radius: 12px;
+}
+
 .fancybox-close, .fancybox-prev span, .fancybox-next span {
-	background: none;
+	background-image: none;
 }
 
 .ellipsis {

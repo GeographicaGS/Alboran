@@ -31,6 +31,7 @@ app.view.HistoryDetail = Backbone.View.extend({
         });
 
         this.setShareLinks();
+        this.showAuthorMessage();
 
         return this;
     },
@@ -62,5 +63,11 @@ app.view.HistoryDetail = Backbone.View.extend({
         this.$('#share-twitter').attr('href','https://twitter.com/?status='+ title +' - '+ document.URL);
         this.$('#share-gplus').attr('href','https://plus.google.com/share?url='+ document.URL);
         this.$('#share-email').attr('href','mailto:?subject='+ title +'&body=<lang>Te comparto esta historia del Proyecto Alborán: </lang>'+ title +' - '+ document.URL);
+    },
+
+    showAuthorMessage: function() {
+        if(this.model.get('result').username == localStorage.user){
+            $('<div class="message">'+app.config['HISTORY_AUTHOR_MSG']+'</div>').insertAfter(this.$('.category'));
+        }
     }
 })

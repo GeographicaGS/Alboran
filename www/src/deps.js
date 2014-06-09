@@ -5,7 +5,7 @@ deps.JS = {
 	ThirdParty:{
 		src: [
 			"js/lib/jquery-2.0.3.min.js",
-			"js/lib/jquery-ui-1.10.3.custom.min.js",
+			"js/lib/jquery-ui-1.10.4.custom.min.js",
 			"js/lib/underscore-min.js",
 			"js/lib/backbone-min.js",
 			"js/lib/backbone-validation-min.js",

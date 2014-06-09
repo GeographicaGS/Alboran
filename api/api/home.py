@@ -122,6 +122,8 @@ def listHistories():
 	result = h.getHistoriesByType(htype,fromid)
 	if isinstance(result, dict):
 		return jsonify(result)
+	elif result is None:
+		abort(404)
 	else:
 		return jsonify({'result': result})
 

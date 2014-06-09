@@ -25,7 +25,7 @@ app.view.Map = Backbone.View.extend({
     		    'closeBtn' : true,
     		    'scrolling'   : 'no',
                 tpl: {
-                    closeBtn: '<a title="Close" class="fancybox-item fancybox-close myClose" href="javascript:;"><img src="/img/participa/ALB_cerrar_galeria.svg"></a>'
+                    closeBtn: '<a title="Close" class="fancybox-item fancybox-close myCloseRound" href="javascript:;"><img src="/img/catalogue/ALB_icon_buscar_cerrar.svg"></a>'
                 }
 //    		    helpers : { 
 //    		    	   overlay: { 
