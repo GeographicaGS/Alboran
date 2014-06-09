@@ -823,6 +823,31 @@
 			}
 		}
 	}
+
+	.message {
+		font-size: 0.8em;
+		padding-right: 10px;
+		
+		&:before {
+			content: url('/img/participa/ALB_icon_info.svg');
+			display: block;
+			float: left;
+			margin-right: 5px;
+			position: relative;
+			top: 1px;
+		}
+
+		&:after {
+			content: '';
+			clear: both;
+			display: block;
+		}
+
+		a {
+			color: @grey_header_dark;
+			border-bottom: 1px solid @grey_5;
+		}
+	}
 }
 
 .ui-datepicker {
