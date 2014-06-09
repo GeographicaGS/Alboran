@@ -59,6 +59,7 @@ deps.JS = {
 			"js/view/history-create_view.js",
 			"js/view/history_view.js",
 			"js/view/signup_view.js",
+			"js/view/map-pointselector_view.js",
 
 
 			// router

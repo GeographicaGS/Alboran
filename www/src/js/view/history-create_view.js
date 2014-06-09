@@ -20,7 +20,8 @@ app.view.HistoryCreate = Backbone.View.extend({
         'change input[type=radio]': 'removeEvent',
         'click #enviar_btn': 'sendHistory',
         'click #cancel_btn': 'cancelHistory',
-        'blur input': 'validate'
+        'blur input': 'validate',
+        'click .position_btn': 'showMap'
     },
     
     onClose: function(){
@@ -338,6 +339,18 @@ app.view.HistoryCreate = Backbone.View.extend({
                 });
             }
         });
+    },
+
+    showMap: function() {
+        this.pointSelector = new app.view.MapPointSelector();
+        this.pointSelector.on('pointSelected', this.getPoint, this);
+    },
+
+    getPoint: function(point) {
+        this.$('#hist-lat').val(point.lat.toFixed(5));
+        this.$('#hist-lon').val(point.lng.toFixed(5));
+
+        this.pointSelector.off('pointSelected');
     },
 
     cancelHistory: function(e) {
