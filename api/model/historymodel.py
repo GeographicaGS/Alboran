@@ -81,6 +81,7 @@ class HistoryModel(PostgreSQLModel):
 		result = self.query(sql, [id]).row()
 
 		if result is not None:
+			print "Result not none"
 			# Date to string
 			result['date'] = result['date'].strftime("%d/%m/%Y")
 
