@@ -1,3 +1,4 @@
+from api import app
 from flask import request,abort
 from model.usermodel import UserModel
 import md5
@@ -24,3 +25,44 @@ def auth(func):
 			abort(401)
 		return func(*args, **kwargs)
 	return decorator
+
+def sendEmail(toAddresses,subject,body):
+    # Import smtplib for the actual sending function
+    import smtplib
+   
+    from email.MIMEMultipart import MIMEMultipart
+    from email.MIMEText import MIMEText
+    from email.header import Header
+    
+    server = smtplib.SMTP(app.config["smtpServer"], app.config["smtpPort"])
+
+    if app.config["smtpTLS"]: 
+    	server.starttls()
+    	
+    server.ehlo()
+
+    if app.config["smtpAuth"]: 
+    	server.login(app.config["smtpUser"], app.config["smtpPassword"])
+
+    fromAddr = app.config["smtpFromAddr"]
+    
+    msg = MIMEMultipart('alternative')
+    msg['From'] = app.config["smtpFromAddrName"]
+    msg['To'] = ", ".join(toAddresses)
+    msg['Subject'] =  Header(subject,'utf-8')
+    
+    msg.attach(MIMEText(body.encode("utf-8"), 'html','utf-8'))
+    
+    text = msg.as_string()
+    try:
+        server.sendmail(fromAddr, toAddresses, text)
+    finally:
+        server.quit()
+
+def getConfirmationEmailBody(user,code,lang="es"):
+	link = "<a href='"+ app.config["baseURL"] +"/" + lang + "/user/" + user + "/" + code + "' target='_blank'>aqu&iacute;</a>"
+	m = "<h1>Albor&aacute;n</h1>"
+	m += "<h2>Confirme su cuenta</h2>"
+	m += "<p>Haga clic " + link + " para confirmar su cuenta."
+
+	return m;

@@ -1,69 +1,87 @@
 $("#login").on('click', function(e) {
-	$("#initSessionForm").find(".error").hide();
-	$.fancybox($("#initSessionForm"), {
-		'width':'640',
-		"height": "auto",
-	    'autoDimensions':false,
-	    'autoSize':false,
-	    'closeBtn' : false,
-	    'scrolling'   : 'no',
-	    helpers : { 
-	    	   overlay: { 
-	    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
-	    	   } 
-	    },
-	    afterShow: function () {
-	    	$("#initSessionForm").find("input[type='text']").val('');
-	    	$("#initSessionForm").find("input[type='password']").val('');
-	    	
-	    	$("#initSessionForm").find("input[type='button']").on('click', function(){
-	    		
-	    		$("#initSessionForm").find("input[type='text']").css({"border":"1px solid #cacbcc"});
-	    		$("#initSessionForm").find("input[type='password']").css({"border":"1px solid #cacbcc"});
-	    		
-	    		var user = $("#initSessionForm").find("input[type='text']").val();
-	    		var passw = $("#initSessionForm").find("input[type='password']").val()
-	    		if(user == ""){
-	    			$("#initSessionForm").find("input[type='text']").css({"border":"1px solid red"});
-	    		}
-	    		
-	    		if(passw == ""){
-	    			$("#initSessionForm").find("input[type='password']").css({"border":"1px solid red"});
-	    		}
-	    		
-	    		if(user!='' && passw!=''){
-	    			var now = $.now();
-	    			$.ajax({
-	    				url : "/api/login/",
-	    				headers:{ "username": user, "timestamp": now, "hash": md5(user + passw + now)},
-	    				type: "POST",			
-	    		        success: function(xml) {
-	    		        	$.fancybox.close()
-	    		        	localStorage.setItem('user', user);
-	    		        	localStorage.setItem('password', passw);
-	    		        	$("#login").hide();
-	    		        	$("#logout").show();
-	    		        	app.ajaxSetup();
-	    		        },
-	    		        error: function(){
-	    		        	localStorage.removeItem('user');
-	    		        	localStorage.removeItem('password');
-	    		        	$("#initSessionForm").find(".error").fadeIn();
-	    		        }
-	    		    });
-	    			
-	    		}
-	    	});
-	    	
-	    	$("#initSessionForm").find("input").keydown(function (e){
-	    	    if(e.keyCode == 13){
-	    	    	$("#initSessionForm").find("input[type='button']").trigger("click");
-	    	    }
-	    	})
-	    }
-	});
-	return false;
-}); 
+  $("#loginForms").find(".error").hide();
+  $("#loginForms .msgPopup").hide();
+  $("#loginForms #createAccountForm").hide();
+  $("#loginForms #initSessionForm").show();
+  $.fancybox($("#loginForms"), {
+    'width':'640',
+    'height': 'auto',
+    'padding': '0',
+    'autoDimensions':false,
+    'autoSize':false,
+    'closeBtn' : false,
+    'scrolling'   : 'no',
+    helpers : { 
+         overlay: { 
+           css: {'background-color': 'rgba(0,0,102,0.85)'} 
+         } 
+    },
+    afterShow: resetForm
+  });
+  return false;
+});
+
+$("#signin_btn").on('click', function(){
+  var $form = $('#initSessionForm');
+  $form.find("input[type='text']").removeClass('invalid');
+  $form.find("input[type='password']").removeClass('invalid');
+  var $submit_btn = $form.find('#signin_btn');
+  $submit_btn.attr('disabled','disabled');
+  $submit_btn.attr('value','Iniciando sesión...');
+
+  var user = $form.find("input.user").val();
+  var passw = $form.find("input[type='password']").eq(0).val()
+  var name='', email = '', passw_conf = '';
+  var $user = $form.find("input.user");
+
+
+  name = $form.find("input.name").val();
+  email = $form.find("input.email").val();
+  passw_conf = $form.find("input[type='password']").eq(1).val();
+
+  if(user == ""){
+    $form.find("input.user").addClass('invalid');
+  }
+
+  if(email == ""){
+    $form.find("input.email").addClass('invalid'); 
+  }
+
+  if(name == ""){
+    $form.find("input.name").addClass('invalid'); 
+  }
+
+  if( passw == "" || passw != passw_conf ){
+    $form.find("input[type='password']").addClass('invalid');
+  }
+
+    if(user!='' && passw!=''){
+        var now = $.now();
+        var passw_sum = md5(passw);
+        $.ajax({
+            url : "/api/login/",
+            headers:{ "username": _.escape(user), "timestamp": now, "hash": md5(user + passw_sum + now)},
+            type: "POST",     
+            success: function(xml) {
+                $.fancybox.close()
+                localStorage.setItem('user', user);
+                localStorage.setItem('password', passw_sum);
+                $("#login").hide();
+                $("#logout").show();
+                app.ajaxSetup();
+                $submit_btn.removeAttr('disabled');
+                $submit_btn.attr('value','Acceder');
+            },
+            error: function(){
+                localStorage.removeItem('user');
+                localStorage.removeItem('password');
+                $("#initSessionForm").find(".error").fadeIn();
+                $submit_btn.removeAttr('disabled');
+                $submit_btn.attr('value','Acceder');
+            }
+        }); 
+    }
+});
 
 $("#logout").on('click', function() {
 	localStorage.removeItem('user');
@@ -76,8 +94,109 @@ $("#logout").on('click', function() {
 	
 	$("#login").show();
 	$("#logout").hide();
+  app.router.navigate("",{trigger: true});
+  
 	return false;
 });
+
+$('#initSessionForm input').keydown(function (e){
+  if(e.keyCode == 13){
+    $("#signin_btn").trigger("click");
+  }
+});
+
+$('#loginForms a.loginWindow').click(function(e){
+  $('#createAccountForm').slideUp();
+  $('#initSessionForm').slideDown();
+  $('#createAccountForm').promise().done(function(){
+    $('#createAccountForm').addClass('hidden');
+    $('#initSessionForm').removeClass('hidden');
+    resetForm();
+    $(window).trigger('resize');
+  });
+});
+
+$('#loginForms a.signinWindow').click(function(e){
+    $('#initSessionForm').slideUp();
+    $('#createAccountForm').slideDown();
+    $('#createAccountForm').promise().done(function(){
+        $('#initSessionForm').addClass('hidden');
+        $('#createAccountForm').removeClass('hidden');
+        resetForm();
+        $(window).trigger('resize');
+    });
+});
+
+$('#signinSuccess input').click(function(e){
+    $.fancybox.close();
+});
+
+$("#loginForms .legal a").on('click',function(e){
+    $.fancybox.close();
+});
+
+$("#signinConfirmation input").click(function(e){
+    $.fancybox.close();
+});
+
+$("#signinError input").click(function(e){
+    $.fancybox.close();
+});
+
+function resetForm() {
+    var $form = $('#loginForms .loginForm:not(.hidden)');
+
+    $form.find("input[type='text']").val('');
+    $form.find("input[type='password']").val('');
+    $form.find(".invalid").removeClass("invalid");
+    $form.find("span").remove();
+}
+
+function showSigninConfirmation(user, passw) {
+  localStorage.setItem('user', user);
+  localStorage.setItem('password', passw);
+  $("#login").hide();
+  $("#logout").show();
+  app.ajaxSetup();
+
+  $.fancybox($("#signinConfirmation"), {
+    'width':'640',
+    'height': 'auto',
+    'padding': '0',
+    'autoDimensions':false,
+    'autoSize':false,
+    'closeBtn' : false,
+    'scrolling'   : 'no',
+    helpers : { 
+         overlay: { 
+           css: {'background-color': 'rgba(0,0,102,0.85)'} 
+         } 
+    },
+    afterShow: function () {
+      $("#signinConfirmation").css('display', 'block');
+    }
+  });
+}
+
+function showSigninError() {
+  $.fancybox($("#signinError"), {
+    'width':'640',
+    'height': 'auto',
+    'padding': '0',
+    'autoDimensions':false,
+    'autoSize':false,
+    'closeBtn' : false,
+    'scrolling'   : 'no',
+    helpers : { 
+         overlay: { 
+           css: {'background-color': 'rgba(0,0,102,0.85)'} 
+         } 
+    },
+    afterShow: function () {
+      $("#signinError").css('display', 'block');
+    }
+  });
+}
 
 function md5(str) {
   var xl;
@@ -335,3 +454,13 @@ function utf8_encode(argString) {
 
 	  return utftext;
 	}
+
+// Dado un formulario o capa que contenga un formulario, crea un objeto con todos los campos y sus valores
+$.fn.serializeObject = function () {
+    "use strict";
+    var a = {}, b = function (b, c) {
+        var d = a[c.name];
+        "undefined" != typeof d && d !== null ? $.isArray(d) ? d.push(c.value) : a[c.name] = [d, c.value] : a[c.name] = c.value
+    };
+    return $.each(this.children().serializeArray(), b), a
+};

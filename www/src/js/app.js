@@ -43,8 +43,7 @@ $(function() {
         app.resizeMe();
     });
 
-    app.resizeMe();
-    
+    app.resizeMe();    
 });
 
 app.resizeMe = function(){
@@ -89,25 +88,33 @@ app.ini = function(){
     	$("#logout").hide();
     }
     
-    var numCategories = Map.getNumLayersByCategory();
-    $(".value.green").text(numCategories[0]);
-    $(".value.red").text(numCategories[1]);
-    $(".value.blue").text(numCategories[2]);
+//    var numCategories = Map.getNumLayersByCategory();
+//    $(".value.green").text(numCategories[0]);
+//    $(".value.red").text(numCategories[1]);
+//    $(".value.blue").text(numCategories[2]);
     
     new app.view.Map();
 
+    // Detect browser here
+    if(!app.isSupportedBrowser()){
+            app.router.navigate("browsernotsupported", {trigger: true});
+    }
 };
 
 app.showView = function(view) {
-    if (this.currentView){
-      this.currentView.close();
+    // Detect browser here
+    if(!(view instanceof app.view.OldBrowser) && !app.isSupportedBrowser()){
+            app.router.navigate("browsernotsupported", {trigger: true});
+    }else{
+        if (this.currentView){
+          this.currentView.close();
+        }
+     
+        this.currentView = view;
+     
+        this.$content.html(this.currentView.el);
+        app.scrollTop();
     }
- 
-    this.currentView = view;
- 
-//    this.$main.html(this.currentView.el);  
-    this.$content.html(this.currentView.el);
-    app.scrollTop();
 }
 
 app.events = {};
@@ -205,3 +212,33 @@ app.getHeader = function(){
 	var now = $.now();
 	return { "username": localStorage.getItem('user'), "timestamp": now, "hash": md5(localStorage.getItem('user') + localStorage.getItem('password') + now)};
 }
+
+app.isSupportedBrowser = function(){
+    var browser= app.getBrowser();
+
+    if ((browser[0]=="IE" || browser[0] =="MSIE") && !isNaN(browser[1]) && parseFloat(browser[1]) < 10.0){
+        return false;
+    }
+    if (browser[0]=="Firefox" &&  !isNaN(browser[1]) && parseFloat(browser[1]) < 24.0){
+        return false;
+    }
+
+    return true;
+};
+
+app.getBrowser = function(){
+    var ua= navigator.userAgent, tem, 
+    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+(\.\d+)?)/g.exec(ua) || [];
+        return 'IE '+(tem[1] || '');
+    }
+    M= M[2]? [M[1], M[2]]:[navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+    return M;
+};
+
+var signupview = new app.view.SignUp({
+    el: '#createAccountForm',
+    model: new app.model.User()
+});
