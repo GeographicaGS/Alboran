@@ -824,3 +824,63 @@
 		}
 	}
 }
+
+.ui-datepicker {
+	background: @white;
+	border: 1px solid @grey_footer;
+	color: @grey_header_dark;
+	font-size: 0.9em;
+
+	.ui-datepicker-header {
+		background: @grey_light;
+		border: none;
+
+		.ui-icon-circle-triangle-w {
+			background: url('/img/about/ALB_icon_li_menu_sec2.svg') no-repeat;
+		}
+
+		.ui-icon-circle-triangle-e {
+			background: url('/img/about/ALB_icon_li_menu_sec.svg') no-repeat;
+		}
+
+		.ui-datepicker-next-hover {
+			right: 2px;
+			top: 2px;
+		}
+
+		.ui-datepicker-prev-hover {
+			left: 2px;
+			top: 2px;
+		}
+
+		.ui-state-hover {
+			border: 1px solid @grey_footer;
+			background-color: @grey_6;
+		}
+
+		.ui-datepicker-month {
+			margin-right: 10px;
+		}
+
+		.ui-datepicker-month, .ui-datepicker-year {
+			width: 42%;
+		}
+	}
+
+	.ui-state-default {
+		background: @white;
+		color: @grey_header_dark;
+		border: 1px solid @grey_light;
+		.lato(regular);
+
+		&:hover {
+			border: 1px solid @ocre;
+		}
+	}
+
+	.ui-state-active {
+		border: 1px solid @ocre;
+		color: @ocre;
+		.lato(bold);
+	}
+}

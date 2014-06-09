@@ -36,6 +36,14 @@ app.view.HistoryCreate = Backbone.View.extend({
         this.$fileInputList = this.$('#fileinputlist');
         this.$fileEntryList = this.$('#filelist');
 
+        $.datepicker.setDefaults( $.datepicker.regional[ "es" ] ); //<lang>lang</lang>
+        this.$('.datepicker').datepicker(
+            {
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy'
+            });
+
         // Check session
         if(!(localStorage.password && localStorage.user)){
             //$('#login').trigger('click');
@@ -132,7 +140,7 @@ app.view.HistoryCreate = Backbone.View.extend({
                 that.$('#imagesFieldset').removeClass('invalid');
             },
             error: function(){
-                console.log('TODO: Error');
+                console.log('Error');
             }
           });
     },
@@ -184,8 +192,8 @@ app.view.HistoryCreate = Backbone.View.extend({
 
             var title= _.escape(items.$title.val());
             var place= _.escape(items.$place.val());
-            var lat= _.escape(items.$lat.val());
-            var lon= _.escape(items.$lon.val());
+            var lat= parseFloat(_.escape(items.$lat.val()));
+            var lon= parseFloat(_.escape(items.$lon.val()));
             var date= _.escape(items.$date.val());
             var text= _.escape(items.$text.val());
             var category= _.escape(items.$category.val());
@@ -195,6 +203,16 @@ app.view.HistoryCreate = Backbone.View.extend({
             $.each(items, function(index, element){
                 that.validate(element, false);
             });
+
+            if(isNaN(lat) || lat < -90 || lat > 90){
+                items.$lat.addClass('invalid');
+                error = true;
+            }
+
+            if(isNaN(lon) || lon < -180 || lon > 180){
+                items.$lon.addClass('invalid');
+                error = true;
+            }            
 
             var images = [];
             var $images = this.$('input[type=hidden]');
