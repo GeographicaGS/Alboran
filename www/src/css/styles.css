@@ -108,7 +108,8 @@
 @bluegrey: #6a7078;
 @bluegrey_light: #7d8389;
 @bluegrey_header : #9bc3df;
-@bluegrey_header_light: #a4c9e2 ;
+@bluegrey_header_light: #a4c9e2;
+@bluegrey_header_dark: #2c2f34;
 @grey_header_dark: #2b3033;
 @grey_footer: #cacbcc;
 @grey_footer_dark: #2c3034;
@@ -1212,4 +1213,50 @@ footer {
 			}
 		}
 	}
+}
+
+#messagePage {
+
+	.title {
+		background-color: @bluegrey_header_dark;
+		border-bottom: 1px solid @grey_footer;
+		.lato(bold);
+		color: @pink;
+		text-align: center;
+		padding: 30px 0 25px;
+		margin-bottom: 8px;
+
+		h1 {
+			font-size: 1.8em;
+
+			em {
+				.lato(bolditalic);
+			}
+		}
+	}
+
+	.content {
+		padding-top: 74px;
+		text-align: center;
+
+		p {
+			.lato(light);
+			color: @grey_4;
+			font-size: 18pt;
+		}
+
+		.button {
+			background-color: @grey_5;
+			color: @white;
+			.lato(bold);
+			font-size: 12pt;
+			text-transform: uppercase;
+
+			display: inline-block;
+			padding: 16px 114px;
+			margin-top: 45px;
+		}
+	}
+
+
 }

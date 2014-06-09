@@ -55,7 +55,7 @@ def confirmUser(user,code):
 	if user is not None:
 		return jsonify({'user': user['user'], 'password': user['password']})
 	else:
-		abort(401)
+		abort(404)
 
 @app.route('/config/', methods=['GET','POST'])
 @auth
@@ -76,6 +76,10 @@ def configById(config_id):
 	""" Rescatamos la configuración por id """
 	m = ConfigModel()
 	config_data = m.getConfigById(config_id)
+	
+	if config_data is None:
+		abort(404)
+
 	return(jsonify({"config" : config_data}))
 
 
@@ -120,10 +124,9 @@ def listHistories():
 	fromid = request.args.get('id')
 	h = HistoryModel()
 	result = h.getHistoriesByType(htype,fromid)
+	
 	if isinstance(result, dict):
 		return jsonify(result)
-	elif result is None:
-		abort(404)
 	else:
 		return jsonify({'result': result})
 
@@ -145,5 +148,9 @@ def listHistoryPoints():
 def getHistory(id):
 	h = HistoryModel()
 	result = h.getHistoryById(id)
+
+	if result is None:
+		abort(404)
+
 	return jsonify({'result': result})
 
