@@ -27,7 +27,7 @@ $("#signin_btn").on('click', function(){
   $form.find("input[type='password']").removeClass('invalid');
   var $submit_btn = $form.find('#signin_btn');
   $submit_btn.attr('disabled','disabled');
-  $submit_btn.attr('value','<lang>Iniciando sesión...</lang>');
+  $submit_btn.attr('value','Iniciando sesión...');
 
   var user = $form.find("input.user").val();
   var passw = $form.find("input[type='password']").eq(0).val()
@@ -70,14 +70,14 @@ $("#signin_btn").on('click', function(){
                 $("#logout").show();
                 app.ajaxSetup();
                 $submit_btn.removeAttr('disabled');
-                $submit_btn.attr('value','<lang>Acceder</lang>');
+                $submit_btn.attr('value','Acceder');
             },
             error: function(){
                 localStorage.removeItem('user');
                 localStorage.removeItem('password');
                 $("#initSessionForm").find(".error").fadeIn();
                 $submit_btn.removeAttr('disabled');
-                $submit_btn.attr('value','<lang>Acceder</lang>');
+                $submit_btn.attr('value','Acceder');
             }
         }); 
     }

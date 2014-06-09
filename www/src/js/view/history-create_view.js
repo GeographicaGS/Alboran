@@ -171,7 +171,7 @@ app.view.HistoryCreate = Backbone.View.extend({
         e.preventDefault();
         if(!this.isSending){
             this.isSending = true;
-            this.$('#enviar_btn span').html('<lang>Enviando...</lang>');
+            this.$('#enviar_btn span').html('Enviando...');
 
             // Clear validation errors
             this.$('.invalid').removeClass('invalid');
@@ -259,18 +259,18 @@ app.view.HistoryCreate = Backbone.View.extend({
                         }else{
                             that.showMessage('#historySendSuccess')
                         }
-                        that.$('#enviar_btn span').html('<lang>Historia enviada</lang>');
+                        that.$('#enviar_btn span').html('Historia enviada');
                     },
                     error: function() {
                        // Show error popup
                        that.showMessage('#historySendError');
                        that.isSending = false;
-                       that.$('#enviar_btn span').html('<lang>Compartir historia</lang>');
+                       that.$('#enviar_btn span').html('Compartir historia');
                     }
                 });
             }else{
                 that.isSending = false;
-                this.$('#enviar_btn span').html('<lang>Compartir historia</lang>');
+                this.$('#enviar_btn span').html('Compartir historia');
             }
         }
     },
