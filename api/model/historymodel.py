@@ -149,3 +149,8 @@ class HistoryModel(PostgreSQLModel):
 		sql = "UPDATE \"history\" set active = true where id_history = %s"
 		self.queryCommit(sql,[id])
 		return True
+
+	def deleteHistory(self, id):
+		sql = "DELETE FROM \"history\" WHERE id_history = %s"
+		self.queryCommit(sql,[id])
+		return True

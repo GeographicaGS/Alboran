@@ -335,7 +335,10 @@ app.view.HistoryCreate = Backbone.View.extend({
                 $(id + " input").click(function(e){
                     $.fancybox.close();
                     if(id.indexOf('uccess') != -1)
-                        app.router.navigate('join/history/'+opt ,{trigger: true});
+                        if(opt)
+                            app.router.navigate('join/history/'+opt ,{trigger: true});
+                        else
+                            app.router.navigate('join' ,{trigger: true});
                 });
             }
         });
