@@ -1,10 +1,12 @@
 Map = {
 	
-	layers: [],	
+	layers: [],
+	markers: {},
 	iniLat: 37.36455,
 	iniLng: -4.57645,	
 	iniZoom: 8,
 	__map:null,
+	historiesVisible: false,
 	
 	initialize: function(){
 		$("#map").outerHeight($("#map").outerHeight()-$("footer").outerHeight());
@@ -39,6 +41,22 @@ Map = {
 			zoomControl.addTo(this.__map);
 		
 			this.__map.touchZoom.disable();
+
+			// History markers
+			// Histories icon config
+	        this.icon_goodpractice = L.icon({
+	            iconUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
+	            iconRetinaUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
+	            iconSize: [40, 32],
+	            iconAnchor: [8, 32]
+	        });
+
+	        this.icon_sighting = L.icon({
+	            iconUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
+	            iconRetinaUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
+	            iconSize: [40, 32],
+	            iconAnchor: [8, 32]
+	        });
 
 	},
 
@@ -164,6 +182,8 @@ Map = {
 	buildRoute: function() {
 		var capas = "";
 		var activas = "";
+		var opacidad = "";
+		var historias = "";
 		
 		this.layers.forEach(function(layer) {
 			capas += layer.id + "_"
@@ -173,23 +193,30 @@ Map = {
 			}else{
 				activas += "0_"
 			}
+
+			opacidad += "1_";
 			
 		});
 		capas = capas.replace(/_([^_]*)$/,"/"+'$1');
-		activas = activas.replace(/_([^_]*)$/,""+'$1');
+		activas = activas.replace(/_([^_]*)$/,"/"+'$1');
+		opacidad = opacidad.replace(/_([^_]*)$/,"/"+'$1');
+		if(this.layers.length > 0)
+			var historias = this.historiesVisible ? '1' : '0';
 		
-		return capas + activas
+		return capas + activas + opacidad + historias;
 	},
 	
 	setRoute: function(route) {
     	var argumentos = route.split("/");
     	if(argumentos.length > 2){
-    		var capas = argumentos[1].split("_");
-    		var activas = argumentos[2].split("_");
-    		for(var i=capas.length -1; i>=0; i--){
-    			app.groupLayer.addLayer(capas[i]);
-    			if(activas[i] == "0"){
-    				$("li[idlayer=" + capas[i] + "]").trigger("click");
+    		if(argumentos[1].indexOf(app.router.langRoutes["_link history"][[app.lang]]) == -1){
+    			var capas = argumentos[1].split("_");
+    			var activas = argumentos[2].split("_");
+    			for(var i=capas.length -1; i>=0; i--){
+    				app.groupLayer.addLayer(capas[i]);
+    				if(activas[i] == "0"){
+    					$("li[idlayer=" + capas[i] + "]").trigger("click");
+    				}
     			}
            	}
     	}
@@ -274,7 +301,94 @@ Map = {
 	    });
 		
 	},
-	
+
+	toggleHistories: function(forceShow, callback, params) {
+		if(forceShow)
+			this.historiesVisible = true;
+
+        if(!this.historyGeoJson){
+            var that = this;
+            $.ajax({
+                url : '/api/historygeo/',
+                type: 'GET',
+                success: function(data) {
+                    
+                    function onEachFeature(feature, layer) {
+                        // bind a popup with history's basic info
+                        if (feature.properties && feature.properties.h_id) {
+                            layer.bindPopup(''+feature.properties.h_id);
+                            layer.on('popupopen',getPopupInfo);
+                        }
+                    }
+
+                    function getPopupInfo(e){
+                        var h_id = parseInt(e.popup._content,10);
+                        var currentWidth = e.popup._container.offsetWidth;
+                        e.popup._container.childNodes[1].innerHTML = '<lang>Cargando...</lang>';
+                        $.ajax({
+                            url : '/api/history/'+h_id,
+                            type: 'GET',
+                            success: function(data) {
+                                var html = '<a href="/es/join/history/'+data.result.id_history +'" jslink class="info-popup">';
+                                html += '<div style="background-image:url(\'/images/'+data.result.images[0].href+'\')"></div>';
+                                html += '<h2>'+data.result.author+'</h2>';
+                                html += '<h1>'+data.result.title+'</h1>';
+                                html += '<p><img src="/img/about/ALB_icon_li_menu_sec.svg"><lang>Ver más</lang></p>';
+                                html += '</a>';
+                                e.popup._container.childNodes[1].innerHTML = html;
+                                $(e.popup._container).css('left',-161);
+                            }
+                        });
+                    }
+
+                    that.historyGeoJson = data.result;
+                    that.historiesLayer = L.geoJson(that.historyGeoJson, {
+                        pointToLayer: function (feature, latlng) {
+                            var marker;
+
+                            if(feature.properties.h_type==0)
+                                marker = L.marker(latlng, {icon: that.icon_goodpractice});    
+                            else
+                                marker = L.marker(latlng, {icon: that.icon_sighting});
+
+                            that.markers[feature.properties.h_id] = marker;
+                            return marker;
+                        },
+                        onEachFeature: onEachFeature
+                    });
+                    that.historiesLayer.addTo(Map.__map);
+                    that.historiesVisible = true;
+                    that.getRoute();
+                    if(callback)
+                    	callback(params);
+                }
+            });
+        }else{
+        	if(forceShow){
+        		if(!this.__map.hasLayer(this.historiesLayer)){
+                	this.__map.addLayer(this.historiesLayer);
+                	this.historiesVisible = true;
+                }
+        	}else{
+            	if(!this.__map.hasLayer(this.historiesLayer)){
+                	this.__map.addLayer(this.historiesLayer);
+                	this.historiesVisible = true;
+            	}else{
+                	this.__map.removeLayer(this.historiesLayer);
+                	this.historiesVisible = false;
+            	}
+            }
+            this.getRoute();
+            if(callback)
+            	callback(params);
+        }
+    },
+    openHistoryPopup: function(id){
+    	if(Object.keys(Map.markers).length > 0){
+        	Map.__map.panTo(Map.markers[id].getLatLng());
+        	Map.markers[id].openPopup();
+        }
+    }
 }
 
 

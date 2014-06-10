@@ -760,10 +760,20 @@
 	}
 
 	.map {
-		/* FIX Temp Image */
-		img {
+		position: relative;
+		display: block;
+
+		.base {
 			width: 100%;
 			height: 100%;
+		}
+
+		.marker {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-left: -20px;
+			margin-top: -16px;
 		}
 	}
 
@@ -821,6 +831,31 @@
 					opacity: 1;
 				}
 			}
+		}
+	}
+
+	.message {
+		font-size: 0.8em;
+		padding-right: 10px;
+		
+		&:before {
+			content: url('/img/participa/ALB_icon_info.svg');
+			display: block;
+			float: left;
+			margin-right: 5px;
+			position: relative;
+			top: 1px;
+		}
+
+		&:after {
+			content: '';
+			clear: both;
+			display: block;
+		}
+
+		a {
+			color: @grey_header_dark;
+			border-bottom: 1px solid @grey_5;
 		}
 	}
 }
@@ -883,4 +918,14 @@
 		color: @ocre;
 		.lato(bold);
 	}
+}
+
+#mapPointSelector {
+	height: 500px;
+	width: 500px;
+}
+
+.howto {
+	max-width: 748px;
+	font-size: 0.8em;
 }

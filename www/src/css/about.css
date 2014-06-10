@@ -182,4 +182,25 @@
 			margin-bottom: 20px;
 		}
 	}
+
+	&.legal {
+		.title {
+			margin-bottom: 36px;
+		}
+
+		.content .container {
+
+			a.nav {
+				top: -97px;
+			}
+
+			& > .row {
+				margin-top: 0;
+			}
+
+			h2 {
+				margin-bottom: 0;
+			}
+		}
+	}
 }

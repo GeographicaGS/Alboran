@@ -26,7 +26,9 @@ app.router = Backbone.Router.extend({
             
             "map" : "map",
             "map/:capas/:activas" : "map",
+            "map/:capas/:activas/:opacidad/:mostrarHistorias" : "map",
             "map/:config": "mapConf",
+            "map/history/:id": "mapHistory",
             "catalogue": "catalogue",
             
             "about": "about",
@@ -61,7 +63,9 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link map"][app.lang], "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas", "map");
+        this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas/:opacidad/:mostrarHistorias", "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:config", "mapConf");
+        this.route(this.langRoutes["_link map"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id", "mapHistory");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");        
         this.route(this.langRoutes["_link about"][app.lang], "about");        
         this.route(this.langRoutes["_link alboran"][app.lang], "alboran");        
@@ -83,7 +87,7 @@ app.router = Backbone.Router.extend({
         app.showView(new app.view.Home());
     },
     
-    map: function(capas,activas){
+    map: function(capas,activas,opacidad,mostrarHistorias){
     	if(!app.isSupportedBrowser()){
             $("#content").show();
             $("#map").hide();
@@ -92,6 +96,13 @@ app.router = Backbone.Router.extend({
             $("#content").hide();
             $("#map").show();
             app.events.trigger('menu','map');
+            
+            if(mostrarHistorias != 0){
+                Map.toggleHistories(true);
+                if(app.groupLayer)
+                    app.groupLayer.toggleHistories();
+            }
+
             if(Map.getMap() != null){
             	Map.getMap().invalidateSize("true");
             }
@@ -130,6 +141,22 @@ app.router = Backbone.Router.extend({
         }
     },
 
+    mapHistory: function(id){
+        if(!app.isSupportedBrowser()){
+            $("#content").show();
+            $("#map").hide();
+            app.router.navigate("browsernotsupported", {trigger: true});
+        }else{
+            $("#content").hide();
+            $("#map").show();
+            app.events.trigger('menu','map');
+            if(Map.getMap() != null){
+                Map.getMap().invalidateSize("true");
+            }
+            Map.toggleHistories(true, Map.openHistoryPopup, id);
+        }
+    },
+
     catalogue: function(){
         $("#content").show();
         $("#map").hide();
@@ -149,7 +176,7 @@ app.router = Backbone.Router.extend({
     contact: function(){
         $("#content").show();
         $("#map").hide();
-        app.showView( new app.view.Contact() );
+        app.showView( new app.view.About({section: 'contact'}) );
     },
     howto: function(){
         $("#content").show();
@@ -183,7 +210,7 @@ app.router = Backbone.Router.extend({
     privacy: function(){
     	$("#content").show();
         $("#map").hide();
-        app.showView( new app.view.Privacy() );
+        app.showView( new app.view.Legal({section: 'privacy'}) );
     },
 
     signinConfirmation: function(username, code) {
