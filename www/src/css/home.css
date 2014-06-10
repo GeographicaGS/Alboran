@@ -4,6 +4,7 @@
 	background: url('@{imgPath}home/ALB_img_fondo_presentacion.jpg') no-repeat #292966;
 	background-size: cover;
 	.lato(light);
+	overflow-x: hidden;
 
 	h2 {
 		font-size: 1.8em;
@@ -61,6 +62,32 @@
 		p {
 			font-size: 0.95em;
 			line-height: 1.35em;
+		}
+	}
+
+	.credits {
+		position: relative;
+
+		a {
+			border: none;
+			padding-bottom: 0;
+			font-size: 0.75em;
+			color: rgba(255,255,255,.7);
+			transition: color .3s ease;
+
+			display: block;
+			position: absolute;
+			left: calc(~'100% - 1em ');
+			bottom: 370px;
+			white-space: nowrap;
+	-webkit-transform-origin: 0 100%;
+			transform-origin: 0 100%;
+	-webkit-transform: rotate(-90deg);
+			transform: rotate(-90deg);
+
+			&:hover {
+				color: rgba(255,255,255,1);
+			}
 		}
 	}
 }
@@ -138,5 +165,21 @@
 				}
 			}
 		}
+	}
+}
+
+#imageCredits {
+	display: none;
+	text-align: center;
+	max-width: 1024px;
+
+	img {
+		width: 1024px;
+	}
+
+	p {
+		text-align: left;
+		padding: 10px;
+		font-size: 0.8em;
 	}
 }

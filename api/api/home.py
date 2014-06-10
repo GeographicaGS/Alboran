@@ -116,6 +116,12 @@ def uploadHistory():
 	i = ImageModel()
 	i.addImages(imagelist, result['history_id'])
 
+	# Send email to admins
+	if(not result['isAdmin']):
+		admins = u.getAdminEmails()
+		for admin in admins:
+			sendEmail([admin['email']], "Nueva historia", "Se ha creado una nueva historia. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores.")
+
 	return jsonify({'admin':result['isAdmin'], 'history_id': result['history_id']})
 
 @app.route('/history/', methods=['GET'])
@@ -154,3 +160,19 @@ def getHistory(id):
 
 	return jsonify({'result': result})
 
+'''@app.route('/history/delete/<int:id>', methods=['GET'])
+def deleteHistory(id):
+	if(request.headers['pass'] is not None):
+		m = md5.new()
+		m.update(app.config["ADMIN_PASS_TMP"])
+		hashsum = m.hexdigest()
+		if(request.headers['pass'] == hashsum):
+			i = ImageModel()
+			images = i.getNotDuplicatedImagesByHistory(id)
+			for image in images:
+				deleteImage(image['filename'])
+			i.deleteHistoryImages(id)
+			h = HistoryModel()
+			h.deleteHistory(id)
+		else:
+			abort(401)'''
