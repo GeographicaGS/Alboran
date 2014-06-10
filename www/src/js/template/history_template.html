@@ -71,10 +71,10 @@
 				<% } %>
 			</div>
 			<div class="col-sm-4 col-md-4">
-				<div class="row map">
+				<a class="row map" href="/<lang>lang</lang>/<lang>_link map</lang>/<lang>_link history</lang>/<%= result.id_history %>" jslink>
 					<img class="base" src="http://staticmap.openstreetmap.de/staticmap.php?center=<%= result.lat %>,<%= result.lon %>&zoom=14&size=390x390&maptype=mapnik">
 					<img class="marker" src="/img/map/<%= result.type == 0 ? 'ALB_marcador_historia_buenas_2x.png': 'ALB_marcador_historia_avista_2x.png' %>" width="40">
-				</div>
+				</a>
 				<div class="row posContainer">
 					<p class="place"><%= result.place %></p>
 					<p class="position">
