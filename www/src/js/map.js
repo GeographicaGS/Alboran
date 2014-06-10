@@ -23,13 +23,13 @@ Map = {
 				  attributionControl: true
 			});
 			
-//			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-//			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-//			}).addTo(this.__map);
-			
-			L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
-			    attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 			}).addTo(this.__map);
+			
+//			L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+//			    attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+//			}).addTo(this.__map);
 			
 
 

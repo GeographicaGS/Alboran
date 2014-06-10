@@ -464,3 +464,42 @@ $.fn.serializeObject = function () {
     };
     return $.each(this.children().serializeArray(), b), a
 };
+
+
+function getTextLang(text){
+	if(text == "legend"){
+		if(app.lang =="es"){
+			return "Mostrar leyenda";
+		}else if(app.lang == "en"){
+			return "Show legend";
+		}else{
+			return "Afficher la légende";
+		}
+	
+	}else if(text == "opacity"){
+		if(app.lang =="es"){
+			return "Cambiar opacidad";
+		}else if(app.lang == "en"){
+			return "Change opacity";
+		}else{
+			return "Changer l'opacité";
+		}
+
+	}else if(text == "info"){
+		if(app.lang =="es"){
+			return "Mostrar información";
+		}else if(app.lang == "en"){
+			return "Show info";
+		}else{
+			return "Afficher les informations";
+		}
+	}else if(text == "remove"){
+		if(app.lang =="es"){
+			return "Eliminar capa";
+		}else if(app.lang == "en"){
+			return "Remove layer";
+		}else{
+			return "Supprimer le calque";
+		}
+	}
+}
