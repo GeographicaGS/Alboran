@@ -62,6 +62,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link map"][app.lang], "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas", "map");
+        this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas/:opacidad/:mostrarHistorias", "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:config", "mapConf");
         this.route(this.langRoutes["_link map"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id", "mapHistory");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");        
@@ -85,7 +86,7 @@ app.router = Backbone.Router.extend({
         app.showView(new app.view.Home());
     },
     
-    map: function(capas,activas){
+    map: function(capas,activas,opacidad,mostrarHistorias){
     	if(!app.isSupportedBrowser()){
             $("#content").show();
             $("#map").hide();
@@ -94,6 +95,11 @@ app.router = Backbone.Router.extend({
             $("#content").hide();
             $("#map").show();
             app.events.trigger('menu','map');
+            
+            if(mostrarHistorias != 0){
+                Map.toggleHistories(true);
+            }
+
             if(Map.getMap() != null){
             	Map.getMap().invalidateSize("true");
             }

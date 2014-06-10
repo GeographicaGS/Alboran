@@ -6,6 +6,7 @@ Map = {
 	iniLng: -4.57645,	
 	iniZoom: 8,
 	__map:null,
+	historiesVisible: false,
 	
 	initialize: function(){
 		$("#map").outerHeight($("#map").outerHeight()-$("footer").outerHeight());
@@ -181,6 +182,7 @@ Map = {
 	buildRoute: function() {
 		var capas = "";
 		var activas = "";
+		var opacidad = "";
 		
 		this.layers.forEach(function(layer) {
 			capas += layer.id + "_"
@@ -190,23 +192,29 @@ Map = {
 			}else{
 				activas += "0_"
 			}
+
+			opacidad += "1_";
 			
 		});
 		capas = capas.replace(/_([^_]*)$/,"/"+'$1');
-		activas = activas.replace(/_([^_]*)$/,""+'$1');
+		activas = activas.replace(/_([^_]*)$/,"/"+'$1');
+		opacidad = opacidad.replace(/_([^_]*)$/,"/"+'$1');
+		var historias = this.historiesVisible ? '1' : '0';
 		
-		return capas + activas
+		return capas + activas + opacidad + historias;
 	},
 	
 	setRoute: function(route) {
     	var argumentos = route.split("/");
     	if(argumentos.length > 2){
-    		var capas = argumentos[1].split("_");
-    		var activas = argumentos[2].split("_");
-    		for(var i=capas.length -1; i>=0; i--){
-    			app.groupLayer.addLayer(capas[i]);
-    			if(activas[i] == "0"){
-    				$("li[idlayer=" + capas[i] + "]").trigger("click");
+    		if(argumentos[1].indexOf(app.router.langRoutes["_link history"][[app.lang]]) == -1){
+    			var capas = argumentos[1].split("_");
+    			var activas = argumentos[2].split("_");
+    			for(var i=capas.length -1; i>=0; i--){
+    				app.groupLayer.addLayer(capas[i]);
+    				if(activas[i] == "0"){
+    					$("li[idlayer=" + capas[i] + "]").trigger("click");
+    				}
     			}
            	}
     	}
@@ -293,6 +301,9 @@ Map = {
 	},
 
 	toggleHistories: function(forceShow, callback, params) {
+		if(forceShow)
+			this.historiesVisible = true;
+
         if(!this.historyGeoJson){
             var that = this;
             $.ajax({
@@ -344,6 +355,8 @@ Map = {
                         onEachFeature: onEachFeature
                     });
                     that.historiesLayer.addTo(Map.__map);
+                    that.historiesVisible = true;
+                    that.getRoute();
                     if(callback)
                     	callback(params);
                 }
@@ -352,14 +365,18 @@ Map = {
         	if(forceShow){
         		if(!this.__map.hasLayer(this.historiesLayer)){
                 	this.__map.addLayer(this.historiesLayer);
+                	this.historiesVisible = true;
                 }
         	}else{
             	if(!this.__map.hasLayer(this.historiesLayer)){
                 	this.__map.addLayer(this.historiesLayer);
+                	this.historiesVisible = true;
             	}else{
                 	this.__map.removeLayer(this.historiesLayer);
+                	this.historiesVisible = false;
             	}
             }
+            this.getRoute();
             if(callback)
             	callback(params);
         }

@@ -130,9 +130,6 @@ app.view.GroupLayer = Backbone.View.extend({
     		       }
     		   });
     	});
-
-        // Enable histories map by default
-        this.toggleHistories();
     },
     
     events:{
@@ -231,8 +228,14 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     render: function() {
-    	this.$el.html(this._template());       
+    	this.$el.html(this._template());  
+
+        if(Map.historiesVisible){
+            this.$('#mapHistoryControl ~ label').addClass('active');
+        }
+
         return this;
+
     },
     
     addLayer: function(id) {
