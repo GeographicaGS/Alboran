@@ -31,3 +31,7 @@ def resizeImages(images):
         os.remove(fsrc)
 
         app.logger.info(cmd)
+
+def deleteImage(filename):
+    filepath = os.path.join(app.config["IMAGES_FOLDER"], filename)
+    os.remove(filepath)
