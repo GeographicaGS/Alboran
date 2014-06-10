@@ -81,7 +81,6 @@ class HistoryModel(PostgreSQLModel):
 		result = self.query(sql, [id]).row()
 
 		if result is not None:
-			print "Result not none"
 			# Date to string
 			result['date'] = result['date'].strftime("%d/%m/%Y")
 
@@ -148,5 +147,10 @@ class HistoryModel(PostgreSQLModel):
 
 	def confirmHistory(self, id):
 		sql = "UPDATE \"history\" set active = true where id_history = %s"
+		self.queryCommit(sql,[id])
+		return True
+
+	def deleteHistory(self, id):
+		sql = "DELETE FROM \"history\" WHERE id_history = %s"
 		self.queryCommit(sql,[id])
 		return True

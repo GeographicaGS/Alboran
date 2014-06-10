@@ -1,3 +1,15 @@
+var baseMap1 = 	L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+    			attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+				});
+baseMap1.setZIndex(-1);
+
+var baseMap2 = 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				});
+
+baseMap2.setZIndex(-1);
+
+
 $("#login").on('click', function(e) {
   $("#loginForms").find(".error").hide();
   $("#loginForms .msgPopup").hide();
@@ -464,3 +476,42 @@ $.fn.serializeObject = function () {
     };
     return $.each(this.children().serializeArray(), b), a
 };
+
+
+function getTextLang(text){
+	if(text == "legend"){
+		if(app.lang =="es"){
+			return "Mostrar leyenda";
+		}else if(app.lang == "en"){
+			return "Show legend";
+		}else{
+			return "Afficher la légende";
+		}
+	
+	}else if(text == "opacity"){
+		if(app.lang =="es"){
+			return "Cambiar opacidad";
+		}else if(app.lang == "en"){
+			return "Change opacity";
+		}else{
+			return "Changer l'opacité";
+		}
+
+	}else if(text == "info"){
+		if(app.lang =="es"){
+			return "Mostrar información";
+		}else if(app.lang == "en"){
+			return "Show info";
+		}else{
+			return "Afficher les informations";
+		}
+	}else if(text == "remove"){
+		if(app.lang =="es"){
+			return "Eliminar capa";
+		}else if(app.lang == "en"){
+			return "Remove layer";
+		}else{
+			return "Supprimer le calque";
+		}
+	}
+}

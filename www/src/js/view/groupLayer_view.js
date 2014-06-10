@@ -130,21 +130,6 @@ app.view.GroupLayer = Backbone.View.extend({
     		       }
     		   });
     	});
-    	
-    	// Histories icon config
-        this.icon_goodpractice = L.icon({
-            iconUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
-            iconRetinaUrl: '/img/map/ALB_marcador_historia_avista_2x.png',
-            iconSize: [40, 32],
-            iconAnchor: [8, 32]
-        });
-
-        this.icon_sighting = L.icon({
-            iconUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
-            iconRetinaUrl: '/img/map/ALB_marcador_historia_buenas_2x.png',
-            iconSize: [40, 32],
-            iconAnchor: [8, 32]
-        });
     },
     
     events:{
@@ -243,8 +228,16 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     render: function() {
-    	this.$el.html(this._template());       
+    	this.$el.html(this._template());  
+
+        if(Map.historiesVisible){
+            this.$('#mapHistoryControl ~ label').addClass('active');
+        }else{
+            this.$('#mapHistoryControl ~ label').removeClass('active');
+        }
+
         return this;
+
     },
     
     addLayer: function(id) {
@@ -267,25 +260,29 @@ app.view.GroupLayer = Backbone.View.extend({
             break;
         }
         
-        $li.html("<p class='ellipsis fleft'>" + layer.title_es + "</p>");
+        $li.html("<p class='ellipsis fleft' title='" +  layer["title_" + app.lang] + "'>" + layer["title_" + app.lang] + "</p>");
         
         var $icon1, $icon2, $icon3, $icon4;
         
         $icon1 = $(document.createElement('img'));
         $icon1.addClass('icon leyend');
         $icon1.attr('src','/img/map/ALB_icon_leyenda.svg');
+        $icon1.attr('title',getTextLang("legend"));
         
         $icon2 = $(document.createElement('img'));
         $icon2.addClass('icon opacity');
         $icon2.attr('src','/img/map/ALB_icon_opacidad.svg');
+        $icon2.attr('title',getTextLang("opacity"));
         
         $icon3 = $(document.createElement('img'));
         $icon3.addClass('icon removeLayer');
         $icon3.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        $icon3.attr('title',getTextLang("remove"));
         
         $icon4 = $(document.createElement('img'));
         $icon4.addClass('icon');
         $icon4.attr('src','/img/map/ALB_icon_info_capa.svg');
+        $icon4.attr('title',getTextLang("info"));
 
         $li.append($icon1).append($icon2).append($icon3).append($icon4).append("<div class='clear'></div>");
         $li.append("<div class='opacity_panel' style=''>" +
@@ -422,69 +419,19 @@ app.view.GroupLayer = Backbone.View.extend({
     },
 
     toggleHistories: function(e) {
-        var $target = $(e.currentTarget);
-        if(!this.historyGeoJson){
-            var that = this;
-            $.ajax({
-                url : '/api/historygeo/',
-                type: 'GET',
-                success: function(data) {
-                    
-                    function onEachFeature(feature, layer) {
-                        // bind a popup with history's basic info
-                        if (feature.properties && feature.properties.h_id) {
-                            layer.bindPopup(''+feature.properties.h_id);
-                            layer.on('popupopen',getPopupInfo);
-                        }
-                    }
+        var $target;
+        if (e)
+            $target = $(e.currentTarget);
+        else
+            $target = this.$('#mapHistoryControl');
 
-                    function getPopupInfo(e){
-                        var h_id = parseInt(e.popup._content,10);
-                        var currentWidth = e.popup._container.offsetWidth;
-                        e.popup._container.childNodes[1].innerText = '<lang>Cargando...</lang>';
-                        $.ajax({
-                            url : '/api/history/'+h_id,
-                            type: 'GET',
-                            success: function(data) {
-                                var html = '<a href="/es/join/history/'+data.result.id_history +'" jslink class="info-popup">';
-                                html += '<div style="background-image:url(\'/images/'+data.result.images[0].href+'\')"></div>';
-                                html += '<h2>'+data.result.author+'</h2>';
-                                html += '<h1>'+data.result.title+'</h1>';
-                                html += '<p><img src="/img/about/ALB_icon_li_menu_sec.svg"><lang>Ver más</lang></p>';
-                                html += '</a>';
-                                e.popup._container.childNodes[1].innerHTML = html;
-                                $(e.popup._container).css('left',-161);
-                            }
-                        });
-                    }
+        if(e)
+            Map.toggleHistories();
 
-                    that.historyGeoJson = data.result;
-                    that.historiesLayer = L.geoJson(that.historyGeoJson, {
-                        pointToLayer: function (feature, latlng) {
-                            if(feature.properties.h_type==0){
-                                var marker = L.marker(latlng, {icon: that.icon_goodpractice});
-                                //marker.on('popupopen',getPopupInfo);
-                                return marker;
-                            }else
-                                var marker = L.marker(latlng, {icon: that.icon_sighting});
-                                //marker.on('popupopen',getPopupInfo);
-                                return marker;
-                        },
-                        onEachFeature: onEachFeature
-                    });
-                    that.historiesLayer.addTo(Map.__map);
-                    $target.next('label').addClass('active');
-                }
-            });
-        }else{
-            if($target.prop('checked')){
-                $target.next('label').addClass('active');
-                Map.__map.addLayer(this.historiesLayer);
-            }else{
-                $target.next('label').removeClass('active');
-                Map.__map.removeLayer(this.historiesLayer);
-            }
-        }
+        if(Map.historiesVisible)
+            $target.next('label').addClass('active');
+        else
+            $target.next('label').removeClass('active');
     },
 
     toggleSidebar: function() {
