@@ -2,8 +2,8 @@ Map = {
 	
 	layers: [],
 	markers: {},
-	iniLat: 37.36455,
-	iniLng: -4.57645,	
+	iniLat: 36.36455,
+	iniLng: -3.57645,	
 	iniZoom: 8,
 	__map:null,
 	historiesVisible: false,
@@ -23,13 +23,14 @@ Map = {
 				  attributionControl: true
 			});
 			
-			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			}).addTo(this.__map);
+//			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+//			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+//			}).addTo(this.__map);
 			
 //			L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
 //			    attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
 //			}).addTo(this.__map);
+			baseMap1.addTo(this.__map);
 			
 
 
@@ -287,13 +288,29 @@ Map = {
 			data: { "url": request},	       
 			type: "POST",			
 	        success: function(data) {
-	        	if (!data || data.indexOf("LayerNotQueryable")!=-1){
-	        		obj.featureInfo(e,requestIdx+1);
+	        	try {
+		        	if (!data || data.indexOf("LayerNotQueryable")!=-1){
+		        		obj.featureInfo(e,requestIdx+1);
+		        	}
+		        	else{
+		        		if($.trim($($.parseXML(data)).find("body").html()).length != 0){
+		        			$("#container_feature_info").html(data);
+		        		}else{
+		        			if((i+1) < Map.layers.length){
+		        				obj.featureInfo(e, i+1);
+		        			}else{
+		        				$("#container_feature_info").html("No hay información sobre este punto");
+		        			}
+		        		}
+		        	}
+	        	}catch (ex){
+	        		if((i+1) < Map.layers.length){
+        				obj.featureInfo(e, i+1);
+        			}else{
+        				$("#container_feature_info").html("No hay información sobre este punto");
+        			}
 	        	}
-	        	else{
-	        		$("#container_feature_info").html(data);
-	        	}
-	        	
+	        	$.fancybox.update();
 	        },
 	        error: function(){	        	
 	        	obj.featureInfo(e,requestIdx+1);
@@ -389,6 +406,7 @@ Map = {
         	Map.markers[id].openPopup();
         }
     }
+   
 }
 
 

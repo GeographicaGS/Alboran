@@ -1,3 +1,15 @@
+var baseMap1 = 	L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+    			attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+				});
+baseMap1.setZIndex(-1);
+
+var baseMap2 = 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				});
+
+baseMap2.setZIndex(-1);
+
+
 $("#login").on('click', function(e) {
   $("#loginForms").find(".error").hide();
   $("#loginForms .msgPopup").hide();

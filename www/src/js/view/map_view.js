@@ -20,7 +20,7 @@ app.view.Map = Backbone.View.extend({
     		$.fancybox($("#container_feature_info"), {
     			'width':"auto",
     			"height": "auto",
-    		    'autoDimensions':true,
+//    		    'autoDimensions':true,
     		    'autoSize':true,
     		    'closeBtn' : true,
     		    'scrolling'   : 'no',
@@ -34,13 +34,23 @@ app.view.Map = Backbone.View.extend({
 //    		    },
 //    		    
 //    		    afterShow: function () {
-//    		    	
+//    		    	$.fancybox.update();
 //    		    }
     		});
     		
     		Map.featureInfo(e);
     		
 		});
+    	
+    	Map.getMap().on('zoomend', function() {
+            if(Map.getMap().getZoom() == 11){
+            	Map.getMap().removeLayer(baseMap1);
+            	baseMap2.addTo(Map.getMap());
+            }else if(Map.getMap().getZoom() == 10){
+            	Map.getMap().removeLayer(baseMap2);
+            	baseMap1.addTo(Map.getMap());
+            }
+        });
 
     },
     
