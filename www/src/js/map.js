@@ -183,6 +183,7 @@ Map = {
 		var capas = "";
 		var activas = "";
 		var opacidad = "";
+		var historias = "";
 		
 		this.layers.forEach(function(layer) {
 			capas += layer.id + "_"
@@ -199,7 +200,8 @@ Map = {
 		capas = capas.replace(/_([^_]*)$/,"/"+'$1');
 		activas = activas.replace(/_([^_]*)$/,"/"+'$1');
 		opacidad = opacidad.replace(/_([^_]*)$/,"/"+'$1');
-		var historias = this.historiesVisible ? '1' : '0';
+		if(this.layers.length > 0)
+			var historias = this.historiesVisible ? '1' : '0';
 		
 		return capas + activas + opacidad + historias;
 	},

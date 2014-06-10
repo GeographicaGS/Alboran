@@ -26,6 +26,7 @@ app.router = Backbone.Router.extend({
             
             "map" : "map",
             "map/:capas/:activas" : "map",
+            "map/:capas/:activas/:opacidad/:mostrarHistorias" : "map",
             "map/:config": "mapConf",
             "map/history/:id": "mapHistory",
             "catalogue": "catalogue",
@@ -98,6 +99,8 @@ app.router = Backbone.Router.extend({
             
             if(mostrarHistorias != 0){
                 Map.toggleHistories(true);
+                if(app.groupLayer)
+                    app.groupLayer.toggleHistories();
             }
 
             if(Map.getMap() != null){
@@ -173,7 +176,7 @@ app.router = Backbone.Router.extend({
     contact: function(){
         $("#content").show();
         $("#map").hide();
-        app.showView( new app.view.Contact() );
+        app.showView( new app.view.About({section: 'contact'}) );
     },
     howto: function(){
         $("#content").show();
@@ -207,7 +210,7 @@ app.router = Backbone.Router.extend({
     privacy: function(){
     	$("#content").show();
         $("#map").hide();
-        app.showView( new app.view.Privacy() );
+        app.showView( new app.view.Legal({section: 'privacy'}) );
     },
 
     signinConfirmation: function(username, code) {

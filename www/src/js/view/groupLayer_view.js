@@ -232,6 +232,8 @@ app.view.GroupLayer = Backbone.View.extend({
 
         if(Map.historiesVisible){
             this.$('#mapHistoryControl ~ label').addClass('active');
+        }else{
+            this.$('#mapHistoryControl ~ label').removeClass('active');
         }
 
         return this;
@@ -419,8 +421,13 @@ app.view.GroupLayer = Backbone.View.extend({
         else
             $target = this.$('#mapHistoryControl');
 
-        $target.next('label').toggleClass('active');
-        Map.toggleHistories();
+        if(e)
+            Map.toggleHistories();
+
+        if(Map.historiesVisible)
+            $target.next('label').addClass('active');
+        else
+            $target.next('label').removeClass('active');
     },
 
     toggleSidebar: function() {

@@ -1048,6 +1048,11 @@ footer {
 	top: -12px;
 	right: -12px;
 	background: none;
+
+	&.inside {
+		top: 10px;
+		right: 10px;
+	}
 }
 
 .myCloseRound {
