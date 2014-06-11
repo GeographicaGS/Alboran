@@ -10,10 +10,11 @@ from model.configmodel import ConfigModel
 from model.historymodel import HistoryModel
 from model.imagemodel import ImageModel
 from authutil import auth, sendEmail, getConfirmationEmailBody
-from imageutil import isAllowedFile, hashFromImage, resizeImages
+from imageutil import isAllowedFile, hashFromImage, resizeImages, deleteImage
 import os
 import ast
 import json
+import md5
 
 # import logging
 
@@ -120,7 +121,7 @@ def uploadHistory():
 	if(not result['isAdmin']):
 		admins = u.getAdminEmails()
 		for admin in admins:
-			sendEmail([admin['email']], "Nueva historia", "Se ha creado una nueva historia. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores.")
+			sendEmail([admin['email']], "Nueva historia", "Se ha creado una nueva historia con el ID %s. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores."%result['history_id'])
 
 	return jsonify({'admin':result['isAdmin'], 'history_id': result['history_id']})
 
@@ -160,19 +161,19 @@ def getHistory(id):
 
 	return jsonify({'result': result})
 
-'''@app.route('/history/delete/<int:id>', methods=['GET'])
+@app.route('/history/<int:id>', methods=['DELETE'])
+@auth
 def deleteHistory(id):
-	if(request.headers['pass'] is not None):
-		m = md5.new()
-		m.update(app.config["ADMIN_PASS_TMP"])
-		hashsum = m.hexdigest()
-		if(request.headers['pass'] == hashsum):
-			i = ImageModel()
-			images = i.getNotDuplicatedImagesByHistory(id)
-			for image in images:
-				deleteImage(image['filename'])
-			i.deleteHistoryImages(id)
-			h = HistoryModel()
-			h.deleteHistory(id)
-		else:
-			abort(401)'''
+	u = UserModel()
+	user = u.getUserByUsername(request.headers['username'])
+	if(user is not None and user['admin']):
+		i = ImageModel()
+		images = i.getNotDuplicatedImagesByHistory(id)
+		for image in images:
+			deleteImage(image['filename'])
+		i.deleteImagesByHistory(id)
+		h = HistoryModel()
+		h.deleteHistory(id)
+		return jsonify({'result': 'true'})
+	else:
+		abort(401)

@@ -28,5 +28,5 @@ class ImageModel(PostgreSQLModel):
 		return True
 
 	def getNotDuplicatedImagesByHistory(self, id_hist):
-		sql = "SELECT filename, count(*) FROM \"image\" WHERE EXISTS (	SELECT filename	FROM \"image\" WHERE id_history = %s) GROUP BY filename"
+		sql = "SELECT filename FROM \"image\" WHERE EXISTS (	SELECT filename	FROM \"image\" WHERE id_history = %s) GROUP BY filename HAVING COUNT(*) = 1"
 		return self.query(sql,[id_hist]).result()

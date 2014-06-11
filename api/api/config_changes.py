@@ -21,6 +21,5 @@ app.config.update(
     convertBin='',
     baseURL='',
     historyFirstPagSize=,
-    historyPagSize=,
-    ADMIN_PASS_TMP=
+    historyPagSize=
 )

@@ -32,6 +32,9 @@ def resizeImages(images):
 
         app.logger.info(cmd)
 
-def deleteImage(filename):
-    filepath = os.path.join(app.config["IMAGES_FOLDER"], filename)
+def deleteImage(img):
+    filename, fileExtension = os.path.splitext(img)
+    filepath = os.path.join(app.config["IMAGES_FOLDER"], img)
+    thumbpath = os.path.join(app.config["IMAGES_FOLDER"], filename + "_thumb" + fileExtension )
     os.remove(filepath)
+    os.remove(thumbpath)
