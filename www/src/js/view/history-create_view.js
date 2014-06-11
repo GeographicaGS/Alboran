@@ -85,65 +85,71 @@ app.view.HistoryCreate = Backbone.View.extend({
     },
 
     uploadImage: function(e) {
-        var imgdata = new FormData();
-        imgdata.append('image',e.target.files[0]);
+        if(e.target.files[0].size <= app.config['MAX_FILE_SIZE']){
+            var imgdata = new FormData();
+            imgdata.append('image',e.target.files[0]);
 
-        var that = this;
-        var $progress = this.$('progress');
-        var $btn = this.$('#addImage_btn');
+            var that = this;
+            var $progress = this.$('progress');
+            var $btn = this.$('#addImage_btn');
 
-        $btn.fadeOut(function(){$progress.fadeIn();});
+            $btn.fadeOut(function(){$progress.fadeIn();});
 
-        $.ajax({
-            url : '/api/image/',
-            data: imgdata,
-            type: 'POST',
-            dataType: 'json',
-            processData: false, // Don't process the files
-            contentType: false,
-            xhr: function() { // custom xhr
-                var myXhr = $.ajaxSettings.xhr();
-                if(myXhr.upload){ // check if upload property exists
-                    myXhr.upload.addEventListener('progress',function(e){
-                        if(e.lengthComputable){
-                            $progress.attr({value:e.loaded,max:e.total});
-                        }
-                    }, false); // for handling the progress of the upload
-                }
-                return myXhr;
-            },
-            success: function(data) {
-                var $hiddenFileEntry = $('<input />', {
-                    type: 'hidden',
-                    name: 'images',
-                    value: data.filename
-                });
-
-                var $fileEntry = $('<li/>', {
-                    text: e.target.files[0].name
-                });
-
-                var $button = $('<img/>', {
-                    class: 'deleteFileEntry',
-                    src: '/img/participa/ALB_icon_eliminar_img.svg'
-                });
-
-                $fileEntry.append($button);
-                $fileEntry.append($hiddenFileEntry);
-                that.$fileEntryList.append($fileEntry);
-                
-                $btn.promise().done(function(){
-                    $progress.fadeOut(function(){
-                        $btn.fadeIn();
+            $.ajax({
+                url : '/api/image/',
+                data: imgdata,
+                type: 'POST',
+                dataType: 'json',
+                processData: false, // Don't process the files
+                contentType: false,
+                xhr: function() { // custom xhr
+                    var myXhr = $.ajaxSettings.xhr();
+                    if(myXhr.upload){ // check if upload property exists
+                        myXhr.upload.addEventListener('progress',function(e){
+                            if(e.lengthComputable){
+                                $progress.attr({value:e.loaded,max:e.total});
+                            }
+                        }, false); // for handling the progress of the upload
+                    }
+                    return myXhr;
+                },
+                success: function(data) {
+                    var $hiddenFileEntry = $('<input />', {
+                        type: 'hidden',
+                        name: 'images',
+                        value: data.filename
                     });
-                });
-                
-                that.$('#imagesFieldset').removeClass('invalid');
-            },
-            error: function(){
-                console.log('Error');
-            }
-          });
+
+                    var $fileEntry = $('<li/>', {
+                        text: e.target.files[0].name
+                    });
+
+                    var $button = $('<img/>', {
+                        class: 'deleteFileEntry',
+                        src: '/img/participa/ALB_icon_eliminar_img.svg'
+                    });
+
+                    $fileEntry.append($button);
+                    $fileEntry.append($hiddenFileEntry);
+                    that.$fileEntryList.append($fileEntry);
+                    
+                    $btn.promise().done(function(){
+                        $progress.fadeOut(function(){
+                            $btn.fadeIn();
+                        });
+                    });
+                    
+                    that.$('#imagesFieldset').removeClass('invalid');
+                },
+                status: {
+                    413: function(response){
+                        that.showMessage('#historyImgTooLarge');
+                    }
+                }
+              });
+        }else{
+            this.showMessage('#historyImgTooLarge');
+        }
     },
 
     removeImage: function(e) {
