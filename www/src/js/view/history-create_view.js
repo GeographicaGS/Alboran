@@ -77,7 +77,7 @@ app.view.HistoryCreate = Backbone.View.extend({
         e.preventDefault();
         var $fileinput = $('<input/>', {
             type: 'file',
-            accept: 'image/*',
+            accept: 'image/jpg, image/jpeg',
             name: 'image'
         });
         this.$fileInputList.append($fileinput);
