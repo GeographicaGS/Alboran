@@ -131,6 +131,10 @@ p,span,div,table{
 	.lato(regular);
 }
 
+h1 {
+	.lato(bold);
+}
+
 input{
 	padding: 0 10px;
 	border: none;
@@ -258,7 +262,7 @@ body > header {
 		}
 
 		.login {
-			font-weight: bold;
+			.lato(bold);
 
 			&:after {
 				content: url('@{imgPath}home/ALB_icon_usuario.svg');
@@ -285,7 +289,7 @@ body > header {
 
 			&.selected {
 				border-bottom: 1px solid @pink;
-				font-weight: bold;
+				.lato(bold);
 			}
 		}
 	}
@@ -720,7 +724,7 @@ body > header {
 		
 		.highlight {
 			color: @white;
-			font-weight: bold;
+			.lato(bold);
 			font-size: 16pt;
 		}
 	}
@@ -852,7 +856,7 @@ body > header {
 		
 		.highlight {
 			color: @white;
-			font-weight: bold;
+			.lato(bold);
 			font-size: 16pt;
 		}
 	}
@@ -1119,7 +1123,7 @@ footer {
 }
 
 .opacity_panel {
-	height: 28px;
+	height: 29px;
 	background: #f1f1f1 url("../img/map/MED_back_opacity.png") repeat-x top left;
 	border-top: 1px solid #a3a3a3;
 	border-bottom: 1px solid #a3a3a3;
@@ -1153,6 +1157,7 @@ footer {
 		background: none;
 		background-color: #666;
 		border-radius: 50%;
+		outline: none;
 	}
 }
 
