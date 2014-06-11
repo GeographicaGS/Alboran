@@ -9,6 +9,7 @@ var baseMap2 = 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 baseMap2.setZIndex(-1);
 
+var currentMap = 1;
 
 $("#login").on('click', function(e) {
   $("#loginForms").find(".error").hide();
