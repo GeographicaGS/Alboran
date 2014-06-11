@@ -438,10 +438,11 @@ app.view.GroupLayer = Backbone.View.extend({
         if(e)
             Map.toggleHistories();
 
-        if(Map.historiesVisible)
+        /*if(Map.historiesVisible)
             $target.next('label').addClass('active');
         else
-            $target.next('label').removeClass('active');
+            $target.next('label').removeClass('active');*/
+        $target.next('label').toggleClass('active');
     },
 
     toggleSidebar: function() {

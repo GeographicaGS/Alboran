@@ -131,6 +131,10 @@ p,span,div,table{
 	.lato(regular);
 }
 
+h1 {
+	.lato(bold);
+}
+
 input{
 	padding: 0 10px;
 	border: none;
@@ -258,7 +262,7 @@ body > header {
 		}
 
 		.login {
-			font-weight: bold;
+			.lato(bold);
 
 			&:after {
 				content: url('@{imgPath}home/ALB_icon_usuario.svg');
@@ -285,7 +289,7 @@ body > header {
 
 			&.selected {
 				border-bottom: 1px solid @pink;
-				font-weight: bold;
+				.lato(bold);
 			}
 		}
 	}
@@ -720,7 +724,7 @@ body > header {
 		
 		.highlight {
 			color: @white;
-			font-weight: bold;
+			.lato(bold);
 			font-size: 16pt;
 		}
 	}
@@ -852,7 +856,7 @@ body > header {
 		
 		.highlight {
 			color: @white;
-			font-weight: bold;
+			.lato(bold);
 			font-size: 16pt;
 		}
 	}
