@@ -28,8 +28,9 @@ app.view.GroupLayer = Backbone.View.extend({
 				for(var i=0;i<Map.layers.length;i++){
 					Map.layers[i].layer.setZIndex(Map.layers.length-i);
 					Map.layers[i].z_index = Map.layers.length-i;
-					
 				}
+
+                Map.getRoute();
 			}
     	});
     	this.$el.find(".panel").disableSelection();
@@ -287,7 +288,7 @@ app.view.GroupLayer = Backbone.View.extend({
         $li.append($icon1).append($icon2).append($icon3).append($icon4).append("<div class='clear'></div>");
         $li.append("<div class='opacity_panel' style=''>" +
 	        			"<span class='opacity_label'>Opacity 100 %</span>" +
-	        			"<div class='slider'></div>" +
+	        			"<div class='slider' id='slider_"+ id +"'></div>" +
         			"</div>");
         
         $li.append("<div class='clear'></div>");
@@ -305,22 +306,20 @@ app.view.GroupLayer = Backbone.View.extend({
         
 
         Map.addLayer(id);
-        
+
+        var that = this;        
         $("#groupLayer").find(".slider").slider({
 			max: 100,
 			min: 0,
-			value: 100,
-			stop: function( event, ui ){
+            // Fix for wild events
+            create: function(event, ui){
+                $(this).slider('value', 100);
+            },
+			change: function( event, ui ){
 				$(ui.handle).closest(".opacity_panel").find(".opacity_label").html("Opacity "+ ui.value + " %");
 				var id_layer = $(ui.handle).closest("li").attr("idlayer");
 				$(ui.handle).closest(".opacity_panel").siblings("img").attr("title","Opacity " + ui.value +" %");
-				var layer;
-				Map.layers.forEach(function(gSLayerWMS) {
-					if(gSLayerWMS.id == id_layer){
-						layer = gSLayerWMS;
-					}
-				});
-				layer.layer.setOpacity(ui.value/100);
+				that.setLayerOpacity(id_layer, ui.value);
 			}
 		});
     },
@@ -333,6 +332,17 @@ app.view.GroupLayer = Backbone.View.extend({
                  Map.removeLayer(id);
         	});
         }
+    },
+
+    setLayerOpacity: function(id, value) {
+        var layer;
+        Map.layers.forEach(function(gSLayerWMS) {
+            if(gSLayerWMS.id == id){
+                layer = gSLayerWMS;
+            }
+        });
+        layer.layer.setOpacity(value/100);
+        Map.getRoute();
     },
     
     leyendClick: function(e) {

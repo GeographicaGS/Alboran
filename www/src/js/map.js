@@ -195,7 +195,7 @@ Map = {
 				activas += "0_"
 			}
 
-			opacidad += "1_";
+			opacidad += (layer.layer.options.opacity * 100) + "_";
 			
 		});
 		capas = capas.replace(/_([^_]*)$/,"/"+'$1');
@@ -209,15 +209,18 @@ Map = {
 	
 	setRoute: function(route) {
     	var argumentos = route.split("/");
-    	if(argumentos.length > 2){
+    	if(argumentos.length > 3){
     		if(argumentos[1].indexOf(app.router.langRoutes["_link history"][[app.lang]]) == -1){
     			var capas = argumentos[1].split("_");
     			var activas = argumentos[2].split("_");
+    			var opacidades = argumentos[3].split("_");
     			for(var i=capas.length -1; i>=0; i--){
     				app.groupLayer.addLayer(capas[i]);
     				if(activas[i] == "0"){
     					$("li[idlayer=" + capas[i] + "]").trigger("click");
     				}
+    				app.groupLayer.setLayerOpacity(capas[i],opacidades[i]);
+    				$("#slider_"+capas[i]).slider('value',opacidades[i]);
     			}
            	}
     	}
