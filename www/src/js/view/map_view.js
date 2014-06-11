@@ -43,10 +43,12 @@ app.view.Map = Backbone.View.extend({
 		});
     	
     	Map.getMap().on('zoomend', function() {
-            if(Map.getMap().getZoom() >= 11){
+            if(currentMap == 1 && Map.getMap().getZoom() >= 11){
+            	currentMap = 2;
             	Map.getMap().removeLayer(baseMap1);
             	baseMap2.addTo(Map.getMap());
-            }else{
+            }else if(currentMap == 2){
+            	currentMap = 1;
             	Map.getMap().removeLayer(baseMap2);
             	baseMap1.addTo(Map.getMap());
             }
