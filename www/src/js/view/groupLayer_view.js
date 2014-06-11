@@ -232,6 +232,8 @@ app.view.GroupLayer = Backbone.View.extend({
 
         if(Map.historiesVisible){
             this.$('#mapHistoryControl ~ label').addClass('active');
+        }else{
+            this.$('#mapHistoryControl ~ label').removeClass('active');
         }
 
         return this;
@@ -258,25 +260,29 @@ app.view.GroupLayer = Backbone.View.extend({
             break;
         }
         
-        $li.html("<p class='ellipsis fleft'>" + layer.title_es + "</p>");
+        $li.html("<p class='ellipsis fleft' title='" +  layer["title_" + app.lang] + "'>" + layer["title_" + app.lang] + "</p>");
         
         var $icon1, $icon2, $icon3, $icon4;
         
         $icon1 = $(document.createElement('img'));
         $icon1.addClass('icon leyend');
         $icon1.attr('src','/img/map/ALB_icon_leyenda.svg');
+        $icon1.attr('title',getTextLang("legend"));
         
         $icon2 = $(document.createElement('img'));
         $icon2.addClass('icon opacity');
         $icon2.attr('src','/img/map/ALB_icon_opacidad.svg');
+        $icon2.attr('title',getTextLang("opacity"));
         
         $icon3 = $(document.createElement('img'));
         $icon3.addClass('icon removeLayer');
         $icon3.attr('src','/img/map/ALB_icon_descartar_capa.svg');
+        $icon3.attr('title',getTextLang("remove"));
         
         $icon4 = $(document.createElement('img'));
         $icon4.addClass('icon');
         $icon4.attr('src','/img/map/ALB_icon_info_capa.svg');
+        $icon4.attr('title',getTextLang("info"));
 
         $li.append($icon1).append($icon2).append($icon3).append($icon4).append("<div class='clear'></div>");
         $li.append("<div class='opacity_panel' style=''>" +
@@ -419,8 +425,13 @@ app.view.GroupLayer = Backbone.View.extend({
         else
             $target = this.$('#mapHistoryControl');
 
-        $target.next('label').toggleClass('active');
-        Map.toggleHistories();
+        if(e)
+            Map.toggleHistories();
+
+        if(Map.historiesVisible)
+            $target.next('label').addClass('active');
+        else
+            $target.next('label').removeClass('active');
     },
 
     toggleSidebar: function() {

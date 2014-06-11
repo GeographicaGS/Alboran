@@ -24,5 +24,6 @@ app.config.update(
     ALLOWED_EXTENSIONS=set(["jpg","jpeg","png"]),
     MAX_CONTENT_LENGTH=16 * 1024 * 1024,
     historyFirstPagSize=,
-    historyPagSize=
+    historyPagSize=,
+    ADMIN_PASS_TMP=
 )
