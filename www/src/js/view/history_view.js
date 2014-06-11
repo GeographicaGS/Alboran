@@ -67,7 +67,7 @@ app.view.HistoryDetail = Backbone.View.extend({
 
     showAuthorMessage: function() {
         if(this.model.get('result').username == localStorage.user){
-            $('<div class="message"><p><lang>Si quiere realizar alguna modificación sobre esta historia o desea eliminarla de nuestra base de datos, mande un email a</lang> <a href="mailto:'+app.config['HISTORY_SUPPORT_MAIL']+'" target="_blank">'+app.config['HISTORY_SUPPORT_MAIL']+'</a>.</p></div>').insertAfter(this.$('.category'));
+            this.$('.historyText').parent().append($('<div class="message"><p><lang>Si quiere realizar alguna modificación sobre esta historia o desea eliminarla de nuestra base de datos, mande un email a</lang> <a href="mailto:'+app.config['HISTORY_SUPPORT_MAIL']+'" target="_blank">'+app.config['HISTORY_SUPPORT_MAIL']+'</a>.</p></div>'));
         }
     }
 })
