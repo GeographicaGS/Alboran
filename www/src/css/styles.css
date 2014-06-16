@@ -1162,9 +1162,8 @@ footer {
 }
 
 .oldbrowser_container {
-	position: absolute;
 	width: 100%;
-	height: calc(~'100% - 72px');
+	padding-top: 36px;
 	background-color: @grey_6;
 }
 

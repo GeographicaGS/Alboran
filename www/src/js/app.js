@@ -13,6 +13,27 @@ String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+app.detectCurrentLanguage = function(){
+    // Detect lang analyzing the URL
+    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {        
+        return "es";
+    }
+    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {        
+        return "en";
+    }
+    else if (document.URL.indexOf("/fr/") != -1 || document.URL.endsWith("/fr")) {        
+        return "fr";
+    }
+    
+    return null;
+};
+
+// Force going to the error page if jQuery is not loaded
+this.lang = app.detectCurrentLanguage();
+if(!window.jQuery){
+    window.location.href="/" + this.lang + "/browser_error.html";
+}
+
 $(function() {
     
     $(document).ajaxError(function(event, jqxhr, settings, exception) {
@@ -50,21 +71,6 @@ app.resizeMe = function(){
     
 };
 
-app.detectCurrentLanguage = function(){
-    // Detect lang analyzing the URL
-    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {        
-        return "es";
-    }
-    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {        
-        return "en";
-    }
-    else if (document.URL.indexOf("/fr/") != -1 || document.URL.endsWith("/fr")) {        
-        return "fr";
-    }
-    
-    return null;
-};
-
 app.ini = function(){
     
     this.lang = this.detectCurrentLanguage();
@@ -97,14 +103,14 @@ app.ini = function(){
 
     // Detect browser here
     if(!app.isSupportedBrowser()){
-            app.router.navigate("browsernotsupported", {trigger: true});
+            window.location.href="/" + this.lang + "/browser_error.html";
     }
 };
 
 app.showView = function(view) {
     // Detect browser here
-    if(!(view instanceof app.view.OldBrowser) && !app.isSupportedBrowser()){
-            app.router.navigate("browsernotsupported", {trigger: true});
+    if(!app.isSupportedBrowser()){
+            window.location.href="/" + this.lang + "/browser_error.html";
     }else{
         if (this.currentView){
           this.currentView.close();
