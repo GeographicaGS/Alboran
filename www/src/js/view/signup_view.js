@@ -35,7 +35,9 @@ app.view.SignUp = Backbone.View.extend({
                     "user": _.escape(this.model.get('user')),
                     "name": _.escape(this.model.get('name')),
                     "email": _.escape(this.model.get('email')),
-                    "password": md5(this.model.get('password'))
+                    "password": md5(this.model.get('password')),
+                    "institution": _.escape(this.model.get('institution')),
+                    "whySignup": _.escape(this.model.get('whySignup'))
                 },
                 type: "POST",     
                     success: function(data) {

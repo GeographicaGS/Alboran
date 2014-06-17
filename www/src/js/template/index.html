@@ -38,12 +38,14 @@
             <div class="container">
                 <div class="row uppercase">
                     <div class="col-sm-6 col-md-6">
+                        <div class="hide">
                         <span><lang>Idioma</lang>:</span>
-                        <ul>
-                            <li class="selected"><a href="/es" jslink><lang>Español</lang></a></li>
-                            <li><a href="/fr" jslink><lang>FR</lang></a></li>
-                            <li><a href="/en" jslink><lang>EN</lang></a></li>
-                        </ul>
+                            <ul>
+                                <li class="selected"><a href="/es" jslink><lang>Español</lang></a></li>
+                                <li><a href="/fr" jslink><lang>FR</lang></a></li>
+                                <li><a href="/en" jslink><lang>EN</lang></a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="col-sm-6 col-md-6 ">
                         <a id="login" class="login" href="#" jslink><lang>Iniciar Sesión</lang></a>
@@ -83,7 +85,7 @@
                                 <a href="/<lang>lang</lang>/<lang>_link about</lang>" jslink><lang>El proyecto</lang></a>
                             </li>
                             <li class="alboran" data-menu="alboran">
-                                <a href="/<lang>lang</lang>/<lang>_link alboran</lang>" jslink><img src="/img/home/ALB_logo_proyecto_cab.svg"></a>
+                                <a><img src="/img/home/ALB_logo_proyecto_cab.svg"></a>
                             </li>
                         </ul>
                     </div>
@@ -132,9 +134,11 @@
             </div>
             <input type="text" placeholder="<lang>Su nombre y apellidos</lang>" class="name" name="name">
             <input type="text" placeholder="<lang>Su correo electrónico</lang>" class="email" name="email">
+            <input type="text" placeholder="<lang>La institución de la que proviene</lang>" name="institution">
             <input type="text" placeholder="<lang>Su nombre de usuario</lang>" class="user" name="user">
             <input type="password" placeholder="<lang>Escriba su contraseña</lang>" name="password">
             <input type="password" placeholder="<lang>Repita su contraseña</lang>" name="repeatPassword">
+            <input type="text" placeholder="¿Por qué quiere registrarse?" name="whySignup">
             <input type="button" value="<lang>Crear cuenta</lang>" id="signup_btn">
             <p class="legal"><lang>Al crear su cuenta, acepta nuestros</lang> <a href="/<lang>lang</lang>/<lang>_link legal</lang>" jslink><lang>Términos de Uso</lang></a> <lang>y</lang> <a href="/<lang>lang</lang>/<lang>_link privacy</lang>" jslink><lang>Política de Privacidad</lang></a></p>
             <p class="error">Usuario y contraseña incorrectos</p>

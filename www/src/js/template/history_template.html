@@ -42,7 +42,7 @@
 			</div>
 			<div class="col-sm-8 col-md-8">
 				<h1><%= result.title %></h1>
-				<p><%= result.date %> · Historia enviada por <a><%= result.author %></a></p>
+				<p><%= result.date %> · Historia enviada por <a><%= result.author %> <% if(result.institution) { %> ( <%= result.institution %> ) <% } %></a></p>
 			</div>
 			<div class="col-sm-2 col-md-2 arrow-next">
 				<% if(result.next_id){ %>

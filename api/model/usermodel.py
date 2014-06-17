@@ -45,16 +45,16 @@ class UserModel(PostgreSQLModel):
 		else:
 			return False
 
-	def createUser(self, username, realname, email, password):
+	def createUser(self, username, realname, email, password, institution, whySignup):
 		# Get confirmation code
 		code = "%s%s"%(username,time.time())
 		m = md5.new()
 		m.update(code)
 		code = m.hexdigest()
-		sql = "INSERT INTO \"user\" (name, real_name, password, email, active, confirmation_code)" \
-				" VALUES (%s,%s,%s,%s, false, %s)"
+		sql = "INSERT INTO \"user\" (name, real_name, password, email, active, confirmation_code, institution, whysignup)" \
+				" VALUES (%s,%s,%s,%s, false, %s, %s, %s)"
 		try:
-			result = self.queryCommit(sql,[username, realname, password, email, code])
+			result = self.queryCommit(sql,[username, realname, password, email, code, institution, whySignup])
 		except IntegrityError:
 			code = None
 

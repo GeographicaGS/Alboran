@@ -17,7 +17,7 @@ class HistoryModel(PostgreSQLModel):
 	def getHistoriesByType(self, htype, fromId):
 		if htype is not None:
 			if(fromId is not None):
-				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
+				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", institution, filename " \
 					"FROM \"history\" h " \
 					"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 					"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
@@ -26,7 +26,7 @@ class HistoryModel(PostgreSQLModel):
 					"LIMIT %s"
 				result = self.query(sql,[htype, fromId, app.config["historyPagSize"]]).result()
 			else:
-				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
+				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", institution, filename " \
 					"FROM \"history\" h " \
 					"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 					"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
@@ -36,7 +36,7 @@ class HistoryModel(PostgreSQLModel):
 				result = self.query(sql,[htype, app.config["historyPagSize"]]).result()
 		else:
 			# Send 16 histories for each type and the number of total histories
-			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
+			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", institution, filename " \
 				"FROM \"history\" h " \
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
@@ -45,7 +45,7 @@ class HistoryModel(PostgreSQLModel):
 				"LIMIT %s"
 			result1 = self.query(sql,[app.config["historyFirstPagSize"]]).result()
 
-			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", filename " \
+			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", institution, filename " \
 				"FROM \"history\" h " \
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
@@ -74,7 +74,7 @@ class HistoryModel(PostgreSQLModel):
 		return result
 
 	def getHistoryById(self, id):
-		sql = "SELECT h.id_history, title, date_history as \"date\", place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", u.id_user, u.name as \"username\" " \
+		sql = "SELECT h.id_history, title, date_history as \"date\", place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", institution, u.id_user, u.name as \"username\" " \
 			"FROM \"history\" h " \
 			"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 			"WHERE h.id_history = %s AND h.active = true"
