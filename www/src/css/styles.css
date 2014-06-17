@@ -147,12 +147,14 @@ input[placeholder]{
 
 .grey{ color: @grey;}
 .grey_light {color: @grey_light;}
+.grey_4 {color: @grey_4;}
 .red { color : @red;}
 .blue { color: @blue;}
 .green { color: @green;}
 .blue_light { color: @blue_light;}
 .bluegrey {color: @bluegrey;}
 .bluegrey_light {color: @bluegrey_light;}
+.pink {color: @pink;}
 
 /* Fonts */
 
@@ -207,7 +209,7 @@ strong {
 	}
 }
 
-i {
+i,em {
 	.lato(italic);
 
 	&.light {
@@ -1162,9 +1164,8 @@ footer {
 }
 
 .oldbrowser_container {
-	position: absolute;
 	width: 100%;
-	height: calc(~'100% - 72px');
+	padding-top: 36px;
 	background-color: @grey_6;
 }
 

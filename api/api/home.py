@@ -30,8 +30,14 @@ def signin():
 	email = request.form.get('email')
 	password = request.form.get('password')
 	name = request.form.get('name')
+	institution = request.form.get('institution')
+	if (institution == ""):
+		institution = None
+	whySignup = request.form.get('whySignup')
+	if (whySignup == ""):
+		whySignup = None
 	u = UserModel()
-	code = u.createUser(user,name,email,password)
+	code = u.createUser(user,name,email,password,institution,whySignup)
 	if code is not None:
 		# Send confirmation email
 		sendEmail([email], "Email de confirmación de Alborán", getConfirmationEmailBody(user, code))

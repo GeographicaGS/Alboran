@@ -15,8 +15,7 @@ app.router = Backbone.Router.extend({
         "_link history" : {"en":"history","es": "historia", "fr": "historia" },
         "_link legal" : {"en":"legal","es": "legal", "fr": "legal" },
         "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "privacidad" },
-        "_link user" : {"en":"user","es": "usuario", "fr": "usuario" },
-        "_link oldbrowser": {"en":"notsupportedbrowser", "es": "navegadornosoportado", "fr": "navegadornosoportado"}
+        "_link user" : {"en":"user","es": "usuario", "fr": "usuario" }
     },
 
     /* define the route and function maps for this router */
@@ -46,7 +45,6 @@ app.router = Backbone.Router.extend({
             "notfound" : "notfound",
             "faq" : "faq",
             "error" : "error",
-            "browsernotsupported" : "oldbrowser",
 
             "user/:username/:code": "signinConfirmation",
             
@@ -78,7 +76,6 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link legal"][app.lang], "legal");        
         this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
-        this.route(this.langRoutes["_link oldbrowser"][app.lang], "oldbrowser");
     },
     
     home: function(){
@@ -91,7 +88,7 @@ app.router = Backbone.Router.extend({
     	if(!app.isSupportedBrowser()){
             $("#content").show();
             $("#map").hide();
-            app.router.navigate("browsernotsupported", {trigger: true});
+            window.location.href="/" + app.lang + "/browser_error.html";
         }else{
             $("#content").hide();
             $("#map").show();
@@ -116,7 +113,7 @@ app.router = Backbone.Router.extend({
         if(!app.isSupportedBrowser()){
             $("#content").show();
             $("#map").hide();
-            app.router.navigate("browsernotsupported", {trigger: true});
+            window.location.href="/" + app.lang + "/browser_error.html";
         }else{
             $("#content").hide();
             $("#map").show();
@@ -145,7 +142,7 @@ app.router = Backbone.Router.extend({
         if(!app.isSupportedBrowser()){
             $("#content").show();
             $("#map").hide();
-            app.router.navigate("browsernotsupported", {trigger: true});
+            window.location.href="/" + app.lang + "/browser_error.html";
         }else{
             $("#content").hide();
             $("#map").show();
@@ -248,12 +245,6 @@ app.router = Backbone.Router.extend({
 
     error: function(){
         app.showView(new app.view.Error());
-    },
-
-    oldbrowser: function(){
-        $("#content").show();
-        $("#map").hide();
-        app.showView(new app.view.OldBrowser());
     }
     
 });

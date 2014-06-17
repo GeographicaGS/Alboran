@@ -32,12 +32,29 @@
 				&.relative {
 					position: relative;
 
+					.col-sm-3, .col-md-3 {
+						position: absolute;
+						height: 100%;
+						top: 0;
+						right: 0;
+
+						.bottom {
+							position: absolute;
+							right: 0;
+							bottom: 1.8em;
+						}
+					}
+
 					.bottom {
 						position: absolute;
 						right: 0;
 						bottom: 1.05em;
 						text-align: right;
 					}
+				}
+
+				&.separator {
+					border-bottom: 1px solid @grey_border;
 				}
 			}
 		}
@@ -68,6 +85,11 @@
 		h3 {
 			.lato(bold);
 			font-size: 1.05em;
+			color: @grey_header_dark;
+
+			&.grey_4 {
+				color: @grey_4;
+			}
 		}
 
 		p {
@@ -93,6 +115,11 @@
 				color: @grey_header_dark;
 				padding-bottom: 3px;
 				border-bottom: 1px solid @grey_5;
+			}
+
+
+			img {
+				margin: 0 5px;
 			}
 		}
 
@@ -123,6 +150,279 @@
 				margin-right: 3px;
 			}
 		}
+
+		ol {
+			list-style-position: inside;
+			font-size: 1.05em;
+			color: @grey_4;
+
+			p {
+				font-size: 1em;
+			}
+
+			a {
+				color: @grey_header_dark;
+				padding-bottom: 3px;
+				border-bottom: 1px solid @grey_5;
+			}
+
+			img {
+				margin: 0 5px;
+			}
+
+			&.pad_20 {
+				padding-left: 20px;
+				margin-bottom: 45px;
+
+				&.bold {
+					.lato(bold);
+
+					span {
+						.lato(regular);
+					}
+				}
+			}
+
+			&.icons {
+				font-size: 1em;
+
+				li {
+					position: relative;
+					padding-left: 20px;
+					margin-bottom: 25px;
+					font-size: 1em;
+
+					&:before {
+						display: inline-block;
+						margin-right: 5px;
+						position: absolute;
+						left: 0;
+						top: 2px;
+					}
+
+					&.green:before {
+						content: url('/img/map/ALB_icon_config_cargar_mapa-1.svg');
+					}
+
+					&.red:before {
+						content: url('/img/map/ALB_icon_config_cargar_mapa-2.svg');
+					}
+
+					&.blue:before {
+						content: url('/img/map/ALB_icon_config_cargar_mapa-3.svg');
+					}
+
+					&.goodpractices {
+						&:before {
+							content: url('/img/participa/ALB_icon_historias_buenas.svg');
+						}
+
+						span {
+							color: @ocre;
+						}
+					}
+
+					&.sightings {
+						&:before {
+							content: url('/img/participa/ALB_icon_historias_avista.svg');
+						}
+
+						span {
+							color: @ocre;
+						}
+					}
+
+				}
+			}
+		}
+
+		ul {
+
+			&.dots{
+				list-style-type: disc;
+				list-style-position: inside;
+				font-size: 1.05em;
+				color: @grey_4;
+
+				li {
+					margin-bottom: 25px;
+
+					a {
+						color: @grey_header_dark;
+						padding-bottom: 3px;
+						border-bottom: 1px solid @grey_5;
+					}
+				}
+			}
+
+			&.icons {
+				font-size: 1.05em;
+
+				li {
+					position: relative;
+					padding-left: 20px;
+					margin-bottom: 25px;
+					font-size: 1em;
+
+					&:before {
+						display: inline-block;
+						margin-right: 5px;
+						position: absolute;
+						left: 0;
+					}
+
+					&.green:before {
+						content: url('/img/map/ALB_icon_config_cargar_mapa-1.svg');
+					}
+
+					&.red:before {
+						content: url('/img/map/ALB_icon_config_cargar_mapa-2.svg');
+					}
+
+					&.blue:before {
+						content: url('/img/map/ALB_icon_config_cargar_mapa-3.svg');
+					}
+
+					&.goodpractices, &.sightings {
+						padding-left: 30px;
+						color: @grey_4;
+
+						span {
+							color: @ocre;
+							.lato(bold);
+						}
+					}
+
+					&.goodpractices {
+						&:before {
+							content: url('/img/participa/ALB_icon_historias_buenas.svg');
+						}
+					}
+
+					&.sightings {
+						&:before {
+							content: url('/img/participa/ALB_icon_historias_avista.svg');
+						}
+					}
+
+					ul {
+						list-style: disc;
+						padding-left: 36px;
+
+						li {
+							margin-bottom: 0;
+							padding-left: 0;
+						}
+					}
+
+				}
+			}
+		}
+
+		.center {
+			text-align: center;
+		}
+
+		.shadow {
+			box-shadow: 0 0 6px 0 rgba(0,0,0,.5);
+		}
+
+		.icon_74 {
+			width: 72px;
+			height: 72px;
+			border-radius: 36px;
+
+			img {
+				max-width: 74px;
+				position: relative;
+				top: -1px;
+				left: -1px;
+			}
+		}
+
+		.margin_36 {
+			margin-bottom: 36px;
+		}
+
+		.button {
+			padding: 4px 8px;
+			margin-left: 15px;
+			margin-bottom: 25px;
+			color: @white;
+			border-radius: 2px;
+			font-size: 0.7em;
+			.lato(bold);
+			text-transform: uppercase;
+			display: inline-block;
+			overflow: hidden;
+
+			&.green {
+				color: @green;
+			}
+
+			span {
+				.lato(bold);
+			}
+
+			&.add_btn {
+				border: 1px solid;
+				transition: all .5s ease;
+				white-space: nowrap;
+				max-width: 162px;
+
+				@media (max-width: 1023px){
+					transition: border-color .5s ease, background-color .5s ease;
+				}
+				
+				&:before {
+					content: url('@{imgPath}catalogue/ALB_icon_anadir_capa_1.svg');
+					margin-right: 5px;
+					position: relative;
+					top: 4px;
+				}
+
+				&.add {
+					background-color: @white;
+					max-width: 310px;
+
+					&:before {
+						top: 1px;
+					}
+				}
+			}
+
+			&.metadata_btn {
+				background-color: @grey_groupTitleNumber;
+				border: 1px solid @grey_groupTitleNumber;
+				&:after{
+					content: url('@{imgPath}catalogue/ALB_icon_enlace_externo.svg');
+					margin-left: 5px;
+					position: relative;
+					top: 4px;
+				}
+			}
+		}
+
+		.roundedFigure {
+			margin-top: 70px;
+			text-align: center;
+
+			&.noTopMargin {
+				margin-top: 0;
+			}
+
+			img {
+				border: 10px solid @grey_footer;
+				border-radius: 240px;
+				max-width: calc(~'100% - 24px');
+				margin-bottom: 5px;
+			}
+
+			p {
+				font-size: 0.84em;
+				line-height: 1.3em;
+			}
+		}
 	}
 
 	.photoContainer {
@@ -143,6 +443,7 @@
 
 			p {
 				margin: 0 0 0 10px;
+				font-size: 0.9em;
 
 				&:first-child{
 					margin-top: 25px;
