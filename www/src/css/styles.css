@@ -1087,8 +1087,14 @@ footer {
 #container_feature_info{
 	/*width: 800px;
 	height: 400px;*/
-/* 	overflow:auto; */
 	display: none;
+	overflow: auto;
+}
+
+/* Fix for fancybox when TOC is expanded */
+.fancybox-wrap.stretch {
+	max-width: calc(~'100% - 364px');
+	left: 339px !important;
 }
 
 .flotable_legend {
