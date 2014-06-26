@@ -19,8 +19,11 @@ app.view.HistoryCreate = Backbone.View.extend({
         'click input[type=radio] ~ label': 'removeEvent',
         'change input[type=radio]': 'removeEvent',
         'click #enviar_btn': 'sendHistory',
-        'click #cancel_btn': 'cancelHistory',
+        'click .cancel_btn': 'cancelHistory',
         'blur input': 'validate',
+        'change #hist-lat': 'validate',
+        'change #hist-lon': 'validate',
+        'change #hist-when': 'validate',
         'click .position_btn': 'showMap'
     },
     
@@ -356,8 +359,8 @@ app.view.HistoryCreate = Backbone.View.extend({
     },
 
     getPoint: function(point) {
-        this.$('#hist-lat').val(point.lat.toFixed(5));
-        this.$('#hist-lon').val(point.lng.toFixed(5));
+        this.$('#hist-lat').val(point.lat.toFixed(5)).change();
+        this.$('#hist-lon').val(point.lng.toFixed(5)).change();
 
         this.pointSelector.off('pointSelected');
     },
