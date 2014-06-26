@@ -316,6 +316,15 @@
 					}
 				}
 
+				.imageErrorText {
+					display: none;
+					margin-top: 30px;
+				}
+
+				&#imagesFieldset.invalid .imageErrorText{
+					display: block;
+				}
+
 				progress {
 					display: none;
 
@@ -923,6 +932,7 @@
 #mapPointSelector {
 	height: 500px;
 	width: 500px;
+	cursor: crosshair;
 }
 
 .howto {
