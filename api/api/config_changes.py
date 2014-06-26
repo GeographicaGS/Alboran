@@ -25,5 +25,6 @@ app.config.update(
     MAX_CONTENT_LENGTH=16 * 1024 * 1024,
     historyFirstPagSize=,
     historyPagSize=,
+    #time in minutes
     loginMaxTime=20
 )
