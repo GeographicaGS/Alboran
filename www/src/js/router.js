@@ -58,6 +58,9 @@ app.router = Backbone.Router.extend({
     
 
     initialize: function(options) {
+        // Bind 'route' event to send Google Analytics info
+        Backbone.history.on("route", this.sendPageview);
+
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link map"][app.lang], "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas", "map");
@@ -245,6 +248,12 @@ app.router = Backbone.Router.extend({
 
     error: function(){
         app.showView(new app.view.Error());
+    },
+
+    sendPageview: function(){
+        var url;
+        url = Backbone.history.root + Backbone.history.getFragment()
+        ga('send', 'pageview', url);
     }
     
 });
