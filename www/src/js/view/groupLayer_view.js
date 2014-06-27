@@ -353,7 +353,7 @@ app.view.GroupLayer = Backbone.View.extend({
 		var $el = $("<div class='flotable_legend ui-widget ui-widget-content' >"
 				+	"<h4>" 
 				+		"<img class='ml mt mr mb fleft' src='/img/map/ALB_icon_leyenda.svg' />"
-				+		"<p class='titleLegend'></p>"
+				+		"<p class='titleLegend ellipsis' title=''></p>"
 				+		"<img class='closeLegend' src='/img/map/ALB_icon_descartar_capa.svg' />"
 				+	"</h4>"
 				+	"<div class='co_legend'>"							
@@ -372,9 +372,17 @@ app.view.GroupLayer = Backbone.View.extend({
 		});
 		
 		$el.find("h4").find("p").text(layer.title);
+		$el.find("h4").find("p").attr("title",layer.title);
 		
-		var legendUrl = layer.url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-		+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
+		var legendUrl;
+		var layerCatalogue = Map.searchLayer(id_layer);
+		if(layerCatalogue.hasOwnProperty("wmsLegend")){
+			legendUrl = layerCatalogue.wmsLegend;
+		}else{
+			legendUrl = layer.url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+			+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
+		}
+		
 		
 		$el.find(".co_legend").html("<img src='" + legendUrl +"'/>");
 		
