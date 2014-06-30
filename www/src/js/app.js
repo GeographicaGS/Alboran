@@ -15,7 +15,7 @@ String.prototype.endsWith = function(suffix) {
 
 app.detectCurrentLanguage = function(){
     // Detect lang analyzing the URL
-    /*if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {        
+    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {        
         return "es";
     }
     else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {        
@@ -25,7 +25,7 @@ app.detectCurrentLanguage = function(){
         return "fr";
     }
     
-    return null;*/
+    return null;
 
     // Force es
     return "es";
