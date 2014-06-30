@@ -228,7 +228,7 @@ app.isSupportedBrowser = function(){
     if ((browser[0]=="IE" || browser[0] =="MSIE") && !isNaN(browser[1]) && parseFloat(browser[1]) < 10.0){
         return false;
     }
-    if (browser[0]=="Firefox" &&  !isNaN(browser[1]) && parseFloat(browser[1]) < 24.0){
+    if (browser[0]=="Firefox" &&  !isNaN(browser[1]) && parseFloat(browser[1]) < 28.0){
         return false;
     }
 
