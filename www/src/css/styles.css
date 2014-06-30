@@ -1095,6 +1095,10 @@ footer {
 .fancybox-wrap.stretch {
 	max-width: calc(~'100% - 364px');
 	left: 339px !important;
+
+	.fancybox-inner {
+		max-width: 100%;
+	}
 }
 
 .flotable_legend {

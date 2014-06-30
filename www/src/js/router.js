@@ -61,6 +61,9 @@ app.router = Backbone.Router.extend({
         // Bind 'route' event to send Google Analytics info
         Backbone.history.on("route", this.sendPageview);
 
+        // Force spanish address
+        Backbone.history.on("route", this.forceSpanish);
+
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link map"][app.lang], "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas", "map");
@@ -254,6 +257,12 @@ app.router = Backbone.Router.extend({
         var url;
         url = Backbone.history.root + Backbone.history.getFragment()
         ga('send', 'pageview', url);
+    },
+
+    forceSpanish: function(){
+        if (Backbone.history.root.indexOf('es') == -1){
+            window.location.href="/es/";
+        }
     }
     
 });
