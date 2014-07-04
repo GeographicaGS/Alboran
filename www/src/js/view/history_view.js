@@ -2,7 +2,9 @@ app.view.HistoryDetail = Backbone.View.extend({
 	_template : _.template( $('#history_template').html() ),
 
     events: {
-        'click #gallery_btn': 'showGallery'
+        'click #gallery_btn': 'showGallery',
+        'click .videolink': 'showVideo',
+        'mouseenter .videolink': 'showVideo'
     },
 
     initialize: function(options) {
@@ -45,6 +47,31 @@ app.view.HistoryDetail = Backbone.View.extend({
                 closeBtn: '<a title="Close" class="fancybox-item fancybox-close myClose" href="javascript:;"><img src="/img/participa/ALB_cerrar_galeria.svg"></a>',
                 next: '<a title="Next" class="fancybox-nav fancybox-next" href="javascript:;"><span><img src="/img/participa/ALB_flecha_galeria_sig.svg"></span></a>',
                 prev: '<a title="Previous" class="fancybox-nav fancybox-prev" href="javascript:;"><span><img src="/img/participa/ALB_flecha_galeria_ant.svg"></span></a>'
+            },
+            helpers : { 
+                overlay: { 
+                    css: {
+                        'background-color': 'rgba(0,0,102,0.85)',
+                        'z-index': 10003
+                    }
+                } 
+            },
+        });
+    },
+
+    showVideo: function(e){
+        e.preventDefault();
+        var $target = $(e.currentTarget);
+        $target.fancybox({
+            //'width'         : '75%',
+            //'height'        : '75%',
+            'autoScale'     : false,
+            //'transitionIn'  : 'none',
+            //'transitionOut' : 'none',
+            'type'          : 'iframe',
+            'padding' : 0,
+            tpl: {
+                closeBtn: '<a title="Close" class="fancybox-item fancybox-close myClose" href="javascript:;"><img src="/img/participa/ALB_cerrar_galeria.svg"></a>'
             },
             helpers : { 
                 overlay: { 

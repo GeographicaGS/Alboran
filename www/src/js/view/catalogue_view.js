@@ -7,7 +7,9 @@ app.view.Catalogue = Backbone.View.extend({
         'keyup #searchInput': 'search'
     },
 
-	initialize: function() {
+	initialize: function(options) {
+        this.activeCategory = options.activeCategory;
+        this.activeSection = options.activeSection;
         this.collection = new app.collection.Categories(app.categories, {view: this});
         app.events.trigger('menu','catalogue');
         this.render();
@@ -28,6 +30,15 @@ app.view.Catalogue = Backbone.View.extend({
         this.$searchbarText = this.$('#searchInput');
 
         this.renderAll();
+
+        if(this.activeCategory){
+            var index = this.$topTabs.filter('#'+this.activeCategory).index();
+            this.changeTab(null,index);
+
+            if(this.activeSection){
+                this.goToSection(this.activeSection-1);
+            }
+        }
         
         return this;
     },
@@ -79,6 +90,16 @@ app.view.Catalogue = Backbone.View.extend({
 
         this.$layergroups.removeClass('selected');
         this.$layergroups.eq(index).addClass('selected');
+    },
+
+    goToSection: function(index){
+        var $currentCategory = this.$layergroups.filter('.selected');
+        var $selectedSection = $currentCategory.children().eq(index);
+        if($selectedSection.length > 0){
+            setTimeout(function(){
+                app.scrollToEl($selectedSection);
+            }, 500);
+        }
     },
 
     toggleSearch: function(e){

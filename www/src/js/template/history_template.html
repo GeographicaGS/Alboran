@@ -53,7 +53,7 @@
 		<div class="row">
 			<div class="col-sm-8 col-md-8">
 				<div class="historyText">
-					<%= result.text_history %>
+					<%= app.urlify(result.text_history, 'target="_blank" class="videolink"') %>
 				</div>
 				<% if(result.category > 0){ %>
 					<div class="category">

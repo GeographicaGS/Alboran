@@ -720,6 +720,28 @@
 		font-size: 1.05em;
 		margin-bottom: 26px;
 		white-space: pre-wrap;
+
+		a {
+			color: @grey_header_dark;
+			padding-bottom: 3px;
+			border-bottom: 1px solid @grey_5;
+
+			&.videolink {
+				border: none;
+				display: block;
+
+				span {
+					border-bottom: 1px solid @grey_5;					
+				}
+
+				&:before {
+					content: url('/img/participa/ALB_icon_ver-video.svg');
+					display: inline-block;
+					vertical-align: middle;
+					margin-right: 5px;
+				}
+			}
+		}
 	}
 
 	.category {

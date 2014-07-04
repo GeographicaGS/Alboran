@@ -1074,6 +1074,10 @@ footer {
 	background-image: none;
 }
 
+#fancybox-loading{
+	z-index: 99999 !important;
+}
+
 .ellipsis {
 	text-overflow: ellipsis;
 	overflow: hidden;

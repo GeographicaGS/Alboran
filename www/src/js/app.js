@@ -139,7 +139,7 @@ app.scrollTop = function(){
     var body = $("html, body");
     body.animate({scrollTop:0}, '500', 'swing', function() { 
        
-    });
+        });
 }
 
 app.scrollToEl = function($el){
@@ -148,6 +148,67 @@ app.scrollToEl = function($el){
     }, 500);    
 }
 
+app.urlify = function(text,attr) {
+    if (!text){
+        return ""
+    }
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    var urls = text.match(exp);
+    var result = text;
+    urls.forEach( function(url, index, array){
+        var link = "";
+        var expYoutube = /(youtu.be|youtube)/g;
+        var expVimeo = /(vimeo.com)/g;
+        if(expYoutube.test(url)){
+            var youtubeInfo = app.youtubify(url);
+            link = '<a href="http://www.youtube.com/embed/' + youtubeInfo + '"' + attr + '><span>Ver video</span></a>';
+        }else{
+            if(expVimeo.test(url)){
+                var vimeoId = app.vimeofy(url);
+                link = '<a href="http://player.vimeo.com/video/' + vimeoId + '"' + attr + '><span>Ver video</span></a>';
+                
+            }else{
+                link = '<a href="'+url+'" target="_blank"><span>'+url+'</span></a>'; 
+            }
+        }
+
+        if (link != ""){
+            result = result.replace(url,link);
+        }
+    });
+
+    return result;
+}
+
+app.youtubify = function(url) {
+    var result = "";
+    var index = url.indexOf('youtu.be/');
+    if(index == -1){
+        index = url.indexOf('youtube.com/watch?v=');
+        if (index != -1){
+            index = index + 20;
+        }
+    }else{
+        index = index + 9;
+    }
+
+    if(index != -1){
+        result = url.substring(index);
+    }
+
+    return result;
+}
+
+app.vimeofy = function(url) {
+    var result = "";
+    var index = url.indexOf('vimeo.com/');
+    if(index != -1){
+        index = index + 10;
+        result = url.substring(index);
+    }
+
+    return result;
+}
 
 app.nl2br = function nl2br(str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
@@ -183,14 +244,6 @@ app.dateTimeFormat = function(dateStr){
     if (minutes < 10) minutes = "0" + minutes;
     
     return day +"/"+month+"/"+year +" - " + hours + ":" + minutes ;
-}
-
-app.urlify = function(text,attr) {
-    if (!text){
-        return ""
-    }
-    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i;
-    return text.replace(exp,"<a href='$1' "+ attr+ ">$1</a>"); 
 }
 
 app.loadingHTML = function(){

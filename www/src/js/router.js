@@ -28,7 +28,10 @@ app.router = Backbone.Router.extend({
             "map/:capas/:activas/:opacidad/:mostrarHistorias" : "map",
             "map/:config": "mapConf",
             "map/history/:id": "mapHistory",
+            
             "catalogue": "catalogue",
+            "catalogue/:cat": "catalogue",
+            "catalogue/:cat/:sec": "catalogue",            
             
             "about": "about",
             "alboran": "alboran",
@@ -71,6 +74,8 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link map"][app.lang] + "/:config", "mapConf");
         this.route(this.langRoutes["_link map"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id", "mapHistory");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");        
+        this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat", "catalogue");        
+        this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat/:sec", "catalogue");        
         this.route(this.langRoutes["_link about"][app.lang], "about");        
         this.route(this.langRoutes["_link alboran"][app.lang], "alboran");        
         this.route(this.langRoutes["_link contact"][app.lang], "contact");        
@@ -160,10 +165,10 @@ app.router = Backbone.Router.extend({
         }
     },
 
-    catalogue: function(){
+    catalogue: function(category, section){
         $("#content").show();
         $("#map").hide();
-        app.showView( new app.view.Catalogue() );
+        app.showView( new app.view.Catalogue({activeCategory: category, activeSection: section}) );
     },
 
     about: function(){
