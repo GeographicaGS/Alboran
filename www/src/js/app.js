@@ -155,27 +155,29 @@ app.urlify = function(text,attr) {
     var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
     var urls = text.match(exp);
     var result = text;
-    urls.forEach( function(url, index, array){
-        var link = "";
-        var expYoutube = /(youtu.be|youtube)/g;
-        var expVimeo = /(vimeo.com)/g;
-        if(expYoutube.test(url)){
-            var youtubeInfo = app.youtubify(url);
-            link = '<a href="http://www.youtube.com/embed/' + youtubeInfo + '"' + attr + '><span>Ver video</span></a>';
-        }else{
-            if(expVimeo.test(url)){
-                var vimeoId = app.vimeofy(url);
-                link = '<a href="http://player.vimeo.com/video/' + vimeoId + '"' + attr + '><span>Ver video</span></a>';
-                
+    if (urls != null) {
+        urls.forEach( function(url, index, array){
+            var link = "";
+            var expYoutube = /(youtu.be|youtube)/g;
+            var expVimeo = /(vimeo.com)/g;
+            if(expYoutube.test(url)){
+                var youtubeInfo = app.youtubify(url);
+                link = '<a href="http://www.youtube.com/embed/' + youtubeInfo + '"' + attr + '><span>Ver video</span></a>';
             }else{
-                link = '<a href="'+url+'" target="_blank"><span>'+url+'</span></a>'; 
+                if(expVimeo.test(url)){
+                    var vimeoId = app.vimeofy(url);
+                    link = '<a href="http://player.vimeo.com/video/' + vimeoId + '"' + attr + '><span>Ver video</span></a>';
+                    
+                }else{
+                    link = '<a href="'+url+'" target="_blank"><span>'+url+'</span></a>'; 
+                }
             }
-        }
 
-        if (link != ""){
-            result = result.replace(url,link);
-        }
-    });
+            if (link != ""){
+                result = result.replace(url,link);
+            }
+        });
+    }
 
     return result;
 }

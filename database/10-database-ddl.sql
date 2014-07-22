@@ -20,6 +20,8 @@ CREATE TABLE user(
   confirmation_code text,
   real_name text,
   admin boolean DEFAULT false,
+  institution text,
+  whysignup text,
   CONSTRAINT user_pkey PRIMARY KEY (id_user),
   CONSTRAINT email_unique UNIQUE (email),
   CONSTRAINT name_unique UNIQUE (name)
