@@ -261,7 +261,8 @@ app.view.GroupLayer = Backbone.View.extend({
             break;
         }
         
-        $li.html("<p class='ellipsis fleft' title='" +  layer["title_" + app.lang] + "'>" + layer["title_" + app.lang] + "</p>");
+        // $li.html("<p class='ellipsis fleft' title='" +  layer["title_" + app.lang] + "'>" + layer["title_" + app.lang] + "</p>");
+        $li.html("<p class='ellipsis fleft' title='" +  layer["title_es"] + "'>" + layer["title_es"] + "</p>");
         
         var $icon1, $icon2, $icon3, $icon4;
         
