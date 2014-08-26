@@ -40,12 +40,12 @@
             <div class="container">
                 <div class="row uppercase">
                     <div class="col-sm-6 col-md-6">
-                        <div class="hide">
+                        <div style="text-align:left">
                         <span><lang>Idioma</lang>:</span>
-                            <ul>
-                                <li class="selected"><a href="/es" jslink><lang>Español</lang></a></li>
-                                <li><a href="/fr" jslink><lang>FR</lang></a></li>
-                                <li><a href="/en" jslink><lang>EN</lang></a></li>
+                            <ul id="">
+                                <li class="selected"><a href="" onclick="location.href= '/' + app.lang"><lang>Español</lang></a></li>
+                                <li><a href="/" onclick="location.href=this.href + ('<lang>FR</lang>'.toLowerCase());return false;"><lang>FR</lang></a></li>
+                                <li><a href="/" onclick="location.href=this.href + ('<lang>EN</lang>'.toLowerCase());return false;"><lang>EN</lang></a></li>
                             </ul>
                         </div>
                     </div>
