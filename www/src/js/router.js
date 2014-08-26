@@ -65,7 +65,7 @@ app.router = Backbone.Router.extend({
         Backbone.history.on("route", this.sendPageview);
 
         // Force spanish address
-        Backbone.history.on("route", this.forceSpanish);
+        // Backbone.history.on("route", this.forceSpanish);
 
         this.route(this.langRoutes["_link home"][app.lang], "home");
         this.route(this.langRoutes["_link map"][app.lang], "map");
