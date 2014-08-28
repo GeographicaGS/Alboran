@@ -437,7 +437,7 @@ app.view.GroupLayer = Backbone.View.extend({
 		}
     },
 
-    toggleHistories: function(e) {
+    toggleHistories: function(e,forceActive) {
         var $target;
         if (e)
             $target = $(e.currentTarget);
@@ -451,7 +451,10 @@ app.view.GroupLayer = Backbone.View.extend({
             $target.next('label').addClass('active');
         else
             $target.next('label').removeClass('active');*/
-        $target.next('label').toggleClass('active');
+        if(forceActive)
+            $target.next('label').addClass('active');
+        else
+            $target.next('label').toggleClass('active');
     },
 
     toggleSidebar: function() {

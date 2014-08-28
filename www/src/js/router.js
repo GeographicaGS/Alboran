@@ -105,7 +105,7 @@ app.router = Backbone.Router.extend({
             $("#map").show();
             app.events.trigger('menu','map');
             
-            if(mostrarHistorias != 0){
+            if(mostrarHistorias == 1){
                 Map.toggleHistories(true);
                 if(app.groupLayer)
                     app.groupLayer.toggleHistories();
@@ -162,6 +162,8 @@ app.router = Backbone.Router.extend({
                 Map.getMap().invalidateSize("true");
             }
             Map.toggleHistories(true, Map.openHistoryPopup, id);
+            if(app.groupLayer)
+                    app.groupLayer.toggleHistories(null,true);
         }
     },
 
