@@ -1,3 +1,5 @@
+# coding=UTF8
+
 from api import app
 from flask import request,abort
 from model.usermodel import UserModel
@@ -70,9 +72,9 @@ def sendEmail(toAddresses,subject,body):
         server.quit()
 
 def getConfirmationEmailBody(user,code,lang="es"):
-	link = "<a href='"+ app.config["baseURL"] +"/" + lang + "/user/" + user + "/" + code + "' target='_blank'>aqu&iacute;</a>"
-	m = "<h1>Albor&aacute;n</h1>"
-	m += "<h2>Confirme su cuenta</h2>"
-	m += "<p>Haga clic " + link + " para confirmar su cuenta."
+	link = "<a href='"+ app.config["baseURL"] +"/" + lang + "/user/" + user + "/" + code + "' target='_blank'>"+app.trans['EMAIL_MSG_LINK'][lang]+"</a>"
+	m = "<h1>"+app.trans['EMAIL_TITLE'][lang]+"</h1>"
+	m += "<h2>"+app.trans['EMAIL_MSG_CONFIRM'][lang]+"</h2>"
+	m += "<p>" + app.trans['EMAIL_MSG_PRELINK'][lang] + link + app.trans['EMAIL_MSG_POSTLINK'][lang] +"</p>"
 
 	return m;

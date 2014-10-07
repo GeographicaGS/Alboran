@@ -31,6 +31,7 @@ def signin():
 	password = request.form.get('password')
 	name = request.form.get('name')
 	institution = request.form.get('institution')
+	lang = request.form.get('lang')
 	if (institution == ""):
 		institution = None
 	whySignup = request.form.get('whySignup')
@@ -40,7 +41,7 @@ def signin():
 	code = u.createUser(user,name,email,password,institution,whySignup)
 	if code is not None:
 		# Send confirmation email
-		sendEmail([email], "Email de confirmación de Alborán", getConfirmationEmailBody(user, code))
+		sendEmail([email], app.trans['EMAIL_SUBJECT'][lang], getConfirmationEmailBody(user, code, lang))
 		return jsonify({'result': 'true'})
 	else:
 		return jsonify({'error': 'userexists'})
