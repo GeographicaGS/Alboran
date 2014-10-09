@@ -73,7 +73,7 @@ def sendEmail(toAddresses,subject,body):
 
 def getConfirmationEmailBody(user,code,lang="es"):
 	link = "<a href='"+ app.config["baseURL"] +"/" + lang + "/user/" + user + "/" + code + "' target='_blank'>"+app.trans['EMAIL_MSG_LINK'][lang]+"</a>"
-	m = "<h1>"+app.trans['EMAIL_TITLE'][lang]+"</h1>"
+	m = "<h2>"+app.trans['EMAIL_TITLE'][lang]+"</h2>"
 	m += "<h2>"+app.trans['EMAIL_MSG_CONFIRM'][lang]+"</h2>"
 	m += "<p>" + app.trans['EMAIL_MSG_PRELINK'][lang] + link + app.trans['EMAIL_MSG_POSTLINK'][lang] +"</p>"
 
