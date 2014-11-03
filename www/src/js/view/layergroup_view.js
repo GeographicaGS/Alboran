@@ -16,7 +16,9 @@ app.view.LayerGroup = Backbone.View.extend({
 	},
 
 	render: function() {
-		this.$el.html(this._template( this.model ));
+		this.model["title"] = this.model["title_" + app.lang]
+		this.$el.html(this._template( this.model ));	
+		// this.$el.html(this._template( {"title":this.model["title_" + app.lang] , "layers" :this.model.layers} ));
 
 		this.$content = this.$('.content');
 		if(this.model.title_es == ''){
