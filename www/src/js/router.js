@@ -12,7 +12,7 @@ app.router = Backbone.Router.extend({
         "_link howto" : {"en":"howto","es": "comousarlo", "fr": "CommentLUtiliser" },
         "_link join" : {"en":"participate","es": "participe", "fr": "participer" },
         "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "escribirhistoria" },
-        "_link history" : {"en":"history","es": "historia", "fr": "historia" },
+        "_link history" : {"en":"history","es": "historia", "fr": "histoire" },
         "_link legal" : {"en":"legal","es": "legal", "fr": "legal" },
         "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "privacidad" },
         "_link user" : {"en":"user","es": "usuario", "fr": "usuario" }
