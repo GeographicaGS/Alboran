@@ -14,7 +14,7 @@ app.router = Backbone.Router.extend({
         "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "escribirhistoria" },
         "_link history" : {"en":"history","es": "historia", "fr": "histoire" },
         "_link legal" : {"en":"legal","es": "legal", "fr": "juridique" },
-        "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "privacidad" },
+        "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "confidentialité" },
         "_link user" : {"en":"user","es": "usuario", "fr": "usuario" }
     },
 
