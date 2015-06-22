@@ -46,7 +46,7 @@ def sendEmail(toAddresses,subject,body):
     from email.MIMEText import MIMEText
     from email.header import Header
     
-    server = smtplib.SMTP(host=app.config["smtpServer"], post=app.config["smtpPort"], timeout=10)
+    server = smtplib.SMTP(host=app.config["smtpServer"], port=app.config["smtpPort"], timeout=10)
 
     if app.config["smtpTLS"]: 
     	server.starttls()
