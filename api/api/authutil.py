@@ -59,13 +59,14 @@ def sendEmail(toAddresses,subject,body):
     fromAddr = app.config["smtpFromAddr"]
     
     msg = MIMEMultipart('alternative')
-    msg['From'] = app.config["smtpFromAddrName"]
-    msg['To'] = ", ".join(toAddresses)
+    msg['From'] = '"%s"<%s>' % (app.config["smtpFromAddrName"], app.config["smtpFromAddr"])
+    msg['To'] = ",".join(toAddresses)
     msg['Subject'] =  Header(subject,'utf-8')
     
     msg.attach(MIMEText(body.encode("utf-8"), 'html','utf-8'))
     
     text = msg.as_string()
+
     try:
         server.sendmail(fromAddr, toAddresses, text)
     finally:
