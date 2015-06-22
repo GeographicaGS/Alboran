@@ -27,6 +27,8 @@ app.view.Layer = Backbone.View.extend({
 					break;
 		}
 
+		this.model["title"] = this.model["title_" + app.lang]
+		this.model["desc"] = this.model["desc_" + app.lang]
 		this.$el.html(this._template( this.model ));
 
 		this.$info = this.$('.info');
