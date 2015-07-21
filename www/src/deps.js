@@ -9,7 +9,7 @@ deps.JS = {
 			"js/lib/underscore-min.js",
 			"js/lib/backbone-min.js",
 			"js/lib/backbone-validation-min.js",
-			"js/lib/leaflet/leaflet.js",			
+			"js/lib/leaflet/leaflet.js",
 		],
 		desc: "Third party library"
 	}
@@ -30,7 +30,7 @@ deps.JS = {
 			"js/model/category.js",
 			"js/model/history.js",
 			"js/model/user.js",
-			
+
 			// --------------------
 			// ---- Collections ---
 			// --------------------
@@ -64,7 +64,8 @@ deps.JS = {
 			"js/router.js",
 			// app
 			"js/app.js",
-			"js/catalog.js",
+			//"js/catalog.js",
+			"js/catalog_dev.js",
 			"js/gSLayerWMS.js",
 			"js/map.js",
 			"js/global.js",
@@ -100,4 +101,3 @@ deps.CSS = {
 if (typeof exports !== 'undefined') {
 	exports.deps = deps;
 }
-

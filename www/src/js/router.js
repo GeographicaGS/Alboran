@@ -1,7 +1,7 @@
 var app = app || {};
 
 app.router = Backbone.Router.extend({
-    
+
     langRoutes : {
         "_link home" : {"en":"home","es": "inicio", "fr": "accueil" },
         "_link map" : {"en":"map","es": "mapa", "fr": "carte" },
@@ -22,17 +22,17 @@ app.router = Backbone.Router.extend({
     routes: {
             "" : "home",
             "inicio" : "home",
-            
+
             "map" : "map",
             "map/:capas/:activas" : "map",
             "map/:capas/:activas/:opacidad/:mostrarHistorias" : "map",
             "map/:config": "mapConf",
             "map/history/:id": "mapHistory",
-            
+
             "catalogue": "catalogue",
             "catalogue/:cat": "catalogue",
-            "catalogue/:cat/:sec": "catalogue",            
-            
+            "catalogue/:cat/:sec": "catalogue",
+
             "about": "about",
             "alboran": "alboran",
             "contact": "contact",
@@ -41,24 +41,24 @@ app.router = Backbone.Router.extend({
             "privacy": "privacy",
 
             "join": "join",
-            "join/:section": "join", 
+            "join/:section": "join",
             "join/writehistory": "writehistory",
             "join/history/:id": "showhistory",
-            
+
             "notfound" : "notfound",
             "faq" : "faq",
             "error" : "error",
 
             "user/:username/:code": "signinConfirmation",
-            
+
             /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
             /* This is a default route that also uses a *splat. Consider the
             default route a wildcard for URLs that are either not matched or where
             the user has incorrectly typed in a route path manually */
-        
+
     },
-    
+
 
     initialize: function(options) {
         // Bind 'route' event to send Google Analytics info
@@ -73,28 +73,28 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas/:opacidad/:mostrarHistorias", "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:config", "mapConf");
         this.route(this.langRoutes["_link map"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id", "mapHistory");
-        this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");        
-        this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat", "catalogue");        
-        this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat/:sec", "catalogue");        
-        this.route(this.langRoutes["_link about"][app.lang], "about");        
-        this.route(this.langRoutes["_link alboran"][app.lang], "alboran");        
-        this.route(this.langRoutes["_link contact"][app.lang], "contact");        
-        this.route(this.langRoutes["_link howto"][app.lang], "howto");        
-        this.route(this.langRoutes["_link join"][app.lang], "join");       
-        this.route(this.langRoutes["_link join"][app.lang] + "/:section", "join");       
+        this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");
+        this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat", "catalogue");
+        this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat/:sec", "catalogue");
+        this.route(this.langRoutes["_link about"][app.lang], "about");
+        this.route(this.langRoutes["_link alboran"][app.lang], "alboran");
+        this.route(this.langRoutes["_link contact"][app.lang], "contact");
+        this.route(this.langRoutes["_link howto"][app.lang], "howto");
+        this.route(this.langRoutes["_link join"][app.lang], "join");
+        this.route(this.langRoutes["_link join"][app.lang] + "/:section", "join");
         this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link writehistory"][app.lang] , "writehistory");
         this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id" , "showhistory");
-        this.route(this.langRoutes["_link legal"][app.lang], "legal");        
+        this.route(this.langRoutes["_link legal"][app.lang], "legal");
         this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
     },
-    
+
     home: function(){
     	$("#content").show();
         $("#map").hide();
         app.showView(new app.view.Home());
     },
-    
+
     map: function(capas,activas,opacidad,mostrarHistorias){
     	if(!app.isSupportedBrowser()){
             $("#content").show();
@@ -104,7 +104,7 @@ app.router = Backbone.Router.extend({
             $("#content").hide();
             $("#map").show();
             app.events.trigger('menu','map');
-            
+
             if(mostrarHistorias == 1){
                 Map.toggleHistories(true);
                 if(app.groupLayer)
@@ -245,7 +245,7 @@ app.router = Backbone.Router.extend({
             }
         });
 
-        
+
     },
 
     defaultRoute: function(){
@@ -271,5 +271,5 @@ app.router = Backbone.Router.extend({
             window.location.href="/es/";
         }
     }
-    
+
 });
