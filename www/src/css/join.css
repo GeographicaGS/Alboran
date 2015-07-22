@@ -27,7 +27,7 @@
 	.invalid {
 		border: 1px solid red !important;
 	}
-	
+
 	.title {
 		border-bottom: 1px solid @grey_footer;
 		text-align: center;
@@ -54,6 +54,9 @@
 			position: absolute;
 			right: 10px;
 			top: 0;
+			padding: 0;
+			background: none;
+			border: none;
 		}
 	}
 
@@ -186,11 +189,11 @@
 					&::-webkit-input-placeholder {
 						color: @grey_footer;
 					}
-					
+
 					&:-moz-placeholder {
 						color: @grey_footer;
 					}
-					
+
 					&::-moz-placeholder {
 						color: @grey_footer;
 					}
@@ -266,7 +269,7 @@
 				.position_btn {
 					margin-top: 20px;
 					display: inline-block;
-					
+
 					span {
 						color: @grey_header_dark;
 						font-size: 0.9em;
@@ -359,7 +362,7 @@
 
 		.sendButtons {
 			padding-bottom: 90px;
-			padding-top: 32px;
+			padding-top: 64px;
 
 			a {
 				margin-right: 120px;
@@ -381,7 +384,7 @@
 
 			#enviar_btn {
 				color: @grey_header_dark;
-				
+
 				.roundButton {
 					display: inline-block;
 					vertical-align: top;
@@ -637,6 +640,53 @@
 		}
 	}
 
+	.adminbar {
+		background: @grey_6;
+		border-bottom: 1px solid @grey_footer;
+		padding: 8px 0 7px;
+		line-height: 1em;
+
+		&.published {
+			border-bottom-color: @green_ok;
+		}
+
+		.button {
+			font-size: 0.75em;
+			line-height: 1em;
+			padding: 7px 10px;
+			margin: 0 10px;
+		}
+
+		.sep {
+			display: inline-block;
+			border-left: 1px solid @grey_trans;
+			height: 28px;
+		}
+
+		.status {
+			display: inline-block;
+			padding: 7px 0 0;
+			font-size: 0.7em;
+			.lato(bold);
+			text-transform: uppercase;
+
+			&.pending {
+				.lato(bolditalic);
+			}
+
+			&.published {
+				color: @green_ok;
+
+				&:before {
+					content: url('@{imgPath}participa/ALB_icon_publico_1.svg');
+					display: inline-block;
+					margin-right: 10px;
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+
 	.type {
 		background-color: @white;
 		color: @ocre;
@@ -731,7 +781,7 @@
 				display: block;
 
 				span {
-					border-bottom: 1px solid @grey_5;					
+					border-bottom: 1px solid @grey_5;
 				}
 
 				&:before {
@@ -817,7 +867,7 @@
 		/* FIX Extra space */
 		position: relative;
 		top: -7px;
-		
+
 		.place {
 			padding-bottom: 18px;
 			border-bottom: 1px solid @grey_footer;
@@ -868,7 +918,7 @@
 	.message {
 		font-size: 0.8em;
 		padding-right: 10px;
-		
+
 		&:before {
 			content: url('/img/participa/ALB_icon_info.svg');
 			display: block;

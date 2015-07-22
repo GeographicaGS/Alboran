@@ -24,10 +24,10 @@ $("#login").on('click', function(e) {
     'autoSize':false,
     'closeBtn' : false,
     'scrolling'   : 'no',
-    helpers : { 
-         overlay: { 
-           css: {'background-color': 'rgba(0,0,102,0.85)'} 
-         } 
+    helpers : {
+         overlay: {
+           css: {'background-color': 'rgba(0,0,102,0.85)'}
+         }
     },
     afterShow: resetForm
   });
@@ -57,11 +57,11 @@ $("#signin_btn").on('click', function(){
   }
 
   if(email == ""){
-    $form.find("input.email").addClass('invalid'); 
+    $form.find("input.email").addClass('invalid');
   }
 
   if(name == ""){
-    $form.find("input.name").addClass('invalid'); 
+    $form.find("input.name").addClass('invalid');
   }
 
   if( passw == "" || passw != passw_conf ){
@@ -74,11 +74,13 @@ $("#signin_btn").on('click', function(){
         $.ajax({
             url : "/api/login/",
             headers:{ "username": _.escape(user), "timestamp": now, "hash": md5(user + passw_sum + now)},
-            type: "POST",     
-            success: function(xml) {
+            type: "POST",
+            success: function(result) {
                 $.fancybox.close()
                 localStorage.setItem('user', user);
                 localStorage.setItem('password', passw_sum);
+                localStorage.setItem('admin', result.admin);
+                app.isAdmin = result.admin;
                 $("#login").hide();
                 $("#logout").show();
                 app.ajaxSetup();
@@ -88,27 +90,28 @@ $("#signin_btn").on('click', function(){
             error: function(){
                 localStorage.removeItem('user');
                 localStorage.removeItem('password');
+                localStorage.removeItem('admin');
                 $("#initSessionForm").find(".error").fadeIn();
                 $submit_btn.removeAttr('disabled');
                 $submit_btn.attr('value','Acceder');
             }
-        }); 
+        });
     }
 });
 
 $("#logout").on('click', function() {
 	localStorage.removeItem('user');
 	localStorage.removeItem('password');
-	
+
 	$(".groupLauyerConfig").css({"background-color":""});
 	$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
 	$("#configPanelMap").fadeOut();
-	
-	
+
+
 	$("#login").show();
 	$("#logout").hide();
   app.router.navigate("",{trigger: true});
-  
+
 	return false;
 });
 
@@ -180,10 +183,10 @@ function showSigninConfirmation(user, passw) {
     'autoSize':false,
     'closeBtn' : false,
     'scrolling'   : 'no',
-    helpers : { 
-         overlay: { 
-           css: {'background-color': 'rgba(0,0,102,0.85)'} 
-         } 
+    helpers : {
+         overlay: {
+           css: {'background-color': 'rgba(0,0,102,0.85)'}
+         }
     },
     afterShow: function () {
       $("#signinConfirmation").css('display', 'block');
@@ -200,10 +203,10 @@ function showSigninError() {
     'autoSize':false,
     'closeBtn' : false,
     'scrolling'   : 'no',
-    helpers : { 
-         overlay: { 
-           css: {'background-color': 'rgba(0,0,102,0.85)'} 
-         } 
+    helpers : {
+         overlay: {
+           css: {'background-color': 'rgba(0,0,102,0.85)'}
+         }
     },
     afterShow: function () {
       $("#signinError").css('display', 'block');
@@ -488,7 +491,7 @@ function getTextLang(text){
 		}else{
 			return "Afficher la légende";
 		}
-	
+
 	}else if(text == "opacity"){
 		if(app.lang =="es"){
 			return "Cambiar opacidad";

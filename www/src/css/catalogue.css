@@ -22,11 +22,12 @@
 		height: 70px;
 		background-color: transparent;
 		color: @pink;
-		font-size: 1.5em;
+		font-size: 1.8em;
 		outline: 0;
 		text-align: center;
-		.lato(black);
-		
+		.lato(bold);
+		margin: 5px 0;
+
 		&:focus {
 			outline: 0;
 		}
@@ -189,9 +190,9 @@
 						float: right;
 						border-left: 1px solid #e0e0e1;
 						padding: 20px;
-						
+
 						span { display: none; }
-						
+
 						&:after {
 							content: url('@{imgPath}catalogue/ALB_icon_colapsable_abierto.svg');
 							display: block;
@@ -292,7 +293,7 @@
 										@media (max-width: 1023px){
 											transition: border-color .5s ease, background-color .5s ease;
 										}
-										
+
 										&:before {
 											content: url('@{imgPath}catalogue/ALB_icon_capa_toc.svg');
 											margin-right: 5px;
@@ -434,7 +435,7 @@
 				}
 
 				.content .layerItem .title {
-					
+
 					.name:before {
 						background-color: @green;
 					}
@@ -460,7 +461,7 @@
 				}
 
 				.content .layerItem .title {
-					
+
 					.name:before {
 						background-color: @red;
 					}
@@ -486,7 +487,7 @@
 				}
 
 				.content .layerItem .title {
-					
+
 					.name:before {
 						background-color: @blue;
 					}

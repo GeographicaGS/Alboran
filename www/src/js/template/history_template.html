@@ -1,11 +1,11 @@
 <div id="historyDetail">
-	<% if (result.images[0]) { %>
+	<% if (images[0]) { %>
 		<div class="mainPhoto">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12 col-md-12">
 						<a href="#" id="gallery_btn" class="fancybox">
-							<div class="image" style="background-image: url('/images/<%= result.images[0].href %>')"></div>
+							<div class="image" style="background-image: url('<%= images[0].href %>')"></div>
 						</a>
 					</div>
 				</div>
@@ -22,12 +22,39 @@
 			</div>
 		</div>
 	<% } %>
+	<% if (isAdmin) { %>
+	<div class="adminbar <%= status == 1 ? 'published': '' %>">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-md-4 aleft">
+					<% if(status == 1){ %>
+						<a class="button grey" href="#" id="btn_unpublish"><lang>Despublicar historia</lang></a>
+					<% }else{ %>
+						<a class="button green" href="#" id="btn_publish"><lang>Publicar historia</lang></a>
+					<% } %>
+					<div class="sep"></div>
+					<a class="button" href="#" id="btn_edit"><lang>Editar</lang></a>
+				</div>
+				<div class="col-sm-4 col-md-4 acenter">
+					<% if(status == 1){ %>
+						<span class="status published">Publicado</span>
+					<% }else{ %>
+						<span class="status pending">Pendiente de publicación</span>
+					<% } %>
+				</div>
+				<div class="col-sm-4 col-md-4 aright">
+					<a class="button red" href="#" id="btn_delete"><lang>Eliminar historia</lang></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% } %>
 	<div class="type">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
-					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<%= result.type == 0 ? '<lang>goodpractices</lang>': '<lang>sighting</lang>' %>" id="selectedType" class="<%= result.type == 0 ? 'goodpractices': 'sighting' %>">
-						<%= result.type == 0 ? '<lang>Buenas prácticas</lang>': '<lang>Avistamientos</lang>' %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<%= type == 0 ? '<lang>goodpractices</lang>': '<lang>sighting</lang>' %>" id="selectedType" class="<%= type == 0 ? 'goodpractices': 'sighting' %>">
+						<%= type == 0 ? '<lang>Buenas prácticas</lang>': '<lang>Avistamientos</lang>' %>
 					</a>
 				</div>
 			</div>
@@ -36,30 +63,30 @@
 	<div class="container">
 		<div class="row title">
 			<div class="col-sm-2 col-md-2 arrow-prev">
-				<% if(result.prev_id){ %>
-					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= result.prev_id %>" jslink><img src="/img/participa/ALB_flecha_ant.svg" title="<lang>Historia anterior</lang>"></a>
+				<% if(prev_id){ %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= prev_id %>" jslink><img src="/img/participa/ALB_flecha_ant.svg" title="<lang>Historia anterior</lang>"></a>
 				<% } %>
 			</div>
 			<div class="col-sm-8 col-md-8">
-				<h1><%= result.title %></h1>
-				<p><%= result.date %> · Historia enviada por <a><%= result.author %> <% if(result.institution) { %> ( <%= result.institution %> ) <% } %></a></p>
+				<h1><%= title %></h1>
+				<p><%= date %> · Historia enviada por <a><%= author %> <% if(institution) { %> ( <%= institution %> ) <% } %></a></p>
 			</div>
 			<div class="col-sm-2 col-md-2 arrow-next">
-				<% if(result.next_id){ %>
-					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= result.next_id %>" jslink><img src="/img/participa/ALB_flecha_sig.svg" title="<lang>Siguiente historia</lang>"></a>
+				<% if( typeof next_id === 'undefined'){ %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= next_id %>" jslink><img src="/img/participa/ALB_flecha_sig.svg" title="<lang>Siguiente historia</lang>"></a>
 				<% } %>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-8 col-md-8">
 				<div class="historyText">
-					<%= app.urlify(result.text_history, 'target="_blank" class="videolink"') %>
+					<%= app.urlify(text_history, 'target="_blank" class="videolink"') %>
 				</div>
-				<% if(result.category > 0){ %>
+				<% if(category > 0){ %>
 					<div class="category">
 						<lang>Categoría</lang>
-						<span class="category-<%= result.category %>">
-							<% switch(result.category){	case 1: %>
+						<span class="category-<%= category %>">
+							<% switch(category){	case 1: %>
 								<lang>Rasgos naturales y actividades humanas</lang>
 							<% break; case 2: %>
 								<lang>Presiones e impactos</lang>
@@ -71,14 +98,14 @@
 				<% } %>
 			</div>
 			<div class="col-sm-4 col-md-4">
-				<a class="row map" href="/<lang>lang</lang>/<lang>_link map</lang>/<lang>_link history</lang>/<%= result.id_history %>" jslink>
-					<img class="base" src="http://staticmap.openstreetmap.de/staticmap.php?center=<%= result.lat %>,<%= result.lon %>&zoom=14&size=390x390&maptype=mapnik">
-					<img class="marker" src="/img/map/<%= result.type == 0 ? 'ALB_marcador_historia_buenas_2x.png': 'ALB_marcador_historia_avista_2x.png' %>" width="40">
+				<a class="row map" href="/<lang>lang</lang>/<lang>_link map</lang>/<lang>_link history</lang>/<%= id_history %>" jslink>
+					<img class="base" src="http://staticmap.openstreetmap.de/staticmap.php?center=<%= lat %>,<%= lon %>&zoom=14&size=390x390&maptype=mapnik">
+					<img class="marker" src="/img/map/<%= type == 0 ? 'ALB_marcador_historia_buenas_2x.png': 'ALB_marcador_historia_avista_2x.png' %>" width="40">
 				</a>
 				<div class="row posContainer">
-					<p class="place"><%= result.place %></p>
+					<p class="place"><%= place %></p>
 					<p class="position">
-						<lang>Latitud</lang> <span><%= result.lat %></span> /&nbsp;&nbsp;<lang>Longitud</lang> <span><%= result.lon %></span>
+						<lang>Latitud</lang> <span><%= lat %></span> /&nbsp;&nbsp;<lang>Longitud</lang> <span><%= lon %></span>
 					</p>
 				</div>
 				<div class="shareBox">
@@ -137,4 +164,32 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Popups -->
+	<div id="historyDeleteConfirmation" class="msgPopup">
+        <div class="content">
+            <h2><lang>Eliminar historia</lang></h2>
+            <p><lang>¿Está seguro de querer eliminar esta historia?</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
+
+	<div id="historyPublishConfirmation" class="msgPopup">
+        <div class="content">
+            <h2><lang>Publicar historia</lang></h2>
+            <p><lang>¿Está seguro de querer publicar esta historia?</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
+
+	<div id="historyUnpublishConfirmation" class="msgPopup">
+        <div class="content">
+            <h2><lang>Despublicar historia</lang></h2>
+            <p><lang>¿Está seguro de querer despublicar esta historia?</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
 </div>

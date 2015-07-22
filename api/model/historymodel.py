@@ -74,7 +74,7 @@ class HistoryModel(PostgreSQLModel):
 		return result
 
 	def getHistoryById(self, id):
-		sql = "SELECT h.id_history, title, date_history as \"date\", place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", institution, u.id_user, u.name as \"username\" " \
+		sql = "SELECT h.id_history, title, date_history as \"date\", status, place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", institution, u.id_user, u.name as \"username\" " \
 			"FROM \"history\" h " \
 			"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 			"WHERE h.id_history = %s AND h.active = true"
@@ -145,12 +145,24 @@ class HistoryModel(PostgreSQLModel):
 		result = {'history_id': history_id, 'isAdmin': isAdmin}
 		return result
 
+	def updateHistory(self, id, data):
+		# Check if User is Admin
+		sql = "SELECT ST_SetSRID(ST_MakePoint(%s,%s),4326) as geom"
+		geom = self.query(sql,[data['lon'],data['lat']]).row()['geom']
+		sql = "UPDATE \"history\" set title = %s, place = %s, date_history = %s, " \
+		 		"text_history = %s, category = %s, id_user = %s, starred = %s, " \
+				"geom = %s, status = %s where id_history = %s"
+		self.queryCommit(sql,[data['title'], data['place'], data['date'],
+						data['text_history'], data['category'], data['id_user'],
+						False, geom, data['status'], data['id_history']])
+		return True
+
 	def confirmHistory(self, id):
 		sql = "UPDATE \"history\" set active = true where id_history = %s"
 		self.queryCommit(sql,[id])
 		return True
 
 	def deleteHistory(self, id):
-		sql = "DELETE FROM \"history\" WHERE id_history = %s"
+		sql = "UPDATE \"history\" set active = false where id_history = %s"
 		self.queryCommit(sql,[id])
 		return True

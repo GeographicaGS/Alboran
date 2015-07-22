@@ -9,7 +9,7 @@ from model.usermodel import UserModel
 from model.configmodel import ConfigModel
 from model.historymodel import HistoryModel
 from model.imagemodel import ImageModel
-from authutil import auth, sendEmail, getConfirmationEmailBody
+from authutil import auth, authAdmin, sendEmail, getConfirmationEmailBody
 from imageutil import isAllowedFile, hashFromImage, resizeImages, deleteImage
 import os
 import ast
@@ -21,7 +21,10 @@ import md5
 @app.route('/login/', methods=['POST'])
 @auth
 def login():
-	return jsonify({'result':'true'})
+	username = request.headers['username']
+	u = UserModel()
+	user = u.getUserByUsername(username)
+	return jsonify({'result':'true', 'admin': user['admin'] == 1})
 
 @app.route('/user/', methods=['POST'])
 def signin():
@@ -78,13 +81,13 @@ def configByUser():
 		m.setConfigByUsername(request.headers['username'],request.form.get('data'))
 		return jsonify({'result':'true'})
 
- 
+
 @app.route('/config/<int:config_id>', methods=['GET'])
 def configById(config_id):
 	""" Rescatamos la configuración por id """
 	m = ConfigModel()
 	config_data = m.getConfigById(config_id)
-	
+
 	if config_data is None:
 		abort(404)
 
@@ -98,7 +101,7 @@ def uploadImage():
 	if request.files['image'] is not None:
 		# Save image in temp named like its hash
 		file = request.files['image']
-		if file and isAllowedFile(file.filename):		
+		if file and isAllowedFile(file.filename):
 			filename = hashFromImage(file)+'.'+file.filename.rsplit('.', 1)[1]
 			file.save(os.path.join(app.config['UPLOAD_TEMP_FOLDER'], filename))
 			return jsonify({'filename': filename})
@@ -138,7 +141,7 @@ def listHistories():
 	fromid = request.args.get('id')
 	h = HistoryModel()
 	result = h.getHistoriesByType(htype,fromid)
-	
+
 	if isinstance(result, dict):
 		return jsonify(result)
 	else:
@@ -168,19 +171,19 @@ def getHistory(id):
 
 	return jsonify({'result': result})
 
-@app.route('/history/<int:id>', methods=['DELETE'])
-@auth
-def deleteHistory(id):
+@app.route('/history/<int:id>', methods=['PUT'])
+@authAdmin
+def editHistory(id):
 	u = UserModel()
-	user = u.getUserByUsername(request.headers['username'])
-	if(user is not None and user['admin']):
-		i = ImageModel()
-		images = i.getNotDuplicatedImagesByHistory(id)
-		for image in images:
-			deleteImage(image['filename'])
-		i.deleteImagesByHistory(id)
-		h = HistoryModel()
-		h.deleteHistory(id)
-		return jsonify({'result': 'true'})
-	else:
-		abort(401)
+	user = u.getIdByUsername(request.headers['username'])
+	data = json.loads(request.data)
+	h = HistoryModel()
+	h.updateHistory(id, data)
+	return jsonify({'result': 'true'})
+
+@app.route('/history/<int:id>', methods=['DELETE'])
+@authAdmin
+def deleteHistory(id):
+	h = HistoryModel()
+	h.deleteHistory(id)
+	return jsonify({'result': 'true'})

@@ -26,8 +26,43 @@ def auth(func):
 					m = md5.new()
 					m.update(suma)
 					hashsum = m.hexdigest()
-					
+
 					if(hashsum != request.headers['hash']):
+						abort(401)
+				else:
+					abort(401)
+			else:
+				abort(401)
+		else:
+			abort(401)
+		return func(*args, **kwargs)
+	return decorator
+
+def authAdmin(func):
+	@wraps(func)
+	def decorator(*args, **kwargs): #1
+		if (request.headers['hash'] is not None and request.headers['timestamp'] is not None and request.headers['username'] is not None):
+			# Control timestamp
+			usertimestamp = datetime.datetime.fromtimestamp(int(request.headers['timestamp'])/1000)
+			maxtime = usertimestamp + datetime.timedelta(minutes=app.config["loginMaxTime"])
+			diftime = datetime.datetime.now() - maxtime
+			if (diftime <= datetime.timedelta(seconds=0)):
+
+				# Control credentials
+				usermodel = UserModel()
+				user = usermodel.getUserByUsername(request.headers['username'])
+				if user is not None and user['admin']:
+					password = usermodel.getPasswordByUsername(request.headers['username'])
+
+					if(password != ''):
+						suma = request.headers['username'] + password + request.headers['timestamp']
+						m = md5.new()
+						m.update(suma)
+						hashsum = m.hexdigest()
+
+						if(hashsum != request.headers['hash']):
+							abort(401)
+					else:
 						abort(401)
 				else:
 					abort(401)
@@ -41,30 +76,30 @@ def auth(func):
 def sendEmail(toAddresses,subject,body):
     # Import smtplib for the actual sending function
     import smtplib
-   
+
     from email.MIMEMultipart import MIMEMultipart
     from email.MIMEText import MIMEText
     from email.header import Header
-    
+
     server = smtplib.SMTP(host=app.config["smtpServer"], port=app.config["smtpPort"], timeout=10)
 
-    if app.config["smtpTLS"]: 
+    if app.config["smtpTLS"]:
     	server.starttls()
-    	
+
     server.ehlo()
 
-    if app.config["smtpAuth"]: 
+    if app.config["smtpAuth"]:
     	server.login(app.config["smtpUser"], app.config["smtpPassword"])
 
     fromAddr = app.config["smtpFromAddr"]
-    
+
     msg = MIMEMultipart('alternative')
     msg['From'] = '"%s"<%s>' % (app.config["smtpFromAddrName"], app.config["smtpFromAddr"])
     msg['To'] = ",".join(toAddresses)
     msg['Subject'] =  Header(subject,'utf-8')
-    
+
     msg.attach(MIMEText(body.encode("utf-8"), 'html','utf-8'))
-    
+
     text = msg.as_string()
 
     try:
