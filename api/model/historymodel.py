@@ -14,43 +14,51 @@ from api import app
 
 
 class HistoryModel(PostgreSQLModel):
-	def getHistoriesByType(self, htype, fromId):
+	def getHistoriesByType(self, htype, fromId, isAdmin=False):
 		if htype is not None:
 			if(fromId is not None):
-				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", institution, filename " \
+				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", status, category, real_name as \"author\", institution, filename " \
 					"FROM \"history\" h " \
 					"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 					"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
-					"WHERE type_history = %s AND h.id_history < %s AND h.active = true " \
-					"ORDER BY h.id_history DESC, i.id_image ASC " \
+					"WHERE type_history = %s AND h.id_history < %s AND h.active = true "
+				if not isAdmin:
+					sql += "AND h.status = 1 "
+				sql += "ORDER BY h.id_history DESC, i.id_image ASC " \
 					"LIMIT %s"
 				result = self.query(sql,[htype, fromId, app.config["historyPagSize"]]).result()
 			else:
-				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", institution, filename " \
+				sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", status, category, real_name as \"author\", institution, filename " \
 					"FROM \"history\" h " \
 					"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 					"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
-					"WHERE type_history = %s AND h.active = true " \
-					"ORDER BY h.id_history DESC, i.id_image ASC " \
+					"WHERE type_history = %s AND h.active = true "
+				if not isAdmin:
+					sql += "AND h.status = 1 "
+				sql += "ORDER BY h.id_history DESC, i.id_image ASC " \
 					"LIMIT %s"
 				result = self.query(sql,[htype, app.config["historyPagSize"]]).result()
 		else:
 			# Send 16 histories for each type and the number of total histories
-			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", institution, filename " \
+			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", status, category, real_name as \"author\", institution, filename " \
 				"FROM \"history\" h " \
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
-				"WHERE h.active = true AND type_history = 0" \
-				"ORDER BY h.id_history DESC, i.id_image ASC " \
+				"WHERE h.active = true AND type_history = 0"
+			if not isAdmin:
+				sql += "AND h.status = 1 "
+			sql += "ORDER BY h.id_history DESC, i.id_image ASC " \
 				"LIMIT %s"
 			result1 = self.query(sql,[app.config["historyFirstPagSize"]]).result()
 
-			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", category, real_name as \"author\", institution, filename " \
+			sql = "SELECT DISTINCT ON (h.id_history) h.id_history as \"id\", title, type_history as \"type\", status, category, real_name as \"author\", institution, filename " \
 				"FROM \"history\" h " \
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
-				"WHERE h.active = true AND type_history = 1" \
-				"ORDER BY h.id_history DESC, i.id_image ASC " \
+				"WHERE h.active = true AND type_history = 1"
+			if not isAdmin:
+				sql += "AND h.status = 1 "
+			sql += "ORDER BY h.id_history DESC, i.id_image ASC " \
 				"LIMIT %s"
 			result2 = self.query(sql,[app.config["historyFirstPagSize"]]).result();
 
@@ -58,12 +66,16 @@ class HistoryModel(PostgreSQLModel):
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 				"WHERE type_history = 0 AND h.active = true"
+			if not isAdmin:
+				sql += " AND h.status = 1"
 			count1 = self.query(sql).row()['total']
 
 			sql = "SELECT COUNT(DISTINCT h.id_history) as \"total\" FROM \"history\" h " \
 				"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 				"INNER JOIN \"image\" i ON h.id_history = i.id_history " \
 				"WHERE type_history = 1 AND h.active = true"
+			if not isAdmin:
+				sql += " AND h.status = 1"
 			count2 = self.query(sql).row()['total']
 
 			result = {}

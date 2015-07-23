@@ -139,8 +139,12 @@ def uploadHistory():
 def listHistories():
 	htype = request.args.get('type')
 	fromid = request.args.get('id')
+	isAdmin = False
+	if 'username' in request.headers:
+		u = UserModel()
+		isAdmin = u.getUserByUsername(request.headers['username'])['admin']
 	h = HistoryModel()
-	result = h.getHistoriesByType(htype,fromid)
+	result = h.getHistoriesByType(htype,fromid,isAdmin)
 
 	if isinstance(result, dict):
 		return jsonify(result)
@@ -174,11 +178,29 @@ def getHistory(id):
 @app.route('/history/<int:id>', methods=['PUT'])
 @authAdmin
 def editHistory(id):
-	u = UserModel()
-	user = u.getIdByUsername(request.headers['username'])
 	data = json.loads(request.data)
+
 	h = HistoryModel()
+	old_history = h.getHistoryById(id)
 	h.updateHistory(id, data)
+
+	i = ImageModel()
+	# Unlink deleted images
+	if len(data['images']) > 0:
+		old_imagelist = old_history['images']
+		new_imagelist = data['images']
+		if isinstance(new_imagelist[0], dict):
+			new_imagelist = [el['href'] for el in new_imagelist]
+		for image in old_imagelist:
+			if image['href'] not in new_imagelist:
+				i.deleteImageByFilename(image['href'])
+
+	# Save new images and link in DB
+	if 'newImages' in data:
+		imagelist = data['newImages']
+		resizeImages(imagelist)
+		i.addImages(imagelist, id)
+
 	return jsonify({'result': 'true'})
 
 @app.route('/history/<int:id>', methods=['DELETE'])

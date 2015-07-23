@@ -439,6 +439,7 @@
 
 	.tabsContainer {
 		border-bottom: 1px solid @grey_tabBorder;
+		background-color: @grey_tabBack;
 		height: 49px;
 
 		.container {
@@ -490,6 +491,19 @@
 					color: @ocre;
 				}
 			}
+
+			.btn_text {
+				.lato(bold);
+				line-height: 1em;
+				font-size: 14px;
+				color: @black;
+				padding: 16px 10px;
+
+				img {
+					vertical-align: top;
+					margin-right: 6px;
+				}
+			}
 		}
 	}
 
@@ -533,6 +547,34 @@
 
 				& > a {
 					display: block;
+					position: relative;
+
+					.status {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						padding: 13px 10px;
+						color: @white;
+						background-color: fadeout(@grey_5, 10%);
+						.lato(bolditalic);
+						font-size: .7em;
+						line-height: 1em;
+						text-transform: uppercase;
+
+						&.published {
+							background-color: fadeout(@green_ok, 10%);
+							padding: 10px;
+							.lato(bold);
+
+							&:before {
+								content: url("@{imgPath}participa/ALB_icon_publico_0.svg");
+								display: inline-block;
+								margin-right: 8px;
+								vertical-align: middle;
+							}
+						}
+					}
 				}
 
 				img {

@@ -21,9 +21,12 @@ app.view.HistoryDetail = Backbone.View.extend({
         var that = this;
         this.model.fetch().done(function () {
 			var images = that.model.get('images');
+			var pathedImages = []
 			_.each(images,function(item, index){
-				item.href = app.config.IMAGE_DIR+item.href;
+				pathedImages[index] = {}
+				pathedImages[index].href = app.config.IMAGE_DIR+item.href;
 			});
+			that.model.set({'pathedImages': pathedImages});
             that.render();
         });
     },
@@ -34,7 +37,7 @@ app.view.HistoryDetail = Backbone.View.extend({
     },
 
     render: function() {
-		var model = $.extend({}, this.model.toJSON(), {'isAdmin': app.isAdmin || false});
+		var model = $.extend({}, {'data': this.model.toJSON()}, {'isAdmin': app.isAdmin || false});
         this.$el.html(this._template( model ));
 
         this.setShareLinks();
@@ -45,7 +48,7 @@ app.view.HistoryDetail = Backbone.View.extend({
 
     showGallery: function(e) {
         e.preventDefault();
-        var images = this.model.get('images');
+        var images = this.model.get('pathedImages');
         $.fancybox.open(images, {
             'padding' : 0,
             tpl: {
@@ -98,7 +101,7 @@ app.view.HistoryDetail = Backbone.View.extend({
     },
 
     showAuthorMessage: function() {
-        if(this.model.get('username') == localStorage.user){
+        if(this.model.get('username') == localStorage.user && !app.isAdmin){
             this.$('.historyText').parent().append($('<div class="message"><p><lang>Si quiere realizar alguna modificación sobre esta historia o desea eliminarla de nuestra base de datos, mande un email a</lang> <a href="mailto:'+app.config['HISTORY_SUPPORT_MAIL']+'" target="_blank">'+app.config['HISTORY_SUPPORT_MAIL']+'</a>.</p></div>'));
         }
     },

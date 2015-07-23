@@ -242,6 +242,12 @@ app.view.HistoryCreate = Backbone.View.extend({
                 error = true;
             }
 
+            var newImages = [];
+            var $newImages = this.$('input[type=hidden].temp');
+            $.each($newImages,function(index, elem){
+                newImages.push(elem.value);
+            });
+
             var parts = date.split("/");
             var dateData = Date.parse(parts[2]+'/'+parts[1]+'/'+parts[0]);
             if(isNaN(dateData) || dateData == undefined){
@@ -261,7 +267,8 @@ app.view.HistoryCreate = Backbone.View.extend({
                     'text': text,
                     'category': category,
                     'type': type,
-                    'images': images
+                    'images': images,
+                    'newImages': newImages
                 };
 
                 if(!this.historyId){
@@ -312,7 +319,8 @@ app.view.HistoryCreate = Backbone.View.extend({
             'date': formData.date,
             'category': formData.category,
             'type': formData.type,
-            'images': formData.images
+            'images': formData.images,
+            'newImages': formData.newImages
         });
 
         this.model.save();
@@ -437,8 +445,10 @@ app.view.HistoryCreate = Backbone.View.extend({
         var $hiddenFileEntry = $('<input />', {
             type: 'hidden',
             name: 'images',
-            value: serverFilename
+            value: serverFilename,
         });
+        if(isTemp)
+            $hiddenFileEntry.addClass('temp');
 
         var $linkImage = $('<a/>', {
             href: imagedir + serverFilename,

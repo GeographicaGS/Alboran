@@ -1,5 +1,10 @@
 <li id="history-item">
 	<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= id %>" jslink>
+		<% if(isAdmin){ %>
+			<span class="status <%= status == 1 ? 'published': '' %>">
+				<%= status == 1 ? '<lang>Publicado</lang>': '<lang>Pendiente de publicar</lang>' %>
+			</span>
+		<% } %>
 		<img src="/images/<%= thumb %>">
 		<h4><%= author %></h4>
 		<h3><%= title %></h3>
