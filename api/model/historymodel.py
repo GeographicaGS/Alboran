@@ -146,12 +146,12 @@ class HistoryModel(PostgreSQLModel):
 			'date_history':data['date'],
 			'text_history':data['text'],
 			'type_history':data['type'],
+			'status': 0,
 			'category':data['category'],
 			'id_user':id_user,
-			'geom': geom
+			'geom': geom,
+			'active': True
 		}
-		if(isAdmin):
-			insertData['active'] = True
 
 		history_id = self.insert("history",insertData,"id_history")
 		result = {'history_id': history_id, 'isAdmin': isAdmin}
@@ -170,7 +170,7 @@ class HistoryModel(PostgreSQLModel):
 		return True
 
 	def confirmHistory(self, id):
-		sql = "UPDATE \"history\" set active = true where id_history = %s"
+		sql = "UPDATE \"history\" set status = 0 where id_history = %s"
 		self.queryCommit(sql,[id])
 		return True
 

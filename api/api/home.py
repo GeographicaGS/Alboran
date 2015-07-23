@@ -115,11 +115,11 @@ def uploadImage():
 def uploadHistory():
 	# Get user id
 	u = UserModel()
-	userid = u.getIdByUsername(request.headers['username'])
+	user = u.getUserByUsername(request.headers['username'])
 
 	# Save history data
 	h = HistoryModel()
-	result = h.createHistory(request.form, userid)
+	result = h.createHistory(request.form, user['id_user'])
 
 	# Save images and link in DB
 	imagelist = ast.literal_eval(request.form['images'])
@@ -128,10 +128,12 @@ def uploadHistory():
 	i.addImages(imagelist, result['history_id'])
 
 	# Send email to admins
-	if(not result['isAdmin']):
-		admins = u.getAdminEmails()
-		for admin in admins:
-			sendEmail([admin['email']], "Nueva historia", "Se ha creado una nueva historia con el ID %s. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores."%result['history_id'])
+	admins = u.getAdminEmails()
+	for admin in admins:
+		sendEmail([admin['email']], "Nueva historia", "Se ha creado una nueva historia con el ID %s. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores."%result['history_id'])
+
+	if not user['admin']:
+		sendEmail([user['email']], "Nueva historia", "Se ha creado una nueva historia con el ID %s."%result['history_id'])
 
 	return jsonify({'admin':result['isAdmin'], 'history_id': result['history_id']})
 
@@ -201,11 +203,31 @@ def editHistory(id):
 		resizeImages(imagelist)
 		i.addImages(imagelist, id)
 
+	# Send email to admins and author
+	u = UserModel()
+	user = u.getUserByUsername(data['username'])
+	admins = u.getAdminEmails()
+	for admin in admins:
+		sendEmail([admin['email']], "Historia editada", "Se ha editado la historia con el ID %s. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores." % id)
+
+	if not user['admin']:
+		sendEmail([user['email']], "Historia editada", "Se ha editado la historia con el ID %s." % id)
+
 	return jsonify({'result': 'true'})
 
 @app.route('/history/<int:id>', methods=['DELETE'])
 @authAdmin
 def deleteHistory(id):
 	h = HistoryModel()
+	history = h.getHistoryById(id)
 	h.deleteHistory(id)
+
+	u = UserModel()
+	user = u.getUserByUsername(history['username'])
+	admins = u.getAdminEmails()
+	for admin in admins:
+		sendEmail([admin['email']], "Historia eliminada", "Se ha eliminado la historia con el ID %s. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores." % id)
+	if not user['admin']:
+		sendEmail([user['email']], "Historia eliminada", "Se ha aliminado la historia con el ID %s." % id)
+
 	return jsonify({'result': 'true'})
