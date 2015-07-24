@@ -1,7 +1,7 @@
 # coding=UTF8
 
 from api import app
-from flask import request,abort
+from flask import request, abort, render_template
 from model.usermodel import UserModel
 import md5
 import datetime
@@ -114,3 +114,45 @@ def getConfirmationEmailBody(user,code,lang="es"):
 	m += "<p>" + app.trans['EMAIL_MSG_PRELINK'][lang] + link + app.trans['EMAIL_MSG_POSTLINK'][lang] +"</p>"
 
 	return m;
+
+def sendNewHistoryNotification(user, history):
+	history['url'] = app.config["baseURL"] + "/" + user['lang'] + "/join/history/" + str(history['id_history'])
+	if user['admin']:
+		body = render_template('email_newhistory_admin_%s.html' % (user['lang']), history=history)
+	else:
+		body = render_template('email_newhistory_author_%s.html' % (user['lang']), history=history)
+	sendEmail([user['email']], app.trans['EMAIL_NEWHISTORY_SUBJECT'][user['lang']], body);
+
+def sendEditedHistoryNotification(user, history):
+	history['url'] = app.config["baseURL"] + "/" + user['lang'] + "/join/history/" + str(history['id_history'])
+	if user['admin']:
+		body = render_template('email_editedhistory_admin_%s.html' % (user['lang']), history=history)
+	else:
+		body = render_template('email_editedhistory_author_%s.html' % (user['lang']), history=history)
+	sendEmail([user['email']], app.trans['EMAIL_EDITEDHISTORY_SUBJECT'][user['lang']], body);
+
+def sendPublishedHistoryNotification(user, history):
+	history['url'] = app.config["baseURL"] + "/" + user['lang'] + "/join/history/" + str(history['id_history'])
+	if user['admin']:
+		if history['status'] == 1:
+			subject = app.trans['EMAIL_PUBLISHEDHISTORY_SUBJECT'][user['lang']]
+			body = render_template('email_publishedhistory_admin_%s.html' % (user['lang']), history=history)
+		else:
+			subject = app.trans['EMAIL_UNPUBLISHEDHISTORY_SUBJECT'][user['lang']]
+			body = render_template('email_unpublishedhistory_admin_%s.html' % (user['lang']), history=history)
+	else:
+		if history['status'] == 1:
+			subject = app.trans['EMAIL_PUBLISHEDHISTORY_SUBJECT'][user['lang']]
+			body = render_template('email_publishedhistory_author_%s.html' % (user['lang']), history=history)
+		else:
+			subject = app.trans['EMAIL_UNPUBLISHEDHISTORY_SUBJECT'][user['lang']]
+			body = render_template('email_unpublishedhistory_author_%s.html' % (user['lang']), history=history)
+	sendEmail([user['email']], subject, body);
+
+def sendDeletedHistoryNotification(user, history):
+	history['url'] = app.config["baseURL"] + "/" + user['lang'] + "/join/history/" + str(history['id_history'])
+	if user['admin']:
+		body = render_template('email_deletedhistory_admin_%s.html' % (user['lang']), history=history)
+	else:
+		body = render_template('email_deletedhistory_author_%s.html' % (user['lang']), history=history)
+	sendEmail([user['email']], app.trans['EMAIL_DELETEDHISTORY_SUBJECT'][user['lang']], body);

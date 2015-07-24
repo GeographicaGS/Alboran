@@ -1,4 +1,7 @@
 # coding=UTF8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 """
 Frontend home services.
@@ -9,7 +12,9 @@ from model.usermodel import UserModel
 from model.configmodel import ConfigModel
 from model.historymodel import HistoryModel
 from model.imagemodel import ImageModel
-from authutil import auth, authAdmin, sendEmail, getConfirmationEmailBody
+from authutil import (auth, authAdmin, sendEmail, getConfirmationEmailBody,
+	sendNewHistoryNotification, sendEditedHistoryNotification,
+	sendPublishedHistoryNotification, sendDeletedHistoryNotification)
 from imageutil import isAllowedFile, hashFromImage, resizeImages, deleteImage
 import os
 import ast
@@ -127,13 +132,12 @@ def uploadHistory():
 	i = ImageModel()
 	i.addImages(imagelist, result['history_id'])
 
-	# Send email to admins
-	admins = u.getAdminEmails()
+	# Send email to admins and author
+	admins = u.getAllAdmins()
 	for admin in admins:
-		sendEmail([admin['email']], "Nueva historia", "Se ha creado una nueva historia con el ID %s. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores."%result['history_id'])
-
+		sendNewHistoryNotification(admin, data)
 	if not user['admin']:
-		sendEmail([user['email']], "Nueva historia", "Se ha creado una nueva historia con el ID %s."%result['history_id'])
+		sendNewHistoryNotification(user, data)
 
 	return jsonify({'admin':result['isAdmin'], 'history_id': result['history_id']})
 
@@ -206,12 +210,17 @@ def editHistory(id):
 	# Send email to admins and author
 	u = UserModel()
 	user = u.getUserByUsername(data['username'])
-	admins = u.getAdminEmails()
-	for admin in admins:
-		sendEmail([admin['email']], "Historia editada", "Se ha editado la historia con el ID %s. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores." % id)
-
-	if not user['admin']:
-		sendEmail([user['email']], "Historia editada", "Se ha editado la historia con el ID %s." % id)
+	admins = u.getAllAdmins()
+	if old_history['status'] == data['status']:
+		for admin in admins:
+			sendEditedHistoryNotification(admin, data)
+		if not user['admin']:
+			sendEditedHistoryNotification(user, data)
+	else:
+		for admin in admins:
+			sendPublishedHistoryNotification(admin, data)
+		if not user['admin']:
+			sendPublishedHistoryNotification(user, data)
 
 	return jsonify({'result': 'true'})
 
@@ -222,12 +231,13 @@ def deleteHistory(id):
 	history = h.getHistoryById(id)
 	h.deleteHistory(id)
 
+	# Send email to admins and author
 	u = UserModel()
 	user = u.getUserByUsername(history['username'])
-	admins = u.getAdminEmails()
+	admins = u.getAllAdmins()
 	for admin in admins:
-		sendEmail([admin['email']], "Historia eliminada", "Se ha eliminado la historia con el ID %s. Acceda a la base de datos para revisarla.\nEste email solo es enviado a los administradores." % id)
+		sendDeletedHistoryNotification(admin, history)
 	if not user['admin']:
-		sendEmail([user['email']], "Historia eliminada", "Se ha aliminado la historia con el ID %s." % id)
+		sendDeletedHistoryNotification(user, history)
 
 	return jsonify({'result': 'true'})
