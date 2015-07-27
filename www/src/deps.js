@@ -44,6 +44,7 @@ deps.JS = {
 			"js/view/layer_view.js",
 			"js/view/layergroup_view.js",
 			"js/view/catalogue_view.js",
+			"js/view/layer-create_view.js",
 			"js/view/error_view.js",
 			"js/view/notfound_view.js",
 			"js/view/home_view.js",

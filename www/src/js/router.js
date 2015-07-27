@@ -6,6 +6,7 @@ app.router = Backbone.Router.extend({
         "_link home" : {"en":"home","es": "inicio", "fr": "accueil" },
         "_link map" : {"en":"map","es": "mapa", "fr": "carte" },
         "_link catalogue" : {"en":"catalogue","es": "catalogo", "fr": "catalogue" },
+        "_link createlayer": {"en":"createlayer", "es":"crearcapa", "fr":"crearcapa"},
         "_link about" : {"en":"proyecto","es": "proyecto", "fr": "projet" },
         "_link alboran" : {"en":"alboran","es": "alboran", "fr": "alboran" },
         "_link contact" : {"en":"contact","es": "contacto", "fr": "contacto" },
@@ -33,6 +34,7 @@ app.router = Backbone.Router.extend({
             "catalogue": "catalogue",
             "catalogue/:cat": "catalogue",
             "catalogue/:cat/:sec": "catalogue",
+            "catalogue/createlayer": "createlayer",
 
             "about": "about",
             "alboran": "alboran",
@@ -78,6 +80,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat", "catalogue");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat/:sec", "catalogue");
+        this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link createlayer"][app.lang], "createlayer");
         this.route(this.langRoutes["_link about"][app.lang], "about");
         this.route(this.langRoutes["_link alboran"][app.lang], "alboran");
         this.route(this.langRoutes["_link contact"][app.lang], "contact");
@@ -174,6 +177,12 @@ app.router = Backbone.Router.extend({
         $("#content").show();
         $("#map").hide();
         app.showView( new app.view.Catalogue({activeCategory: category, activeSection: section}) );
+    },
+
+    createlayer: function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.LayerCreate() );
     },
 
     about: function(){
