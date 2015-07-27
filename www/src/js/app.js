@@ -75,40 +75,42 @@ app.resizeMe = function(){
 };
 
 app.ini = function(){
+    var that = this;
+    app.categories = new app.collection.Categories();
+    app.categories.fetch({success: function(){
+        that.lang = that.detectCurrentLanguage();
+        that.router = new app.router();
+        that.basePath = that.config.BASE_PATH + that.lang;
 
-    this.lang = this.detectCurrentLanguage();
-    this.router = new app.router();
-    this.basePath = this.config.BASE_PATH + this.lang;
+        that.$main = $("main");
+        that.$content = $("#content");
+        that.$menu = $("#mainmenu");
 
-    this.$main = $("main");
-    this.$content = $("#content");
-    this.$menu = $("#mainmenu");
+        //Backbone.history.start();root: "/public/search/"
+        Backbone.history.start({pushState: true,root: that.basePath });
 
-    //Backbone.history.start();root: "/public/search/"
-    Backbone.history.start({pushState: true,root: this.basePath });
+        if(localStorage.getItem('user') && localStorage.getItem('password')){
+            app.isAdmin = localStorage.getItem('admin') === 'true';
+            $("#login").hide();
+            $("#logout").show();
+            app.ajaxSetup();
 
-    if(localStorage.getItem('user') && localStorage.getItem('password')){
-        app.isAdmin = localStorage.getItem('admin') === 'true';
-    	$("#login").hide();
-    	$("#logout").show();
-    	app.ajaxSetup();
+        }else{
+            $("#login").show();
+            $("#logout").hide();
+        }
 
-    }else{
-    	$("#login").show();
-    	$("#logout").hide();
-    }
+    //    var numCategories = Map.getNumLayersByCategory();
+    //    $(".value.green").text(numCategories[0]);
+    //    $(".value.red").text(numCategories[1]);
+    //    $(".value.blue").text(numCategories[2]);
+        new app.view.Map();
 
-//    var numCategories = Map.getNumLayersByCategory();
-//    $(".value.green").text(numCategories[0]);
-//    $(".value.red").text(numCategories[1]);
-//    $(".value.blue").text(numCategories[2]);
-
-    new app.view.Map();
-
-    // Detect browser here
-    if(!app.isSupportedBrowser()){
-            window.location.href="/" + this.lang + "/browser_error.html";
-    }
+        // Detect browser here
+        if(!app.isSupportedBrowser()){
+                window.location.href="/" + that.lang + "/browser_error.html";
+        }
+    }});
 };
 
 app.showView = function(view) {

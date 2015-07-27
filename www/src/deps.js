@@ -64,8 +64,6 @@ deps.JS = {
 			"js/router.js",
 			// app
 			"js/app.js",
-			//"js/catalog.js",
-			"js/catalog_dev.js",
 			"js/gSLayerWMS.js",
 			"js/map.js",
 			"js/global.js",

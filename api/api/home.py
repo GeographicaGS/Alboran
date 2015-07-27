@@ -12,6 +12,7 @@ from model.usermodel import UserModel
 from model.configmodel import ConfigModel
 from model.historymodel import HistoryModel
 from model.imagemodel import ImageModel
+from model.catalogmodel import CatalogModel
 from authutil import (auth, authAdmin, sendAccountConfirmationEmail,
 	sendNewHistoryNotification, sendEditedHistoryNotification,
 	sendPublishedHistoryNotification, sendDeletedHistoryNotification)
@@ -241,3 +242,22 @@ def deleteHistory(id):
 		sendDeletedHistoryNotification(user, history)
 
 	return jsonify({'result': 'true'})
+
+@app.route('/catalog/', methods=['GET'])
+def getFullCatalog():
+	catalog = []
+	c = CatalogModel()
+	categories = c.getCategories()
+	for category in categories:
+		category['topics'] = []
+		topics = c.getTopicsByCategory(category['id'])
+		for topic in topics:
+			print topic
+			layers = c.getLayersByTopic(topic['id'])
+			topic['layers'] = layers
+			category['topics'].append(topic)
+		catalog.append(category)
+
+	result = {'result': catalog}
+
+	return jsonify(result)

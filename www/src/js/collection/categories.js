@@ -1,6 +1,11 @@
 app.collection.Categories = Backbone.Collection.extend({
 	model: app.model.Category,
-	
+	url: '/api/catalog/',
+
+	parse: function(data) {
+        return data.result;
+    },
+
 	getLayersByName : function(name){
 		if(name == "") return this;
 
