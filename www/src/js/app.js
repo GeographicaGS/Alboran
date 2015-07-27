@@ -3,7 +3,7 @@ var ENTER_KEY = 13;
 Backbone.View.prototype.close = function(){
   this.remove();
   this.unbind();
-  
+
   if (this.onClose){
     this.onClose();
   }
@@ -15,16 +15,16 @@ String.prototype.endsWith = function(suffix) {
 
 app.detectCurrentLanguage = function(){
     // Detect lang analyzing the URL
-    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {        
+    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {
         return "es";
     }
-    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {        
+    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {
         return "en";
     }
-    else if (document.URL.indexOf("/fr/") != -1 || document.URL.endsWith("/fr")) {        
+    else if (document.URL.indexOf("/fr/") != -1 || document.URL.endsWith("/fr")) {
         return "fr";
     }
-    
+
     return null;
 
     // Force es
@@ -38,11 +38,11 @@ if(!window.jQuery){
 }
 
 $(function() {
-    
+
     $(document).ajaxError(function(event, jqxhr, settings, exception) {
         if (jqxhr.status == 404) {
             app.router.navigate("notfound",{trigger: true});
-        } 
+        }
         else {
             app.router.navigate("error",{trigger: true});
         }
@@ -67,15 +67,15 @@ $(function() {
         app.resizeMe();
     });
 
-    app.resizeMe();    
+    app.resizeMe();
 });
 
 app.resizeMe = function(){
-    
+
 };
 
 app.ini = function(){
-    
+
     this.lang = this.detectCurrentLanguage();
     this.router = new app.router();
     this.basePath = this.config.BASE_PATH + this.lang;
@@ -88,6 +88,7 @@ app.ini = function(){
     Backbone.history.start({pushState: true,root: this.basePath });
 
     if(localStorage.getItem('user') && localStorage.getItem('password')){
+        app.isAdmin = localStorage.getItem('admin') === 'true';
     	$("#login").hide();
     	$("#logout").show();
     	app.ajaxSetup();
@@ -96,12 +97,12 @@ app.ini = function(){
     	$("#login").show();
     	$("#logout").hide();
     }
-    
+
 //    var numCategories = Map.getNumLayersByCategory();
 //    $(".value.green").text(numCategories[0]);
 //    $(".value.red").text(numCategories[1]);
 //    $(".value.blue").text(numCategories[2]);
-    
+
     new app.view.Map();
 
     // Detect browser here
@@ -118,9 +119,9 @@ app.showView = function(view) {
         if (this.currentView){
           this.currentView.close();
         }
-     
+
         this.currentView = view;
-     
+
         this.$content.html(this.currentView.el);
         app.scrollTop();
     }
@@ -137,15 +138,15 @@ app.events.on("menu", function(id){
 
 app.scrollTop = function(){
     var body = $("html, body");
-    body.animate({scrollTop:0}, '500', 'swing', function() { 
-       
+    body.animate({scrollTop:0}, '500', 'swing', function() {
+
         });
 }
 
 app.scrollToEl = function($el){
     $('html, body').animate({
         scrollTop: $el.offset().top
-    }, 500);    
+    }, 500);
 }
 
 app.urlify = function(text,attr) {
@@ -167,9 +168,9 @@ app.urlify = function(text,attr) {
                 if(expVimeo.test(url)){
                     var vimeoId = app.vimeofy(url);
                     link = '<a href="http://player.vimeo.com/video/' + vimeoId + '"' + attr + '><span>Ver video</span></a>';
-                    
+
                 }else{
-                    link = '<a href="'+url+'" target="_blank"><span>'+url+'</span></a>'; 
+                    link = '<a href="'+url+'" target="_blank"><span>'+url+'</span></a>';
                 }
             }
 
@@ -220,11 +221,11 @@ app.nl2br = function nl2br(str, is_xhtml) {
 // Tue, 25 Feb 2014 22:32:40 GMT
 app.dateFormat = function(dateStr){
     var date = new Date(dateStr);
-    
+
     var month = date.getMonth() + 1; //Months are zero based
-    var day = date.getUTCDate(); 
+    var day = date.getUTCDate();
     var year = date.getFullYear();
-    
+
     if (day < 10) day = "0" + day;
     if (month < 10) month = "0" + month;
     return day +"/"+month+"/"+year;
@@ -233,18 +234,18 @@ app.dateFormat = function(dateStr){
 /* dateStr must be a date in GMT Tue, 25 Feb 2014 22:32:40 GMT*/
 app.dateTimeFormat = function(dateStr){
     var date = new Date(dateStr);
-    
+
     var month = date.getMonth() + 1; //Months are zero based
-    var day = date.getUTCDate(); 
+    var day = date.getUTCDate();
     var year = date.getFullYear();
     var hours = date.getHours();
     var minutes = date.getMinutes();
-    
+
     if (month < 10) month = "0" + month;
     if (day < 10) day = "0" + day;
     if (hours < 10) hours = "0" + hours;
     if (minutes < 10) minutes = "0" + minutes;
-    
+
     return day +"/"+month+"/"+year +" - " + hours + ":" + minutes ;
 }
 
@@ -291,7 +292,7 @@ app.isSupportedBrowser = function(){
 };
 
 app.getBrowser = function(){
-    var ua= navigator.userAgent, tem, 
+    var ua= navigator.userAgent, tem,
     M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*([\d\.]+)/i) || [];
     if(/trident/i.test(M[1])){
         tem=  /\brv[ :]+(\d+(\.\d+)?)/g.exec(ua) || [];

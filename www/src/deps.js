@@ -88,6 +88,8 @@ deps.CSS = {
 			"js/lib/fancybox/jquery.fancybox.css",
 			"css/lib/WWW-Styles/reset.css",
 			"css/lib/WWW-Styles/base.css",
+			"css/reset.css",
+			"css/base.css",
 			"css/styles.css",
 			"css/home.css",
 			"css/catalogue.css",

@@ -13,6 +13,7 @@ app.router = Backbone.Router.extend({
         "_link join" : {"en":"participate","es": "participe", "fr": "participer" },
         "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "escribirhistoria" },
         "_link history" : {"en":"history","es": "historia", "fr": "histoire" },
+        "_link edithistory" : {"en":"edit","es": "editar", "fr": "editer" },
         "_link legal" : {"en":"legal","es": "legal", "fr": "juridique" },
         "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "confidentialité" },
         "_link user" : {"en":"user","es": "usuario", "fr": "usuario" }
@@ -44,6 +45,7 @@ app.router = Backbone.Router.extend({
             "join/:section": "join",
             "join/writehistory": "writehistory",
             "join/history/:id": "showhistory",
+            "join/history/:id/edit": "edithistory",
 
             "notfound" : "notfound",
             "faq" : "faq",
@@ -84,6 +86,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link join"][app.lang] + "/:section", "join");
         this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link writehistory"][app.lang] , "writehistory");
         this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id" , "showhistory");
+        this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id/" + this.langRoutes["_link edithistory"] , "edithistory");
         this.route(this.langRoutes["_link legal"][app.lang], "legal");
         this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
@@ -210,6 +213,12 @@ app.router = Backbone.Router.extend({
         $("#content").show();
         $("#map").hide();
         app.showView( new app.view.HistoryDetail({historyId: id}) );
+    },
+
+    edithistory: function(id){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.HistoryCreate({historyId: id}) );
     },
 
     legal: function(){

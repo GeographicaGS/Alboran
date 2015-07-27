@@ -1,10 +1,22 @@
 app.view.HistoryCreate = Backbone.View.extend({
     _template : _.template( $('#history-create_template').html() ),
-    
-    initialize: function() {
+
+    initialize: function(options) {
+        var options = options || '';
+        var History = app.model.History.extend({urlRoot: '/api/history/'});
         app.events.trigger('menu','join');
         this.isSending = false;
-        this.render();
+        if(options){
+            this.historyId = options.historyId || 0;
+            this.model = new History({id: this.historyId});
+            var that = this;
+            this.model.fetch().done(function () {
+                that.render();
+            });
+        }else{
+            this.model = new History();
+            this.render();
+        }
     },
 
     events: {
@@ -24,16 +36,18 @@ app.view.HistoryCreate = Backbone.View.extend({
         'change #hist-lat': 'validate',
         'change #hist-lon': 'validate',
         'change #hist-when': 'validate',
-        'click .position_btn': 'showMap'
+        'click .position_btn': 'showMap',
+        'click .imagePreview': 'showPreview'
     },
-    
+
     onClose: function(){
         // Remove events on close
         this.stopListening();
     },
-    
+
     render: function() {
-        this.$el.html(this._template());
+        var model = { 'data': this.model.toJSON()};
+        this.$el.html(this._template(model));
 
         this.$selectType = this.$('.selectType');
         this.$historyForm = this.$('.historyForm');
@@ -54,12 +68,22 @@ app.view.HistoryCreate = Backbone.View.extend({
             this.showLogin();
         }
 
+        if(this.historyId){
+            this.selectType();
+            var imageList = this.model.get('images');
+            for(var i in imageList){
+                this.addImageItem('image'+(parseInt(i)+1), imageList[i].href, false);
+            }
+        }
+
         return this;
     },
 
     selectType: function(e) {
-        e.preventDefault();
-        $('#selectedType').removeClass().addClass($(e.currentTarget).attr('type')).html($(e.currentTarget).attr('text'));
+        if(e){
+            e.preventDefault();
+            $('#selectedType').removeClass().addClass($(e.currentTarget).attr('type')).html($(e.currentTarget).attr('text'));
+        }
         this.$selectType.css('display', 'none');
         this.$historyForm.css('display', 'block');
     },
@@ -67,7 +91,7 @@ app.view.HistoryCreate = Backbone.View.extend({
     unselectType: function(e) {
         e.preventDefault();
         this.$selectType.css('display', 'block');
-        this.$historyForm.css('display', 'none'); 
+        this.$historyForm.css('display', 'none');
     },
 
     showInfo: function(e) {
@@ -117,31 +141,14 @@ app.view.HistoryCreate = Backbone.View.extend({
                     return myXhr;
                 },
                 success: function(data) {
-                    var $hiddenFileEntry = $('<input />', {
-                        type: 'hidden',
-                        name: 'images',
-                        value: data.filename
-                    });
+                    that.addImageItem(e.target.files[0].name, data.filename, true);
 
-                    var $fileEntry = $('<li/>', {
-                        text: e.target.files[0].name
-                    });
-
-                    var $button = $('<img/>', {
-                        class: 'deleteFileEntry',
-                        src: '/img/participa/ALB_icon_eliminar_img.svg'
-                    });
-
-                    $fileEntry.append($button);
-                    $fileEntry.append($hiddenFileEntry);
-                    that.$fileEntryList.append($fileEntry);
-                    
                     $btn.promise().done(function(){
                         $progress.fadeOut(function(){
                             $btn.fadeIn();
                         });
                     });
-                    
+
                     that.$('#imagesFieldset').removeClass('invalid');
                 },
                 status: {
@@ -177,7 +184,7 @@ app.view.HistoryCreate = Backbone.View.extend({
         e.cancelBubble = true;
     },
 
-    sendHistory: function(e) {
+    sendHistory: function(e){
         e.preventDefault();
         if(!this.isSending){
             this.isSending = true;
@@ -222,7 +229,7 @@ app.view.HistoryCreate = Backbone.View.extend({
             if(isNaN(lon) || lon < -180 || lon > 180){
                 items.$lon.addClass('invalid');
                 error = true;
-            }            
+            }
 
             var images = [];
             var $images = this.$('input[type=hidden]');
@@ -235,6 +242,12 @@ app.view.HistoryCreate = Backbone.View.extend({
                 error = true;
             }
 
+            var newImages = [];
+            var $newImages = this.$('input[type=hidden].temp');
+            $.each($newImages,function(index, elem){
+                newImages.push(elem.value);
+            });
+
             var parts = date.split("/");
             var dateData = Date.parse(parts[2]+'/'+parts[1]+'/'+parts[0]);
             if(isNaN(dateData) || dateData == undefined){
@@ -244,7 +257,7 @@ app.view.HistoryCreate = Backbone.View.extend({
 
             if(!category) category=0;
 
-            if(!error){            
+            if(!error){
                 var formData = {
                     'title': title,
                     'place': place,
@@ -254,35 +267,69 @@ app.view.HistoryCreate = Backbone.View.extend({
                     'text': text,
                     'category': category,
                     'type': type,
-                    'images': JSON.stringify(images)
+                    'images': images,
+                    'newImages': newImages
                 };
-                
-                $.ajax({
-                    url : '/api/history/',
-                    data: formData,
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function(data) {
-                        // Show success popup
-                        if(data.admin){
-                            that.showMessage('#historySendSuccessAdmin', data.history_id);
-                        }else{
-                            that.showMessage('#historySendSuccess')
-                        }
-                        that.$('#enviar_btn span').html('Historia enviada');
-                    },
-                    error: function() {
-                       // Show error popup
-                       that.showMessage('#historySendError');
-                       that.isSending = false;
-                       that.$('#enviar_btn span').html('Compartir historia');
-                    }
-                });
+
+                if(!this.historyId){
+                    this.createHistory(formData);
+                }else{
+                    this.updateHistory(formData);
+                }
             }else{
-                that.isSending = false;
-                this.$('#enviar_btn span').html('Compartir historia');
+                this.isSending = false;
+                this.$('#enviar_btn span').html('Enviar historia');
             }
         }
+    },
+
+    createHistory: function(formData) {
+        formData.images = JSON.stringify(formData.images);
+        var that = this;
+        $.ajax({
+            url : '/api/history/',
+            data: formData,
+            type: 'POST',
+            dataType: 'json',
+            success: function(data) {
+                // Show success popup
+                if(data.admin){
+                    that.showMessage('#historySendSuccessAdmin', data.history_id);
+                }else{
+                    that.showMessage('#historySendSuccess')
+                }
+                that.$('#enviar_btn span').html('Historia enviada');
+            },
+            error: function() {
+               // Show error popup
+               that.showMessage('#historySendError');
+               that.isSending = false;
+               that.$('#enviar_btn span').html('Enviar historia');
+            }
+        });
+    },
+
+    updateHistory: function(formData){
+        this.model.set({
+            'title': formData.title,
+            'place': formData.place,
+            'lat': formData.lat,
+            'lon': formData.lon,
+            'text_history': formData.text,
+            'date': formData.date,
+            'category': formData.category,
+            'type': formData.type,
+            'images': formData.images,
+            'newImages': formData.newImages
+        });
+
+        this.model.save();
+        if(app.isAdmin){
+            this.showMessage('#historySendSuccessAdmin', this.historyId);
+        }else{
+            this.showMessage('#historySendSuccess')
+        }
+        this.$('#enviar_btn span').html('Historia enviada');
     },
 
     validate: function(element, focus){
@@ -313,10 +360,10 @@ app.view.HistoryCreate = Backbone.View.extend({
             'autoSize':false,
             'closeBtn' : false,
             'scrolling'   : 'no',
-            helpers : { 
-                overlay: { 
+            helpers : {
+                overlay: {
                     css: {'background-color': 'rgba(0,0,102,0.85)'}
-                } 
+                }
             },
             afterShow: resetForm,
             afterClose: function(){app.router.navigate("join",{trigger: true})}
@@ -333,11 +380,11 @@ app.view.HistoryCreate = Backbone.View.extend({
             'autoSize':false,
             'closeBtn' : false,
             'scrolling'   : 'no',
-            helpers : { 
-                 overlay: { 
+            helpers : {
+                 overlay: {
                    css: {'background-color': 'rgba(0,0,102,0.85)'} ,
                    closeClick: false
-                 } 
+                 }
             },
             afterShow: function () {
                 $(id).css('display', 'block');
@@ -374,11 +421,11 @@ app.view.HistoryCreate = Backbone.View.extend({
             'autoSize':false,
             'closeBtn' : false,
             'scrolling'   : 'no',
-            helpers : { 
-                 overlay: { 
+            helpers : {
+                 overlay: {
                    css: {'background-color': 'rgba(0,0,102,0.85)'},
                    closeClick: false
-                 } 
+                 }
             },
             afterShow: function () {
                 $('#historyCancelConfirmation').css('display', 'block');
@@ -390,6 +437,57 @@ app.view.HistoryCreate = Backbone.View.extend({
                     $.fancybox.close();
                 });
             }
+        });
+    },
+
+    addImageItem: function(userFilename, serverFilename, isTemp){
+        var imagedir = isTemp ? app.config.IMAGE_TEMPDIR : app.config.IMAGE_DIR;
+        var $hiddenFileEntry = $('<input />', {
+            type: 'hidden',
+            name: 'images',
+            value: serverFilename,
+        });
+        if(isTemp)
+            $hiddenFileEntry.addClass('temp');
+
+        var $linkImage = $('<a/>', {
+            href: imagedir + serverFilename,
+            target: '_blank',
+            class: 'imagePreview',
+            text: userFilename
+        });
+
+        var $fileEntry = $('<li/>', {});
+
+        var $button = $('<img/>', {
+            class: 'deleteFileEntry',
+            src: '/img/participa/ALB_icon_eliminar_img.svg'
+        });
+
+        $fileEntry.append($linkImage);
+        $fileEntry.append($button);
+        $fileEntry.append($hiddenFileEntry);
+        this.$fileEntryList.append($fileEntry);
+    },
+
+    showPreview: function(e){
+        e.preventDefault();
+        var images = [e.target.href];
+        $.fancybox.open(images, {
+            'padding' : 0,
+            tpl: {
+                closeBtn: '<a title="Close" class="fancybox-item fancybox-close myClose" href="javascript:;"><img src="/img/participa/ALB_cerrar_galeria.svg"></a>',
+                next: '<a title="Next" class="fancybox-nav fancybox-next" href="javascript:;"><span><img src="/img/participa/ALB_flecha_galeria_sig.svg"></span></a>',
+                prev: '<a title="Previous" class="fancybox-nav fancybox-prev" href="javascript:;"><span><img src="/img/participa/ALB_flecha_galeria_ant.svg"></span></a>'
+            },
+            helpers : {
+                overlay: {
+                    css: {
+                        'background-color': 'rgba(0,0,102,0.85)',
+                        'z-index': 10003
+                    }
+                }
+            },
         });
     }
 });
