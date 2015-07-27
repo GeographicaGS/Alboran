@@ -61,5 +61,10 @@ app.trans = {
 		'es': 'Geoportal Alborán - Historia eliminada',
 		'fr': 'Geoportal Alborán - Historia eliminada [FR]',
 		'en': 'Geoportal Alborán - Historia eliminada [EN]'
+	},
+	'EMAIL_ACCOUNTCONFIRMATION_SUBJECT': {
+		'es': 'Geoportal Alborán - Confirmación de cuenta',
+		'fr': 'Geoportal Alborán - Confirmación de cuenta [FR]',
+		'en': 'Geoportal Alborán - Confirmación de cuenta [EN]'
 	}
 }

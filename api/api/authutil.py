@@ -107,13 +107,10 @@ def sendEmail(toAddresses,subject,body):
     finally:
         server.quit()
 
-def getConfirmationEmailBody(user,code,lang="es"):
-	link = "<a href='"+ app.config["baseURL"] +"/" + lang + "/user/" + user + "/" + code + "' target='_blank'>"+app.trans['EMAIL_MSG_LINK'][lang]+"</a>"
-	m = "<h2>"+app.trans['EMAIL_TITLE'][lang]+"</h2>"
-	m += "<h2>"+app.trans['EMAIL_MSG_CONFIRM'][lang]+"</h2>"
-	m += "<p>" + app.trans['EMAIL_MSG_PRELINK'][lang] + link + app.trans['EMAIL_MSG_POSTLINK'][lang] +"</p>"
-
-	return m;
+def sendAccountConfirmationEmail(username, userrealname, code, email, lang="es"):
+	link = app.config["baseURL"] +"/" + lang + "/user/" + username + "/" + code
+	body = render_template('email_accountconfirmation_%s.html' % lang, confirmationurl=link, userrealname=userrealname)
+	sendEmail([email], app.trans['EMAIL_ACCOUNTCONFIRMATION_SUBJECT'][lang], body);
 
 def sendNewHistoryNotification(user, history):
 	history['url'] = app.config["baseURL"] + "/" + user['lang'] + "/join/history/" + str(history['id_history'])

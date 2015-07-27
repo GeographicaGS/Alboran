@@ -12,7 +12,7 @@ from model.usermodel import UserModel
 from model.configmodel import ConfigModel
 from model.historymodel import HistoryModel
 from model.imagemodel import ImageModel
-from authutil import (auth, authAdmin, sendEmail, getConfirmationEmailBody,
+from authutil import (auth, authAdmin, sendAccountConfirmationEmail,
 	sendNewHistoryNotification, sendEditedHistoryNotification,
 	sendPublishedHistoryNotification, sendDeletedHistoryNotification)
 from imageutil import isAllowedFile, hashFromImage, resizeImages, deleteImage
@@ -49,7 +49,7 @@ def signin():
 	code = u.createUser(user,name,email,password,institution,whySignup)
 	if code is not None:
 		# Send confirmation email
-		sendEmail([email], app.trans['EMAIL_SUBJECT'][lang], getConfirmationEmailBody(user, code, lang))
+		sendAccountConfirmationEmail(user, name, code, email, lang)
 		return jsonify({'result': 'true'})
 	else:
 		return jsonify({'error': 'userexists'})
