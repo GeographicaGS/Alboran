@@ -29,6 +29,7 @@ app.view.Layer = Backbone.View.extend({
 
 		this.model["title"] = this.model["title_" + app.lang]
 		this.model["desc"] = this.model["desc_" + app.lang]
+		this.model['isAdmin'] = app.isAdmin || false;
 		this.$el.html(this._template( this.model ));
 
 		this.$info = this.$('.info');
@@ -54,7 +55,7 @@ app.view.Layer = Backbone.View.extend({
 			this.$addBtn.removeClass('add');
 			var that = this;
 			setTimeout(function() {that.$addBtn.html(that.$addBtn.attr('removelabel'));},300);
-			
+
 		}else{
 			app.groupLayer.removeLayer(id);
 

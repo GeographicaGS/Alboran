@@ -89,16 +89,22 @@ def configByUser():
 
 
 @app.route('/config/<int:config_id>', methods=['GET'])
-def configById(config_id):
+def getConfigById(config_id):
+	m = ConfigModel()
 	""" Rescatamos la configuración por id """
 	m = ConfigModel()
 	config_data = m.getConfigById(config_id)
-
 	if config_data is None:
 		abort(404)
-
 	return(jsonify({"config" : config_data}))
 
+@app.route('/config/<int:config_id>', methods=['POST'])
+@authAdmin
+def saveConfigById(config_id):
+	m = ConfigModel()
+	""" Guardamos la configuración del usuario usando sus credenciales """
+	m.setConfigById(config_id,request.form.get('data'))
+	return jsonify({'result':'true'})
 
 @app.route('/image/', methods=['POST'])
 @auth
@@ -261,3 +267,32 @@ def getFullCatalog():
 	result = {'result': catalog}
 
 	return jsonify(result)
+
+@app.route('/catalog/layer/<int:id>', methods=['GET'])
+def getLayer(id):
+	c = CatalogModel()
+	result = c.getLayerById(id)
+	if result is None:
+		abort(404)
+
+	return jsonify({'result': result})
+
+@app.route('/catalog/layer/', methods=['POST'])
+@authAdmin
+def createLayer():
+	data = json.loads(request.data)
+	# Save history data
+	c = CatalogModel()
+	result = c.createLayer(data)
+
+	return jsonify({'id': result['layer_id']})
+
+@app.route('/catalog/layer/<int:id>', methods=['PUT'])
+@authAdmin
+def editLayer(id):
+	data = json.loads(request.data)
+	# Save history data
+	c = CatalogModel()
+	c.updateLayer(id, data)
+
+	return jsonify({'result': True})

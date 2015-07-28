@@ -285,7 +285,6 @@
 								.button {
 									padding: 4px 8px;
 									margin-left: 15px;
-									color: @white;
 									border-radius: 2px;
 									font-size: 0.7em;
 									.lato(bold);
@@ -312,6 +311,7 @@
 										transition: all .5s ease;
 										white-space: nowrap;
 										max-width: 162px;
+										color: @white;
 
 										@media (max-width: 1023px){
 											transition: border-color .5s ease, background-color .5s ease;
@@ -337,6 +337,7 @@
 									&.metadata_btn {
 										background-color: @grey_groupTitleNumber;
 										border: 1px solid @grey_groupTitleNumber;
+										color: @white;
 										&:after{
 											content: url('@{imgPath}catalogue/ALB_icon_enlace_externo.svg');
 											margin-left: 5px;
@@ -534,6 +535,7 @@
 }
 
 .layerForm {
+	padding-top: 30px;
 
 	.type {
 		background-color: @white;
@@ -577,7 +579,7 @@
 	fieldset {
 		position: relative;
 		margin-bottom: 20px;
-		text-align: center;
+		/*text-align: center;*/
 
 		legend {
 			text-align: center;
@@ -616,8 +618,42 @@
 				color: @grey_4;
 			}
 
-			input[type="text"], textarea {
+			select {
 				width: 100%;
+				margin: 10px 0;
+				font-size: .9em;
+			}
+
+			.withButton {
+				select {
+					width: calc(~'100% - 10px - 2em');
+				}
+
+				a {
+					max-width: 2em;
+					margin-left: 10px;
+					display: inline-block;
+					vertical-align: top;
+					position: relative;
+					top: 6px;
+
+					img {
+						max-width: 100%;
+					}
+				}
+			}
+
+			input[type="checkbox"] {
+				vertical-align: middle;
+				margin-right: 5px;
+
+				& + label {
+					text-transform: none;
+				}
+			}
+
+			input[type="text"], textarea {
+				width: calc(~'100% - 10px - 2em');
 				padding: 18px;
 				text-align: center;
 				border: 1px solid @grey_footer;
@@ -642,6 +678,35 @@
 
 				&:-ms-input-placeholder {
 					color: @grey_footer;
+				}
+
+				&.localized {
+					margin-bottom: 10px;
+
+					& + label {
+						font-size: 1.4em;
+						width: 2em;
+						margin-left: 10px;
+						vertical-align: top;
+						position: relative;
+						top: 16px;
+					}
+				}
+
+				&.withAction {
+
+					& + a {
+						max-width: 2em;
+						margin-left: 10px;
+						display: inline-block;
+						vertical-align: top;
+						position: relative;
+						top: 16px;
+
+						img {
+							max-width: 100%;
+						}
+					}
 				}
 			}
 
@@ -747,38 +812,6 @@
 					}
 				}
 			}
-
-			#addImage_btn {
-				position: absolute;
-				left: 50%;
-				margin-left: -13px;
-				display: block;
-				opacity: .5;
-				transition: opacity .3s ease;
-
-				&:hover {
-					opacity: 1;
-				}
-			}
-
-			.imageErrorText {
-				display: none;
-				margin-top: 30px;
-			}
-
-			&#imagesFieldset.invalid .imageErrorText{
-				display: block;
-			}
-
-			progress {
-				display: none;
-
-				position: absolute;
-				left: 50%;
-				bottom: 4px;
-				width: 150px;
-				margin-left: -75px;
-			}
 		}
 
 		.info {
@@ -805,17 +838,21 @@
 	.sendButtons {
 		padding-bottom: 90px;
 		padding-top: 64px;
+		text-transform: uppercase;
 
 		a {
 			margin-right: 120px;
 			display: inline-block;
+			font-size: .75em;
+			.lato(bold);
 
 			&:last-child {
 				margin-right: 0;
 			}
 		}
 
-		#cancel_btn {
+		.cancel_btn {
+			padding-top: 10px;
 			border-bottom: 1px solid transparent;
 			transition: color .3s ease, border-color .3s ease;
 			&:hover {
@@ -825,23 +862,10 @@
 		}
 
 		#enviar_btn {
-			color: @grey_header_dark;
+			padding: 10px 50px;
 
-			.roundButton {
-				display: inline-block;
-				vertical-align: top;
-				position: relative;
-				top: -32px;
-				margin-right: 18px;
-				width: 80px;
-				height: 80px;
-				padding: 10px 15px 15px;
-			}
-
-			&:hover {
-				.roundButton {
-					box-shadow: 0 0 0 6px @ocre;
-				}
+			span {
+				.lato(bold);
 			}
 		}
 	}

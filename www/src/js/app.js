@@ -78,6 +78,16 @@ app.ini = function(){
     var that = this;
     app.categories = new app.collection.Categories();
     app.categories.fetch({success: function(){
+        if(localStorage.getItem('user') && localStorage.getItem('password')){
+            app.isAdmin = localStorage.getItem('admin') === 'true';
+            $("#login").hide();
+            $("#logout").show();
+            app.ajaxSetup();
+        }else{
+            $("#login").show();
+            $("#logout").hide();
+        }
+        
         that.lang = that.detectCurrentLanguage();
         that.router = new app.router();
         that.basePath = that.config.BASE_PATH + that.lang;
@@ -88,17 +98,6 @@ app.ini = function(){
 
         //Backbone.history.start();root: "/public/search/"
         Backbone.history.start({pushState: true,root: that.basePath });
-
-        if(localStorage.getItem('user') && localStorage.getItem('password')){
-            app.isAdmin = localStorage.getItem('admin') === 'true';
-            $("#login").hide();
-            $("#logout").show();
-            app.ajaxSetup();
-
-        }else{
-            $("#login").show();
-            $("#logout").hide();
-        }
 
     //    var numCategories = Map.getNumLayersByCategory();
     //    $(".value.green").text(numCategories[0]);

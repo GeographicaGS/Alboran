@@ -21,26 +21,30 @@
 						<legend><lang>Categorizar en...</lang></legend>
 						<div class="col-sm-6 col-md-6">
 							<select id="category" name="category">
-								<option><lang>Seleccione una temática</lang></option>
+								<option value="0"><lang>Seleccione una temática</lang></option>
 								<% _.each(data.categories, function(category){ %>
-									<option value="<%= category['id'] %>"><%= category['title_' + app.lang] %></option>
+									<option value="<%= category['id'] %>" <%= category['id'] !== data.layerCategory ? '': 'selected' %>><%= category['title_' + app.lang] %></option>
 								<% }); %>
 							</select>
-							<input type="checkbox" id="indefaultmap" name="indefaultmap" />
+							<br>
+							<input type="checkbox" id="indefaultmap" name="indefaultmap" <%= data.isInConfig ? 'checked' : '' %> />
 							<label for="indefaultmap"><lang>Incluir en el mapa preconfigurado de la temática</lang></label>
 						</div>
-						<div class="col-sm-6 col-md-6">
+						<div class="col-sm-6 col-md-6 withButton">
 							<% _.each(data.categories, function(category){ %>
 							<select id="topic-<%= category.id %>" name="topic" class="hide">
 								<% _.each(category.topics, function(topic){ %>
 									<% if(topic['title_' + app.lang]){ %>
-									<option value="<%= topic['id'] %>"><%= topic['title_' + app.lang] %></option>
+									<option value="<%= topic['id'] %>" <%= topic['id'] !== data.topic_id ? '': 'selected' %>><%= topic['title_' + app.lang] %></option>
 									<% }else{ %>
-									<option value="<%= topic['id'] %>"><lang>Sin sección</lang></option>
+									<option value="<%= topic['id'] %>"<%= topic['id'] !== data.topic_id ? '': 'selected' %>><lang>Sin sección</lang></option>
 									<% } %>
 								<% }); %>
 							</select>
 							<% }); %>
+							<a href="#" id="createTopic" title="<lang>Crear nueva sección</lang>">
+								<img src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Crear nueva sección</lang>"/>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -55,9 +59,9 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Nombre</lang></legend>
-						<input type="text" id="title-es" name="title-es" placeholder="<lang>Nombre de la capa en espa&ntilde;ol</lang>" value="<%= data.title_es %>"><label for="title-es">ES</label>
-						<input type="text" id="title-en" name="title-en" placeholder="<lang>Nombre de la capa en inglés</lang>" value="<%= data.title_en %>"><label for="title-en">EN</label>
-						<input type="text" id="title-fr" name="title-fr" placeholder="<lang>Nombre de la capa en francés</lang>" value="<%= data.title_fr %>"><label for="title-fr">FR</label>
+						<input type="text" class="localized" id="title-es" name="title-es" placeholder="<lang>Nombre de la capa en espa&ntilde;ol</lang>" value="<%= data.title_es %>" required /><label for="title-es">ES</label>
+						<input type="text" class="localized" id="title-en" name="title-en" placeholder="<lang>Nombre de la capa en inglés</lang>" value="<%= data.title_en %>" required /><label for="title-en">EN</label>
+						<input type="text" class="localized" id="title-fr" name="title-fr" placeholder="<lang>Nombre de la capa en francés</lang>" value="<%= data.title_fr %>" required /><label for="title-fr">FR</label>
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
@@ -71,9 +75,9 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Descripción</lang></legend>
-						<textarea id="desc-es" name="desc-es" placeholder="<lang>Escriba aquí la descripción en espa&ntilde;ol</lang>"><%= data.desc_es %></textarea><label for="desc-es">ES</label>
-						<textarea id="desc-en" name="desc-en" placeholder="<lang>Escriba aquí la descripción en inglés</lang>"><%= data.desc_en %></textarea><label for="desc-en">EN</label>
-						<textarea id="desc-fr" name="desc-fr" placeholder="<lang>Escriba aquí la descripción en francés</lang>"><%= data.desc_fr %></textarea><label for="desc-fr">FR</label>
+						<textarea id="desc-es" class="localized" name="desc-es" placeholder="<lang>Escriba aquí la descripción en espa&ntilde;ol</lang>" required><%= data.desc_es %></textarea><label for="desc-es">ES</label>
+						<textarea id="desc-en" class="localized" name="desc-en" placeholder="<lang>Escriba aquí la descripción en inglés</lang>" required><%= data.desc_en %></textarea><label for="desc-en">EN</label>
+						<textarea id="desc-fr" class="localized" name="desc-fr" placeholder="<lang>Escriba aquí la descripción en francés</lang>" required><%= data.desc_fr %></textarea><label for="desc-fr">FR</label>
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
@@ -87,9 +91,7 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Fuente</lang></legend>
-						<input type="text" id="datasource-es" name="datasource-es" placeholder="<lang>Fuente de la capa en espa&ntilde;ol</lang>" value="<%= data.datasource_es %>"><label for="datasource-es">ES</label>
-						<input type="text" id="datasource-en" name="datasource-en" placeholder="<lang>Fuente de la capa en inglés</lang>" value="<%= data.datasource_en %>"><label for="datasource-en">EN</label>
-						<input type="text" id="datasource-fr" name="datasource-fr" placeholder="<lang>Fuente de la capa en francés</lang>" value="<%= data.datasource_fr %>"><label for="datasource-fr">FR</label>
+						<input type="text" id="datasource" name="datasource" placeholder="<lang>Fuente de la capa</lang>" value="<%= data.dataSource %>" required />
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
@@ -102,22 +104,8 @@
 			<fieldset class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
-						<legend><lang>Metadato (URL)</lang></legend>
-						<input type="text" id="metadata" name="metadata" placeholder="<lang>Introduzca una url válida para el metadato de la capa</lang>" value="<%= data.geoNetWk %>"><a href="#"><img src="#" /></a>
-					</div>
-				</div>
-				<div class="col-sm-2 col-md-2 info">
-					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
-					<div class="content">
-						<p><lang>Info ayuda metadato</lang></p>
-					</div>
-				</div>
-			</fieldset>
-			<fieldset class="row">
-				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
-					<div class="row input">
 						<legend><lang>Servidor WMS (URL)</lang></legend>
-						<input type="text" id="wmsserver" name="wmsserver" placeholder="<lang>Introduzca una url válida para el servidor WMS de la capa</lang>" value="<%= data.wmsServer %>" />
+						<input type="text" id="wmsserver" name="wmsserver" placeholder="<lang>Introduzca una url válida para el servidor WMS de la capa</lang>" value="<%= data.wmsServer %>" required />
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
@@ -131,13 +119,30 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Capa</lang></legend>
-						<input type="text" id="layername" name="layername" placeholder="<lang>Capa</lang>" value="<%= data.wmsLayName %>" />
+						<input type="text" id="layername" name="layername" placeholder="<lang>Capa</lang>" value="<%= data.wmsLayName %>" required />
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
 					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
 					<div class="content">
 						<p><lang>Info ayuda capa</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Metadato (URL)</lang></legend>
+						<input type="text" class="withAction" id="metadata" name="metadata" placeholder="<lang>Introduzca una url válida para el metadato de la capa</lang>" value="<%= data.geoNetWk %>">
+						<a href="/geonetwork" target="_blank" title="<lang>Dar de alta metadato</lang>">
+							<img src="/img/catalogue/ALB_icon_info_enlace.svg" alt="<lang>Dar de alta metadato</lang>"/>
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda metadato</lang></p>
 					</div>
 				</div>
 			</fieldset>
@@ -148,8 +153,12 @@
 							<a class="cancel_btn" href="#"><lang>Cancelar</lang></a>
 						</div>
 						<div class="col-sm-8 col-md-8">
-							<a href="#" id="enviar_btn" class="button">
+							<a href="#" id="enviar_btn" class="button grey">
+								<% if(!data.id){%>
 								<span><lang>Crear capa</lang></span>
+								<% }else{ %>
+								<span><lang>Actualizar capa</lang></span>
+								<% } %>
 							</a>
 						</div>
 					</div>
@@ -160,7 +169,11 @@
 	<!-- Popups -->
 	<div id="layerCreateSuccess" class="msgPopup">
         <div class="content">
+			<% if(!data.id){%>
             <h2><lang>Su capa ha sido creada</lang></h2>
+			<% }else{ %>
+			<h2><lang>Su capa ha sido actualizada</lang></h2>
+			<% } %>
             <p><lang></lang></p>
         </div>
         <input type="button" value="<lang>Aceptar</lang>">
@@ -168,7 +181,11 @@
 
     <div id="layerCreateError" class="msgPopup">
         <div class="content">
+			<% if(!data.id){%>
             <h2><lang>Error al crear su capa</lang></h2>
+			<% }else{ %>
+			<h2><lang>Error al actualizar su capa</lang></h2>
+			<% } %>
             <p><lang>Inténtelo de nuevo o contacte con el administrador</lang></p>
         </div>
         <input type="button" value="<lang>Aceptar</lang>">
@@ -176,7 +193,11 @@
 
     <div id="layerCancelConfirmation" class="msgPopup">
         <div class="content">
+			<% if(!data.id){%>
             <h2><lang>Cancelar creación de capa</lang></h2>
+			<% }else{ %>
+			<h2><lang>Cancelar actualización de capa</lang></h2>
+			<% } %>
             <p><lang>¿Está seguro de querer salir? Los datos introducidos se perderán.</lang></p>
         </div>
         <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
