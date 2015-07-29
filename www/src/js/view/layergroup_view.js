@@ -32,6 +32,10 @@ app.view.LayerGroup = Backbone.View.extend({
 			});
 		}
 
+		if(!this.model["title"]){
+			this.$el.addClass('first');
+		}
+
 		this.renderGroup();
 
         return this;

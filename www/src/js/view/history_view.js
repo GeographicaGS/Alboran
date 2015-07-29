@@ -20,14 +20,18 @@ app.view.HistoryDetail = Backbone.View.extend({
 		this.listenTo(this.model, 'change', this.render);
         var that = this;
         this.model.fetch().done(function () {
-			var images = that.model.get('images');
-			var pathedImages = []
-			_.each(images,function(item, index){
-				pathedImages[index] = {}
-				pathedImages[index].href = app.config.IMAGE_DIR+item.href;
-			});
-			that.model.set({'pathedImages': pathedImages});
-            that.render();
+			if(that.model.get('status') !== 1 && !(localStorage.admin || false)){
+				that.showLogin();
+			}else{
+				var images = that.model.get('images');
+				var pathedImages = []
+				_.each(images,function(item, index){
+					pathedImages[index] = {}
+					pathedImages[index].href = app.config.IMAGE_DIR+item.href;
+				});
+				that.model.set({'pathedImages': pathedImages});
+	            that.render();
+			}
         });
     },
 
@@ -183,5 +187,26 @@ app.view.HistoryDetail = Backbone.View.extend({
 
 	onModelDestroy: function(e) {
 		app.router.navigate('join', {trigger: true});
-	}
+	},
+
+	showLogin: function() {
+		var that = this;
+        $.fancybox($("#loginForms"), {
+            'width':'640',
+            'height': 'auto',
+            'padding': '0',
+            'autoDimensions':false,
+            'autoSize':false,
+            'closeBtn' : false,
+            'scrolling'   : 'no',
+            helpers : {
+                overlay: {
+                    css: {'background-color': 'rgba(0,0,102,0.85)'}
+                }
+            },
+            afterShow: resetForm,
+            afterClose: function(){that.initialize({historyId: that.model.get('id')});}
+        });
+        return false;
+    }
 })

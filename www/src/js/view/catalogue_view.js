@@ -63,6 +63,7 @@ app.view.Catalogue = Backbone.View.extend({
             this.$layergroups.eq(index).append(group.render().$el);
         }
 		this.$layergroups.eq(index).sortable({
+			items: ".layerItemGroup:not(.first)",
 			update: function(event, ui){
 				that.updateOrder();
 			}

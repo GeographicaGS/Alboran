@@ -35,6 +35,7 @@ $("#login").on('click', function(e) {
 });
 
 $("#signin_btn").on('click', function(){
+  var currentRoute = Backbone.history.getFragment();
   var $form = $('#initSessionForm');
   $form.find("input[type='text']").removeClass('invalid');
   $form.find("input[type='password']").removeClass('invalid');
@@ -86,7 +87,8 @@ $("#signin_btn").on('click', function(){
                 app.ajaxSetup();
                 $submit_btn.removeAttr('disabled');
                 $submit_btn.attr('value','Acceder');
-                app.router.navigate("",{trigger: true});
+                app.router.navigate(currentRoute,{trigger: true});
+                document.location.reload();
             },
             error: function(){
                 localStorage.removeItem('user');
