@@ -3,7 +3,6 @@ app.view.Layer = Backbone.View.extend({
 	className: 'layerItem',
 
 	events: {
-		'click .info_btn': 'toggle',
 		'click .name': 'toggle',
 		'click .add_btn': 'toggleLayer'
 	},
