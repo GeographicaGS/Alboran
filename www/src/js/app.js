@@ -87,7 +87,7 @@ app.ini = function(){
             $("#login").show();
             $("#logout").hide();
         }
-        
+
         that.lang = that.detectCurrentLanguage();
         that.router = new app.router();
         that.basePath = that.config.BASE_PATH + that.lang;
@@ -154,7 +154,7 @@ app.urlify = function(text,attr) {
     if (!text){
         return ""
     }
-    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\(\)\/%?=~_|!:,.;]*[-A-Z0-9+&@#\(\)\/%=~_|])/gi;
     var urls = text.match(exp);
     var result = text;
     if (urls != null) {

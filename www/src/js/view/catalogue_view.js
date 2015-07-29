@@ -22,7 +22,9 @@ app.view.Catalogue = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.html(this._template({categories: this.collection.toJSON()}));
+		var model = {categories: this.collection.toJSON()}
+		model['isAdmin'] = app.isAdmin;
+        this.$el.html(this._template(model));
 
         this.$layergroups = this.$('.layergroup');
         this.$topTabs = this.$('.topTabs .title');
@@ -51,6 +53,7 @@ app.view.Catalogue = Backbone.View.extend({
 
     renderTab: function(elem, index){
         // Seleccionamos una página y generamos sus grupos
+		var that = this;
         var topics = elem.get('topics');
         for (var i = 0; i < topics.length; i++){
             // Generamos un grupo y lo agregamos a la lista
@@ -59,6 +62,11 @@ app.view.Catalogue = Backbone.View.extend({
             // Insertamos el grupo en el DOM
             this.$layergroups.eq(index).append(group.render().$el);
         }
+		this.$layergroups.eq(index).sortable({
+			update: function(event, ui){
+				that.updateOrder();
+			}
+		});
     },
 
     renderList: function(list){
@@ -130,5 +138,20 @@ app.view.Catalogue = Backbone.View.extend({
         var result = this.collection.getLayersByName(this.$searchbarText.val());
         this.$layergroups.eq(3).empty();
         this.renderList(result);
-    }
+    },
+
+	updateOrder: function() {
+		var Topic = app.model.Topic.extend({urlRoot: '/api/catalog/topic/'});
+		this.$layergroups.filter('.selected').children().each(function(index, element){
+			var $element = $(element);
+			var topicId = $element.find('ul.content').attr('topicid');
+			if(topicId){
+				var topic = new Topic({id: topicId});
+				topic.fetch().done(function(){
+					topic.set({'order': $element.index()});
+					topic.save();
+				});
+			}
+		});
+	}
 });

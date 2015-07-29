@@ -95,7 +95,8 @@
 
 	.tabsContainer {
 		border-bottom: 1px solid @tabs_separator;
-		height: 41px;
+		background-color: @grey_layerHover;
+		height: 49px;
 
 		.topTabs {
 			font-size: 10pt;
@@ -103,7 +104,8 @@
 			.title {
 				border: solid @tabs_separator;
 				border-width: 0 0 1px 1px;
-				padding: 5px 10px 7px;
+				padding: 11px 9px 11px;
+				height: 49px;
 				display: block;
 
 				&.hidden {
@@ -114,6 +116,7 @@
 					text-align: left;
 					position: relative;
 					.lato(regular);
+					font-size: 11pt;
 					width: 93%;
 					overflow: hidden;
 					white-space: nowrap;
@@ -160,23 +163,24 @@
 				}
 
 				&.selected {
+					background-color: @white;
 
 					h2 {
 						.lato(bold);
 					}
 
 					&.green {
-						background-color: @green_titlebck;
+						/*background-color: @green_titlebck;*/
 						border-bottom-color: @green;
 					}
 
 					&.red {
-						background-color: @red_titlebck;
+						/*background-color: @red_titlebck;*/
 						border-bottom-color: @red;
 					}
 
 					&.blue {
-						background-color: @blue_titlebck;
+						/*background-color: @blue_titlebck;*/
 						border-bottom-color: @blue;
 					}
 				}
@@ -193,10 +197,27 @@
 			}
 
 			.layerItemGroup {
-				margin-top: 4px;
+				/*margin-top: 4px;*/
+				background-color: @white;
+
+				&:first-child {
+					.content {
+						border-top: none;
+					}
+
+					.groupName {
+						border-top: none;
+
+						& + .content {
+							border-top: 1px solid @grey_5;
+						}
+					}
+				}
 
 				.groupName {
-					border-bottom: 1px solid;
+					border-style: solid;
+					border-width: 1px 0 0 0;
+					border-top-color: @grey_5;
 
 					h3 {
 						text-align: center;
@@ -243,9 +264,14 @@
 						display: block;
 						clear: both;
 					}
+
+					& + .content {
+						border-top-color: @grey_5;
+					}
 				}
 
 				.content {
+					border-top: 1px solid;
 					max-height: 9999px;
 					overflow: hidden;
 					transition: max-height 1s ease;
@@ -256,7 +282,12 @@
 
 					.layerItem {
 						border-bottom: 1px solid @tabs_separator;
+						background-color: @white;
 						transition: background-color .3s ease;
+
+						&:last-child {
+							border-bottom: none;
+						}
 
 						.title, .info {
 							padding: 0 10px 0 54px;
@@ -468,7 +499,7 @@
 
 			&.green {
 				.groupName {
-					border-color: @green;
+					border-top-color: @green;
 				}
 
 				.content .layerItem .title {
@@ -494,7 +525,7 @@
 
 			&.red {
 				.groupName {
-					border-color: @red;
+					border-top-color: @red;
 				}
 
 				.content .layerItem .title {
@@ -520,7 +551,7 @@
 
 			&.blue {
 				.groupName {
-					border-color: @blue;
+					border-top-color: @blue;
 				}
 
 				.content .layerItem .title {
@@ -881,6 +912,14 @@
 
 		#enviar_btn {
 			padding: 10px 50px;
+
+			span {
+				.lato(bold);
+			}
+		}
+
+		#borrar_btn {
+			margin-top: 5px;
 
 			span {
 				.lato(bold);

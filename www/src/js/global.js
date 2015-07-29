@@ -86,6 +86,7 @@ $("#signin_btn").on('click', function(){
                 app.ajaxSetup();
                 $submit_btn.removeAttr('disabled');
                 $submit_btn.attr('value','Acceder');
+                app.router.navigate("",{trigger: true});
             },
             error: function(){
                 localStorage.removeItem('user');
@@ -102,6 +103,8 @@ $("#signin_btn").on('click', function(){
 $("#logout").on('click', function() {
 	localStorage.removeItem('user');
 	localStorage.removeItem('password');
+    localStorage.removeItem('admin');
+    app.isAdmin = false;
 
 	$(".groupLauyerConfig").css({"background-color":""});
 	$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
@@ -110,7 +113,7 @@ $("#logout").on('click', function() {
 
 	$("#login").show();
 	$("#logout").hide();
-  app.router.navigate("",{trigger: true});
+    app.router.navigate("",{trigger: true});
 
 	return false;
 });
@@ -190,6 +193,7 @@ function showSigninConfirmation(user, passw) {
     },
     afterShow: function () {
       $("#signinConfirmation").css('display', 'block');
+      app.router.navigate("",{trigger: true});
     }
   });
 }

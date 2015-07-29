@@ -58,7 +58,7 @@
 						<div class="col-sm-4 col-md-4">
 							<a class="cancel_btn" href="#"><lang>Cancelar</lang></a>
 						</div>
-						<div class="col-sm-8 col-md-8">
+						<div class="col-sm-4 col-md-4">
 							<a href="#" id="enviar_btn" class="button grey">
 								<% if(!data.id){%>
 								<span><lang>Crear sección</lang></span>
@@ -67,6 +67,13 @@
 								<% } %>
 							</a>
 						</div>
+						<% if(data.id){%>
+						<div class="col-sm-4 col-md-4">
+							<a href="#" id="borrar_btn" class="fright button red">
+								<span><lang>Eliminar sección</lang></span>
+							</a>
+						</div>
+						<% } %>
 					</div>
 				</div>
 			</div>
@@ -109,4 +116,21 @@
         <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
         <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
     </div>
+
+	<div id="sectionDeleteConfirmation" class="msgPopup">
+		<div class="content">
+			<h2><lang>Eliminar sección</lang></h2>
+			<p><lang>¿Está seguro de querer eliminar esta sección?</lang></p>
+		</div>
+		<input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+		<input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+	</div>
+
+	<div id="sectionCannotDelete" class="msgPopup">
+		<div class="content">
+			<h2><lang>No es posible eliminar sección</lang></h2>
+			<p><lang>No es posible eliminar una sección que contenga capas. Por favor, elimínelas o cámbielas de sección e inténtelo de nuevo.</lang></p>
+		</div>
+		<input type="button" value="<lang>Aceptar</lang>">
+	</div>
 </div>

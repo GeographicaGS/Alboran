@@ -1,4 +1,4 @@
-<% if(layers.length){ %>
+<% if(isAdmin || layers.length){ %>
 <% if (title){ %>
 <div class="groupName">
 	<a class="toggle_btn" href="#"><span>Expandir/Contraer</span></a>
@@ -9,5 +9,5 @@
 	</h3>
 </div>
 <% } %>
-<ul class="content"></ul>
+<ul class="content" topicid="<%= id %>"></ul>
 <% } %>

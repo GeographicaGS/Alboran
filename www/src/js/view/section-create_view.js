@@ -3,19 +3,19 @@ app.view.SectionCreate = Backbone.View.extend({
 
     initialize: function(options) {
         var options = options || '';
-        var Section = app.model.Section.extend({urlRoot: '/api/catalog/topic/'});
+        var Topic = app.model.Topic.extend({urlRoot: '/api/catalog/topic/'});
         app.events.trigger('menu','catalogue');
         this.isSending = false;
         if(options){
             this.sectionId = options.sectionId || 0;
-            this.model = new Section({id: this.sectionId});
+            this.model = new Topic({id: this.sectionId});
             var that = this;
             this.model.fetch().done(function () {
                 that.render();
             });
         }else{
             this.isInConfig = false;
-            this.model = new Section();
+            this.model = new Topic();
             this.render();
         }
     },
@@ -23,6 +23,7 @@ app.view.SectionCreate = Backbone.View.extend({
     events: {
         'click .info > a': 'showInfo',
         'click #enviar_btn': 'sendSection',
+        'click #borrar_btn': 'deleteSection',
         'click .cancel_btn': 'cancelSection',
         'blur input[required]': 'validate',
         'blur textarea[required]': 'validate',
@@ -127,6 +128,43 @@ app.view.SectionCreate = Backbone.View.extend({
                 that.$('#enviar_btn span').html('<lang>Guardar sección</lang>');
             }
         });
+    },
+
+    deleteSection: function(e) {
+        e.preventDefault();
+        if(this.model.get('children') == 0){
+            var that = this;
+            $.fancybox($('#sectionDeleteConfirmation'), {
+                'width':'640',
+                'height': 'auto',
+                'padding': '0',
+                'autoDimensions':false,
+                'autoSize':false,
+                'closeBtn' : false,
+                'scrolling'   : 'no',
+                helpers : {
+                     overlay: {
+                       css: {'background-color': 'rgba(0,0,102,0.85)'},
+                       closeClick: false
+                     }
+                },
+                afterShow: function () {
+                    $('#sectionDeleteConfirmation').css('display', 'block');
+                    $('#sectionDeleteConfirmation #btn_yes').click(function(e){
+                        $.fancybox.close();
+                        that.model.destroy();
+                        app.categories.fetch().done(function () {
+                            app.router.navigate('catalogue', {trigger: true});
+                        });
+                    });
+                    $('#sectionDeleteConfirmation #btn_no').click(function(e){
+                        $.fancybox.close();
+                    });
+                }
+            });
+        }else{
+            this.showMessage('#sectionCannotDelete');
+        }
     },
 
     validate: function(element, focus){

@@ -141,6 +141,10 @@ def uploadHistory():
 
 	# Send email to admins and author
 	admins = u.getAllAdmins()
+	data = {}
+	data['title'] = request.form['title']
+	data['author'] = user['real_name']
+	data['id_history'] = result['history_id']
 	for admin in admins:
 		sendNewHistoryNotification(admin, data)
 	if not user['admin']:
@@ -258,7 +262,6 @@ def getFullCatalog():
 		category['topics'] = []
 		topics = c.getTopicsByCategory(category['id'])
 		for topic in topics:
-			print topic
 			layers = c.getLayersByTopic(topic['id'])
 			topic['layers'] = layers
 			category['topics'].append(topic)
@@ -297,10 +300,22 @@ def editLayer(id):
 
 	return jsonify({'result': True})
 
+@app.route('/catalog/layer/<int:id>', methods=['DELETE'])
+@authAdmin
+def deleteLayer(id):
+	c = CatalogModel()
+	c.deleteLayer(id)
+
+	return jsonify({'result': 'true'})
+
 @app.route('/catalog/topic/<int:id>', methods=['GET'])
 def getSection(id):
 	c = CatalogModel()
-	result = c.getTopicById(id)
+	result = {}
+	topic = c.getTopicById(id)
+	result = topic
+	children = c.getTopicChildren(id)
+	result['children'] = children['children']
 	if result is None:
 		abort(404)
 
@@ -325,3 +340,11 @@ def editTopic(id):
 	c.updateTopic(id, data)
 
 	return jsonify({'result': True})
+
+@app.route('/catalog/topic/<int:id>', methods=['DELETE'])
+@authAdmin
+def deleteTopic(id):
+	c = CatalogModel()
+	c.deleteTopic(id)
+
+	return jsonify({'result': 'true'})

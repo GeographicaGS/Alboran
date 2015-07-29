@@ -152,7 +152,7 @@
 						<div class="col-sm-4 col-md-4">
 							<a class="cancel_btn" href="#"><lang>Cancelar</lang></a>
 						</div>
-						<div class="col-sm-8 col-md-8">
+						<div class="col-sm-4 col-md-4">
 							<a href="#" id="enviar_btn" class="button grey">
 								<% if(!data.id){%>
 								<span><lang>Crear capa</lang></span>
@@ -161,6 +161,13 @@
 								<% } %>
 							</a>
 						</div>
+						<% if(data.id){%>
+						<div class="col-sm-4 col-md-4">
+							<a href="#" id="borrar_btn" class="fright button red">
+								<span><lang>Eliminar capa</lang></span>
+							</a>
+						</div>
+						<% } %>
 					</div>
 				</div>
 			</div>
@@ -211,6 +218,15 @@
 			<h2><lang>Cancelar actualización de capa</lang></h2>
 			<% } %>
             <p><lang>¿Está seguro de querer salir? Los datos introducidos se perderán.</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
+
+	<div id="layerDeleteConfirmation" class="msgPopup">
+        <div class="content">
+			<h2><lang>Eliminar capa</lang></h2>
+            <p><lang>¿Está seguro de querer eliminar esta capa?</lang></p>
         </div>
         <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
         <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">

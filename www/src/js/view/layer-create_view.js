@@ -39,6 +39,7 @@ app.view.LayerCreate = Backbone.View.extend({
     events: {
         'click .info > a': 'showInfo',
         'click #enviar_btn': 'sendLayer',
+        'click #borrar_btn': 'deleteLayer',
         'click .cancel_btn': 'cancelLayer',
         'blur input[required]': 'validate',
         'blur textarea[required]': 'validate',
@@ -276,6 +277,39 @@ app.view.LayerCreate = Backbone.View.extend({
             }
         });
     },
+
+	deleteLayer: function(e) {
+		e.preventDefault();
+		var that = this;
+		$.fancybox($('#layerDeleteConfirmation'), {
+            'width':'640',
+            'height': 'auto',
+            'padding': '0',
+            'autoDimensions':false,
+            'autoSize':false,
+            'closeBtn' : false,
+            'scrolling'   : 'no',
+            helpers : {
+                 overlay: {
+                   css: {'background-color': 'rgba(0,0,102,0.85)'},
+                   closeClick: false
+                 }
+            },
+            afterShow: function () {
+                $('#layerDeleteConfirmation').css('display', 'block');
+                $('#layerDeleteConfirmation #btn_yes').click(function(e){
+                    $.fancybox.close();
+                    that.model.destroy();
+                    app.categories.fetch().done(function () {
+                        app.router.navigate('catalogue', {trigger: true});
+                    });
+                });
+                $('#layerDeleteConfirmation #btn_no').click(function(e){
+                    $.fancybox.close();
+                });
+            }
+        });
+	},
 
     validate: function(element, focus){
         var error = false;

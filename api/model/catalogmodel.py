@@ -20,18 +20,18 @@ class CatalogModel(PostgreSQLModel):
 
     def getTopicsByCategory(self, category_id):
         if category_id is not None:
-            sql = "SELECT t.id, t.title_en, t.title_es, t.title_fr " \
+            sql = "SELECT t.id, t.title_en, t.title_es, t.title_fr, t.order " \
                 "FROM \"topic\" t " \
                 "WHERE t.category_id = %s AND t.deleted = false " \
-                "ORDER BY t.id"
+                "ORDER BY t.order"
 
             result = self.query(sql,[category_id]).result()
         else:
             sql = "SELECT t.id, t.title_en, t.title_es, t.title_fr, " \
-                "t.category_id " \
+                "t.category_id, t.order " \
                 "FROM \"topic\" t " \
                 "WHERE t.deleted = false " \
-                "ORDER BY t.id"
+                "ORDER BY t.order"
 
             result = self.query(sql).result()
 
@@ -42,38 +42,44 @@ class CatalogModel(PostgreSQLModel):
             sql = "SELECT l.id, l.title_en, l.title_es, l.title_fr, " \
                 "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
                 "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_es, l.desc_fr, " \
-                "l.datasource as \"dataSource\" " \
+                "l.datasource as \"dataSource\", l.order " \
                 "FROM \"layer\" l " \
                 "WHERE l.topic_id = %s AND l.deleted = false " \
-                "ORDER BY l.id"
+                "ORDER BY l.order"
 
             result = self.query(sql,[topic_id]).result()
         else:
             sql = "SELECT l.id, l.title_en, l.title_es, l.title_fr, " \
                 "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
                 "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_es, l.desc_fr, " \
-                "l.datasource as \"dataSource\", l.topic_id " \
+                "l.datasource as \"dataSource\", l.topic_id, l.order " \
                 "FROM \"layer\" l " \
                 "l.deleted = false " \
-                "ORDER BY l.id"
+                "ORDER BY l.order"
 
             result = self.query(sql).result()
 
         return result
 
     def getTopicById(self, topic_id):
-        sql = "SELECT t.id, t.title_en, t.title_es, t.title_fr, t.category_id " \
+        sql = "SELECT t.id, t.title_en, t.title_es, t.title_fr, t.category_id, t.order " \
             "FROM \"topic\" t " \
-            "WHERE t.id = %s AND t.deleted = false " \
-            "ORDER BY t.id"
+            "WHERE t.id = %s AND t.deleted = false "
         result = self.query(sql,[topic_id]).row()
+        return result
+
+    def getTopicChildren(self, topic_id):
+        sql = "SELECT count(l.*) as \"children\" " \
+            "FROM \"layer\" l " \
+            "WHERE l.topic_id = %s AND l.deleted = false"
+        result = self.query(sql, [topic_id]).row()
         return result
 
     def getLayerById(self, layer_id):
         sql = "SELECT l.id, l.title_en, l.title_es, l.title_fr, " \
             "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
             "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_es, l.desc_fr, " \
-            "l.datasource as \"dataSource\", l.topic_id " \
+            "l.datasource as \"dataSource\", l.topic_id, l.order " \
             "FROM \"layer\" l WHERE id = %s";
         result = self.query(sql,[layer_id]).row()
         return result
@@ -111,18 +117,28 @@ class CatalogModel(PostgreSQLModel):
 
     def updateTopic(self, id, data):
         sql = "UPDATE \"topic\" set title_es = %s, title_en = %s, title_fr = %s, " \
-            "category_id = %s where id = %s"
+            "category_id = %s, \"order\" = %s where id = %s"
         self.queryCommit(sql,[data['title_es'], data['title_en'], data['title_fr'],
-            data['category_id'], data['id']])
+            data['category_id'], data['order'], data['id']])
         return True
 
     def updateLayer(self, id, data):
         sql = "UPDATE \"layer\" set title_es = %s, title_en = %s, title_fr = %s, " \
             "desc_es = %s, desc_en = %s, desc_fr = %s, datasource = %s, " \
             "wms_server = %s, wms_layer_name = %s, geonetwork = %s, " \
-            "topic_id = %s where id = %s"
+            "topic_id = %s, \"order\" = %s where id = %s"
         self.queryCommit(sql,[data['title_es'], data['title_en'], data['title_fr'],
             data['desc_es'], data['desc_en'], data['desc_fr'],
             data['dataSource'], data['wmsServer'], data['wmsLayName'],
-            data['geoNetWk'], data['topic_id'], data['id']])
+            data['geoNetWk'], data['topic_id'], data['order'], data['id']])
         return True
+
+    def deleteTopic(self, id):
+		sql = "UPDATE \"topic\" set deleted = true where id = %s"
+		self.queryCommit(sql,[id])
+		return True
+
+    def deleteLayer(self, id):
+		sql = "UPDATE \"layer\" set deleted = true where id = %s"
+		self.queryCommit(sql,[id])
+		return True
