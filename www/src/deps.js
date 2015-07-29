@@ -27,6 +27,7 @@ deps.JS = {
 			// ------ Models ------
 			// --------------------
 			"js/model/layer.js",
+			"js/model/section.js",
 			"js/model/category.js",
 			"js/model/history.js",
 			"js/model/user.js",
@@ -45,6 +46,7 @@ deps.JS = {
 			"js/view/layergroup_view.js",
 			"js/view/catalogue_view.js",
 			"js/view/layer-create_view.js",
+			"js/view/section-create_view.js",
 			"js/view/error_view.js",
 			"js/view/notfound_view.js",
 			"js/view/home_view.js",

@@ -4,6 +4,7 @@ app.view.Layer = Backbone.View.extend({
 
 	events: {
 		'click .info_btn': 'toggle',
+		'click .name': 'toggle',
 		'click .add_btn': 'toggleLayer'
 	},
 

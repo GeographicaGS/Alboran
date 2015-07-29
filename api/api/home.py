@@ -281,7 +281,7 @@ def getLayer(id):
 @authAdmin
 def createLayer():
 	data = json.loads(request.data)
-	# Save history data
+	# Save layer data
 	c = CatalogModel()
 	result = c.createLayer(data)
 
@@ -291,8 +291,37 @@ def createLayer():
 @authAdmin
 def editLayer(id):
 	data = json.loads(request.data)
-	# Save history data
+	# Save layer data
 	c = CatalogModel()
 	c.updateLayer(id, data)
+
+	return jsonify({'result': True})
+
+@app.route('/catalog/topic/<int:id>', methods=['GET'])
+def getSection(id):
+	c = CatalogModel()
+	result = c.getTopicById(id)
+	if result is None:
+		abort(404)
+
+	return jsonify({'result': result})
+
+@app.route('/catalog/topic/', methods=['POST'])
+@authAdmin
+def createTopic():
+	data = json.loads(request.data)
+	# Save topic data
+	c = CatalogModel()
+	result = c.createTopic(data)
+
+	return jsonify({'id': result['topic_id']})
+
+@app.route('/catalog/topic/<int:id>', methods=['PUT'])
+@authAdmin
+def editTopic(id):
+	data = json.loads(request.data)
+	# Save layer data
+	c = CatalogModel()
+	c.updateTopic(id, data)
 
 	return jsonify({'result': True})

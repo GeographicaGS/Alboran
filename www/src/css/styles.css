@@ -884,7 +884,13 @@ body > header {
 		}
 	}
 
-	input{
+    fieldset {
+        text-align: left;
+        margin-top: 10px;
+        font-size: .7em;
+    }
+
+	input[type=button]{
 		margin-left: 40px;
 		margin-top: 10px;
 		width: 560px;
@@ -903,6 +909,35 @@ body > header {
 			width: 40%;
 		}
 	}
+
+    input[type=text]{
+        width: 100%;
+        margin: 5px 0;
+        padding: 18px;
+        border: 1px solid @grey_footer;
+        text-align: center;
+        color: @grey_header_dark;
+
+        &:first-child {
+            margin-top: 10px;
+        }
+
+        &.localized {
+            width: calc(~'100% - 10px - 2em');
+
+            & + label {
+                margin-left: 10px;
+                text-transform: uppercase;
+                font-style: normal;
+                .lato(regular);
+                color: @grey_4;
+            }
+        }
+    }
+
+    input.invalid {
+        border: 1px solid @red;
+    }
 }
 
 #configPanelMap{

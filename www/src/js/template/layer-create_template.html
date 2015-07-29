@@ -167,6 +167,18 @@
 		</div>
 	</div>
 	<!-- Popups -->
+	<div id="layerSectionCreation" class="msgPopup">
+		<div class="content">
+			<h2><lang>Crear nueva sección</lang></h2>
+			<fieldset>
+				<input type="text" class="localized" id="sectiontitle-es" name="sectiontitle-es" placeholder="<lang>Nombre de la sección en espa&ntilde;ol</lang>" required /><label for="sectiontitle-es">ES</label>
+				<input type="text" class="localized" id="sectiontitle-en" name="sectiontitle-en" placeholder="<lang>Nombre de la sección en inglés</lang>" required /><label for="sectiontitle-en">EN</label>
+				<input type="text" class="localized" id="sectiontitle-fr" name="sectiontitle-fr" placeholder="<lang>Nombre de la sección en francés</lang>" required /><label for="sectiontitle-fr">FR</label>
+			</fieldset>
+		</div>
+		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
+        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
+	</div>
 	<div id="layerCreateSuccess" class="msgPopup">
         <div class="content">
 			<% if(!data.id){%>

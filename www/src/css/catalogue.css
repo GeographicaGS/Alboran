@@ -201,6 +201,7 @@
 					h3 {
 						text-align: center;
 						padding: 19px;
+						cursor: pointer;
 
 						span {
 							color: @grey_groupTitleNumber;
@@ -223,6 +224,17 @@
 
 						&.contracted:after {
 							content: url('@{imgPath}catalogue/ALB_icon_colapsable_cerrado.svg');
+						}
+					}
+
+					.button {
+						float: right;
+						border: none;
+						padding: 20px;
+
+						&:hover {
+							background-color: inherit;
+							color: inherit;
 						}
 					}
 
@@ -257,6 +269,7 @@
 							.name {
 								padding: 20px 0 20px;
 								position: relative;
+								cursor: pointer;
 
 								&:before {
 									content: "";
@@ -643,6 +656,11 @@
 				}
 			}
 
+			a.disabled {
+				opacity: .5;
+				cursor: default;
+			}
+
 			input[type="checkbox"] {
 				vertical-align: middle;
 				margin-right: 5px;
@@ -684,7 +702,7 @@
 					margin-bottom: 10px;
 
 					& + label {
-						font-size: 1.4em;
+						font-size: 1.1em;
 						width: 2em;
 						margin-left: 10px;
 						vertical-align: top;

@@ -7,6 +7,7 @@ app.router = Backbone.Router.extend({
         "_link map" : {"en":"map","es": "mapa", "fr": "carte" },
         "_link catalogue" : {"en":"catalogue","es": "catalogo", "fr": "catalogue" },
         "_link layer": {"en":"layer", "es":"capa", "fr":"capa"},
+        "_link section": {"en":"section", "es":"seccion", "fr":"seccion"},
         "_link about" : {"en":"proyecto","es": "proyecto", "fr": "projet" },
         "_link alboran" : {"en":"alboran","es": "alboran", "fr": "alboran" },
         "_link contact" : {"en":"contact","es": "contacto", "fr": "contacto" },
@@ -36,6 +37,7 @@ app.router = Backbone.Router.extend({
             "catalogue/:cat/:sec": "catalogue",
             "catalogue/layer": "layer",
             "catalogue/layer/:id": "layer",
+            "catalogue/section/:id": "section",
 
             "about": "about",
             "alboran": "alboran",
@@ -83,6 +85,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat/:sec", "catalogue");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link layer"][app.lang], "createlayer");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link layer"][app.lang] + "/:id", "editlayer");
+        this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link section"][app.lang] + "/:id", "editsection");
         this.route(this.langRoutes["_link about"][app.lang], "about");
         this.route(this.langRoutes["_link alboran"][app.lang], "alboran");
         this.route(this.langRoutes["_link contact"][app.lang], "contact");
@@ -191,6 +194,12 @@ app.router = Backbone.Router.extend({
         $("#content").show();
         $("#map").hide();
         app.showView( new app.view.LayerCreate({layerId: id}) );
+    },
+
+    editsection: function(id){
+        $("#content").show();
+        $("#map").hide();
+        app.showView( new app.view.SectionCreate({sectionId: id}) );
     },
 
     about: function(){

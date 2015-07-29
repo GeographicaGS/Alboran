@@ -42,7 +42,8 @@ app.view.LayerCreate = Backbone.View.extend({
         'click .cancel_btn': 'cancelLayer',
         'blur input[required]': 'validate',
         'blur textarea[required]': 'validate',
-        'change #category': 'showTopics'
+        'change #category': 'showTopics',
+        'click #createTopic': 'createTopic'
     },
 
     onClose: function(){
@@ -61,6 +62,7 @@ app.view.LayerCreate = Backbone.View.extend({
 
         if(!this.layerId){
             this.$('select[name=topic]').eq(0).removeClass('hide').attr('disabled', true);
+            this.$('#createTopic').addClass('disabled');
         }else{
             this.$('#topic-'+this.categoryId).removeClass('hide');
         }
@@ -363,7 +365,7 @@ app.view.LayerCreate = Backbone.View.extend({
                 $('#layerCancelConfirmation').css('display', 'block');
                 $('#layerCancelConfirmation #btn_yes').click(function(e){
                     $.fancybox.close();
-                    app.router.navigate('join',{trigger: true});
+                    app.router.navigate('catalogue',{trigger: true});
                 });
                 $('#layerCancelConfirmation #btn_no').click(function(e){
                     $.fancybox.close();
@@ -378,8 +380,92 @@ app.view.LayerCreate = Backbone.View.extend({
         $('select[name=topic]').addClass('hide').removeAttr('disabled');
         if($target.val() != 0){
             $('#topic-' + $target.val()).removeClass('hide');
+            this.$('#createTopic').removeClass('disabled');
         }else{
             $('select[name=topic]').eq(0).removeClass('hide').attr('disabled', true);
+            this.$('#createTopic').addClass('disabled');
+        }
+    },
+
+    createTopic: function(e){
+        e.preventDefault();
+        var that = this;
+        if(!$(e.target).hasClass('disabled') && !$(e.target).parent().hasClass('disabled')){
+            $.fancybox($('#layerSectionCreation'), {
+                'width':'640',
+                'height': 'auto',
+                'padding': '0',
+                'autoDimensions':false,
+                'autoSize':false,
+                'closeBtn' : false,
+                'scrolling'   : 'no',
+                helpers : {
+                     overlay: {
+                       css: {'background-color': 'rgba(0,0,102,0.85)'},
+                       closeClick: false
+                     }
+                },
+                afterShow: function () {
+                    $('#layerSectionCreation').css('display', 'block');
+                    $('#layerSectionCreation #btn_save').click(function(e){
+                        items = {
+                            title_es: $('#layerSectionCreation fieldset input#sectiontitle-es'),
+                            title_en: $('#layerSectionCreation fieldset input#sectiontitle-en'),
+                            title_fr: $('#layerSectionCreation fieldset input#sectiontitle-fr'),
+                            category: $('select[name=category]')
+                        }
+                        var error = false;
+                        $.each(items, function(index, element){
+                            if(element.attr('required') && !element.val()){
+                                error = true;
+                                element.addClass('invalid');
+                            }else{
+                                element.removeClass('invalid');
+                            }
+                        });
+                        if(items.category.val() == 0){
+                            error = true;
+                            items.category.addClass('invalid');
+                            alert('<lang>Debes seleccionar una categoría antes de crear una sección</lang>')
+                        }else{
+                            items.category.removeClass('invalid');
+                        }
+                        if(!error && !that.isSending){
+                            // Save new section and select it on form
+                            data = {
+                                title_es: items.title_es.val(),
+                                title_en: items.title_en.val(),
+                                title_fr: items.title_fr.val(),
+                                category_id: items.category.val(),
+                            }
+                            that.isSending = true;
+                            $.ajax({
+                                url : "/api/catalog/topic/",
+                                data: JSON.stringify(data),
+                                contentType: "application/json",
+                                dataType: "json",
+                                type: "POST",
+                                success: function(result) {
+                                    var $option = $('<option>', {value: result.id, text: data['title_' + app.lang]});
+                                    $('select#topic-'+data.category_id).append($option).val(result.id);
+                                    items.title_es.val('');
+                                    items.title_en.val('');
+                                    items.title_fr.val('');
+                                    that.isSending = false;
+                                    $.fancybox.close();
+                                },
+                                error: function(){
+                                    that.isSending = false;
+                                    alert('<lang>Error al crear la categoría, inténtalo de nuevo</lang>');
+                                }
+                            });
+                        }
+                    });
+                    $('#layerSectionCreation #btn_cancel').click(function(e){
+                        $.fancybox.close();
+                    });
+                }
+            });
         }
     }
 });
