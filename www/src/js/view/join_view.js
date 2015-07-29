@@ -53,22 +53,24 @@ app.view.Join = Backbone.View.extend({
     },
 
     renderHistory: function(item, index) {
-        // Create element
-        var extensionIndex = item.get('filename').indexOf('.');
-        var thumb_filename = item.get('filename').substring(0,extensionIndex);
-        thumb_filename = thumb_filename.concat('_thumb');
-        thumb_filename = thumb_filename.concat(item.get('filename').substring(extensionIndex));
-        item.set('thumb',thumb_filename);
-        var model = $.extend({}, item.toJSON(), {'isAdmin': app.isAdmin || false});
-        var element = this._itemTemplate( model );
+        if(item.get('status')===1 || app.isAdmin){
+            // Create element
+            var extensionIndex = item.get('filename').indexOf('.');
+            var thumb_filename = item.get('filename').substring(0,extensionIndex);
+            thumb_filename = thumb_filename.concat('_thumb');
+            thumb_filename = thumb_filename.concat(item.get('filename').substring(extensionIndex));
+            item.set('thumb',thumb_filename);
+            var model = $.extend({}, item.toJSON(), {'isAdmin': app.isAdmin || false});
+            var element = this._itemTemplate( model );
 
-        // Append in the correct list
-        $(element).insertBefore(this.$loadButtons.eq(item.get('type')).parent());
+            // Append in the correct list
+            $(element).insertBefore(this.$loadButtons.eq(item.get('type')).parent());
 
-        // Update lower index
-        var lastId = this.$loadButtons.eq(item.get('type')).attr('index');
-        if(lastId > item.get('id') || !lastId)
-            this.$loadButtons.eq(item.get('type')).attr('index',item.get('id'));
+            // Update lower index
+            var lastId = this.$loadButtons.eq(item.get('type')).attr('index');
+            if(lastId > item.get('id') || !lastId)
+                this.$loadButtons.eq(item.get('type')).attr('index',item.get('id'));
+        }
     },
 
     changeTab: function(e, index) {
