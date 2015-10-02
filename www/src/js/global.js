@@ -10,8 +10,10 @@ var baseMap2 = 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 baseMap2.setZIndex(-1);
 
 var currentMap = 1;
+var currentRoute = '';
 
 $("#login").on('click', function(e) {
+  currentRoute = Backbone.history.getFragment();
   $("#loginForms").find(".error").hide();
   $("#loginForms .msgPopup").hide();
   $("#loginForms #createAccountForm").hide();
@@ -35,7 +37,6 @@ $("#login").on('click', function(e) {
 });
 
 $("#signin_btn").on('click', function(){
-  var currentRoute = Backbone.history.getFragment();
   var $form = $('#initSessionForm');
   $form.find("input[type='text']").removeClass('invalid');
   $form.find("input[type='password']").removeClass('invalid');
