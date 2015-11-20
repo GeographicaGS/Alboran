@@ -1373,3 +1373,22 @@ footer {
         }
     }
 }
+
+#cookie_warning{
+	position: fixed;
+    bottom: 36px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(44, 48, 52, 0.8);
+    padding: 20px 0;
+    text-shadow: 1px 3px 1px #000;
+
+    button{
+		background: none;
+		color: #fff;
+		font-size: 16px;
+		padding-top: 10px;
+		border-bottom: 1px solid #fff;
+    }
+}

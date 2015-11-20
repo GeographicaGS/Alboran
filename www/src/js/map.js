@@ -282,6 +282,10 @@ Map = {
 			return;
 		}
 
+		if(server.lastIndexOf("?") >= 0){
+            server = server.slice(0,server.lastIndexOf("?"));
+        }
+        
 		var request = server + '?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=' +layers+'&QUERY_LAYERS='+layers+'&STYLES=&BBOX='+BBOX+'&FEATURE_COUNT=5&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X='+X+'&Y='+Y;
 		request = request.replace("wmts","wms");
 

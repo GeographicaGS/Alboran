@@ -9,6 +9,7 @@ app.view.HistoryDetail = Backbone.View.extend({
 		'click #btn_unpublish': 'publishHistory',
 		'click #btn_edit': 'editHistory',
 		'click #btn_delete': 'deleteHistory',
+        'click #btn_twitter': 'publishTwitter',
     },
 
     initialize: function(options) {
@@ -138,17 +139,56 @@ app.view.HistoryDetail = Backbone.View.extend({
             },
             afterShow: function () {
                 $(popupEl).css('display', 'block');
+                
                 $(popupEl + ' #btn_yes').click(function(e){
                     $.fancybox.close();
                     that.model.set({'status': status});
-					that.model.save();
+                    that.model.save();
+
+                    if(popupEl == '#historyPublishConfirmation' && !that.model.get('twitter')){
+                        that.publishTwitter();
+                    }
+
+                });
+                $(popupEl + ' #btn_no').click(function(e){
+                    $.fancybox.close();
+                });
+                
+            }
+        });
+	},
+
+    publishTwitter:function(){
+        var popupEl = '#historyTwitterConfirmation';
+        var that = this;
+        $.fancybox($(popupEl), {
+            'width':'640',
+            'height': 'auto',
+            'padding': '0',
+            'autoDimensions':false,
+            'autoSize':false,
+            'closeBtn' : false,
+            'scrolling'   : 'no',
+            helpers : {
+                 overlay: {
+                   css: {'background-color': 'rgba(0,0,102,0.85)'},
+                   closeClick: false
+                 }
+            },
+            afterShow: function () {
+                $(popupEl).css('display', 'block');
+                $(popupEl + ' #btn_yes').click(function(e){
+                    $.fancybox.close();
+                    that.model.set({'twitter': true});
+                    that.model.set({'historyUrl': '/' + app.lang + '/' + app.router. langRoutes['_link join'][app.lang] + '/' + app.router.langRoutes['_link history'][app.lang] + '/'});
+                    that.model.save();
                 });
                 $(popupEl + ' #btn_no').click(function(e){
                     $.fancybox.close();
                 });
             }
         });
-	},
+    },
 
 	editHistory: function(e) {
 		e.preventDefault();

@@ -126,6 +126,21 @@ app.showView = function(view) {
         this.$content.html(this.currentView.el);
         app.scrollTop();
     }
+
+    this.cookieWarning();
+}
+
+app.cookieWarning = function(){
+    if(localStorage.getItem('cookie_warning')){
+        $('#cookie_warning').addClass('hide');
+    }else{
+        $('#cookie_warning').removeClass('hide');
+    }
+}
+
+app.hideCookieWarning = function(){
+    localStorage.setItem('cookie_warning',true);
+    $('#cookie_warning').addClass('hide');
 }
 
 app.events = {};

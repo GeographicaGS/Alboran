@@ -13,7 +13,7 @@ app.router = Backbone.Router.extend({
         "_link contact" : {"en":"contact","es": "contacto", "fr": "contacto" },
         "_link howto" : {"en":"howto","es": "comousarlo", "fr": "CommentLUtiliser" },
         "_link join" : {"en":"participate","es": "participe", "fr": "participer" },
-        "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "escribirhistoria" },
+        "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "ecrirehistoire" },
         "_link history" : {"en":"history","es": "historia", "fr": "histoire" },
         "_link edithistory" : {"en":"edit","es": "editar", "fr": "editer" },
         "_link legal" : {"en":"legal","es": "legal", "fr": "juridique" },
@@ -112,6 +112,7 @@ app.router = Backbone.Router.extend({
             $("#map").hide();
             window.location.href="/" + app.lang + "/browser_error.html";
         }else{
+            app.cookieWarning();
             $("#content").hide();
             $("#map").show();
             app.events.trigger('menu','map');

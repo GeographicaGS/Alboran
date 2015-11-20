@@ -22,6 +22,8 @@ import ast
 import json
 import md5
 
+import tweepy
+
 # import logging
 
 @app.route('/login/', methods=['POST'])
@@ -217,6 +219,31 @@ def editHistory(id):
 		imagelist = data['newImages']
 		resizeImages(imagelist)
 		i.addImages(imagelist, id)
+
+	#Publish twitter
+	if old_history['twitter'] != data['twitter'] and data['twitter']:	
+		auth = tweepy.OAuthHandler(app.config['consumer_key'], app.config['consumer_secret'])
+		auth.set_access_token(app.config['access_token'], app.config['access_token_secret'])
+		apiTwitter = tweepy.API(auth)
+		maxLength = 117
+		if len(old_history["images"]) > 0:
+			maxLength = 93
+
+		maxLength -= (len(app.config['hashtag']) + 1)
+
+		tweet = data["text_history"]
+		if(len(tweet) > maxLength):
+			maxLength -= 3
+			tweet = tweet[0:maxLength]
+			tweet += "..."
+
+		tweet += app.config['baseURL'] + data["historyUrl"] + str(data["id_history"]) + " " + app.config['hashtag']
+
+		if len(old_history["images"]) > 0:
+			imageTwitter = app.config['IMAGES_FOLDER'] + old_history["images"][0]["href"]
+			apiTwitter.update_with_media(imageTwitter,status=tweet)
+		else:
+			status = apiTwitter.update_status(status=tweet) 
 
 	# Send email to admins and author
 	u = UserModel()

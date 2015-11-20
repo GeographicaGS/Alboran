@@ -44,7 +44,10 @@ app.view.LayerCreate = Backbone.View.extend({
         'blur input[required]': 'validate',
         'blur textarea[required]': 'validate',
         'change #category': 'showTopics',
-        'click #createTopic': 'createTopic'
+        'click #createTopic': 'createTopic',
+        'keyup #wmsserver': 'changeExploreStatus',
+        'click .explore': 'exploreWms'
+        
     },
 
     onClose: function(){
@@ -406,6 +409,108 @@ app.view.LayerCreate = Backbone.View.extend({
                 });
             }
         });
+    },
+
+    changeExploreStatus: function(e){
+
+        $(e.currentTarget).val().length > 0 ? this.$('.explore').addClass('active'):this.$('.explore').removeClass('active');
+    },
+
+    exploreWms:function(e){
+        if($(e.currentTarget).hasClass('active')){
+            var _this = this;
+            this.$('#wmsLayers .error').removeClass('hide');
+            this.$('#wmsLayers .notSupport').addClass('hide');
+            this.$('#wmsLayers .notFound').addClass('hide');
+            
+
+            this.$('#wmsLayers .layerList').html('');
+            var server = this.$('#wmsserver').val();
+            if(server.lastIndexOf("?") >= 0){
+                server = server.slice(0,server.lastIndexOf("?"));
+            }
+            var url = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=wms";
+
+            $.fancybox(this.$('#wmsLayers'), {
+                'width':'640',
+                'height': 'auto',
+                
+                'autoDimensions':false,
+                'autoSize':false,
+                // 'closeBtn' : true,
+                // 'scrolling'   : 'yes',
+                'scrolling' : 'yes',
+                'overflow': scroll,
+
+                helpers : {
+                     overlay: {
+                       // css: {'background-color': 'rgba(0,0,102,0.85)'},
+                       // closeClick: false
+                     }
+                },
+                afterShow: function () {
+                     $.ajax({
+                        url : "/api/proxy",
+                        data: { "url": url},
+                        dataType: 'xml',
+                        type: "POST",           
+                        success: function(xml) {
+                            if(xml){
+                                $('#wmsLayers p').addClass('hide');
+                                
+                                var layerPadre = $(xml).find("Layer")[0];
+                                var version = $($(xml).find("*")[0]).attr("version");
+
+                                var html = '<ul>';
+                                
+                                var keyLayerName;
+                                
+                                keyLayerName = "Name"
+                                $(xml).find("Capability > Layer").each(function(){
+                                    $(this).find("Layer").each(function(){
+                                        if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
+                                            html += _this._createHtmlExternalService($(this).find("Layer > " + keyLayerName).text(),$(this).find("Layer > Title").text(),$(this).find("Layer > Abstract").text());
+                                        }else{
+                                            $('#wmsLayers .notSupport').removeClass('hide');
+                                        }
+                                    });
+                                });
+                                
+
+                                
+                                html += '</ul>';
+                                
+                                $('#wmsLayers .layerList').html(html);
+                                $.fancybox.update();
+
+                                $('#wmsLayers .layerList li').click(function(){
+                                    _this.$('#layername').val($(this).find('span').text());
+                                    $.fancybox.close();
+                                });
+                                
+                            }else{
+                                _this.$('#wmsLayers .notFound').addClass('hide');
+                            }
+                        },
+                        error: function(e){
+                            $('#wmsLayers p').addClass('hide');
+                            $('#wmsLayers .notFound').removeClass('hide');
+                        }
+                    });
+                }
+            });
+        }
+    },
+
+    _createHtmlExternalService: function(name,title,abstract){
+        var html =
+            '<li>' +
+                '<span>' + name + '</span>' +
+                '<h3>' + title + ' - </h3>' +
+                '<p>' + ((abstract != "null") ? abstract : '') + '</p>' +
+            '</li>';
+
+        return html;
     },
 
     showTopics: function(e){

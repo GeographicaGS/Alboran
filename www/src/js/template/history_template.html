@@ -26,16 +26,20 @@
 	<div class="adminbar <%= data.status == 1 ? 'published': '' %>">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-4 col-md-4 aleft">
+				<div class="col-sm-5 col-md-5 aleft">
 					<% if(data.status == 1){ %>
 						<a class="button grey" href="#" id="btn_unpublish"><lang>Despublicar historia</lang></a>
 					<% }else{ %>
 						<a class="button green" href="#" id="btn_publish"><lang>Publicar historia</lang></a>
 					<% } %>
 					<div class="sep"></div>
+					<% if(data.twitter == 0 && data.status == 1){ %>
+						<a class="button green" href="#" id="btn_twitter"><lang>Publicar en twitter</lang></a>
+						<div class="sep"></div>
+					<% } %>
 					<a class="button" href="#" id="btn_edit"><lang>Editar</lang></a>
 				</div>
-				<div class="col-sm-4 col-md-4 acenter">
+				<div class="col-sm-3 col-md-3 acenter">
 					<% if(data.status == 1){ %>
 						<span class="status published">Publicado</span>
 					<% }else{ %>
@@ -192,4 +196,15 @@
         <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
         <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
     </div>
+
+    <div id="historyTwitterConfirmation" class="msgPopup">
+        <div class="content">
+            <h2><lang>Publicar en twitter</lang></h2>
+            <p><lang>¿Desea prublicar esta historía en twitter?</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
+
+
 </div>

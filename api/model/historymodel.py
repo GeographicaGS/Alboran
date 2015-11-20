@@ -86,7 +86,7 @@ class HistoryModel(PostgreSQLModel):
 		return result
 
 	def getHistoryById(self, id):
-		sql = "SELECT h.id_history, title, date_history as \"date\", status, place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", institution, u.id_user, u.name as \"username\" " \
+		sql = "SELECT h.id_history, title, date_history as \"date\", status, place, ST_x(geom) as \"lon\", ST_y(geom) as \"lat\", text_history, type_history as \"type\", category, real_name as \"author\", institution, u.id_user, u.name as \"username\", twitter " \
 			"FROM \"history\" h " \
 			"INNER JOIN \"user\" u ON h.id_user = u.id_user " \
 			"WHERE h.id_history = %s AND h.active = true"
@@ -163,10 +163,10 @@ class HistoryModel(PostgreSQLModel):
 		geom = self.query(sql,[data['lon'],data['lat']]).row()['geom']
 		sql = "UPDATE \"history\" set title = %s, place = %s, date_history = %s, " \
 		 		"text_history = %s, category = %s, id_user = %s, starred = %s, " \
-				"geom = %s, status = %s where id_history = %s"
+				"geom = %s, status = %s, twitter= %s where id_history = %s"
 		self.queryCommit(sql,[data['title'], data['place'], data['date'],
 						data['text_history'], data['category'], data['id_user'],
-						False, geom, data['status'], data['id_history']])
+						False, geom, data['status'], data['twitter'], data['id_history']])
 		return True
 
 	def confirmHistory(self, id):
