@@ -3,7 +3,8 @@ app.view.LayerGroup = Backbone.View.extend({
 	className: 'layerItemGroup',
 
 	events: {
-		'click .toggle_btn': 'toggle'
+		'click .toggle_btn': 'toggle',
+		'click h3': 'toggle'
 	},
 
 	initialize: function() {
@@ -17,12 +18,22 @@ app.view.LayerGroup = Backbone.View.extend({
 
 	render: function() {
 		this.model["title"] = this.model["title_" + app.lang]
-		this.$el.html(this._template( this.model ));	
+		this.model['isAdmin'] = app.isAdmin || false;
+		this.$el.html(this._template( this.model ));
 		// this.$el.html(this._template( {"title":this.model["title_" + app.lang] , "layers" :this.model.layers} ));
 
 		this.$content = this.$('.content');
-		if(this.model["title_" + app.lang] == ''){
-			this.$('.groupName').remove();
+		var that = this;
+		if(app.isAdmin){
+			this.$content.sortable({
+				update: function(event, ui){
+					that.updateOrder();
+				}
+			});
+		}
+
+		if(!this.model["title"]){
+			this.$el.addClass('first');
 		}
 
 		this.renderGroup();
@@ -47,5 +58,20 @@ app.view.LayerGroup = Backbone.View.extend({
 			$target.addClass('contracted');
 			this.$content.slideUp();
 		}
+	},
+
+	updateOrder: function() {
+		var Layer = app.model.Layer.extend({urlRoot: '/api/catalog/layer/'});
+		this.$content.children().each(function(index, element){
+			var $element = $(element);
+			var layerId = $element.find('.add_btn').attr('layerid');
+			if(layerId){
+				var layer = new Layer({id: layerId});
+				layer.fetch().done(function(){
+					layer.set({'order': $element.index()});
+					layer.save();
+				});
+			}
+		});
 	}
 });

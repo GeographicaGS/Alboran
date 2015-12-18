@@ -3,7 +3,7 @@ app.view.Layer = Backbone.View.extend({
 	className: 'layerItem',
 
 	events: {
-		'click .info_btn': 'toggle',
+		'click .name': 'toggle',
 		'click .add_btn': 'toggleLayer'
 	},
 
@@ -29,6 +29,7 @@ app.view.Layer = Backbone.View.extend({
 
 		this.model["title"] = this.model["title_" + app.lang]
 		this.model["desc"] = this.model["desc_" + app.lang]
+		this.model['isAdmin'] = app.isAdmin || false;
 		this.$el.html(this._template( this.model ));
 
 		this.$info = this.$('.info');
@@ -42,6 +43,19 @@ app.view.Layer = Backbone.View.extend({
 	toggle: function(e) {
 		e.preventDefault();
 		this.$info.toggleClass('show');
+
+		var elem = $(e.currentTarget).closest('li');
+		var parent = $(e.currentTarget).closest('.layerItemGroup'); 
+
+		if(parent.is(':last-child') && elem.is(':last-child')){
+			setTimeout(function(){
+				$('html, body').animate({
+		        	scrollTop:    $('body').scrollTop() + elem.height() + 200
+		    	}, 500);
+	    		
+			}, 50);
+		}
+
 	},
 
 	toggleLayer: function(e) {
@@ -54,7 +68,7 @@ app.view.Layer = Backbone.View.extend({
 			this.$addBtn.removeClass('add');
 			var that = this;
 			setTimeout(function() {that.$addBtn.html(that.$addBtn.attr('removelabel'));},300);
-			
+
 		}else{
 			app.groupLayer.removeLayer(id);
 

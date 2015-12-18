@@ -2,6 +2,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-md-12">
+				<% if (isAdmin){ %><a href="/<lang>lang</lang>/<lang>_link catalogue</lang>/<lang>_link layer</lang>" id="createLayer" class="button"><lang>Nueva capa</lang></a><% } %>
 				<input type="text" value="Catálogo"  id="searchInput" readonly>
 				<button type="button"><span><lang>Buscar</lang></span></button>
 			</div>
@@ -15,20 +16,20 @@
 			<ul class="row topTabs">
 				<li id="<lang>rasgosnaturales</lang>" class="col-sm-4 col-md-4 title green selected">
 					<a href="#">
-						<h2><%= app.categories[0]["title_" + app.lang] %></h2>
-						<span><%= app.categories[0].topics[0].layers.length + app.categories[0].topics[1].layers.length + app.categories[0].topics[2].layers.length %></span>
+						<h2><%= categories[0]["title_" + app.lang] %></h2>
+						<span><%= categories[0].topics[0].layers.length + categories[0].topics[1].layers.length + categories[0].topics[2].layers.length %></span>
 					</a>
 				</li>
 				<li id="<lang>presioneseimpactos</lang>" class="col-sm-4 col-md-4 title red">
 					<a href="#">
-						<h2><%= app.categories[1]["title_" + app.lang] %></h2>
-						<span><%= app.categories[1].topics[0].layers.length %></span>
+						<h2><%= categories[1]["title_" + app.lang] %></h2>
+						<span><%= categories[1].topics[0].layers.length %></span>
 				</a>
 				</li>
 				<li id="<lang>proteccionyconservacion</lang>" class="col-sm-4 col-md-4 title blue">
 					<a href="#">
-						<h2><%= app.categories[2]["title_" + app.lang] %></h2>
-						<span><%= app.categories[2].topics[0].layers.length + app.categories[2].topics[1].layers.length %></span>
+						<h2><%= categories[2]["title_" + app.lang] %></h2>
+						<span><%= categories[2].topics[0].layers.length + categories[2].topics[1].layers.length +  + categories[2].topics[2].layers.length %></span>
 					</a>
 				</li>
 				<li class="col-sm-4 col-md-4 title hidden">

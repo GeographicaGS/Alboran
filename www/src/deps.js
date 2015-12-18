@@ -9,7 +9,7 @@ deps.JS = {
 			"js/lib/underscore-min.js",
 			"js/lib/backbone-min.js",
 			"js/lib/backbone-validation-min.js",
-			"js/lib/leaflet/leaflet.js",			
+			"js/lib/leaflet/leaflet.js",
 		],
 		desc: "Third party library"
 	}
@@ -27,10 +27,11 @@ deps.JS = {
 			// ------ Models ------
 			// --------------------
 			"js/model/layer.js",
+			"js/model/topic.js",
 			"js/model/category.js",
 			"js/model/history.js",
 			"js/model/user.js",
-			
+
 			// --------------------
 			// ---- Collections ---
 			// --------------------
@@ -44,6 +45,8 @@ deps.JS = {
 			"js/view/layer_view.js",
 			"js/view/layergroup_view.js",
 			"js/view/catalogue_view.js",
+			"js/view/layer-create_view.js",
+			"js/view/section-create_view.js",
 			"js/view/error_view.js",
 			"js/view/notfound_view.js",
 			"js/view/home_view.js",
@@ -64,7 +67,6 @@ deps.JS = {
 			"js/router.js",
 			// app
 			"js/app.js",
-			"js/catalog.js",
 			"js/gSLayerWMS.js",
 			"js/map.js",
 			"js/global.js",
@@ -87,6 +89,8 @@ deps.CSS = {
 			"js/lib/fancybox/jquery.fancybox.css",
 			"css/lib/WWW-Styles/reset.css",
 			"css/lib/WWW-Styles/base.css",
+			"css/reset.css",
+			"css/base.css",
 			"css/styles.css",
 			"css/home.css",
 			"css/catalogue.css",
@@ -100,4 +104,3 @@ deps.CSS = {
 if (typeof exports !== 'undefined') {
 	exports.deps = deps;
 }
-
