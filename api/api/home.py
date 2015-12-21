@@ -1,4 +1,10 @@
 # coding=UTF8
+
+import os
+import ast
+import json
+import md5
+import tweepy
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -17,12 +23,7 @@ from authutil import (auth, authAdmin, sendAccountConfirmationEmail,
 	sendNewHistoryNotification, sendEditedHistoryNotification,
 	sendPublishedHistoryNotification, sendDeletedHistoryNotification)
 from imageutil import isAllowedFile, hashFromImage, resizeImages, deleteImage
-import os
-import ast
-import json
-import md5
-
-import tweepy
+from geoserverlayers import GeoserverLayers
 
 # import logging
 
@@ -221,7 +222,7 @@ def editHistory(id):
 		i.addImages(imagelist, id)
 
 	#Publish twitter
-	if old_history['twitter'] != data['twitter'] and data['twitter']:	
+	if old_history['twitter'] != data['twitter'] and data['twitter']:
 		auth = tweepy.OAuthHandler(app.config['consumer_key'], app.config['consumer_secret'])
 		auth.set_access_token(app.config['access_token'], app.config['access_token_secret'])
 		apiTwitter = tweepy.API(auth)
@@ -243,7 +244,7 @@ def editHistory(id):
 			imageTwitter = app.config['IMAGES_FOLDER'] + old_history["images"][0]["href"]
 			apiTwitter.update_with_media(imageTwitter,status=tweet)
 		else:
-			status = apiTwitter.update_status(status=tweet) 
+			status = apiTwitter.update_status(status=tweet)
 
 	# Send email to admins and author
 	u = UserModel()
@@ -373,5 +374,54 @@ def editTopic(id):
 def deleteTopic(id):
 	c = CatalogModel()
 	c.deleteTopic(id)
+
+	return jsonify({'result': 'true'})
+
+@app.route('/gslayer/', methods=['POST'])
+# @auth
+def uploadGSLayer():
+	data = json.loads(request.data)
+	flpath = data["flpath"]
+	flname = data["flname"]
+	ws_name = data["ws_name"]
+	ds_name = data["ds_name"]
+	stylename = data["stylename"]
+
+	shp_data = {
+	             "shp": os.path.join(flpath, flname + ".shp"),
+	             "dbf": os.path.join(flpath, flname + ".dbf"),
+	             "shx": os.path.join(flpath, flname + ".shx"),
+	             "prj": os.path.join(flpath, flname + ".prj")
+	         }
+
+	sldpath = "./sld/alboran_poly.sld"
+
+	url_geoserverrest = app.config['geoserver_apirest']
+	username = app.config['geoserver_user']
+	password = app.config['geoserver_psswd']
+	gsl = GeoserverLayers(url_geoserverrest, username, password)
+	gsl.createGeoserverWMSLayer(shp_data, ws_name, ds_name, stylename, sldpath, debug=False)
+
+	return jsonify({'result': 'true'})
+
+@app.route('/gslayer/<gslayername>', methods=['DELETE'])
+# @auth
+def deleteGSLayerWMS(gslayername):
+	url_geoserverrest = app.config['geoserver_apirest']
+	username = app.config['geoserver_user']
+	password = app.config['geoserver_psswd']
+	gsl = GeoserverLayers(url_geoserverrest, username, password)
+	gsl.rmvDataStore(gslayername)
+
+	return jsonify({'result': 'true'})
+
+@app.route('/gslayer/style/<gsstylename>', methods=['DELETE'])
+# @auth
+def deleteGSLayerStyleWMS(gsstylename):
+	url_geoserverrest = app.config['geoserver_apirest']
+	username = app.config['geoserver_user']
+	password = app.config['geoserver_psswd']
+	gsl = GeoserverLayers(url_geoserverrest, username, password)
+	gsl.rmvStyle(gsstylename)
 
 	return jsonify({'result': 'true'})
