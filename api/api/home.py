@@ -388,11 +388,11 @@ def uploadGSLayer():
 	stylename = data["stylename"]
 
 	shp_data = {
-	             "shp": os.path.join(flpath, flname + ".shp"),
-	             "dbf": os.path.join(flpath, flname + ".dbf"),
-	             "shx": os.path.join(flpath, flname + ".shx"),
-	             "prj": os.path.join(flpath, flname + ".prj")
-	         }
+	         "shp": os.path.join(flpath, flname + ".shp"),
+	         "dbf": os.path.join(flpath, flname + ".dbf"),
+	         "shx": os.path.join(flpath, flname + ".shx"),
+	         "prj": os.path.join(flpath, flname + ".prj")
+	     }
 
 	sldpath = "./sld/alboran_poly.sld"
 
