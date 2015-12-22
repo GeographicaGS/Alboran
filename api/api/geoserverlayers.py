@@ -68,6 +68,7 @@ class GeoserverLayers(object):
             -1 : "Workspace does not exist"
             -2 : "Datastore already exists"
             -3 : "Error creating Geoserver layer"
+            -4 : "File missing"
         """
         try:
 

@@ -46,7 +46,8 @@ app.view.LayerCreate = Backbone.View.extend({
         'change #category': 'showTopics',
         'click #createTopic': 'createTopic',
         'keyup #wmsserver': 'changeExploreStatus',
-        'click .explore': 'exploreWms'
+        'click .explore': 'exploreWms',
+        'click .geoserver': 'openGeoserverForm'
         
     },
 
@@ -301,11 +302,19 @@ app.view.LayerCreate = Backbone.View.extend({
             afterShow: function () {
                 $('#layerDeleteConfirmation').css('display', 'block');
                 $('#layerDeleteConfirmation #btn_yes').click(function(e){
-                    $.fancybox.close();
-                    that.model.destroy();
-                    app.categories.fetch().done(function () {
-                        app.router.navigate('catalogue', {trigger: true});
-                    });
+                    $.ajax({
+                            url : '/api/gslayer/' + that.model.get('wmsLayName'),
+                            type: 'DELETE',
+                            dataType: 'json',
+                            data:{'server':that.model.get('wmsServer')},
+                            success: function(result) {
+                                $.fancybox.close();
+                                that.model.destroy();
+                                app.categories.fetch().done(function () {
+                                    app.router.navigate('catalogue', {trigger: true});
+                                });
+                            }
+                        });
                 });
                 $('#layerDeleteConfirmation #btn_no').click(function(e){
                     $.fancybox.close();
@@ -414,6 +423,91 @@ app.view.LayerCreate = Backbone.View.extend({
     changeExploreStatus: function(e){
 
         $(e.currentTarget).val().length > 0 ? this.$('.explore').addClass('active'):this.$('.explore').removeClass('active');
+    },
+
+    openGeoserverForm:function(e){
+        var _this = this;
+        $.fancybox(this.$('#geoserverPopup'), {
+            'width':'640',
+            'height': 'auto',
+            
+            'autoDimensions':false,
+            'autoSize':false,
+            // 'closeBtn' : true,
+            // 'scrolling'   : 'yes',
+            'scrolling' : 'yes',
+            'overflow': scroll,
+
+            helpers : {
+                 overlay: {
+                   // css: {'background-color': 'rgba(0,0,102,0.85)'},
+                   // closeClick: false
+                 }
+            },
+            afterShow: function () {
+                $('#geoserverPopup .error').removeClass('error');   
+                $('#geoserverPopup .problem').addClass('hide');   
+
+                $('#geoserverPopup .select_geoserver_zip').unbind().bind('click', function(e) {
+                    $('#geoserverZip').trigger('click')
+                });
+                $('#geoserverZip').unbind().bind('change', function(e) {
+                    $('#geoserverPopup .select_geoserver_zip').text($(this).val().split(/(\\|\/)/g).pop());
+                });
+                $('#geoserverUpload').unbind().bind('click', function(e) {
+                    var send = true;
+                    
+                    if($('#geoserverPopup input[name="layer_name"]').val() == ""){
+                        $('#geoserverPopup input[name="layer_name"]').addClass('error');
+                        send = false;
+                    }
+
+                    if($('#geoserverZip').val() == ""){
+                        $('#geoserverPopup .select_geoserver_zip').addClass('error');
+                        send = false;
+                    }
+
+                    if(send){
+                        var zipdata = new FormData();
+                        zipdata.append('zip',$('#geoserverZip')[0].files[0]);
+
+                        var other_data = $('#geoserverPopup form').serializeArray();
+                        $.each(other_data,function(key,input){
+                            zipdata.append(input.name,input.value);
+                        });
+
+                        $.ajax({
+                            url : '/api/gslayer/',
+                            data: zipdata,
+                            type: 'POST',
+                            dataType: 'json',
+                            processData: false, // Don't process the files
+                            contentType: false,
+                            success: function(result) {
+                                if(result.status == 2){
+                                    $("#wmsserver").val(result.server);
+                                    $("#layername").val(result.layer);
+                                    $.fancybox.close();
+                                }
+                                else if(result.status == -1){
+                                    $($('#geoserverPopup .problem')[0]).removeClass('hide');
+                                }
+                                else if(result.status == -2){
+                                    $($('#geoserverPopup .problem')[1]).removeClass('hide');
+                                }
+                                else if(result.status == -3){
+                                    $($('#geoserverPopup .problem')[2]).removeClass('hide');
+                                }
+                                else if(result.status == -4){
+                                    $($('#geoserverPopup .problem')[3]).removeClass('hide');
+                                }
+                                $.fancybox.update();
+                            }
+                        });
+                    }
+                });
+            }
+        });
     },
 
     exploreWms:function(e){
