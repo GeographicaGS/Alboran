@@ -35,5 +35,5 @@ app.config.update(
 
     geoserver_apirest='http://xxxxxxxxxxxxx/geoserver/rest',
     geoserver_user='xxxxxxxxxxxx',
-    geoserver='xxxxxxxxxxxxxxxxxxx'
+    geoserver_psswd='xxxxxxxxxxxxxxxxxxx'
 )
