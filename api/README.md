@@ -4,10 +4,19 @@
 ```
 $ pip install virtualenv
 $ cd projectname/api
-$ virtualenv venv && . venv/bin/activate
+$ virtualenv venv
+$ . venv/bin/activate
+$ pip install requirements.txt
+$ deactivate
 ```
+
 - Run API:
 ```
-$ pip install requirements.txt
+$ . venv/bin/activate
 $ python run.py
+```
+
+- Exit from virtual environment:
+```
+$ deactivate
 ```
