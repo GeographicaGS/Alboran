@@ -6,3 +6,5 @@ venv/
 api/model/base/PostgreSQL/config.py
 tempimages/
 images/
+www/cdn/tmp/
+www/src/node_modules/
