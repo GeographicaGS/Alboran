@@ -472,7 +472,7 @@ def uploadGSLayer():
 @app.route('/gslayer/<gslayername>', methods=['DELETE'])
 # @auth
 def deleteGSLayerWMS(gslayername):
-	if app.config['geoserver_apirest'].replace("rest","") in request.form['server']:
+	if app.config['geoserver_apirest'].replace("rest",app.config['geoserver_ws']) in request.form['server']:
 		url_geoserverrest = app.config['geoserver_apirest']
 		username = app.config['geoserver_user']
 		password = app.config['geoserver_psswd']
