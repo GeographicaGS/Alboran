@@ -6,6 +6,9 @@ import json
 import md5
 import tweepy
 import sys
+import zipfile
+import tempfile
+import shutil
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -378,40 +381,103 @@ def deleteTopic(id):
 	return jsonify({'result': 'true'})
 
 @app.route('/gslayer/', methods=['POST'])
-# @auth
+@auth
 def uploadGSLayer():
-	data = json.loads(request.data)
-	flpath = data["flpath"]
-	flname = data["flname"]
-	ws_name = data["ws_name"]
-	ds_name = data["ds_name"]
-	stylename = data["stylename"]
 
-	shp_data = {
-	         "shp": os.path.join(flpath, flname + ".shp"),
-	         "dbf": os.path.join(flpath, flname + ".dbf"),
-	         "shx": os.path.join(flpath, flname + ".shx"),
-	         "prj": os.path.join(flpath, flname + ".prj")
-	     }
+	layer_name = request.form['layer_name'].replace(" ","_")
+	sld_type = request.form['sld_type']
+	sldpath = None
 
-	sldpath = "./sld/alboran_poly.sld"
+	try:
+		temp = tempfile.mkdtemp(suffix='', prefix='tmp', dir=app.config['UPLOAD_TEMP_FOLDER'])
+		file = request.files['zip']
+		filename = hashFromImage(file)+'.'+file.filename.rsplit('.', 1)[1]
+		file.save(os.path.join(temp, filename))
+		zfile = zipfile.ZipFile(os.path.join(temp, filename))
+		zfile.extractall(temp)
+		
+		files = os.listdir(temp)
+		shp_data = {
+			"shp": None,
+			"dbf": None,
+			"shx": None,
+			"prj": None
+		}
+		
+		for f in files:		
+			if f.endswith(".dbf"): 
+				shp_data["dbf"] = os.path.join(temp, f)
+			if f.endswith(".prj"): 
+				shp_data["prj"] = os.path.join(temp, f)
+			if f.endswith(".shp"): 
+				shp_data["shp"] = os.path.join(temp, f)
+			if f.endswith(".shx"): 
+				shp_data["shx"] = os.path.join(temp, f)
+			if f.endswith(".sld"): 
+				sldpath = os.path.join(temp, f)
 
-	url_geoserverrest = app.config['geoserver_apirest']
-	username = app.config['geoserver_user']
-	password = app.config['geoserver_psswd']
-	gsl = GeoserverLayers(url_geoserverrest, username, password)
-	gsl.createGeoserverWMSLayer(shp_data, ws_name, ds_name, stylename, sldpath, debug=False)
+		print sldpath
 
-	return jsonify({'result': 'true'})
+		if shp_data["dbf"] and shp_data["prj"] and shp_data["shp"] and shp_data["shx"]:
+
+			if not sldpath:
+				sldpath = "./sld/" + sld_type + ".sld"
+
+			ws_name = app.config['geoserver_ws']
+			ds_name = layer_name
+			stylename = sld_type
+
+			url_geoserverrest = app.config['geoserver_apirest']
+			username = app.config['geoserver_user']
+			password = app.config['geoserver_psswd']
+			gsl = GeoserverLayers(url_geoserverrest, username, password)
+			status = gsl.createGeoserverWMSLayer(shp_data, ws_name, ds_name, stylename, sldpath, debug=False)
+
+		else:
+			return jsonify({'result': '-4'})
+	finally:
+		shutil.rmtree(temp)
+
+	return jsonify({'status': status, 'layer':ds_name, 'server':app.config['geoserver_apirest'].replace("rest",app.config['geoserver_ws']) + "/wms?"})
+
+
+
+
+
+
+	# data = json.loads(request.data)
+	# flpath = data["flpath"]
+	# flname = data["flname"]
+	# ws_name = data["ws_name"]
+	# ds_name = data["ds_name"]
+	# stylename = data["stylename"]
+
+	# shp_data = {
+	#          "shp": os.path.join(flpath, flname + ".shp"),
+	#          "dbf": os.path.join(flpath, flname + ".dbf"),
+	#          "shx": os.path.join(flpath, flname + ".shx"),
+	#          "prj": os.path.join(flpath, flname + ".prj")
+	#      }
+
+	# sldpath = "./sld/alboran_poly.sld"
+
+	# url_geoserverrest = app.config['geoserver_apirest']
+	# username = app.config['geoserver_user']
+	# password = app.config['geoserver_psswd']
+	# gsl = GeoserverLayers(url_geoserverrest, username, password)
+	# gsl.createGeoserverWMSLayer(shp_data, ws_name, ds_name, stylename, sldpath, debug=False)
+
+	
 
 @app.route('/gslayer/<gslayername>', methods=['DELETE'])
 # @auth
 def deleteGSLayerWMS(gslayername):
-	url_geoserverrest = app.config['geoserver_apirest']
-	username = app.config['geoserver_user']
-	password = app.config['geoserver_psswd']
-	gsl = GeoserverLayers(url_geoserverrest, username, password)
-	gsl.rmvDataStore(gslayername)
+	if app.config['geoserver_apirest'].replace("rest",app.config['geoserver_ws']) in request.form['server']:
+		url_geoserverrest = app.config['geoserver_apirest']
+		username = app.config['geoserver_user']
+		password = app.config['geoserver_psswd']
+		gsl = GeoserverLayers(url_geoserverrest, username, password)
+		gsl.rmvDataStore(gslayername)
 
 	return jsonify({'result': 'true'})
 

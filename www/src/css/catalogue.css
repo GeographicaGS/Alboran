@@ -908,6 +908,22 @@
     	    	opacity: 1;
     	    }
 		}
+
+		.geoserver{
+			background-color: #fff;
+			border: 2px solid #909499;
+			color:#909499;
+		    padding: 19px 50px;
+			font-size: .75em;
+			font-weight: 700;
+			font-style: normal;
+			font-family: 'latobold',sans-serif;
+		    margin-top: 10px;
+		    text-transform: uppercase;
+        	font-family: 'latobold',sans-serif;
+    	    border-radius: 2px;
+    	    width: 100%;
+		}
 	}
 
 	.sendButtons {
@@ -987,3 +1003,78 @@
     	}
 	}
 /*}*/
+
+#geoserverPopup{
+	h2{
+		font-weight: 100;
+		font-style: italic;
+		font-family: "latolight_italic",sans-serif;
+		text-align: center;
+		font-size: 24px;
+		margin-top: 30px;
+		margin-bottom: 25px;
+	}
+
+	input[type="text"]{
+		border: 2px solid #CACBCC;
+		margin-left: 40px;
+		margin-top: 10px;
+		width: 560px;
+		height: 50px;
+		text-align: center;
+		color: #CACBCC;
+		font-size: 18px;
+		
+		&.error{
+			border: 1px solid red;
+		}
+	}
+
+	input[type="file"]{
+		display: none;
+	}
+
+	input[type="button"]{
+		margin-bottom: 0;
+	}
+
+	select{
+		margin-left: 40px;
+		width: 560px;
+	    font-size: .9em;
+	}
+
+	span{
+		cursor: pointer;
+		text-transform: uppercase;
+	    font-size: 0.75em;
+	    display: block;
+	    margin-left: 40px;
+	    color: #2b3033;
+	    font-weight: 700;
+        margin-left: 40px;
+        margin-top: 10px;
+        position: relative;
+		&:after{
+			content: url('@{imgPath}participa/ALB_icon_add_img.svg');
+			position: absolute;
+		    left: 200px;
+			opacity: .5;
+		}
+
+		&.error{
+			color:red;
+		}
+	}
+
+	p{
+		font-weight: 700;
+		font-size: 0.75em;
+		margin-left: 40px;
+        margin-top: 10px;
+
+        &.problem{
+        	color:red;
+        }
+	}
+}
