@@ -47,7 +47,11 @@ app.view.LayerCreate = Backbone.View.extend({
         'click #createTopic': 'createTopic',
         'keyup #wmsserver': 'changeExploreStatus',
         'click .explore': 'exploreWms',
-        'click .geoserver': 'openGeoserverForm'
+        'click .geoserver': 'openGeoserverForm',
+        'click .geonetwork_link': 'showGeonetworkPopup',
+        'mouseover .geonetwork_link': 'showGeonetworkPopup',
+        'mouseout #meta_data_options_popup': 'hideGeonetworkPopup'
+        
         
     },
 
@@ -82,6 +86,15 @@ app.view.LayerCreate = Backbone.View.extend({
         }
 
         return this;
+    },
+
+    showGeonetworkPopup:function(e){
+        e.preventDefault();
+        this.$('#meta_data_options_popup').removeClass('hide');
+    },
+
+    hideGeonetworkPopup:function(e){
+        $(e.target).addClass('hide');
     },
 
     showInfo: function(e) {
