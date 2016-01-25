@@ -1081,11 +1081,11 @@
 
 #meta_data_options_popup{
 	position: absolute;
-    bottom: 287px;
+    bottom: 25px;
     background-color: #fff;
     padding: 3px 10px;
     font-size: 14px;
-    right: 290px;
+    right: -39px;
     border: 1px solid #cacbcc;
 
     a{

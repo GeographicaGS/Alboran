@@ -136,8 +136,17 @@
 					<div class="row input">
 						<legend><lang>Metadato (URL)</lang></legend>
 						<input type="text" class="withAction" id="metadata" name="metadata" placeholder="<lang>Introduzca una url válida para el metadato de la capa</lang>" value="<%= data.geoNetWk %>">
+						
 						<a class="geonetwork_link" href="#" title="<lang>Dar de alta metadato</lang>">
 							<img src="/img/catalogue/ALB_icon_info_enlace.svg" alt="<lang>Dar de alta metadato</lang>"/>
+
+
+							<div id="meta_data_options_popup" class="hide">
+								<a target="_blank" href="<%='/geonetwork/srv/' + app.lang + '/search?hl=eng#create'%>">Crear</a>
+								<a target="_blank" href="<%='/geonetwork/srv/' + app.lang + '/harvesting'%>">Harvest</a>
+							</div>
+
+							
 						</a>
 					</div>
 				</div>
@@ -259,11 +268,6 @@
 			<p class="problem hide"><lang>Error creando la capa en geoserver.</lang></p>
 			<p class="problem hide"><lang>Faltan ficheros.</lang></p>
     	</form>
-    </div>
-
-    <div id="meta_data_options_popup" class="hide">
-    	<a target="_blank" href="<%='/geonetwork/srv/' + app.lang + '/search?hl=eng#create'%>">Crear</a>
-    	<a target="_blank" href="<%='/geonetwork/srv/' + app.lang + '/harvesting'%>">Harvest</a>
     </div>
 
 </div>
