@@ -415,8 +415,7 @@ def uploadGSLayer():
 				shp_data["shx"] = os.path.join(temp, f)
 			if f.endswith(".sld"): 
 				sldpath = os.path.join(temp, f)
-
-		print sldpath
+				sld_type = layer_name + ".sld"
 
 		if shp_data["dbf"] and shp_data["prj"] and shp_data["shp"] and shp_data["shx"]:
 

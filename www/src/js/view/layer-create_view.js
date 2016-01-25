@@ -312,6 +312,7 @@ app.view.LayerCreate = Backbone.View.extend({
                                 that.model.destroy();
                                 app.categories.fetch().done(function () {
                                     app.router.navigate('catalogue', {trigger: true});
+                                    location.reload();
                                 });
                             }
                         });
