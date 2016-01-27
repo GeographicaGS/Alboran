@@ -1076,6 +1076,12 @@
         &.problem{
         	color:red;
         }
+
+        &.creating{
+			text-align: center;
+			padding-top: 8px;
+			text-transform: uppercase;
+        }
 	}
 }
 

@@ -459,6 +459,9 @@ app.view.LayerCreate = Backbone.View.extend({
                  }
             },
             afterShow: function () {
+                
+                $('#geoserverPopup .creating').addClass('hide');
+                $('#geoserverUpload').removeClass('hide');
                 $('#geoserverPopup .error').removeClass('error');   
                 $('#geoserverPopup .problem').addClass('hide');   
 
@@ -482,6 +485,8 @@ app.view.LayerCreate = Backbone.View.extend({
                     }
 
                     if(send){
+                        $('#geoserverUpload').addClass('hide');
+                        $('#geoserverPopup .creating').removeClass('hide');
                         var zipdata = new FormData();
                         zipdata.append('zip',$('#geoserverZip')[0].files[0]);
 
@@ -498,6 +503,8 @@ app.view.LayerCreate = Backbone.View.extend({
                             processData: false, // Don't process the files
                             contentType: false,
                             success: function(result) {
+                                $('#geoserverPopup .creating').addClass('hide');
+                                $('#geoserverUpload').removeClass('hide');
                                 if(result.status == 2){
                                     $("#wmsserver").val(result.server);
                                     $("#layername").val(result.layer);
