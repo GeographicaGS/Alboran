@@ -22,6 +22,16 @@ class ImageModel(PostgreSQLModel):
 			self.queryCommit(sql,[id_history, file])
 		return True
 
+	def deleteImageById(self, id_image):
+		sql = "DELETE FROM \"image\" WHERE id_image = %s"
+		self.queryCommit(sql,[id_image])
+		return True
+
+	def deleteImageByFilename(self, filename):
+		sql = "DELETE FROM \"image\" WHERE filename = %s"
+		self.queryCommit(sql,[filename])
+		return True
+
 	def deleteImagesByHistory(self, id_hist):
 		sql = "DELETE FROM \"image\" WHERE id_history = %s"
 		self.queryCommit(sql,[id_hist])

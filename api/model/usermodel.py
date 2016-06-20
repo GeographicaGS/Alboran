@@ -32,6 +32,11 @@ class UserModel(PostgreSQLModel):
 		result = self.query(sql,[username]).row()
 		return result
 
+	def getAllAdmins(self):
+		sql = "SELECT * FROM \"user\" WHERE admin = true"
+		result = self.query(sql).result()
+		return result
+
 	def getAdminEmails(self):
 		sql = "SELECT email FROM \"user\" WHERE admin = true"
 		result = self.query(sql).result()

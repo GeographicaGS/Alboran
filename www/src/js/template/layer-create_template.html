@@ -1,0 +1,274 @@
+<div id="createHistory">
+	<div class="title">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<% if (data.id){%>
+						<h1><lang>Editar capa</lang></h1>
+					<% } else { %>
+						<h1><lang>Nueva capa</lang></h1>
+					<% }%>
+					<a href="#" class="button cancel_btn"><img src="/img/catalogue/ALB_icon_buscar_cerrar.svg"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="layerForm">
+		<div class="container">
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Categorizar en...</lang></legend>
+						<div class="col-sm-6 col-md-6">
+							<select id="category" name="category">
+								<option value="0"><lang>Seleccione una temática</lang></option>
+								<% _.each(data.categories, function(category){ %>
+									<option value="<%= category['id'] %>" <%= category['id'] !== data.layerCategory ? '': 'selected' %>><%= category['title_' + app.lang] %></option>
+								<% }); %>
+							</select>
+							<br>
+							<input type="checkbox" id="indefaultmap" name="indefaultmap" <%= data.isInConfig ? 'checked' : '' %> />
+							<label for="indefaultmap"><lang>Incluir en el mapa preconfigurado de la temática</lang></label>
+						</div>
+						<div class="col-sm-6 col-md-6 withButton">
+							<% _.each(data.categories, function(category){ %>
+							<select id="topic-<%= category.id %>" name="topic" class="hide">
+								<% _.each(category.topics, function(topic){ %>
+									<% if(topic['title_' + app.lang]){ %>
+									<option value="<%= topic['id'] %>" <%= topic['id'] !== data.topic_id ? '': 'selected' %>><%= topic['title_' + app.lang] %></option>
+									<% }else{ %>
+									<option value="<%= topic['id'] %>"<%= topic['id'] !== data.topic_id ? '': 'selected' %>><lang>Sin sección</lang></option>
+									<% } %>
+								<% }); %>
+							</select>
+							<% }); %>
+							<a href="#" id="createTopic" title="<lang>Crear nueva sección</lang>">
+								<img src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Crear nueva sección</lang>"/>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda categorizar en...</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Nombre</lang></legend>
+						<input type="text" class="localized" id="title-es" name="title-es" placeholder="<lang>Nombre de la capa en espa&ntilde;ol</lang>" value="<%= data.title_es %>" required /><label for="title-es">ES</label>
+						<input type="text" class="localized" id="title-en" name="title-en" placeholder="<lang>Nombre de la capa en inglés</lang>" value="<%= data.title_en %>" required /><label for="title-en">EN</label>
+						<input type="text" class="localized" id="title-fr" name="title-fr" placeholder="<lang>Nombre de la capa en francés</lang>" value="<%= data.title_fr %>" required /><label for="title-fr">FR</label>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda nombre</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Descripción</lang></legend>
+						<textarea id="desc-es" class="localized" name="desc-es" placeholder="<lang>Escriba aquí la descripción en espa&ntilde;ol</lang>" required><%= data.desc_es %></textarea><label for="desc-es">ES</label>
+						<textarea id="desc-en" class="localized" name="desc-en" placeholder="<lang>Escriba aquí la descripción en inglés</lang>" required><%= data.desc_en %></textarea><label for="desc-en">EN</label>
+						<textarea id="desc-fr" class="localized" name="desc-fr" placeholder="<lang>Escriba aquí la descripción en francés</lang>" required><%= data.desc_fr %></textarea><label for="desc-fr">FR</label>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda descripción</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Fuente</lang></legend>
+						<input type="text" id="datasource" name="datasource" placeholder="<lang>Fuente de la capa</lang>" value="<%= data.dataSource %>" required />
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda fuente</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Servidor WMS (URL)</lang></legend>
+						<input type="text" id="wmsserver" name="wmsserver" placeholder="<lang>Introduzca una url válida para el servidor WMS de la capa</lang>" value="<%= data.wmsServer %>" required />
+						<button class="explore" type="button">Explorar</button>
+						<button class="geoserver" type="button">Crear capa en Geoserver</button>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda servidor WMS</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Capa</lang></legend>
+						<input type="text" id="layername" name="layername" placeholder="<lang>Capa</lang>" value="<%= data.wmsLayName %>" required />
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda capa</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Metadato (URL)</lang></legend>
+						<input type="text" class="withAction" id="metadata" name="metadata" placeholder="<lang>Introduzca una url válida para el metadato de la capa</lang>" value="<%= data.geoNetWk %>">
+						
+						<a class="geonetwork_link" href="#" title="<lang>Dar de alta metadato</lang>">
+							<img src="/img/catalogue/ALB_icon_info_enlace.svg" alt="<lang>Dar de alta metadato</lang>"/>
+
+
+							<div id="meta_data_options_popup" class="hide">
+								<a target="_blank" href="<%='/geonetwork/srv/' + app.lang + '/search?hl=eng#create'%>">Crear</a>
+								<a target="_blank" href="<%='/geonetwork/srv/' + app.lang + '/harvesting'%>">Harvest</a>
+							</div>
+
+							
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda metadato</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<div class="row sendButtons">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row">
+						<div class="col-sm-4 col-md-4">
+							<a class="cancel_btn" href="#"><lang>Cancelar</lang></a>
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<a href="#" id="enviar_btn" class="button grey">
+								<% if(!data.id){%>
+								<span><lang>Crear capa</lang></span>
+								<% }else{ %>
+								<span><lang>Actualizar capa</lang></span>
+								<% } %>
+							</a>
+						</div>
+						<% if(data.id){%>
+						<div class="col-sm-4 col-md-4">
+							<a href="#" id="borrar_btn" class="fright button red">
+								<span><lang>Eliminar capa</lang></span>
+							</a>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Popups -->
+	<div id="layerSectionCreation" class="msgPopup">
+		<div class="content">
+			<h2><lang>Crear nueva sección</lang></h2>
+			<fieldset>
+				<input type="text" class="localized" id="sectiontitle-es" name="sectiontitle-es" placeholder="<lang>Nombre de la sección en espa&ntilde;ol</lang>" required /><label for="sectiontitle-es">ES</label>
+				<input type="text" class="localized" id="sectiontitle-en" name="sectiontitle-en" placeholder="<lang>Nombre de la sección en inglés</lang>" required /><label for="sectiontitle-en">EN</label>
+				<input type="text" class="localized" id="sectiontitle-fr" name="sectiontitle-fr" placeholder="<lang>Nombre de la sección en francés</lang>" required /><label for="sectiontitle-fr">FR</label>
+			</fieldset>
+		</div>
+		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
+        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
+	</div>
+	<div id="layerCreateSuccess" class="msgPopup">
+        <div class="content">
+			<% if(!data.id){%>
+            <h2><lang>Su capa ha sido creada</lang></h2>
+			<% }else{ %>
+			<h2><lang>Su capa ha sido actualizada</lang></h2>
+			<% } %>
+            <p><lang></lang></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
+    </div>
+
+    <div id="layerCreateError" class="msgPopup">
+        <div class="content">
+			<% if(!data.id){%>
+            <h2><lang>Error al crear su capa</lang></h2>
+			<% }else{ %>
+			<h2><lang>Error al actualizar su capa</lang></h2>
+			<% } %>
+            <p><lang>Inténtelo de nuevo o contacte con el administrador</lang></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
+    </div>
+
+    <div id="layerCancelConfirmation" class="msgPopup">
+        <div class="content">
+			<% if(!data.id){%>
+            <h2><lang>Cancelar creación de capa</lang></h2>
+			<% }else{ %>
+			<h2><lang>Cancelar actualización de capa</lang></h2>
+			<% } %>
+            <p><lang>¿Está seguro de querer salir? Los datos introducidos se perderán.</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
+
+	<div id="layerDeleteConfirmation" class="msgPopup">
+        <div class="content">
+			<h2><lang>Eliminar capa</lang></h2>
+            <p><lang>¿Está seguro de querer eliminar esta capa?</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
+
+    <div id="wmsLayers" class="msgPopup">
+    	<p class="error"><lang>Explorando...</lang></p>
+    	<p class="notSupport"><lang>Sistema de referencia no soportado</lang></p>
+    	<p class="notFound"><lang>Ninguna capa encontrada</lang></p>
+        <div class="layerList"></div>
+    </div>
+
+    <div id="geoserverPopup" class="msgPopup">
+    	<h2>Crear capa en Geoserver</h2>
+    	<input id="geoserverZip" type="file" accept=".zip">
+    	<form>
+	    	<input type="text" name="layer_name" placeholder="<lang>Nombre de la capa</lang>">
+	    	<span class="select_geoserver_zip"><lang>Seleccionar SHP (archivo zip)<lang></span>
+	    	<p><lang>Si no selecciona un SLD seleccione en tipo de capa para cargar un SLD por defecto.</lang></p>
+	    	<select name="sld_type">
+	    		<option value="alboran_point"><lang>Punto</lang></option>
+	    		<option value="alboran_line"><lang>Línea</lang></option>
+	    		<option selected value="alboran_poly"><lang>Polígono</lang></option>
+	    	</select>
+			<input id="geoserverUpload" type="button" value="<lang>Crear capa</lang>">
+			<p class="creating hide"><lang>Creando capa, espere por favor</lang></p>
+			<p class="problem hide"><lang>El espacio de trabajo no existe.</lang></p>
+			<p class="problem hide"><lang>El almacen de datos ya existe.</lang></p>
+			<p class="problem hide"><lang>Error creando la capa en geoserver.</lang></p>
+			<p class="problem hide"><lang>Faltan ficheros.</lang></p>
+    	</form>
+    </div>
+
+</div>

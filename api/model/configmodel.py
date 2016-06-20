@@ -35,3 +35,8 @@ class ConfigModel(PostgreSQLModel):
 			self.queryCommit(sql)
 			sql = 'INSERT INTO "layer_configuration" (id_user, data) SELECT %s, \'%s\' WHERE NOT EXISTS (SELECT 1 FROM "layer_configuration" WHERE id_user=%s)'%(userid,config,userid)
 			self.queryCommit(sql)
+
+	def setConfigById(self, configid, configdata):
+		if(configid):
+			sql = 'update "layer_configuration" set data=\'%s\' where id_config = %s;'%(configdata,configid)
+			self.queryCommit(sql)

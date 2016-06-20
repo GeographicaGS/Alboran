@@ -762,12 +762,12 @@ html{
 .ml3{margin-left: 3px !important;}
 .mr3{margin-right: 3px !important;}
 .mt3{margin-top: 3px !important;}
-.mb3{margin-bottom: 3px !important;}        
+.mb3{margin-bottom: 3px !important;}
 
 .-ml3{margin-left: -3px !important;}
 .-mr3{margin-right: -3px !important;}
 .-mt3{margin-top: -3px !important;}
-.-mb3{margin-bottom: -3px !important;}   
+.-mb3{margin-bottom: -3px !important;}
 
 .ml4{margin-left: 4px!important;}
 .mr4{margin-right: 4px!important;}
@@ -865,6 +865,9 @@ html{
 
 .fleft { float:left;}
 .fright { float:right;}
+.aleft { text-align: left;}
+.acenter { text-align: center;}
+.aright { text-align: right;}
 
 .inline { display:inline;}
 ul.inline li{ display: inline}
@@ -935,6 +938,3 @@ ul.inlblock li{ display: inline-block}
 .lh1{
   line-height: @line_height;
 }
-
-
-
