@@ -1,27 +1,21 @@
 <div id="historyDetail">
-	<% if ((data.pathedImages) && (data.pathedImages[0])) { %>
-		<div class="mainPhoto">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12 col-md-12">
-						<a href="#" id="gallery_btn" class="fancybox">
-							<div class="image" style="background-image: url('<%= data.pathedImages[0].href %>')"></div>
-						</a>
-					</div>
+	
+	<div class="type">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-md-12"> 
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>" jslink><lang>Historias</lang></a>
+
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<%= data.type == 0 ? '<lang>goodpractices</lang>': '<lang>sighting</lang>' %>" id="selectedType" class="<%= data.type == 0 ? 'goodpractices': 'sighting' %>">
+						<%= data.type == 0 ? '<lang>Buenas prácticas</lang>': '<lang>Avistamientos</lang>' %>
+					</a>
+
+					<a class="history_button" href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link writehistory</lang>" jslink><lang>Cuéntenos la suya</lang></a>
 				</div>
 			</div>
 		</div>
-	<% }else{ %>
-		<div class="mainTitle">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12 col-md-12">
-						<h1>Historia</h1>
-					</div>
-				</div>
-			</div>
-		</div>
-	<% } %>
+	</div>
+
 	<% if (isAdmin) { %>
 	<div class="adminbar <%= data.status == 1 ? 'published': '' %>">
 		<div class="container">
@@ -53,39 +47,94 @@
 		</div>
 	</div>
 	<% } %>
-	<div class="type">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
-					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<%= data.type == 0 ? '<lang>goodpractices</lang>': '<lang>sighting</lang>' %>" id="selectedType" class="<%= data.type == 0 ? 'goodpractices': 'sighting' %>">
-						<%= data.type == 0 ? '<lang>Buenas prácticas</lang>': '<lang>Avistamientos</lang>' %>
+
+	<div class="container content">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<h3 class="author"><%= data.author %> · <% if(data.institution) { %> ( <%= data.institution %> ) <% } %> <span><%= data.date %></span></h3>
+				<h1><%= data.title %></h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8 col-md-8">
+
+				<% if ((data.pathedImages) && (data.pathedImages[0])) { %>
+					<div class="mainPhoto">
+						<a href="#" id="gallery_btn" class="fancybox">
+						<div class="image" style="background-image: url('<%= data.pathedImages[0].href %>')"></div>
 					</a>
+					</div>
+				<% }else{ %>
+					<div class="mainTitle">
+						<h1>Historia</h1>
+					</div>
+				<% } %>
+						
+				<div class="historyText">
+					<%= app.urlify(data.text_history, 'target="_blank" class="videolink"') %>
+				</div>
+						
+			</div>
+
+			<div class="col-sm-4 col-md-4">
+				<a class="row map" href="/<lang>lang</lang>/<lang>_link map</lang>/<lang>_link history</lang>/<%= data.id_history %>" jslink>
+					<img class="base" src="http://staticmap.openstreetmap.de/staticmap.php?center=<%= data.lat %>,<%= data.lon %>&zoom=14&size=390x390&maptype=mapnik">
+					<img class="marker" src="/img/map/<%= data.type == 0 ? 'ALB_marcador_historia_buenas_2x.png': 'ALB_marcador_historia_avista_2x.png' %>" width="40">
+				</a>
+				<div class="row posContainer">
+					<p class="place"><%= data.place %></p>
+					<p class="position">
+						<lang>Latitud</lang> <span><%= data.lat %></span> /&nbsp;&nbsp;<lang>Longitud</lang> <span><%= data.lon %></span>
+					</p>
+				</div>
+				<div class="shareBox">
+					<!-- <lang>Compartir historia</lang> -->
+					<div class="icons">
+						<a id="share-twitter" href="#" target="_blank"><img src="/img/participa/ALB_icon_twitter_red.svg"></a>
+						<a id="share-fb" href="#" target="_blank"><img src="/img/participa/ALB_icon_facebook_red.svg"></a>
+						<a id="share-gplus" href="#" target="_blank"><img src="/img/participa/ALB_icon_googleplus_red.svg"></a>
+						<a id="share-email" href="#" target="_blank"><img src="/img/participa/ALB_icon_email_red.svg"></a>
+						<a id="share-whatsapp" href="#" target="_blank" data-action="share/whatsapp/share" ><img src="/img/participa/ALB_icon_whatsapp_red.svg"></a>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
-		<div class="row title">
-			<div class="col-sm-2 col-md-2 arrow-prev">
+		<div class="row">
+			<div class="col-sm-12 col-md-12 navigation">
+				<div class="separator"></div>
 				<% if(data.prev_id){ %>
-					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= data.prev_id %>" jslink><img src="/img/participa/ALB_flecha_ant.svg" title="<lang>Historia anterior</lang>"></a>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= data.prev_id %>" jslink><img src="/img/participa/ALB_icon_ant.svg">
+						<lang>Ver historia anterior</lang>
+					</a>
+				<% } %>
+				<% if(data.next_id){ %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= data.next_id %>" jslink>
+						<lang>Ver historia siguiente</lang>
+						<img src="/img/participa/ALB_icon_sig.svg" title="<lang>Siguiente historia</lang>"></a>
 				<% } %>
 			</div>
-			<div class="col-sm-8 col-md-8">
-				<h1><%= data.title %></h1>
-				<p><%= data.date %> · Historia enviada por <a><%= data.author %> <% if(data.institution) { %> ( <%= data.institution %> ) <% } %></a></p>
-			</div>
-			<div class="col-sm-2 col-md-2 arrow-next">
+		</div>
+	</div>
+
+
+	
+	<!-- <div class="container">
+		<div class="row title">
+			<div class="col-sm-12 col-md-12">
+				<% if(data.prev_id){ %>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= data.prev_id %>" jslink><img src="/img/participa/ALB_icon_ant.svg" title="<lang>Historia anterior</lang>"></a>
+					<lang>Ver historia anterior</lang>
+				<% } %>
 				<% if(data.next_id){ %>
-					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= data.next_id %>" jslink><img src="/img/participa/ALB_flecha_sig.svg" title="<lang>Siguiente historia</lang>"></a>
+					<a href="/<lang>lang</lang>/<lang>_link join</lang>/<lang>_link history</lang>/<%= data.next_id %>" jslink>
+						<lang>Ver historia siguiente</lang>
+						<img src="/img/participa/ALB_icon_sig.svg" title="<lang>Siguiente historia</lang>"></a>
 				<% } %>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-8 col-md-8">
-				<div class="historyText">
-					<%= app.urlify(data.text_history, 'target="_blank" class="videolink"') %>
-				</div>
 				<% if(data.category > 0){ %>
 					<div class="category">
 						<lang>Categoría</lang>
@@ -101,73 +150,31 @@
 					</div>
 				<% } %>
 			</div>
-			<div class="col-sm-4 col-md-4">
-				<a class="row map" href="/<lang>lang</lang>/<lang>_link map</lang>/<lang>_link history</lang>/<%= data.id_history %>" jslink>
-					<img class="base" src="http://staticmap.openstreetmap.de/staticmap.php?center=<%= data.lat %>,<%= data.lon %>&zoom=14&size=390x390&maptype=mapnik">
-					<img class="marker" src="/img/map/<%= data.type == 0 ? 'ALB_marcador_historia_buenas_2x.png': 'ALB_marcador_historia_avista_2x.png' %>" width="40">
-				</a>
-				<div class="row posContainer">
-					<p class="place"><%= data.place %></p>
-					<p class="position">
-						<lang>Latitud</lang> <span><%= data.lat %></span> /&nbsp;&nbsp;<lang>Longitud</lang> <span><%= data.lon %></span>
-					</p>
-				</div>
-				<div class="shareBox">
-					<lang>Compartir historia</lang>
-					<div class="icons">
-						<a id="share-twitter" href="#" target="_blank"><img src="/img/participa/ALB_icon_compartir_twitter.svg"></a>
-						<a id="share-fb" href="#" target="_blank"><img src="/img/participa/ALB_icon_compartir_facebook.svg"></a>
-						<a id="share-gplus" href="#" target="_blank"><img src="/img/participa/ALB_icon_compartir_googlep.svg"></a>
-						<a id="share-email" href="#" target="_blank"><img src="/img/participa/ALB_icon_compartir_email.svg"></a>
-					</div>
-				</div>
-			</div>
 		</div>
-	</div>
+	</div> -->
+
+
 	<div class="prefoot grey_light first">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6 col-md-6">
-					<p><lang>El <i>proyecto Alborán</i> tiene como finalidad poner en marcha un procedimiento de gestión ambiental común en el ámbito del Mar del Alborán, facilitando el intercambio de experiencias entre todos los actores y los grupos de interés. De esta manera, se persigue identificar y unificar las pioridades que mejoren la gestión del Mar de Alborán y su entorno.</lang></p>
-				</div>
-				<div class="logos_coop col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1">
-					<a href="http://www.poctefex.eu/" target="_blank"><img src="/img/footer/ALB_logo_cooperacion_transf.svg"></a>
-					<img src="/img/footer/ALB_logo_UE.svg">
-					<p><lang>Cofinanciado por el Fondo Europeo de Desarrollo Regional (FEDER)</lang></p>
-				</div>
+	<div class="container">
+		<div class="row">
+			<div class="logos_coop col-sm-7 col-md-7">
+				<p><lang>Financiado por</lang></p>
+				<a href="http://www.poctefex.eu/" target="_blank"><img src="/img/footer/ALB_logo_cooperacion_transf.svg"></a>
+				<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank"><img src="/img/footer/ALB_logo_UE.svg"></a>
+				<a href="http://en.mava-foundation.org/" target="_blank"><img src="/img/footer/ALB_logo_MAVA.svg"></a>
+				<p><lang>Cofinanciado por el Fondo Europeo de Desarrollo Regional (FEDER)</lang></p>
+				<!-- <p><lang>El <i>proyecto Alborán</i> tiene como finalidad poner en marcha un procedimiento de gestión ambiental común en el ámbito del Mar del Alborán, facilitando el intercambio de experiencias entre todos los actores y los grupos de interés. De esta manera, se persigue identificar y unificar las pioridades que mejoren la gestión del Mar de Alborán y su entorno.</lang></p> -->
+			</div>
+			<div class="logos_coop col-sm-4 col-sm-offset-1 col-md-4 col-md-offset-1">
+				<p><lang>Con el apoyo de</lang></p>
+				<a href="http://www.fundacion-biodiversidad.es/" target="_blank"><img class="large" src="/img/footer/ALB_logo_FBiodiversidad.svg"></a>
+				<!-- <a href="http://www.poctefex.eu/" target="_blank"><img src="/img/footer/ALB_logo_cooperacion_transf.svg"></a>
+				<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank"><img src="/img/footer/ALB_logo_UE.svg"></a>
+				<p><lang>Cofinanciado por el Fondo Europeo de Desarrollo Regional (FEDER)</lang></p> -->
 			</div>
 		</div>
 	</div>
-	<div class="prefoot grey_light">
-		<div class="container">
-			<div class="logos_socios row">
-				<div class="col-sm-8 col-md-8">
-					<div class="group">
-						<p><lang>Socios beneficiarios</lang></p>
-						<div>
-							<a href="http://www.iucn.org/" target="_blank"><img src="/img/footer/ALB_logo_UICN.svg"></a>
-							<a href="http://www.ual.es/" target="_blank"><img src="/img/footer/ALB_logo_Univ_Almeria.svg"></a>
-							<a href="http://www.juntadeandalucia.es/medioambiente/site/portalweb/" target="_blank"><img src="/img/footer/ALB_logo_Junta.svg"></a>
-						</div>
-					</div>
-					<div class="group">
-						<p><lang>Socio participante</lang></p>
-						<div>
-							<a href="http://www.mpm.gov.ma/" target="_blank"><img src="/img/footer/ALB_logo_Maroc.svg"></a>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-4 col-ms-4">
-					<div class="group">
-						<p><lang>Con el apoyo de</lang></p>
-						<div>
-							<a href="http://www.fundacion-biodiversidad.es/" target="_blank"><img class="large" src="/img/footer/ALB_logo_FBiodiversidad.svg"></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+</div>
 
 	<!-- Popups -->
 	<div id="historyDeleteConfirmation" class="msgPopup">

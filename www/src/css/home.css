@@ -1,27 +1,169 @@
 #presentation {
-	padding: 147px 0 54px;
-	text-align: center;
-	background: url('@{imgPath}home/ALB_img_fondo_presentacion.jpg') no-repeat #292966;
-	background-size: cover;
+	/*padding: 147px 0 54px;*/
+	/*text-align: center;*/
+	/*background: url('@{imgPath}home/ALB_img_fondo_presentacion.jpg') no-repeat #292966;*/
+	/*background-size: cover;*/
 	.lato(light);
 	overflow-x: hidden;
 
+	.header{
+		height: 288px;
+		/*padding-bottom: 18px;*/
+		margin-bottom: 34px;
+		background-image: url('@{imgPath}home/ALB_img_home1.jpg');
+		background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+
+    &:before{
+    	content:'';
+    	display: block;
+    	width: 100%;
+    	height: 100%;
+    	background-color: rgba(41,41,102,.25);
+    	position: absolute;
+    	top: 0;
+    }
+	
+		.container{
+			height: 100%;
+			.row{
+				height: 100%;
+				>div{
+					padding-bottom: 18px;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+				}
+			}
+		}
+
+	}
+
+	h2,h3{
+    margin-top: auto;
+    z-index: 1;
+	}
+
 	h2 {
-		font-size: 1.8em;
-		line-height: 1.3em;
-		margin: 0 auto 54px;
-		display: block;
-		width: 76%;
+		/*font-size: 1.8em;
+		line-height: 1.3em;*/
+		font-size: 24px;
+		line-height: 30px;
+		text-align: center;
+		/*margin: 0 auto 54px;*/
+		/*display: block;
+		width: 76%;*/
 		.lato(light);
+		color:@white;
 	}
 
 	h3 {
-		font-size: 1.45em;
-		line-height: 1.32em;
+		/*font-size: 1.45em;
+		line-height: 1.32em;*/
+		font-size: 18px;
+		line-height: 30px;
 		.lato(light);
-		margin: 0 auto;
-		display: block;
-		width: 65%;
+		color:@white;
+		text-align: center;
+		/*margin: 0 auto;*/
+		/*display: block;*/
+		/*width: 65%;*/
+	}
+
+	.block{
+		a{
+			display: flex;
+			img{
+				margin-right: 26px;
+			}
+			span{
+				margin-bottom: 20px;
+				text-transform: uppercase;
+				.lato(bold);
+				font-size: 18px;
+				line-height: 22px;
+				display: block;
+			}
+			p {
+				font-size: 14px;
+				line-height: 18px;
+				color:@bluegrey;
+				.lato(light);
+			}
+		}
+	}
+
+	.sections{
+		margin-top: 30px;
+		.section{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 10px;
+			width: 100%;
+			height: 200px;
+			background-image: url('@{imgPath}home/ALB_img_home1.jpg');
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center center;
+			color:@white;
+			position: relative;
+
+
+			&:before{
+				content:'';
+				display: block;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 1;
+				background-color: rgba(0,0,102,.5);
+			}
+
+
+			>div{
+		    flex: 0 1 446px;
+		    z-index: 1;
+			}
+			img{
+				margin-right: 40px;
+				z-index: 1;
+			}
+			h3{
+				font-style: italic;
+				font-size: 24px;
+				line-height: 30px;
+				text-align: left;
+				.lato(light);
+			}
+			span, a{
+				font-size: 14px;
+				line-height: 18px;
+				.lato(light);
+			}
+			span{
+				display: block;
+				margin-bottom: 20px;
+			}
+			a{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				text-transform: uppercase;
+				border: 1px solid @white;
+				border-radius: 2px;
+		    width: 167px;
+		    height: 36px;
+		    margin-right: 10px;
+		    .lato(light);
+		    float: left;
+			}
+		}
 	}
 
 	a {
@@ -97,6 +239,10 @@
 	border-top: 1px solid @bluegrey_light;
 	padding: 0 0 51px;
 
+	a{
+		border:none !important;
+	}
+
 	a img, img {
 		opacity: 0.7;
 		transition: opacity .3s ease;
@@ -109,8 +255,8 @@
 	&.first:before {
 		content: "";
 		display: block;
-		background-color: @bluegrey_light;
-		height: 9px;
+		/*background-color: @bluegrey_light;*/
+		/*height: 9px;*/
 		margin-bottom: 42px;
 	}
 
@@ -119,7 +265,7 @@
 
 		a img, & > img {
 			display: inline-block;
-			margin: 0 40px 40px 0;
+			margin: 0 40px 30px 0;
 		}
 
 		& > img:last-of-type {
@@ -128,6 +274,7 @@
 
 		p {
 			font-size: 9pt;
+			margin-bottom: 30px;
 		}
 	}
 

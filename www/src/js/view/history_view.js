@@ -103,6 +103,7 @@ app.view.HistoryDetail = Backbone.View.extend({
         this.$('#share-twitter').attr('href','https://twitter.com/?status='+ title +' - '+ document.URL);
         this.$('#share-gplus').attr('href','https://plus.google.com/share?url='+ document.URL);
         this.$('#share-email').attr('href','mailto:?subject='+ title +'&body=Te comparto esta historia del Proyecto Alborán: '+ title +' - '+ document.URL);
+        this.$('#share-whatsapp').attr('href','whatsapp://send?text='+ document.URL);
     },
 
     showAuthorMessage: function() {

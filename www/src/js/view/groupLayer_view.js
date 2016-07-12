@@ -39,14 +39,14 @@ app.view.GroupLayer = Backbone.View.extend({
     	$("#map_control").find("img").eq(0).on('click', this.toggleSidebar); 
     	$("#map_control").find("div").eq(0).on('click', this.toggleSidebar);
     	
-    	$(".groupLauyerConfig").on('click', function(e) {
+    	$("#groupLayer").on('click','.groupLauyerConfig', function(e) {
     		if($("#configPanelMap").is(":visible")){
-    			$(".groupLauyerConfig").css({"background-color":""});
-        		$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
+    			// $(".groupLauyerConfig").css({"background-color":""});
+        		// $(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
         		$("#configPanelMap").fadeOut();
         	}else{
-        		$(".groupLauyerConfig").css({"background-color":"#e9eaea"});
-        		$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc_abierto.svg"); 
+        		// $(".groupLauyerConfig").css({"background-color":"#e9eaea"});
+        		// $(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc_abierto.svg"); 
         		$("#configPanelMap").fadeIn();
         	}
     	});
@@ -160,7 +160,7 @@ app.view.GroupLayer = Backbone.View.extend({
     
     layerOver: function(e){
     	if($(e.currentTarget).attr("idLayer")){
-    		$(e.currentTarget).css({"background-color":"#f4f4f4"});
+    		// $(e.currentTarget).css({"background-color":"#f4f4f4"});
     		$(e.currentTarget).find("img").show();
     		$(e.currentTarget).find("p").css({"maxWidth":"145px"});
     	}
@@ -168,20 +168,22 @@ app.view.GroupLayer = Backbone.View.extend({
     
     layerLeave: function(e){
     	if($(e.currentTarget).attr("idLayer")){
-    		$(e.currentTarget).css({"background-color":"white"});
+    		// $(e.currentTarget).css({"background-color":"white"});
     		$(e.currentTarget).find("img").hide();
     		$(e.currentTarget).find("p").css({"maxWidth":"252px"});
     	}
     },
     
     removeLayerClick: function(e){
+
     	e.stopImmediatePropagation();
     	
     	var idLayer = $(e.currentTarget).parent().attr("idLayer")
     	
-    	Map.removeLayer(idLayer);
+    	
     	$(e.currentTarget).parent().hide(function(){ 
     		$(this).remove();
+            Map.removeLayer(idLayer);
     	});
     	
     	var addButtons = $(".add_btn");
@@ -283,7 +285,7 @@ app.view.GroupLayer = Backbone.View.extend({
         
         $icon4 = $(document.createElement('img'));
         $icon4.addClass('icon');
-        $icon4.attr('src','/img/map/ALB_icon_info_capa.svg');
+        $icon4.attr('src','/img/map/ALB_icon_info_capa_white.svg');
         $icon4.attr('title',getTextLang("info"));
 
         $li.append($icon1).append($icon2).append($icon3).append($icon4).append("<div class='clear'></div>");
@@ -355,7 +357,7 @@ app.view.GroupLayer = Backbone.View.extend({
 				+	"<h4>" 
 				+		"<img class='ml mt mr mb fleft' src='/img/map/ALB_icon_leyenda.svg' />"
 				+		"<p class='titleLegend ellipsis' title=''></p>"
-				+		"<img class='closeLegend' src='/img/map/ALB_icon_descartar_capa.svg' />"
+				+		"<img class='closeLegend' src='/img/map/ALB_icon_descartar_capa_white.svg' />"
 				+	"</h4>"
 				+	"<div class='co_legend'>"							
 				+	"</div>"			

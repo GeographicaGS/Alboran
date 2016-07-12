@@ -240,9 +240,9 @@ Map = {
 
 	actualizarContadores: function() {
 
-		$(".value.green").text($("#groupLayer").find(".green").length);
-	    $(".value.red").text($("#groupLayer").find(".red").length);
-	    $(".value.blue").text($("#groupLayer").find(".blue").length);
+			$(".value.green").text($("#groupLayer .panel").find(".green").length);
+	    $(".value.red").text($("#groupLayer .panel").find(".red").length);
+	    $(".value.blue").text($("#groupLayer .panel").find(".blue").length);
 	},
 
 	featureInfo : function(e,id){
