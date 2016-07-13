@@ -1,0 +1,14 @@
+<%
+var current;
+_.each(col,function(c,index){
+	_.each(c,function(el){
+		if(el.layers.length > 0){
+%>
+			<div block="<%=index%>" class="block_box hide <%= current != index ? 'selected':''%>"><%=el['title_' + app.lang]%><span><%=el.layers.length%></span></div>
+	
+<%
+			current = index;
+		}
+	})
+})
+%>

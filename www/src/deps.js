@@ -61,6 +61,8 @@ deps.JS = {
 			"js/view/history_view.js",
 			"js/view/signup_view.js",
 			"js/view/map-pointselector_view.js",
+			"js/view/documents_view.js",
+			"js/view/sub_block_view.js",
 
 
 			// router
@@ -96,6 +98,7 @@ deps.CSS = {
 			"css/catalogue.css",
 			"css/join.css",
 			"css/about.css",
+			"css/documents.css",
 		]
 	}
 };
