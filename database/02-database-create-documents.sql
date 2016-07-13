@@ -1,4 +1,4 @@
-
+--- TABLES FOR DOCUMENT SECTION
 
 CREATE TABLE documents (
     id_doc bigserial NOT NULL,
