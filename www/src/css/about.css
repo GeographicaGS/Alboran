@@ -13,7 +13,7 @@
 		a{
 			text-transform: uppercase;
 			.lato(light);
-			font-style: 13px;
+			font-size: 13px;
 			color:@bluegrey_light;
 			margin-right: 40px;
 			&:last-child{
@@ -86,7 +86,7 @@
 				z-index: 1;
 				color:@white;
 				.lato(bolditalic);
-				font-size: 13px;
+				font-size: 18px;
 			}
 		}
 
@@ -129,24 +129,40 @@
 			margin-bottom: 54px;
 			margin-top: 15px;
 			ul{
-				display: flex;
+				/*display: flex;
 				flex-direction: column;
-				align-items: center;
+				align-items: center;*/
 				li{
 					margin-bottom: 0;
+					display: flex;
+					flex-direction: column;
+
+					&.expand{
+						span{
+							&:before{
+								transform: rotate(90deg);
+							}
+						}
+						.content{
+							max-height: 1000px;
+						}
+					}
+
+
 					span{
 						cursor: pointer;
 						height: 50px;
 						line-height: 50px !important;
 						font-size: 15px;
 						line-height: 20px;
-						border-bottom: 1px solid @grey_footer;
 						display: block;
-						width: 460px;
-						text-align: center;
+						border-bottom: 1px solid @grey_footer;
+						width: 100%;
+						/*width: 460px;*/
+						/*text-align: center;*/
 						text-transform: uppercase;
 						.lato(light);
-						&:after{
+						&:before{
 							content: '';
 							display: inline-block;
 							width: 0;
@@ -154,17 +170,31 @@
 							border-style: solid;
 							border-width: 6px 0 6px 8px;
 							border-color: transparent transparent transparent @bluegrey;
-							position: relative;
-							top:18px;
-							float: right;
-							margin-right: 4px;
+							/*float: right;*/
+							margin-right: 10px;
 							transition: transform .25s;
 						}
-						&.expand{
-							&:after{
-								transform: rotate(90deg);
+					}
+					.content{
+						max-height: 0;
+						overflow: hidden;
+						transition: max-height .25s;
+					}
+					table{
+						width: 100%;
+						margin-top: 10px;
+						tr{
+							border-bottom: 1px solid @grey_light;
+							td,th{
+								text-align: right;
+								&:first-child{
+									text-align:left;
+								}
 							}
 						}
+					}
+					p{
+						margin-top: 10px;
 					}
 				}
 			}

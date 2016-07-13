@@ -75,7 +75,7 @@ app.view.About = Backbone.View.extend({
     },
 
     _toggleC:function(e){
-      $(e.currentTarget).toggleClass('expand');
+      $(e.currentTarget).closest('li').toggleClass('expand');
     }
 
 });

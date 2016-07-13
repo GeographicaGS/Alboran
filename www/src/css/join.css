@@ -873,6 +873,15 @@
     		.lato(light);
     		font-size: 12px;
 			}
+
+			&:first-child{
+				&:before{
+					content: url('@{imgPath}participa/ALB_icon_back.svg');
+					position: relative;
+					top:3px;
+					margin-right: 5px;
+				}
+			}
 		}
 	}
 	

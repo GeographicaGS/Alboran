@@ -265,6 +265,11 @@ body > header {
 			top: 1px;
 		}
 
+		.wrapper{
+			display: flex;
+	    justify-content: center;
+		}
+
 		span {
 			margin-right: 7px;
 		}
@@ -296,12 +301,20 @@ body > header {
 		.lang{
 			font-size: 13px;
 			color:@light_pink;
+			position: absolute;
+			left: 10px;
 			&:before{
 				content:url('/img/home/ALB_icon_idioma-white.svg');
 				position: relative;
 				top: 3px;
 				margin-right: 5px;
 			}
+		}
+
+		.login{
+			position: absolute;
+			right: 10px;
+			width: 100px;
 		}
 
 		.row >div:last-child {
@@ -389,13 +402,16 @@ body > header {
 						white-space: nowrap;
 						margin-right: 40px;
 						.lato(light);
+						text-transform: uppercase;
+						font-size: 13px;
 
 						&.selected {
 							border: none;
 
 							a {
-								padding-bottom: 6px;
+								padding-bottom: 9px;
 								border-bottom: 2px solid @pink;
+								.lato(bold);
 
 								@media (max-width: 1023px) {
 									/*padding-bottom: 11px;*/
