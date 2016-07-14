@@ -1594,6 +1594,7 @@ footer {
 	ul{
 		max-height: 0;
 		overflow:hidden;
+		transition:max-height .25s;
 	}
 }
 
@@ -1698,13 +1699,13 @@ footer {
 	align-items:center;
 
 	&.selected{
-		&[block="0"]{
+		&[block="1"]{
 			background-color: @green;
 		}
-		&[block="1"]{
+		&[block="2"]{
 			background-color: @red;
 		}
-		&[block="2"]{
+		&[block="3"]{
 			background-color: @blue;
 		}
 		color:@white;

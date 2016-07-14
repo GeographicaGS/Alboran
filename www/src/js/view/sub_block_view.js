@@ -6,7 +6,7 @@ app.view.SubBlock = Backbone.View.extend({
     	this._collection = options.collection;
 
       this.model = new Backbone.Model({
-      	'currentBlock':0
+      	'currentBlock':1
       });
 
       this.listenTo(this.model, 'change:currentBlock', function(){
@@ -27,8 +27,7 @@ app.view.SubBlock = Backbone.View.extend({
     },
     
     render: function() {
-    		var col = _.map(this._collection.toJSON(), function(c){ return c.topics; });
-        this.$el.html(this._template({'col':col}));
+        this.$el.html(this._template({'col':this._collection.toJSON()}));
         this.$('div[block=' + this.model.get('currentBlock') + ']').removeClass('hide');
         return this;
     },
@@ -36,5 +35,9 @@ app.view.SubBlock = Backbone.View.extend({
     toggleSubBlock:function(e){
     	$('div[block=' + this.model.get('currentBlock') + ']').removeClass('selected');
     	$(e.currentTarget).toggleClass('selected');
+    },
+
+    getCurrentTopic:function(){
+    	return parseInt($('div[block=' + this.model.get('currentBlock') + '].selected').attr('topic_id'));
     }
 });

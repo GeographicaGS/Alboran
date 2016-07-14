@@ -1,0 +1,8 @@
+<div class="tag_box">
+	<span><lang>Tags</lang></span>
+	<ul>
+		<%_.each(col,function(e){%>
+			<li id_tag="<%=e.id_tag%>" class="selected"><%=e['tag_' + app.lang]%></li>
+		<%})%>
+	</ul>
+</div>
