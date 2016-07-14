@@ -5,7 +5,8 @@
 			<div class="row">
 				<%_.each(col,function(c){%>
 					<div class="col-sm-4 col-md-4">
-						<h2 block="<%=c[0].cat_id%>" class="<%=c[0].cat_id == 1 ? 'green':(c[0].cat_id == 2 ? 'red':'blue')%> <%= c[0].cat_id == 1 ? 'selected':''%>"><%=c[0]['cat_' + app.lang]%><span><%=c.length%></span></h2>
+						<h2 block="<%=c[0].cat_id%>" class="<%=c[0].cat_id == 1 ? 'green':(c[0].cat_id == 2 ? 'red':'blue')%> 
+							<%= (block == c[0].cat_id) || (!block && c[0].cat_id == 1) ? 'selected':''%>"><%=c[0]['cat_' + app.lang]%><span><%=c.length%></span></h2>
 					</div>
 				<%})%>
 			</div>

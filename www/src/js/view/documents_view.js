@@ -2,7 +2,7 @@ app.view.Documents = Backbone.View.extend({
     _template : _.template( $('#documents_template').html() ),
     _template_list : _.template( $('#documents_template_list').html() ),
     
-    initialize: function() {
+    initialize: function(options) {
       
       app.events.trigger('menu','documents');
 
@@ -18,6 +18,9 @@ app.view.Documents = Backbone.View.extend({
 	    this._collectionTag.url = '/api/documents/tags'
 	    this._collectionTag.parse = this._collection.parse;
 			this.listenTo(this._collectionTag, 'reset', this.renderTags);
+
+      this._block = options.block;
+      this._subBlock = options.subBlock;
 
         // this.render();
     },
@@ -59,9 +62,14 @@ app.view.Documents = Backbone.View.extend({
   			});
     		colSubBlocks.push(cat)
     	});
-      this.$el.html(this._template({'col':col}));
+      this.$el.html(this._template({'block':this._block,'col':col}));
 
-      this.subBlocksView = new app.view.SubBlock({'collection':colSubBlocks});
+      var subBlockModel = new Backbone.Model({
+        'currentBlock':this._block ? this._block:1,
+        'currentSubBlock':this._subBlock ? this._subBlock:null 
+      });
+
+      this.subBlocksView = new app.view.SubBlock({'model':subBlockModel, 'collection':colSubBlocks});
       this.$('.filters').append(this.subBlocksView.$el)
 
       this.sourceView = new app.view.Sources({'collection':_.uniq(_.map(this._collection.toJSON(), function(c){ return c.source;}))});
@@ -75,17 +83,18 @@ app.view.Documents = Backbone.View.extend({
     renderTags:function(){
     	this.tagsView = new app.view.Tags({'collection':_.uniq(this._collectionTag.toJSON(), function(c) {return c.id_tag;})});
       this.$('.filters').append(this.tagsView.$el);
-      this._renderDocuments();
+      this._renderDocuments();  
     },
 
     changeBlock:function(e){
     	$('.block_header h2').removeClass('selected')
     	$(e.currentTarget).addClass('selected');
     	this.subBlocksView.model.set('currentBlock', $(e.currentTarget).attr('block'))
-        this._renderDocuments();
+      this._renderDocuments();
     },
 
     _renderDocuments:function(){
+      var id_block = this.$('.block_header h2.selected').attr('block');
     	var topic_id = this.subBlocksView.getCurrentTopic();
     	var sources = this.sourceView.getCurrentSources();
     	var tags = this.tagsView.getCurrentTags();
@@ -100,6 +109,9 @@ app.view.Documents = Backbone.View.extend({
         if(this._msnry)
             this.$('.doc_list').masonry("destroy");
         this._msnry = this.$('.doc_list').masonry({'gutter':20, fitWidth: true});
+
+
+      app.router.navigate("documents/" + id_block + '/' + topic_id,{trigger: true});
 
     },
 
@@ -117,9 +129,18 @@ app.view.Documents = Backbone.View.extend({
 app.view.DocumentItem = Backbone.View.extend({
     _template : _.template( $('#document_item_template').html() ),
     
-    initialize: function() {
+    initialize: function(options) {
+      
+      _.bindAll(this,'render');
+
       app.events.trigger('menu','documents');
-      this.render();
+
+      this._model = new Backbone.Model();
+      this._model.url = '/api/documents/' + options.id_doc;
+
+      this._model.fetch({
+        success: this.render
+      });
     },
 
     events: {
@@ -132,7 +153,18 @@ app.view.DocumentItem = Backbone.View.extend({
     },
     
     render: function() {
-      this.$el.html(this._template());
+      this.$el.html(this._template({'m':this._model.toJSON()}));
+      this.setShareLinks();
       return this;
+    },
+
+    setShareLinks: function() {
+      var title = this._model.get('title_' +  app.lang);
+      this.$('#share-fb').attr('href','http://www.facebook.com/sharer.php?u='+ document.URL +'&t='+ title);
+      this.$('#share-twitter').attr('href','https://twitter.com/?status='+ title +' - '+ document.URL);
+      this.$('#share-gplus').attr('href','https://plus.google.com/share?url='+ document.URL);
+      this.$('#share-email').attr('href','mailto:?subject='+ title +'&body=Te comparto esta historia del Proyecto Alborán: '+ title +' - '+ document.URL);
+      this.$('#share-whatsapp').attr('href','whatsapp://send?text='+ document.URL);
     }
+
 });

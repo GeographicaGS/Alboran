@@ -5,9 +5,7 @@ app.view.SubBlock = Backbone.View.extend({
     	var _this = this;
     	this._collection = options.collection;
 
-      this.model = new Backbone.Model({
-      	'currentBlock':1
-      });
+      this.model = options.model;
 
       this.listenTo(this.model, 'change:currentBlock', function(){
       	_this.$('div[block]').addClass('hide');
@@ -29,6 +27,11 @@ app.view.SubBlock = Backbone.View.extend({
     render: function() {
         this.$el.html(this._template({'col':this._collection.toJSON()}));
         this.$('div[block=' + this.model.get('currentBlock') + ']').removeClass('hide');
+        if(this.model.get('currentSubBlock')){
+          this.$('div[block=' + this.model.get('currentBlock') + ']').removeClass('selected');
+          this.$('div[topic_id=' + this.model.get('currentSubBlock') + ']').addClass('selected');
+        }          
+
         return this;
     },
 

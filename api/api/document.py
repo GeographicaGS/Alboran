@@ -18,3 +18,7 @@ def getDocuments():
 @app.route('/documents/tags', methods=['GET'])
 def getDocumentsTags():
 	return jsonify({'result': DocumentModel().getDocumentTags()})
+
+@app.route('/documents/<id>', methods=['GET'])
+def getDocumentById(id):
+	return jsonify(DocumentModel().getDocumentById(id))

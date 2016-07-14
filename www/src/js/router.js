@@ -53,7 +53,7 @@ app.router = Backbone.Router.extend({
             "join/history/:id": "showhistory",
             "join/history/:id/edit": "edithistory",
 
-            "documents": "documents",
+            "documents(/:block/:subBlock)": "documents",
             "documents/:id": "document",
 
             "notfound" : "notfound",
@@ -102,7 +102,7 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link legal"][app.lang], "legal");
         this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
-        this.route(this.langRoutes["_link documents"][app.lang], "documents");
+        this.route(this.langRoutes["_link documents"][app.lang] + "(/:block/:subBlock)", "documents");
         this.route(this.langRoutes["_link documents"][app.lang] + "/:id", "document");
     },
 
@@ -288,10 +288,10 @@ app.router = Backbone.Router.extend({
         });
     },
 
-    documents:function(){
+    documents:function(block,subBlock){
       $("#content").show();
       $("#map").hide();
-      app.showView(new app.view.Documents());
+      app.showView(new app.view.Documents({'block':block, 'subBlock':subBlock}));
     },
 
     document:function(id){
