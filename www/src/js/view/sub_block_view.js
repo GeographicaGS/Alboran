@@ -42,5 +42,17 @@ app.view.SubBlock = Backbone.View.extend({
 
     getCurrentTopic:function(){
     	return parseInt($('div[block=' + this.model.get('currentBlock') + '].selected').attr('topic_id'));
+    },
+
+    updateCounter:function(col){
+      var _this = this;
+      this.$('div[topic_id] span').text(0);
+
+      _.each(col.toJSON(), function(c,key) {
+        var key = Object.keys(c)[0];
+        c[key] = _.each(c[key],function(el){
+          _this.$('div[topic_id=' + el.topic_id + '] span').text(el.count);
+        })
+      });
     }
 });

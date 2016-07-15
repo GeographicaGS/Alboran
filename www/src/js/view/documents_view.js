@@ -27,7 +27,8 @@ app.view.Documents = Backbone.View.extend({
 
     events: {
       'click .block_header h2': 'changeBlock',
-      'click .block_box, .source_box ul li, .tag_box ul li': '_renderDocuments',
+      'click .source_box ul li, .tag_box ul li': '_filterDocuments',
+      'click .block_box': '_renderDocuments'
     },
     
     onClose: function(){
@@ -46,22 +47,8 @@ app.view.Documents = Backbone.View.extend({
     
     render: function() {
     	var col = _.groupBy(this._collection.toJSON(), function(c){ return c.cat_id ;})
-    	var colSubBlocks = new Backbone.Collection();
-    	_.each(col,function(c,key){
-    		var cat = {};
-    		cat[key] = [];
-    		var topics = _.groupBy(c, function(el){ return el.topic_id ;});
-    		_.each(topics,function(t){
-    			cat[key].push({
-    				'topic_id':t[0].topic_id,
-    				'title_en':t[0].topic_en,
-    				'title_es':t[0].topic_es,
-    				'title_fr':t[0].topic_fr,
-    				'count':t.length
-    			});
-  			});
-    		colSubBlocks.push(cat)
-    	});
+    	
+
       this.$el.html(this._template({'block':this._block,'col':col}));
 
       var subBlockModel = new Backbone.Model({
@@ -69,7 +56,7 @@ app.view.Documents = Backbone.View.extend({
         'currentSubBlock':this._subBlock ? this._subBlock:null 
       });
 
-      this.subBlocksView = new app.view.SubBlock({'model':subBlockModel, 'collection':colSubBlocks});
+      this.subBlocksView = new app.view.SubBlock({'model':subBlockModel, 'collection':this._getSubBlockCol(col)});
       this.$('.filters').append(this.subBlocksView.$el)
 
       this.sourceView = new app.view.Sources({'collection':_.uniq(_.map(this._collection.toJSON(), function(c){ return c.source;}))});
@@ -80,9 +67,33 @@ app.view.Documents = Backbone.View.extend({
       return this;
     },
 
+    _getSubBlockCol:function(col){
+      var colSubBlocks = new Backbone.Collection();
+      _.each(col,function(c,key){
+        var cat = {};
+        cat[key] = [];
+        var topics = _.groupBy(c, function(el){ return el.topic_id ;});
+        _.each(topics,function(t){
+          cat[key].push({
+            'topic_id':t[0].topic_id,
+            'title_en':t[0].topic_en,
+            'title_es':t[0].topic_es,
+            'title_fr':t[0].topic_fr,
+            'count':t.length
+          });
+        });
+        colSubBlocks.push(cat)
+      });
+
+      return colSubBlocks;
+    },
+
     renderTags:function(){
     	this.tagsView = new app.view.Tags({'collection':_.uniq(this._collectionTag.toJSON(), function(c) {return c.id_tag;})});
       this.$('.filters').append(this.tagsView.$el);
+
+      this.currentSources = this.sourceView.getCurrentSources();
+      this.currentIdDocumentsByTags = this._getIdDocumentsByTags(this.tagsView.getCurrentTags());
       this._renderDocuments();  
     },
 
@@ -93,15 +104,35 @@ app.view.Documents = Backbone.View.extend({
       this._renderDocuments();
     },
 
+    _filterDocuments:function(){
+      var _this = this;
+      this.currentSources = this.sourceView.getCurrentSources();
+      this.currentIdDocumentsByTags = this._getIdDocumentsByTags(this.tagsView.getCurrentTags());
+
+      var col = _.groupBy(this._collection.toJSON(), function(c){ return c.cat_id ;})
+
+      _.each(col,function(c,key){
+        
+        col[key] = _.filter(c, function(el){ 
+                    return ($.inArray(el.source,_this.currentSources) >= 0) && ($.inArray(el.id_doc,_this.currentIdDocumentsByTags) >= 0)
+        });
+
+        _this.$('.block_header h2[block=' + key + '] span').text(col[key].length)
+
+      });
+
+      this.subBlocksView.updateCounter(this._getSubBlockCol(col));
+
+      this._renderDocuments();
+    },
+
     _renderDocuments:function(){
+      var _this = this;
       var id_block = this.$('.block_header h2.selected').attr('block');
     	var topic_id = this.subBlocksView.getCurrentTopic();
-    	var sources = this.sourceView.getCurrentSources();
-    	var tags = this.tagsView.getCurrentTags();
-    	var id_documents = this._getIdDocumentsByTags(tags);
 
     	var col = _.filter(this._collection.toJSON(), function(c){ 
-						    		return (c.topic_id == topic_id) && ($.inArray(c.source,sources) >= 0) && ($.inArray(c.id_doc,id_documents) >= 0)
+						    		return (c.topic_id == topic_id) && ($.inArray(c.source,_this.currentSources) >= 0) && ($.inArray(c.id_doc,_this.currentIdDocumentsByTags) >= 0)
     	});
 
     	this.$('.doc_list').html(this._template_list({'col':col}));
@@ -111,7 +142,7 @@ app.view.Documents = Backbone.View.extend({
         this._msnry = this.$('.doc_list').masonry({'gutter':20, fitWidth: true});
 
 
-      app.router.navigate("documents/" + id_block + '/' + topic_id,{trigger: true});
+      app.router.navigate("documents/" + id_block + '/' + topic_id,{trigger: false});
 
     },
 
