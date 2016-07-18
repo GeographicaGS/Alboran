@@ -37,7 +37,7 @@
 		&:nth-of-type(1){
 			.header{
 				&:before{
-					background-color: rgba(0,0,102,.5);
+					background-color: rgba(0,0,102,.3);
 				}
 			}
 		}
