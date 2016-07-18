@@ -2,15 +2,21 @@
 	
 	<div class="block_header">
 		<div class="container">
-			<div class="row">
+			<div class="wrapper_list">
 				<%_.each(col,function(c){%>
-					<div class="col-sm-4 col-md-4">
+					<div>
 						<h2 block="<%=c[0].cat_id%>" class="<%=c[0].cat_id == 1 ? 'green':(c[0].cat_id == 2 ? 'red':'blue')%> 
 							<%= (block == c[0].cat_id) || (!block && c[0].cat_id == 1) ? 'selected':''%>"><%=c[0]['cat_' + app.lang]%><span><%=c.length%></span></h2>
 					</div>
 				<%})%>
 			</div>
 		</div>
+
+		<div id="searchbar">
+			<input type="text" id="searchInput" readonly>
+			<button type="button"><span><lang>Buscar</lang></span></button>
+		</div>
+
 	</div>
 
 	<div class="clear"></div>
@@ -21,6 +27,12 @@
 
 			<div class="col-sm-8 col-md-8">
 				<div class="doc_list"></div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<div class="doc_list_search hide"></div>
 			</div>
 		</div>
 	</div>

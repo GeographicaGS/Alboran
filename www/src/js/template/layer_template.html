@@ -3,12 +3,16 @@
 		<div class="col-sm-6 col-md-6">
 			<p class="name">
 				<%= title %>
-				<a class="info_btn" href="#"><img src="/img/map/ALB_icon_info_capa_white.svg"></a>
+				<!-- <a class="info_btn" href="#"><img src="/img/map/ALB_icon_info_capa_white.svg"></a> -->
 			</p>
 		</div>
 		<div class="col-sm-6 col-ms-6">
 			<div class="actions">
-				<a class="button add_btn add" href="#" layerid="<%= id %>" addLabel="<lang>Añadir capa</lang><span class='noLowRes'> <lang>a la tabla de contenido</lang></span>" removeLabel="<lang>Capa añadida</lang>"><lang>Añadir capa</lang><span class="noLowRes"> <lang>a la tabla de contenido</lang></span></a>
+				
+				<!-- <a class="button add_btn add" href="#" layerid="<%= id %>" addLabel="<lang>Añadir capa</lang><span class='noLowRes'> <lang>a la tabla de contenido</lang></span>" removeLabel="<lang>Capa añadida</lang>"><lang>Añadir capa</lang><span class="noLowRes"> <lang>a la tabla de contenido</lang></span></a> -->
+
+				<a class="button add_btn add" href="#" layerid="<%= id %>" addLabel="<lang>Añadir capa</lang>" removeLabel="<lang>Capa añadida</lang>"><lang>Añadir capa</lang></a>
+
 				<% if(geoNetWk){ %><a class="button metadata_btn" href="<%= geoNetWk %>" target="_blank"><lang>Metadatos</lang></a><% } %>
 				<% if(isAdmin){ %><a class="button" href="/<lang>lang</lang>/<lang>_link catalogue</lang>/<lang>_link layer</lang>/<%= id %>"><lang>Editar</lang></a><% } %>
 			</div>
@@ -23,7 +27,7 @@
 				<div class="col-sm-2 col-md-2">
 					<p><lang>Fuente</lang></p>
 				</div>
-				<div class="col-sm-10 col-md-10">
+				<div class="col-sm-10 col-md-10 source_text">
 					<%= dataSource %>
 				</div>
 			</div>

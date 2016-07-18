@@ -1,4 +1,4 @@
-<div id="searchbar">
+<!-- <div id="searchbar">
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-md-12">
@@ -8,50 +8,62 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
+
 <div class="catalogue_list">
+
 	<div class="tabsContainer">
+
+		<div id="searchbar">
+				<input type="text" id="searchInput" readonly>
+				<button type="button"><span><lang>Buscar</lang></span></button>
+		</div>
+
 		<div class="container">
-			<!-- TOPTABS -->
-			
-			<ul class="row topTabs">
-				<li id="<lang>rasgosnaturales</lang>" class="col-sm-4 col-md-4 title green selected">
+
+			<ul class="topTabs">
+				<li id="<lang>rasgosnaturales</lang>" class="title green selected">
 					<a href="#">
-						<h2><%= categories[0]["title_" + app.lang] %></h2>
-						<span><%= categories[0].topics[0].layers.length + categories[0].topics[1].layers.length + categories[0].topics[2].layers.length %></span>
+						<h2><%= categories[0]["title_" + app.lang] %> <span></span></h2>
 					</a>
 				</li>
-				<li id="<lang>presioneseimpactos</lang>" class="col-sm-4 col-md-4 title red">
+				<li id="<lang>presioneseimpactos</lang>" class="title red">
 					<a href="#">
-						<h2><%= categories[1]["title_" + app.lang] %></h2>
-						<span><%= categories[1].topics[0].layers.length %></span>
+						<h2><%= categories[1]["title_" + app.lang] %> <span></span></h2>
 				</a>
 				</li>
-				<li id="<lang>proteccionyconservacion</lang>" class="col-sm-4 col-md-4 title blue">
+				<li id="<lang>proteccionyconservacion</lang>" class="title blue">
 					<a href="#">
-						<h2><%= categories[2]["title_" + app.lang] %></h2>
-						<span><%= categories[2].topics[0].layers.length + categories[2].topics[1].layers.length +  + categories[2].topics[2].layers.length %></span>
+						<h2><%= categories[2]["title_" + app.lang] %> <span></span></h2>
 					</a>
 				</li>
-				<li class="col-sm-4 col-md-4 title hidden">
+				<!-- <li class="col-sm-4 col-md-4 title hidden">
 					<a href="#">
 						<h2><span>resultado(s)</span></h2
 					></a>
-				</li>
+				</li> -->
 			</ul>
 
 
 		</div>
 	</div>
-	<div class="container">
-		<ul class="row layersContainer">
-			<!-- SUBLIST -->
-			<div class="col-sm-12 col-md-12">
-				<li class="layergroup green selected" id="layerGroup1"></li>
-				<li class="layergroup red" id="layerGroup2"></li>
-				<li class="layergroup blue" id="layerGroup3"></li>
-				<li class="layergroup" id="layerGroup4"></li>
+	<div class="container layers_wrapper">
+		<div class="row">
+			<div class="col-sm-4 col-md-4 filters">
+				
+				<% if (isAdmin){ %>
+					<a href="/<lang>lang</lang>/<lang>_link catalogue</lang>/<lang>_link layer</lang>" id="createLayer" class="button"><lang>Nueva capa</lang></a><% 
+				} %>
+
 			</div>
-		</ul>
+			<div class="col-sm-8 col-md-8 layersContainerWrapper">
+				<ul class="layersContainer">
+					<li class="layergroup green selected" id="layerGroup1"></li>
+					<li class="layergroup red" id="layerGroup2"></li>
+					<li class="layergroup blue" id="layerGroup3"></li>
+					<li class="layergroup" id="layerGroup4"></li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>

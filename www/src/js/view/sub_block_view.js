@@ -41,7 +41,7 @@ app.view.SubBlock = Backbone.View.extend({
     },
 
     getCurrentTopic:function(){
-    	return parseInt($('div[block=' + this.model.get('currentBlock') + '].selected').attr('topic_id'));
+    	return parseInt(this.$('div[block=' + this.model.get('currentBlock') + '].selected').attr('topic_id'));
     },
 
     updateCounter:function(col){

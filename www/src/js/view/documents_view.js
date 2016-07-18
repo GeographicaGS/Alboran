@@ -28,7 +28,9 @@ app.view.Documents = Backbone.View.extend({
     events: {
       'click .block_header h2': 'changeBlock',
       'click .source_box ul li, .tag_box ul li': '_filterDocuments',
-      'click .block_box': '_renderDocuments'
+      'click .block_box': '_renderDocuments',
+      'click #searchbar button': '_toggleSearch',
+      'keyup #searchInput': '_search',
     },
     
     onClose: function(){
@@ -100,7 +102,7 @@ app.view.Documents = Backbone.View.extend({
     changeBlock:function(e){
     	$('.block_header h2').removeClass('selected')
     	$(e.currentTarget).addClass('selected');
-    	this.subBlocksView.model.set('currentBlock', $(e.currentTarget).attr('block'))
+    	this.subBlocksView.model.set('currentBlock', $(e.currentTarget).attr('block'));
       this._renderDocuments();
     },
 
@@ -153,6 +155,45 @@ app.view.Documents = Backbone.View.extend({
 
     	 return _.uniq(_.map(result, function(r){return r.id_doc;}));
 
+    },
+
+    _toggleSearch: function(e){
+      e.preventDefault();
+      if(this.$('#searchbar').hasClass('enabled')){
+
+        this.$('#searchbar').removeClass('enabled');
+        this.$('#searchInput').attr('readonly','readonly');
+
+        this.$('.wrapper_list').show();
+        this.$('.doc_list_search').addClass('hide');
+        this.$('.doc_list').closest('.row').removeClass('hide');
+
+      }else{
+        this.$('#searchbar').addClass('enabled');
+        this.$('#searchInput').removeAttr('readonly');
+        this.$('#searchInput').val('');
+        this.$('#searchInput').focus();
+
+        this.$('.wrapper_list').hide();
+        this.$('.doc_list').closest('.row').addClass('hide');
+        this.$('.doc_list_search').removeClass('hide');
+        this._search();
+      }
+    },
+
+    _search:function(){
+      var _this = this;
+      var pattern = new RegExp(this.$('#searchInput').val(),"gi");
+
+      var col = _.filter(this._collection.toJSON(), function(c){ 
+                    return pattern.test(c['title_' + app.lang]) || pattern.test(c.source) || pattern.test(c['description_' + app.lang])
+      });
+
+      this.$('.doc_list_search').html(this._template_list({'col':col}));
+
+      if(this._msnry_search)
+          this.$('.doc_list_search').masonry("destroy");
+      this._msnry_search = this.$('.doc_list_search').masonry({'gutter':20, fitWidth: true});
     }
 });
 

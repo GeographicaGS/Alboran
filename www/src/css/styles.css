@@ -227,7 +227,18 @@ i,em {
 .uppercase{ text-transform: uppercase;}
 .center {display: block; margin: 0 auto;}
 
-#content {padding-top: 72px;}
+main{
+	display: flex;
+	flex-direction: column;
+}
+
+#content {
+	padding-top: 72px;
+	flex: 1 1 100%;
+	>div{
+		height: 100%;
+	}
+}
 
 header {
 	border-bottom: 1px solid #84a4b9;
@@ -1540,6 +1551,17 @@ footer {
 .block_header{
 	height: 72px;
 	background-color: @white;
+
+	position: relative;
+
+	.wrapper_list{
+		display: flex;
+		>div{
+			flex: 1 1 auto;
+		}
+	}
+
+
 	h2{
 		display: inline-block;
 		line-height: 72px;
@@ -1760,4 +1782,8 @@ footer {
 		padding-top: 10px;
 		border-bottom: 1px solid #fff;
     }
+}
+
+.fullWidth{
+	width: 100%;
 }

@@ -138,6 +138,7 @@ app.view.GroupLayer = Backbone.View.extend({
     	"mouseover li": "layerOver",
     	"mouseleave li": "layerLeave",
     	"click .removeLayer": "removeLayerClick",
+        "click .delete": "removeAllLayers",
     	"click .leyend" : "leyendClick",
     	"click .opacity": "opacityClick",
     	"click .panelFooter": "addLayerClick",
@@ -186,13 +187,18 @@ app.view.GroupLayer = Backbone.View.extend({
             Map.removeLayer(idLayer);
     	});
     	
-    	var addButtons = $(".add_btn");
+    	var addButtons = $(".catalogue_list .add_btn");
     	for(var i=0; i<addButtons.length; i++){
     		if($(addButtons[i]).attr("layerid") == idLayer){
     			$(addButtons[i]).trigger("click");
     			break;
     		}
     	}
+    },
+
+    removeAllLayers:function(e){
+      // $(".catalogue_list .add_btn:not(.add)").addClass('add');
+      $('.removeLayer').trigger('click')
     },
     
     addLayerClick: function(e){
