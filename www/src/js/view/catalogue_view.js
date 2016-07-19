@@ -43,15 +43,6 @@ app.view.Catalogue = Backbone.View.extend({
 
         this.renderAll();
 
-        if(this.activeCategory){
-            var index = this.$topTabs.filter('#'+this.activeCategory).index();
-            this.changeTab(null,index);
-
-            if(this.activeSection){
-                this.goToSection(this.activeSection-1);
-            }
-        }
-
 
         var subBlockModel = new Backbone.Model({
           'currentBlock':1,
@@ -61,6 +52,17 @@ app.view.Catalogue = Backbone.View.extend({
 
         this.sourceView = new app.view.Sources({'collection':this._getSources()});
         this.$('.filters').append(this.sourceView.$el)
+
+
+        if(this.activeCategory){
+            var index = this.$topTabs.filter('#'+this.activeCategory).index();
+            this.changeTab(null,index);
+
+            if(this.activeSection){
+                this.goToSection(this.activeSection-1);
+            }
+        }
+        
 
         this._filter();
 
@@ -187,7 +189,7 @@ app.view.Catalogue = Backbone.View.extend({
             this.$('.layersContainerWrapper').removeClass('fullWidth')
             this.changeTab(null,0);
 
-            this.renderAll();
+            // this.renderAll();
         }else{
             this.$searchbar.addClass('enabled');
             this.$searchbarText.removeAttr('readonly');
