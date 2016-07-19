@@ -587,7 +587,7 @@ body > header {
 		padding: 0 10px;
 		&:before{
 			content: url('/img/map/ALB_icon_escribir.svg');
-			margin-right: 20px;
+			margin-right: 10px;
 		}
 	}
 
@@ -828,13 +828,16 @@ body > header {
 	}
 
 	.historyControl-container {
-		position: absolute;
+		/*position: absolute;
 		bottom: 60px;
 		left: 0;
 		width: 100%;
-		padding: 10px;
+		padding: 10px;*/
 		font-size: 9pt;
 		color: @grey_footer;
+
+		display: inline-block;
+		margin-left: 26px;
 
 		#mapHistoryControl {
 			display: none;
@@ -849,6 +852,7 @@ body > header {
 				display: inline-block;
 				margin-right: 10px;
 				vertical-align: top;
+		    margin-top: 11px;
 			}
 
 			&.active {
@@ -1305,14 +1309,14 @@ footer {
 }
 
 /* Fix for fancybox when TOC is expanded */
-.fancybox-wrap.stretch {
+/*.fancybox-wrap.stretch {
 	max-width: calc(~'100% - 364px');
 	left: 339px !important;
 
 	.fancybox-inner {
 		max-width: 100%;
 	}
-}
+}*/
 
 .flotable_legend {
 	z-index: 2;
