@@ -75,8 +75,8 @@
 	top: 50%;
 	margin-top: calc(~'0px - 0.7em - 8px');*/
 
-	color: @pink;
-	border-color: @pink;
+	color: @blue_med;
+	border-color: @blue_med;
 	padding: 6px 16px 7px 10px;
 	line-height: 1em;
 

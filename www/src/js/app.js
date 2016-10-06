@@ -15,20 +15,17 @@ String.prototype.endsWith = function(suffix) {
 
 app.detectCurrentLanguage = function(){
     // Detect lang analyzing the URL
-    if (document.URL.indexOf("/es/") != -1 || document.URL.endsWith("/es")) {
-        return "es";
-    }
-    else if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {
+    if (document.URL.indexOf("/en/") != -1 || document.URL.endsWith("/en")) {
         return "en";
     }
     else if (document.URL.indexOf("/fr/") != -1 || document.URL.endsWith("/fr")) {
         return "fr";
     }
 
-    return null;
+    // return null;
 
-    // Force es
-    return "es";
+    // Force fr
+    return "fr";
 };
 
 // Force going to the error page if jQuery is not loaded

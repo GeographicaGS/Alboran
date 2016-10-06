@@ -95,9 +95,9 @@
 @yellow : #fdc300;
 @orange : #ff9000;
 
-@green : #009966;
-@red : #ff3300;
-@blue : #018be2;
+@green : #57c053;
+@red : #f7931e;
+@blue : #00bfcd;
 @blue_light : #accee4;
 @blue_trans: rgba(144, 189, 219, .3);
 @white :#fff;
@@ -117,10 +117,15 @@
 @grey_4: #697077;
 @grey_5: #909599;
 @grey_6: #f2f2f2;
-@pink: #ff3366;
+/*@pink: #ff3366;*/
+@pink: #0179c2;
 @light_pink: #ffadc2;
 @ocre: #cc9900;
 @green_ok: #5cc386;
+
+@blue_med:#0179c2;
+@blue_light_med:#0c4e76;
+@blue_dark_med:#093b59;
 
 html, body{ height:100%;}
 body {
@@ -233,7 +238,7 @@ main{
 }
 
 #content {
-	padding-top: 72px;
+	padding-top: 96px;
 	flex: 1 1 100%;
 	>div{
 		height: 100%;
@@ -258,18 +263,18 @@ body > header {
 	}
 
 	&:last-of-type {
-		background-color: @bluegrey_header;
-		height: 72px;
+		background-color: #e6e6e6;
+		height: 96px;
 	}
 
 	#uppermenu {
 		font-size: 0.7em;
 		/*background-color: @bluegrey_header_light;*/
-		background-color: @pink;
-		border-bottom: 1px solid @blue_light;
-		height: 36px;
-		line-height: 36px;
-		color: @white;
+		background-color: @white;
+		/*border-bottom: 1px solid @blue_light;*/
+		height: 60px;
+		line-height: 60px;
+		color: @blue_med;
 
 		& > * {
 			position: relative;
@@ -295,11 +300,11 @@ body > header {
 		.login {
 			.lato(regular);
 			font-size: 13px;
-			color:@light_pink;
+			color:@blue_med;
 
-			&:hover{
+			/*&:hover{
 				color:@white;
-			}
+			}*/
 
 			/*&:after {
 				content: url('@{imgPath}home/ALB_icon_usuario.svg');
@@ -311,11 +316,11 @@ body > header {
 
 		.lang{
 			font-size: 13px;
-			color:@light_pink;
+			color:@blue_med;
 			position: absolute;
 			left: 10px;
 			&:before{
-				content:url('/img/home/ALB_icon_idioma-white.svg');
+				content:url('/img/icon-idioma.svg');
 				position: relative;
 				top: 3px;
 				margin-right: 5px;
@@ -335,7 +340,7 @@ body > header {
 		ul li {
 			margin-right: 7px;
 			&.selected{
-				color:@white;
+				/*color:@white;*/
 			}
 		}
 	}
@@ -367,13 +372,13 @@ body > header {
 			.howTo{
 				width: 20px;
 				height: 20px;
-				background-color: @grey2;
-				color:@bluegrey_header_light;
+				background-color: @blue_med;
+				color:#e6e6e6;
 				border-radius: 100%;
 		    text-align: center;
 				position: absolute;
 				right: 10px;
-				top: 8px;
+				/*top: 8px;*/
 		    a{
 					position: relative;
 					bottom: 1px;
@@ -403,7 +408,7 @@ body > header {
 					/*padding-top: 11px;*/
 					width: 100%;
 					display: flex;
-					height: 36px;
+					/*height: 36px;*/
 					align-items: center;
 					justify-content: center;
 
@@ -421,7 +426,7 @@ body > header {
 
 							a {
 								padding-bottom: 9px;
-								border-bottom: 2px solid @pink;
+								border-bottom: 2px solid @blue_med;
 								.lato(bold);
 
 								@media (max-width: 1023px) {
@@ -486,12 +491,12 @@ body > header {
 	cursor:pointer;
 	position: fixed;
 	left: 0;
-	top: 35px;
+	top: 59px;
 	height: 37px;
 
 /* 	width: 40px; */
 
-	background-color: @grey2;
+	background-color: @blue_med;
 	/*box-shadow: 0 0 4px 0 rgba(0,0,0,.75);*/
 
 	font-size: 0.7em;
@@ -539,12 +544,12 @@ body > header {
 }
 
 #groupLayer{
-	height: ~"calc(100% - 108px)";
+	height: ~"calc(100% - 132px)";
 	/*height: 100%;*/
 	/*background-color: rgba(57, 64, 72, 0.9);*/
 	background-color: #475f71;
 	position: fixed;
-	top: 72px;
+	top: 96px;
 	left: -320px;
 	width: 320px;
 	z-index: 10001;
@@ -896,11 +901,10 @@ body > header {
 		width: 200px;
 		text-align: center;
 		padding: 10px 10px 20px;
-		background-color: @pink;
 		color:@grey_header_dark;
 		font-size: 14px;
 		position: relative;
-		top: -10px;
+		/*top: -10px;*/
 
 		.highlight {
 			color: @white;
@@ -954,12 +958,14 @@ body > header {
 		}
 
 		input[type='button']{
-			background-color: @grey_5;
+			background-color: @white;
+			color:@blue_med;
 			border: none;
-			color: white;
+			/*color: white;*/
 			.lato(bold);
 			text-transform: uppercase;
 			font-size: 0.8em;
+			border: 2px solid @blue_med;
 
 			&.extraMargin {
 				margin-bottom: 30px;
@@ -1198,7 +1204,7 @@ body > header {
 footer {
 	z-index: 10002;
 	color: @white;
-	background-color: @grey_footer_dark;
+	background-color: @blue_dark_med;
 	font-size: 10pt;
 	height: 36px;
 	overflow: hidden;
@@ -1219,7 +1225,7 @@ footer {
 	.row{
 
 		p {
-			margin: 5px 0;
+			margin: 8px 0;
 			white-space: nowrap;
 
 			a {
@@ -1298,7 +1304,7 @@ footer {
 }
 
 .leaflet-top .leaflet-control{
-	margin-top: 90px;
+	margin-top: 110px;
 }
 
 #container_feature_info{

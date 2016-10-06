@@ -287,7 +287,7 @@ app.router = Backbone.Router.extend({
             }
         });
     },
-
+ 
     documents:function(block,subBlock){
       $("#content").show();
       $("#map").hide();

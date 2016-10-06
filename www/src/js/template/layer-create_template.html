@@ -27,8 +27,10 @@
 								<% }); %>
 							</select>
 							<br>
-							<input type="checkbox" id="indefaultmap" name="indefaultmap" <%= data.isInConfig ? 'checked' : '' %> />
-							<label for="indefaultmap"><lang>Incluir en el mapa preconfigurado de la temática</lang></label>
+							<div style="opacity:0;">
+								<input type="checkbox" id="indefaultmap" name="indefaultmap" <%= data.isInConfig ? 'checked' : '' %> />
+								<label for="indefaultmap"><lang>Incluir en el mapa preconfigurado de la temática</lang></label>
+							</div>
 						</div>
 						<div class="col-sm-6 col-md-6 withButton">
 							<% _.each(data.categories, function(category){ %>
@@ -59,7 +61,6 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Nombre</lang></legend>
-						<input type="text" class="localized" id="title-es" name="title-es" placeholder="<lang>Nombre de la capa en espa&ntilde;ol</lang>" value="<%= data.title_es %>" required /><label for="title-es">ES</label>
 						<input type="text" class="localized" id="title-en" name="title-en" placeholder="<lang>Nombre de la capa en inglés</lang>" value="<%= data.title_en %>" required /><label for="title-en">EN</label>
 						<input type="text" class="localized" id="title-fr" name="title-fr" placeholder="<lang>Nombre de la capa en francés</lang>" value="<%= data.title_fr %>" required /><label for="title-fr">FR</label>
 					</div>
@@ -75,7 +76,6 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Descripción</lang></legend>
-						<textarea id="desc-es" class="localized" name="desc-es" placeholder="<lang>Escriba aquí la descripción en espa&ntilde;ol</lang>" required><%= data.desc_es %></textarea><label for="desc-es">ES</label>
 						<textarea id="desc-en" class="localized" name="desc-en" placeholder="<lang>Escriba aquí la descripción en inglés</lang>" required><%= data.desc_en %></textarea><label for="desc-en">EN</label>
 						<textarea id="desc-fr" class="localized" name="desc-fr" placeholder="<lang>Escriba aquí la descripción en francés</lang>" required><%= data.desc_fr %></textarea><label for="desc-fr">FR</label>
 					</div>
@@ -189,11 +189,10 @@
 		<div class="content">
 			<h2><lang>Crear nueva sección</lang></h2>
 			<fieldset>
-				<input type="text" class="localized" id="sectiontitle-es" name="sectiontitle-es" placeholder="<lang>Nombre de la sección en espa&ntilde;ol</lang>" required /><label for="sectiontitle-es">ES</label>
 				<input type="text" class="localized" id="sectiontitle-en" name="sectiontitle-en" placeholder="<lang>Nombre de la sección en inglés</lang>" required /><label for="sectiontitle-en">EN</label>
 				<input type="text" class="localized" id="sectiontitle-fr" name="sectiontitle-fr" placeholder="<lang>Nombre de la sección en francés</lang>" required /><label for="sectiontitle-fr">FR</label>
 			</fieldset>
-		</div>
+		</div> 
 		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
         <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
 	</div>

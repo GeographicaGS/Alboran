@@ -42,15 +42,14 @@
                     <div class="col-sm-12 col-md-12 wrapper">
                         <div class="lang">
                             <ul id="">
-                                <li class="selected"><a href="" onclick="location.href= '/' + app.lang"><lang>Español</lang></a></li>
-                                <li><a href="/" onclick="location.href=this.href + ('<lang>FR</lang>'.toLowerCase());return false;"><lang>FR</lang></a></li>
+                                <li class="selected"><a href="" onclick="location.href= '/' + app.lang"><lang>English</lang></a></li>
                                 <li><a href="/" onclick="location.href=this.href + ('<lang>EN</lang>'.toLowerCase());return false;"><lang>EN</lang></a></li>
                             </ul>
                         </div>
 
                         <div class="title">
                             <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink>
-                                <lang>Espacio</lang> <strong><lang>Alborán</lang></strong>
+                                <img style="position:relative; top:9px;" height="40px;" src="/img/home/racspa_logo_azul.png" alt="">
                             </a>
                         </div>
 
@@ -77,52 +76,17 @@
                             <li data-menu="catalogue">
                                 <a href="/<lang>lang</lang>/<lang>_link catalogue</lang>" jslink><lang>Catálogo</lang></a>
                             </li>
-
-                            <li data-menu="documents">
-                                <a href="/<lang>lang</lang>/<lang>_link documents</lang>" jslink><lang>Documentación</lang></a>
-                            </li>
-
-                            <li data-menu="join">
-                                <a href="/<lang>lang</lang>/<lang>_link join</lang>" jslink><lang>Participe</lang></a>
-                            </li>
-                            <!-- <li data-menu="howto">
-                                <a href="/<lang>lang</lang>/<lang>_link howto</lang>" jslink><lang>Cómo usarlo</lang></a>
-                            </li> -->
-                            <li data-menu="about">
-                                <a href="/<lang>lang</lang>/<lang>_link about</lang>" jslink><lang>El proyecto</lang></a>
-                            </li>
                             
                             <div class="howTo">
                                 <a href="/<lang>lang</lang>/<lang>_link howto</lang>" jslink>?</a>
                             </div>
                         </ul>
                     </div>
-                    <!-- <div class="col-sm-2 col-md-2 title">
-                        <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el </lang><br><strong class="highlight black"><lang>Mar de Alborán</lang></strong></a>
-                    </div> -->
-                   <!--  <div class="col-sm-5 col-md-5">
-                        <ul>
-                            <li data-menu="howto">
-                                <a href="/<lang>lang</lang>/<lang>_link howto</lang>" jslink><lang>Cómo usarlo</lang></a>
-                            </li>
-                            <li data-menu="about">
-                                <a href="/<lang>lang</lang>/<lang>_link about</lang>" jslink><lang>El proyecto</lang></a>
-                            </li>
-                            <li class="alboran" data-menu="alboran">
-                                <a><img src="/img/home/ALB_logo_proyecto_cab.svg"></a>
-                            </li>
-                        </ul>
-                    </div> -->
                 </div>
             </div>
         </nav>
         <div id="map_control">
             <img src="/img/home/ALB_icon_toc_grey.svg">
-            <!-- <div class="title"><lang>TABLA DE CONTENIDO</lang></div>
-            <img class="groupLauyerConfig" src="/img/map/ALB_icon_config_toc.svg"> -->
-            <!-- <span class="value green">0</span><br>
-            <span class="value red">0</span><br>
-            <span class="value blue">0</span> -->
         </div>
         
     </header>
@@ -135,7 +99,7 @@
     
     <div id="loginForms">
         <div class="header">
-            <span class="uppercase"><strong><lang>Gobernanza</lang></strong></span><lang> en el</lang><br><span class="highlight"><lang>Mar de Alborán</lang></span>
+            <img style="position:relative; top:9px;" height="70px;" src="/img/home/racspa_logo_azul.png" alt="">
         </div>
         <div id="initSessionForm" class="loginForm">
     		<div>
@@ -147,15 +111,11 @@
     		<input id="signin_btn" type="button" value="<lang>Acceder</lang>" class="extraMargin">
     		<p class="error">Usuario y contraseña incorrectos</p>
      		<div class="footer">
-     			<p><lang>¿No es usuario de Alborán?</lang> <a class="signinWindow" href="#" jslink><lang>Crear cuenta</lang></a></p>
-     		</div>
+                <p><a class="signinWindow" href="#" jslink><lang>Crear cuenta</lang></a></p>
+            </div>
     	</div>
 
         <div id="createAccountForm" class="loginForm hidden" role="form">
-            <div>
-                <h2><lang>¿Tiene algo que contar o compartir sobre el Mar de Alborán?</lang></h2>
-                <span><lang>Regístrese y participe</lang>.</span>
-            </div>
             <input type="text" placeholder="<lang>Su nombre y apellidos</lang>" class="name" name="name">
             <input type="text" placeholder="<lang>Su correo electrónico</lang>" class="email" name="email">
             <input type="text" placeholder="<lang>La institución de la que proviene</lang>" name="institution">
@@ -163,8 +123,8 @@
             <input type="password" placeholder="<lang>Escriba su contraseña</lang>" name="password">
             <input type="password" placeholder="<lang>Repita su contraseña</lang>" name="repeatPassword">
             <input type="text" placeholder="¿Por qué quiere registrarse?" name="whySignup">
-            <input type="button" value="<lang>Crear cuenta</lang>" id="signup_btn">
-            <p class="legal"><lang>Al crear su cuenta, acepta nuestros</lang> <a href="/<lang>lang</lang>/<lang>_link legal</lang>" jslink><lang>Términos de Uso</lang></a> <lang>y</lang> <a href="/<lang>lang</lang>/<lang>_link privacy</lang>" jslink><lang>Política de Privacidad</lang></a></p>
+            <input class="mb" type="button" value="<lang>Crear cuenta</lang>" id="signup_btn">
+            <!-- <p class="legal"><lang>Al crear su cuenta, acepta nuestros</lang> <a href="/<lang>lang</lang>/<lang>_link legal</lang>" jslink><lang>Términos de Uso</lang></a> <lang>y</lang> <a href="/<lang>lang</lang>/<lang>_link privacy</lang>" jslink><lang>Política de Privacidad</lang></a></p> -->
             <p class="error">Usuario y contraseña incorrectos</p>
             <div class="footer">
                 <p><lang>¿Es ya usuario de Alborán?</lang> <a class="loginWindow" href="#" jslink><lang>Inicie sesión</lang></a></p>
@@ -232,13 +192,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-3 col-md-3">
-                    <p><i><lang>Proyecto Alborán</lang> &copy;</i> <lang>UICN</lang><span class="noLowRes">, <lang>International Union for Conservation of Nature</lang></span></p>
+                    <p><i><lang>MEDKEY Habitats</lang> &copy;</i><span class="noLowRes">, <lang>Regional Activity Centre for Specially Protected Areas (RAC / SPA)</lang></span></p>
                 </div>
                 <div class="col-sm-9 col-md-9">
                     <p>
-                        <a href="/<lang>lang</lang>/<lang>_link contact</lang>" jslink><lang>Contacto</lang></a>
-                        <a href="/<lang>lang</lang>/<lang>_link legal</lang>" jslink><lang>Información Legal</lang></a>
-                        <a href="/<lang>lang</lang>/<lang>_link privacy</lang>" jslink><lang>Política de privacidad</lang></a>
+                        <!-- <a href="/<lang>lang</lang>/<lang>_link contact</lang>" jslink><lang>Contacto</lang></a> -->
+                        <!-- <a href="/<lang>lang</lang>/<lang>_link legal</lang>" jslink><lang>Información Legal</lang></a> -->
+                        <!-- <a href="/<lang>lang</lang>/<lang>_link privacy</lang>" jslink><lang>Política de privacidad</lang></a> -->
                         <a class="geographica" href="http://www.geographica.gs/" target="_blank">
                             <span>D+D</span>
                             Geographica

@@ -46,7 +46,7 @@
 
 		h1 {
 			.lato(lightitalic);
-			color: @pink;
+			color: @blue_med;
 			font-size: 22pt;
 		}
 
