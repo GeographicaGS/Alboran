@@ -315,7 +315,7 @@ app.router = Backbone.Router.extend({
     sendPageview: function(){
         var url;
         url = Backbone.history.root + Backbone.history.getFragment()
-        ga('send', 'pageview', url);
+        //ga('send', 'pageview', url);
     },
 
     forceSpanish: function(){
