@@ -221,6 +221,8 @@ app.view.GroupLayer = Backbone.View.extend({
     				$($(".topTabs li")[categry]).trigger("click");
     				
     				$($(addButtons[i])).parent().parent().parent().children().find("p").find("a").trigger("click");
+                    $($(addButtons[i])).parent().parent().parent().parent().children('.info').addClass('show');
+                     $($(addButtons[i])).parent().parent().parent().find('.name').addClass('expand');
     				$('html, body').animate({
     			        scrollTop: $($(addButtons[i])).offset().top -90
     			    }, 1000);
@@ -327,7 +329,7 @@ app.view.GroupLayer = Backbone.View.extend({
 			change: function( event, ui ){
 				$(ui.handle).closest(".opacity_panel").find(".opacity_label").html("Opacity "+ ui.value + " %");
 				var id_layer = $(ui.handle).closest("li").attr("idlayer");
-				$(ui.handle).closest(".opacity_panel").siblings("img").attr("title","Opacity " + ui.value +" %");
+				// $(ui.handle).closest(".opacity_panel").siblings("img").attr("title","Opacity " + ui.value +" %");
 				that.setLayerOpacity(id_layer, ui.value);
 			}
 		});

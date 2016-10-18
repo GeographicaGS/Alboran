@@ -24,13 +24,13 @@ app.view.LayerGroup = Backbone.View.extend({
 
 		this.$content = this.$('.content');
 		var that = this;
-		if(app.isAdmin){
-			this.$content.sortable({
-				update: function(event, ui){
-					that.updateOrder();
-				}
-			});
-		}
+		// if(app.isAdmin){
+		// 	this.$content.sortable({
+		// 		update: function(event, ui){
+		// 			that.updateOrder();
+		// 		}
+		// 	});
+		// }
 
 		if(!this.model["title"]){
 			this.$el.addClass('first');

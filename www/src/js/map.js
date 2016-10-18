@@ -2,9 +2,9 @@ Map = {
 
 	layers: [],
 	markers: {},
-	iniLat: 36.36455,
-	iniLng: -3.57645,
-	iniZoom: 8,
+	iniLat: 38.272862,
+	iniLng: 15.599916,
+	iniZoom: 5,
 	__map:null,
 	historiesVisible: false,
 

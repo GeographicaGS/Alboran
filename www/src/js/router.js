@@ -6,7 +6,7 @@ app.router = Backbone.Router.extend({
         "_link home" : {"en":"home","es": "inicio", "fr": "accueil" },
         "_link map" : {"en":"map","es": "mapa", "fr": "carte" },
         "_link catalogue" : {"en":"catalogue","es": "catalogo", "fr": "catalogue" },
-        "_link layer": {"en":"layer", "es":"capa", "fr":"capa"},
+        "_link layer": {"en":"layer", "es":"capa", "fr":"couche"},
         "_link section": {"en":"section", "es":"seccion", "fr":"seccion"},
         "_link about" : {"en":"proyecto","es": "proyecto", "fr": "projet" },
         "_link alboran" : {"en":"alboran","es": "alboran", "fr": "alboran" },
