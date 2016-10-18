@@ -122,12 +122,12 @@ app.view.Catalogue = Backbone.View.extend({
           // Insertamos el grupo en el DOM
           this.$layergroups.eq(index).append(group.render().$el);
       }
-  		this.$layergroups.eq(index).sortable({
-  			items: ".layerItemGroup:not(.first)",
-  			update: function(event, ui){
-  				that.updateOrder();
-  			}
-  		});
+  		// this.$layergroups.eq(index).sortable({
+  		// 	items: ".layerItemGroup:not(.first)",
+  		// 	update: function(event, ui){
+  		// 		that.updateOrder();
+  		// 	}
+  		// });
 
     },
 

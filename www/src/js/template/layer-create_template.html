@@ -106,8 +106,8 @@
 					<div class="row input">
 						<legend><lang>Servidor WMS (URL)</lang></legend>
 						<input type="text" id="wmsserver" name="wmsserver" placeholder="<lang>Introduzca una url válida para el servidor WMS de la capa</lang>" value="<%= data.wmsServer %>" required />
-						<button class="explore" type="button">Explorar</button>
-						<button class="geoserver" type="button">Crear capa en Geoserver</button>
+						<button class="explore" type="button"><lang>Explorar</lang></button>
+						<button class="geoserver" type="button"><lang>Crear capa en Geoserver</lang></button>
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
@@ -142,8 +142,8 @@
 
 
 							<div id="meta_data_options_popup" class="hide">
-								<a target="_blank" href="<%='/geonetwork/srv/' + app.lang + '/search?hl=eng#create'%>">Crear</a>
-								<a target="_blank" href="<%='/geonetwork/srv/' + app.lang + '/harvesting'%>">Harvest</a>
+								<a target="_blank" href="<%='http://tomcat.medchm.net/geonetwork/srv/eng/catalog.edit#/create'%>"><lang>Crear</lang></a>
+								<a target="_blank" href="<%='http://tomcat.medchm.net/geonetwork/srv/eng/admin.console#/harvest'%>">Harvest</a>
 							</div>
 
 							
@@ -257,9 +257,9 @@
 	    	<span class="select_geoserver_zip"><lang>Seleccionar SHP (archivo zip)<lang></span>
 	    	<p><lang>Si no selecciona un SLD seleccione en tipo de capa para cargar un SLD por defecto.</lang></p>
 	    	<select name="sld_type">
-	    		<option value="alboran_point"><lang>Punto</lang></option>
-	    		<option value="alboran_line"><lang>Línea</lang></option>
-	    		<option selected value="alboran_poly"><lang>Polígono</lang></option>
+	    		<option value="medbiodivsdi_point"><lang>Punto</lang></option>
+	    		<option value="medbiodivsdi_line"><lang>Línea</lang></option>
+	    		<option selected value="medbiodivsdi_poly"><lang>Polígono</lang></option>
 	    	</select>
 			<input id="geoserverUpload" type="button" value="<lang>Crear capa</lang>">
 			<p class="creating hide"><lang>Creando capa, espere por favor</lang></p>
