@@ -92,6 +92,8 @@
 @grey_light: #e7e7ea;
 @grey_dark: #28282b;
 @grey2: #5e5e62;
+@grey3: #ebebeb;
+@grey4: #cccccc;
 @yellow : #fdc300;
 @orange : #ff9000;
 
@@ -314,11 +316,19 @@ body > header {
 			}*/
 		}
 
+		.other_logos{
+			position: absolute;
+			left: 10px;
+			a img{
+				margin-top: 7px;
+			}
+		}
+
 		.lang{
 			font-size: 13px;
 			color:@blue_med;
 			position: absolute;
-			left: 10px;
+			right: 10px;
 			&:before{
 				content:url('/img/icon-idioma.svg');
 				position: relative;
@@ -329,7 +339,7 @@ body > header {
 
 		.login{
 			position: absolute;
-			right: 10px;
+			right: 64px;
 			width: 100px;
 		}
 
@@ -684,7 +694,12 @@ body > header {
 				right: 0;
 			}
 
-			.leyend{
+/*			.leyend{
+				right: 83px;
+		    padding: 20px 6px 19px 5px;
+			}*/
+
+			.zoom_to_layer{
 				right: 83px;
 		    padding: 20px 6px 19px 5px;
 			}
@@ -709,27 +724,27 @@ body > header {
 		}
 
 		.panel .green:BEFORE{
-			color:#009966;
+			color:@green;
 		}
 
 		.panel .red:BEFORE{
-			color:#ff3300;
+			color:@red;
 		}
 
 		.panel .blue:BEFORE{
-			color:#018be2;
+			color:@blue;
 		}
 
 		.green li:BEFORE{
-			color:#0d9e6e;
+			color:@green;
 		}
 
 		.red li:BEFORE{
-			color:#ff3300;
+			color:@red;
 		}
 
 		.blue li:BEFORE{
-			color:#018be2;
+			color:@blue;
 		}
 
 		.panel .active {
@@ -1304,7 +1319,7 @@ footer {
 }
 
 .leaflet-top .leaflet-control{
-	margin-top: 110px;
+	margin-top: 16px;
 }
 
 #container_feature_info{

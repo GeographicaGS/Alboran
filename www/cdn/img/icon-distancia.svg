@@ -2,6 +2,10 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="12px" height="12px" viewBox="0 0 12 12" enable-background="new 0 0 12 12" xml:space="preserve">
-<polygon fill="#57c053" points="12,5 7,5 7,0 5,0 5,5 0,5 0,7 5,7 5,12 7,12 7,7 12,7 "/>
+	 width="25px" height="25px" viewBox="0 0 25 25" enable-background="new 0 0 25 25" xml:space="preserve">
+<g>
+	<rect x="1.13" y="1.074" fill="#2C3034" width="4.509" height="4.509"/>
+	<rect x="19.361" y="19.305" fill="#2C3034" width="4.508" height="4.508"/>
+	<line fill="none" stroke="#2C3034" stroke-miterlimit="10" x1="3.383" y1="3.329" x2="21.615" y2="21.559"/>
+</g>
 </svg>

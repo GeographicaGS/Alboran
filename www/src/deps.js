@@ -19,6 +19,11 @@ deps.JS = {
 			"js/lib/async.backbone.validation.js",
 			"js/lib/jquery-ui.datepicker-es.js",
 			"js/lib/fancybox/jquery.fancybox.js",
+			"js/lib/Bing.js",
+			"js/lib/leaflet/leaflet.draw-src.js",
+			"js/lib/leaflet/leaflet-overview.js",
+			"js/lib/leaflet/leaflet.zoomDisplay.js",
+			"js/lib/formatcoords.js",
 			// Namespace
 			"js/namespace.js",
 			// Config file
@@ -66,6 +71,8 @@ deps.JS = {
 			"js/view/sub_block_view.js",
 			"js/view/sources_view.js",
 			"js/view/tags_view.js",
+			"js/view/map_tools_view.js",
+			"js/view/legend_view.js",
 
 
 
@@ -87,11 +94,13 @@ deps.CSS = {
 	ThirdParty:{
 		src : [
 		       "js/lib/leaflet/leaflet.css",
+		       "js/lib/leaflet/leaflet.draw.css",
 		       "js/lib/ui-lightness/jquery-ui-1.10.3.custom.min.css",
 		]
 	},
 	Core: {
 		src: [
+			"js/lib/leaflet/leaflet-overview.css",
 			"js/lib/fancybox/jquery.fancybox.css",
 			"css/lib/WWW-Styles/reset.css",
 			"css/lib/WWW-Styles/base.css",
@@ -103,6 +112,7 @@ deps.CSS = {
 			"css/join.css",
 			"css/about.css",
 			"css/documents.css",
+			"css/map.css",
 		]
 	}
 };

@@ -72,6 +72,28 @@ app.resizeMe = function(){
 };
 
 app.ini = function(){
+
+    app.capabilities = new Backbone.Collection();
+    $.ajax({
+      url: '/geoserver/wms?service=wms&version=1.1.1&request=GetCapabilities',
+      success: function(response) {
+        var layers = $(response).find("Layer")[0];
+        _.each($(layers).find("Layer"),function(l) {
+          app.capabilities.push({
+            id:$($(l).find('Name')[0]).text().split(':')[1],
+            bbox:[
+              [parseFloat($(l).find('LatLonBoundingBox').attr('miny')), parseFloat($(l).find('LatLonBoundingBox').attr('minx'))],
+              [parseFloat($(l).find('LatLonBoundingBox').attr('maxy')), parseFloat($(l).find('LatLonBoundingBox').attr('maxx'))]
+            ]
+          })
+        });
+      },
+      error:function(a,b){
+        debugger;
+      }
+    });
+
+
     var that = this;
     app.categories = new app.collection.Categories();
     app.categories.fetch({success: function(){
@@ -107,6 +129,7 @@ app.ini = function(){
                 window.location.href="/" + that.lang + "/browser_error.html";
         }
     }});
+    
 };
 
 app.showView = function(view) {

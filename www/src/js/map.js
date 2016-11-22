@@ -9,7 +9,8 @@ Map = {
 	historiesVisible: false,
 
 	initialize: function(){
-		$("#map").outerHeight($("#map").outerHeight()-$("footer").outerHeight());
+		$("#map").outerHeight($("#map").outerHeight()-$("footer").outerHeight() - $('header').outerHeight());
+		$("#map").css({top:$('header').outerHeight()})
 //			// center the map
 			var startingCenter = new L.LatLng(this.iniLat, this.iniLng);
 
@@ -30,7 +31,43 @@ Map = {
 //			L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
 //			    attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
 //			}).addTo(this.__map);
-			baseMap1.addTo(this.__map);
+			// baseMap1.addTo(this.__map);
+
+			var esri = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+					name:'esri',
+    			attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+					})
+					bingSatellite =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
+					bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
+					openStreetMap =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {name:'openStreetMap', attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'})),
+
+					esri2 = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+						name:'esri',
+    			attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+					}),
+					bingSatellite2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
+					bingRoad2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
+					openStreetMap2 =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {name:'openStreetMap', attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}))
+			;
+
+			var position = 'topleft';
+
+			L.control.layers(
+			 {
+			 	 'ESRI': esri,
+				 'Bing satélite' : bingSatellite,
+				 'Bing callejero' : bingRoad,
+				 'OpenStreetMap' : openStreetMap
+			 },null,{position: position}).addTo(this.__map);
+
+			this.__map.addLayer(esri);
+
+			esri.setZIndex(-1);
+			bingSatellite.setZIndex(-1);
+			bingRoad.setZIndex(-1);
+			openStreetMap.setZIndex(-1);
+
+			Map.overview = L.control.overview([esri2,bingSatellite2,bingRoad2,openStreetMap2]).addTo(this.__map);
 
 
 
@@ -258,8 +295,17 @@ Map = {
 		var BBOX = map.getBounds().toBBoxString();
 		var WIDTH = map.getSize().x;
 		var HEIGHT = map.getSize().y;
-		var X = map.layerPointToContainerPoint(e.layerPoint).x;
-		var Y = map.layerPointToContainerPoint(e.layerPoint).y;
+		// var X = map.layerPointToContainerPoint(e.layerPoint).x;
+		// var Y = map.layerPointToContainerPoint(e.layerPoint).y;
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+	 	var bds = map.getBounds();
+    var sz = map.getSize();
+    var w = bds.getNorthEast().lng - bds.getSouthWest().lng;
+    var h = bds.getNorthEast().lat - bds.getSouthWest().lat;
+    var X = (((e.latlng.lng - bds.getSouthWest().lng) / w) * sz.x).toFixed(0);
+    var Y = (((bds.getNorthEast().lat - e.latlng.lat) / h) * sz.y).toFixed(0);
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		var layers = null;
 		var server = null;
@@ -277,7 +323,7 @@ Map = {
 
 		if (layers==null || server==null || requestIdx==null)
 		{
-			$("#container_feature_info").html("No hay información sobre este punto");
+			$("#container_feature_info").html("<lang>No hay información sobre este punto</lang>");
 
 			return;
 		}
@@ -306,7 +352,7 @@ Map = {
 		        			if((i+1) < Map.layers.length){
 		        				obj.featureInfo(e, i+1);
 		        			}else{
-		        				$("#container_feature_info").html("No hay información sobre este punto");
+		        				$("#container_feature_info").html("<lang>No hay información sobre este punto</lang>");
 		        			}
 		        		}
 		        	}
@@ -314,7 +360,7 @@ Map = {
 	        		if((i+1) < Map.layers.length){
         				obj.featureInfo(e, i+1);
         			}else{
-        				$("#container_feature_info").html("No hay información sobre este punto");
+        				$("#container_feature_info").html("<lang>No hay información sobre este punto</lang>");
         			}
 	        	}
 	        	$.fancybox.update();

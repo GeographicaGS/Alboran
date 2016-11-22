@@ -2,7 +2,10 @@ app.view.GroupLayer = Backbone.View.extend({
 	
 	_template : _.template( $('#groupLayer_template').html() ),
     
-    initialize: function() {
+    initialize: function(options) {
+
+      this._legendView = options.legend;
+
     	this.render();
     	
     	this.$el.find(".panel").sortable({
@@ -139,24 +142,34 @@ app.view.GroupLayer = Backbone.View.extend({
     	"mouseleave li": "layerLeave",
     	"click .removeLayer": "removeLayerClick",
         "click .delete": "removeAllLayers",
-    	"click .leyend" : "leyendClick",
+    	// "click .leyend" : "leyendClick",
+        "click .zoom_to_layer" : "zoomToLayer",
     	"click .opacity": "opacityClick",
     	"click .panelFooter": "addLayerClick",
     	"click .icon": "infoLayerClick",
-        "click #mapHistoryControl": "toggleHistories"
+      "click #mapHistoryControl": "toggleHistories"
 	},
 	
-	layerClick: function(e){
-    	var idLayer = $(e.currentTarget).attr("idLayer");
-    	if(idLayer){
-    		if($(e.currentTarget).hasClass("active")){
-    			Map.hideLayer(idLayer);
-    			$(e.currentTarget).removeClass("active")
-    		}else{
-    			Map.showLayer(idLayer);
-    			$(e.currentTarget).addClass("active")
-    		}
-    	}
+	// layerClick: function(e){
+ //    	var idLayer = $(e.currentTarget).attr("idLayer");
+ //    	if(idLayer){
+ //    		if($(e.currentTarget).hasClass("active")){
+ //    			Map.hideLayer(idLayer);
+ //    			$(e.currentTarget).removeClass("active")
+ //    		}else{
+ //    			Map.showLayer(idLayer);
+ //    			$(e.currentTarget).addClass("active")
+ //    		}
+ //    	}
+ //    },
+
+    zoomToLayer:function(e){
+      e.stopImmediatePropagation();
+      var idLayer = $(e.currentTarget).parent().attr("idLayer");
+      if(idLayer){
+        var layerName = Map.searchLayer(idLayer).wmsLayName;
+        Map.getMap().fitBounds(app.capabilities.get(layerName).get('bbox'));
+      }
     },
     
     layerOver: function(e){
@@ -194,6 +207,9 @@ app.view.GroupLayer = Backbone.View.extend({
     			break;
     		}
     	}
+
+      this._legendView.$('li[layer="' + idLayer + '"]').remove();
+
     },
 
     removeAllLayers:function(e){
@@ -235,19 +251,23 @@ app.view.GroupLayer = Backbone.View.extend({
     },
     
     onClose: function(){
+      
+    if(this._legendView)
+      this._legendView.close();
+
     	this.stopListening();
     },
     
     render: function() {
     	this.$el.html(this._template());  
 
-        if(Map.historiesVisible){
-            this.$('#mapHistoryControl ~ label').addClass('active');
-        }else{
-            this.$('#mapHistoryControl ~ label').removeClass('active');
-        }
+      if(Map.historiesVisible){
+          this.$('#mapHistoryControl ~ label').addClass('active');
+      }else{
+          this.$('#mapHistoryControl ~ label').removeClass('active');
+      }
 
-        return this;
+      return this;
 
     },
     
@@ -276,10 +296,16 @@ app.view.GroupLayer = Backbone.View.extend({
         
         var $icon1, $icon2, $icon3, $icon4;
         
+        // $icon1 = $(document.createElement('img'));
+        // $icon1.addClass('icon leyend');
+        // $icon1.attr('src','/img/map/ALB_icon_leyenda.svg');
+        // $icon1.attr('title',getTextLang("legend"));
+
         $icon1 = $(document.createElement('img'));
-        $icon1.addClass('icon leyend');
+        $icon1.addClass('icon zoom_to_layer');
         $icon1.attr('src','/img/map/ALB_icon_leyenda.svg');
-        $icon1.attr('title',getTextLang("legend"));
+        $icon1.attr('title','Zoom');
+
         
         $icon2 = $(document.createElement('img'));
         $icon2.addClass('icon opacity');
@@ -333,16 +359,22 @@ app.view.GroupLayer = Backbone.View.extend({
 				that.setLayerOpacity(id_layer, ui.value);
 			}
 		});
+
+    var legendUrl = layer.wmsServer.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+      +"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.wmsLayName;
+    
+    this._legendView.$('ul').append('<li layer="' + id + '"><h3 title="' + layer['title_' + app.lang] + '" class="ellipsis">' + layer['title_' + app.lang] + '</h3><img src="' + legendUrl + '"></li>')
+
     },
 
     removeLayer: function(id) {
-        var $li = this.$('li[idLayer="'+id+'"]');
-        if($li.length > 0) {
-        	 $li.hide(function(){ 
-        		 $li.remove();
-                 Map.removeLayer(id);
-        	});
-        }
+      var $li = this.$('li[idLayer="'+id+'"]');
+      if($li.length > 0) {
+      	 $li.hide(function(){ 
+      		 $li.remove();
+               Map.removeLayer(id);
+      	});
+      }
     },
 
     setLayerOpacity: function(id, value) {
@@ -474,7 +506,7 @@ app.view.GroupLayer = Backbone.View.extend({
             $(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
             $("#configPanelMap").fadeOut();
             
-            $("#groupLayer").animate({"left":"-320"},300);
+            $("#groupLayer").animate({"left":"-320"},300,'linear');
             $("#groupLayer").hide(300);
             
             $("#map_control img").removeClass("fleft");
@@ -482,7 +514,10 @@ app.view.GroupLayer = Backbone.View.extend({
             $("#map_control .title").removeClass("fleft");
             $(".groupLauyerConfig").hide();
             $("#map_control span").show();
-            $("#map_control br").show()
+            $("#map_control br").show();
+
+            $('#legend').removeClass('left');
+
         }else{
             
             $("#groupLayer").animate({"left":"0"},300);
@@ -495,7 +530,11 @@ app.view.GroupLayer = Backbone.View.extend({
             });
             $("#map_control span").hide()
             $("#map_control br").hide();
+
+            $('#legend').addClass('left');
         }
    }
 });
+
+// _.bindAll(this, 'render');
 	
