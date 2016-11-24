@@ -17,6 +17,16 @@ app.view.Map = Backbone.View.extend({
     	if(aux.length >1){
     		Map.setRoute(aux[1]);
     	}
+
+      var collection = new Backbone.Collection();
+      collection.url = '/api/allconfig/';
+      collection.fetch({reset:true, success:function(data){
+        $('.preconfigured_maps ul').html('');
+        _.each(data.toJSON()[0].result,function(r) {
+          $('.preconfigured_maps ul').append('<li id="' + r.id_config +'"><a jslink href="/' + app.lang + '/' + app.router.langRoutes['_link map'][app.lang] + '/' + r.id_config + '">' + r['title_' + app.lang] + '</a></li>')
+        });
+      }});
+
     	
   //   	Map.getMap().on("click",function(e){
   //      		$.fancybox($("#container_feature_info"), {

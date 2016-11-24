@@ -304,7 +304,7 @@ app.view.GroupLayer = Backbone.View.extend({
         $icon1 = $(document.createElement('img'));
         $icon1.addClass('icon zoom_to_layer');
         $icon1.attr('src','/img/map/icon-zoom-layer.svg');
-        $icon1.attr('width','24px');
+        $icon1.attr('width','28px');
         $icon1.attr('title','Zoom');
 
         

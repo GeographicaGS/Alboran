@@ -335,6 +335,9 @@ body > header {
 				top: 3px;
 				margin-right: 5px;
 			}
+			ul{
+				display: inline-block;
+			}
 		}
 
 		.login{
@@ -356,7 +359,7 @@ body > header {
 	}
 
 	ul {
-		display: inline-block;
+		// display: inline-block;
 
 		li {
 			display: inline-block;
@@ -372,11 +375,64 @@ body > header {
 		height: 56px;
 
 		#mainmenu {
-			height: 36pxpx;
+			height: 36px;
 			font-size: 1.1em;
 
 			@media (max-width: 1023px) {
 				font-size: 0.9em;
+			}
+
+			.preconfigured_maps{
+				position: relative;
+		    padding: 0 10px;
+				&:after{
+					content: '';
+					width: 0; 
+					height: 0; 
+					border-left: 4px solid transparent;
+					border-right: 4px solid transparent;
+					border-top: 4px solid @grey_footer_dark;
+					margin-left: 7px;
+				}
+				&:hover{
+					background-color: @grey4;
+					ul{
+						opacity: 1;
+						pointer-events: all;
+					}
+				}
+				ul{
+					opacity: 0;
+					pointer-events: none;
+					transition: opacity .25s linear;
+					flex-direction: column;
+					background-color: @grey3;
+					border: 1px solid @grey4;
+					position: absolute;
+					width: auto;
+					top: 35px;
+					left: 0;
+					align-items: baseline;
+					height: auto;
+					li{
+						display: block;
+						width: 100%;
+						height: auto;
+						padding: 5px 15px;
+						border-bottom: 1px solid @grey4;
+				    text-transform: none;
+				    font-weight: 400;
+				    font-size: 13px;
+				    color:@grey_footer_dark;
+				    text-align: left !important;
+				    &.active{
+				    	font-family: 'latobold',sans-serif;
+				    }
+						&:last-child{
+							border: none;
+						}
+					}
+				}
 			}
 
 			.howTo{
@@ -396,6 +452,8 @@ body > header {
 			}
 
 			& > div {
+				height: 100%;
+				position: relative;
 				&:first-child {
 					text-align: left;
 
@@ -417,13 +475,23 @@ body > header {
 					list-style: none;
 					/*padding-top: 11px;*/
 					width: 100%;
+					height: 100%;
+					position: absolute;
 					display: flex;
 					/*height: 36px;*/
 					align-items: center;
 					justify-content: center;
 
+			    // height: 34px;
+
+
+
+
 					li {
-						display: inline-block;
+						height: 100%;
+						display: flex;
+						align-items: center;
+						// display: inline-block;
 						vertical-align: top;
 						white-space: nowrap;
 						margin-right: 40px;
@@ -432,11 +500,11 @@ body > header {
 						font-size: 13px;
 
 						&.selected {
-							border: none;
-
+							// border: none;
+							border-bottom: 2px solid @blue_med;
 							a {
-								padding-bottom: 9px;
-								border-bottom: 2px solid @blue_med;
+								// padding-bottom: 9px;
+								// border-bottom: 2px solid @blue_med;
 								.lato(bold);
 
 								@media (max-width: 1023px) {
@@ -658,7 +726,7 @@ body > header {
 
 		.panel{
 			cursor: move;
-			max-height: calc(~'100vh - 35px - 120px - 55px');
+			max-height: calc(~'100vh - 320px');
 			overflow-y: auto;
 			/*background-color: white;*/
 		}

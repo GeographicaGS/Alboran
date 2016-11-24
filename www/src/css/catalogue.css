@@ -11,7 +11,7 @@
 	/*background-color: @grey_light;
 	border-bottom: 1px solid @grey_footer;*/
 	text-align: center;
-	overflow: hidden;
+	// overflow: hidden;
 
 	@media (max-width: 1023px) {
 		padding-left: 30px;
@@ -19,7 +19,9 @@
 
 	input[type="text"] {
 		display: none;
-		width: 90%;
+		// width: 90%;
+		width: 100%;
+		border-bottom: 1px solid #d7d7d7;
 		height: 70px;
 		background-color: transparent;
 		color: @pink;
@@ -39,7 +41,7 @@
 		height: 36px;
 		position: absolute;
 		right: 0;
-		top: 50%;
+		top: 36px;
 		margin-top: -15px;
 
 		@media (max-width: 1023px) {
@@ -65,6 +67,73 @@
 
 		button:after {
 			content: url('@{imgPath}/catalogue/ALB_icon_buscar_cerrar.svg');
+		}
+	}
+
+	.advanced{
+		// display: flex;
+		display: none;
+		margin-top: 34px;
+		margin-bottom: 56px;
+		.adv{
+			flex: 1 1 auto;
+			margin: 0 40px;
+			position: relative;
+			h3{
+				font-size: 18px;
+				color:#a4a4a4;
+				text-align: left;
+				margin-bottom: 20px;
+			}
+			input[type="text"]{
+				font-size: 16px;
+				color:#808080;
+				text-align: left;
+				border-bottom: 1px solid #a4a4a4;
+				height: auto;
+				width: 100%;
+				padding:0;
+				padding-bottom: 10px;
+				text-align: center;
+				&.country, &.msdf{
+					text-align: left;
+					cursor: pointer;
+					background-image: url(/img/icon-flecha-b.svg);
+					background-repeat: no-repeat;
+					background-position: center right;
+				}
+			}
+			ul{
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity .25s linear;
+				background-color: @grey3;
+				border: 1px solid @grey4;
+				position: absolute;
+				width: 100%;
+				top: 72px;
+				text-align: left;
+				left: 0;
+				z-index: 1;
+				max-height: 400px;
+				overflow-y: auto;
+				&.active{
+					opacity: 1;
+					pointer-events: all;
+				}
+				li{
+					cursor: pointer;
+					display: block;
+					width: 100%;
+					padding: 5px 15px;
+					border-bottom: 1px solid @grey4;
+					font-size: 13px;
+					color: @grey_footer_dark;
+					&:last-child{
+						border:none;
+					}
+				}
+			}
 		}
 	}
 }
@@ -102,7 +171,8 @@
 		/*border-bottom: 1px solid @tabs_separator;*/
 		background-color: @white;
 		/*height: 49px;*/
-		height: 72px;
+		// height: 72px;
+		height: auto;
 
 		.topTabs {
 			/*text-align: center;*/
@@ -859,6 +929,9 @@
 							max-width: 100%;
 						}
 					}
+				}
+				&.allwidth{
+					width: 100%;
 				}
 			}
 

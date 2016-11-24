@@ -5,7 +5,11 @@ app.view.Catalogue = Backbone.View.extend({
         'click .topTabs li': 'changeTab',
         'click #searchbar button': 'toggleSearch',
         'keyup #searchInput': 'search',
-        'click .block_box, .source_box ul li': '_filter'
+        'click .block_box, .source_box ul li': '_filter',
+        'click #searchbar .country' :'toggleCountryList',
+        'click #searchbar .msdf' :'toggleCountryMsdf',
+        'click #searchbar .country_list li' :'selectCounty',
+        'click #searchbar .msdf_list li' :'selectMsdf'
     },
 
 	initialize: function(options) {
@@ -33,7 +37,8 @@ app.view.Catalogue = Backbone.View.extend({
     render: function() {
 	   	var model = {categories: this.collection.toJSON()}
 		      model['isAdmin'] = app.isAdmin;
-          this.$el.html(this._template(model));
+          this.$el.html(this._template(model)),
+          _this = this;
 
         this.$layergroups = this.$('.layergroup');
         this.$topTabs = this.$('.topTabs .title');
@@ -65,6 +70,24 @@ app.view.Catalogue = Backbone.View.extend({
         
 
         this._filter();
+
+
+        var countries = new Backbone.Collection();
+        countries.url = '/api/counties/';
+        countries.fetch({reset:true,success:function(data){
+          _.each(data.toJSON()[0].result, function(c) {
+            _this.$('#searchbar .country_list').append('<li id="' + c.id_country + '">' + c['name_' + app.lang] + '</li>')
+          });
+        }});
+
+
+        var msdf = new Backbone.Collection();
+        msdf.url = '/api/msdf/';
+        msdf.fetch({reset:true,success:function(data){
+          _.each(data.toJSON()[0].result, function(c) {
+            _this.$('#searchbar .msdf_list').append('<li id="' + c.gid + '">' + c['name_' + app.lang] + '</li>')
+          });
+        }});
 
         return this;
     },
@@ -180,23 +203,25 @@ app.view.Catalogue = Backbone.View.extend({
     toggleSearch: function(e){
         e.preventDefault();
         if(this.$searchbar.hasClass('enabled')){
+          this.$('#searchbar .advanced').css({'display':'none'});
             this.$searchbar.removeClass('enabled');
             this.$searchbarText.attr('readonly','readonly');
             // this.$searchbarText.val('Catálogo');
 
-            this.$tabsContainer.find('ul').show();
+            // this.$tabsContainer.find('ul').show();
             this.$('.filters').show();
             this.$('.layersContainerWrapper').removeClass('fullWidth')
             this.changeTab(null,0);
 
             // this.renderAll();
         }else{
+            this.$('#searchbar .advanced').css({'display':'flex'});
             this.$searchbar.addClass('enabled');
             this.$searchbarText.removeAttr('readonly');
             this.$searchbarText.val('');
             this.$searchbarText.focus();
 
-            this.$tabsContainer.find('ul').hide();
+            // this.$tabsContainer.find('ul').hide();
             this.$layergroups.removeClass('selected');
             this.$layergroups.eq(3).addClass('selected');
             this.$('.filters').hide();
@@ -251,6 +276,26 @@ app.view.Catalogue = Backbone.View.extend({
 
     this.subBlocksView.updateCounter(this._getSubBlockCol(this.collection.toJSON()));
 
+  },
+
+  toggleCountryList:function(){
+    this.$('#searchbar .country_list').toggleClass('active');
+    this.$('#searchbar .msdf_list').removeClass('active');
+  },
+
+  toggleCountryMsdf:function(){
+    this.$('#searchbar .msdf_list').toggleClass('active');
+    this.$('#searchbar .country_list').removeClass('active');
+  },
+
+  selectCounty:function(e){
+    this.$('#searchbar .country').val($(e.currentTarget).text());
+    this.$('#searchbar .country_list').removeClass('active');
+  },
+
+  selectMsdf:function(e){
+    this.$('#searchbar .msdf').val($(e.currentTarget).text());
+    this.$('#searchbar .msdf_list').removeClass('active');
   }
 
 });

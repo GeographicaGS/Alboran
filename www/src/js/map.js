@@ -5,6 +5,8 @@ Map = {
 	iniLat: 38.272862,
 	iniLng: 15.599916,
 	iniZoom: 5,
+	minZoom:3,
+	maxZoom:17,
 	__map:null,
 	historiesVisible: false,
 
@@ -21,7 +23,9 @@ Map = {
 				  fadeAnimation: false,
 				//  crs: L.CRS.EPSG4326,
 				  zoomControl: false,
-				  attributionControl: true
+				  attributionControl: true,
+				  minZoom:this.minZoom,
+				  maxZoom:this.maxZoom
 			});
 
 //			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -35,6 +39,7 @@ Map = {
 
 			var esri = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
 					name:'esri',
+					maxZoom:10,
     			attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
 					})
 					bingSatellite =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
@@ -168,6 +173,7 @@ Map = {
 		});
 		this.layers = [];
 		$("li[idlayer]").remove();
+		$('#legend ul').html('');
 
 		this.getRoute();
 		this.actualizarContadores();

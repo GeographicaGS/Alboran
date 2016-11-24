@@ -9,6 +9,14 @@ from psycopg2 import IntegrityError
 
 
 class ConfigModel(PostgreSQLModel):
+
+	def getAllConfigs(self):
+		sql = "SELECT id_config, title_en, title_fr FROM layer_configuration " \
+					"	ORDER BY id_config "
+		result = self.query(sql).result()
+		return result
+
+
 	def getConfigByUsername(self, username):
 		sql = "SELECT data FROM layer_configuration c" \
 			  	"	INNER JOIN \"user\" u ON u.id_user=c.id_user" \

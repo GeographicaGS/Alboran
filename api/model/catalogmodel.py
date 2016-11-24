@@ -76,7 +76,7 @@ class CatalogModel(PostgreSQLModel):
         return result
 
     def getLayerById(self, layer_id):
-        sql = "SELECT l.id, l.title_en, l.title_fr, " \
+        sql = "SELECT l.id, l.year, l.country, l.msdf, l.title_en, l.title_fr, " \
             "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
             "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_fr, " \
             "l.datasource as \"dataSource\", l.topic_id, l.order " \
@@ -105,7 +105,10 @@ class CatalogModel(PostgreSQLModel):
             'wms_server': data['wmsServer'],
             'wms_layer_name': data['wmsLayName'],
             'geonetwork': data['geoNetWk'],
-            'topic_id': data['topic_id']
+            'topic_id': data['topic_id'],
+            'year': data['year'],
+            'country': data['country'],
+            'msdf': data['msdf']
         }
 
         layer_id = self.insert("layer",insertData,"id")
@@ -123,11 +126,11 @@ class CatalogModel(PostgreSQLModel):
         sql = "UPDATE \"layer\" set title_en = %s, title_fr = %s, " \
             "desc_en = %s, desc_fr = %s, datasource = %s, " \
             "wms_server = %s, wms_layer_name = %s, geonetwork = %s, " \
-            "topic_id = %s, \"order\" = %s where id = %s"
+            "topic_id = %s, \"order\" = %s, \"year\" = %s, \"country\" = %s, \"msdf\" = %s where id = %s"
         self.queryCommit(sql,[ data['title_en'], data['title_fr'],
             data['desc_en'], data['desc_fr'],
             data['dataSource'], data['wmsServer'], data['wmsLayName'],
-            data['geoNetWk'], data['topic_id'], data['order'], data['id']])
+            data['geoNetWk'], data['topic_id'], data['order'], data['year'], data['country'], data['msdf'], data['id']])
         return True
 
     def deleteTopic(self, id):
@@ -139,3 +142,27 @@ class CatalogModel(PostgreSQLModel):
 		sql = "UPDATE \"layer\" set deleted = true where id = %s"
 		self.queryCommit(sql,[id])
 		return True
+
+    def getCountries(self):
+      sql = "SELECT id_country,name_en,name_fr from country order by name_en"
+
+      result = self.query(sql).result()
+
+      return result
+
+    def getMsdfList(self):
+      sql = "SELECT gid,name_en,name_fr from msdf order by name_en"
+
+      result = self.query(sql).result()
+
+      return result
+
+    def createMsdf(self, data):
+        insertData = {
+            'name_en': data['name_en'],
+            'name_fr': data['name_fr'],
+        }
+
+        gid = self.insert("msdf",insertData,"gid")
+        result = {'gid': gid}
+        return result

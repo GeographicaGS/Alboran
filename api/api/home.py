@@ -80,6 +80,12 @@ def confirmUser(user,code):
 	else:
 		abort(404)
 
+@app.route('/allconfig/', methods=['GET'])
+def Allconfig():
+	m = ConfigModel()
+	config_data = m.getAllConfigs()
+	return(jsonify({"result" : config_data}))
+
 @app.route('/config/', methods=['GET','POST'])
 @auth
 def configByUser():
@@ -490,3 +496,27 @@ def deleteGSLayerStyleWMS(gsstylename):
 	gsl.rmvStyle(gsstylename)
 
 	return jsonify({'result': 'true'})
+
+
+@app.route('/counties/', methods=['GET'])
+def getCountries():
+	catalog = []
+	c = CatalogModel()
+	countries = c.getCountries()
+	return jsonify({'result': countries})
+
+@app.route('/msdf/', methods=['GET'])
+def getMsdf():
+	msdf = []
+	c = CatalogModel()
+	msdf = c.getMsdfList()
+	return jsonify({'result': msdf})
+
+@app.route('/catalog/msdf/', methods=['POST'])
+@authAdmin
+def createMsdf():
+	data = json.loads(request.data)
+	c = CatalogModel()
+	result = c.createMsdf(data)
+
+	return jsonify({'id': result['gid']})

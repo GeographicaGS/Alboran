@@ -72,6 +72,48 @@
 					</div>
 				</div>
 			</fieldset>
+	
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Year</lang></legend>
+						<input class="allwidth" type="text" id="year" name="year" placeholder="YYYY" value="<%= data.year %>" required />
+					</div>
+				</div>
+			</fieldset>
+
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Country</lang></legend>
+						<select id="country" name="country">
+							<% _.each(data.countries, function(c){ %>
+								<option value="<%= c['id_country'] %>" <%= c['id_country'] !== data.country ? '': 'selected' %>><%= c['name_' + app.lang] %></option>
+							<% }); %>
+						</select>
+					</div>
+				</div>
+			</fieldset>
+
+			<fieldset class="row input">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>MSDF Region</lang></legend>
+						<div class="col-sm-12 col-md-12 withButton">
+							<select id="msdf" name="msdf">
+								<% _.each(data.msdf_list, function(m){ %>
+								<option value="<%= m['gid'] %>" <%= m['gid'] !== data.msdf ? '': 'selected' %>><%= m['name_' + app.lang] %></option>
+							<% }); %>
+							</select>
+							<a href="#" id="createRegion" title="<lang>Create MSDF Region</lang>">
+								<img src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Create MSDF Region</lang>">
+							</a>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+
+
 			<fieldset class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
@@ -91,7 +133,7 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Fuente</lang></legend>
-						<input type="text" id="datasource" name="datasource" placeholder="<lang>Fuente de la capa</lang>" value="<%= data.dataSource %>" required />
+						<input class="allwidth" type="text" id="datasource" name="datasource" placeholder="<lang>Fuente de la capa</lang>" value="<%= data.dataSource %>" required />
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
@@ -196,6 +238,20 @@
 		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
         <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
 	</div>
+
+	<div id="regionSectionCreation" class="msgPopup">
+		<div class="content">
+			<h2><lang>New MSDF Region</lang></h2>
+			<fieldset>
+				<input type="text" class="localized" id="region-en" name="region-en" placeholder="<lang>Nombre de la región en inglés</lang>" required /><label for="region-en">EN</label>
+				<input type="text" class="localized" id="region-fr" name="region-fr" placeholder="<lang>Nombre de la región en francés</lang>" required /><label for="region-fr">FR</label>
+			</fieldset>
+		</div> 
+		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
+        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
+	</div>
+
+
 	<div id="layerCreateSuccess" class="msgPopup">
         <div class="content">
 			<% if(!data.id){%>

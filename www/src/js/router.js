@@ -153,6 +153,8 @@ app.router = Backbone.Router.extend({
             }
 
             var now = $.now();
+            $('.preconfigured_maps ul li').removeClass('active');
+            $('.preconfigured_maps ul li[id="'+ config + '"]').addClass('active');
             $.ajax({
                 url : "/api/config/" + config,
                 type: "GET",
@@ -161,6 +163,7 @@ app.router = Backbone.Router.extend({
                        if(response != ""){
                            Map.removeAllLayers()
                            Map.setRoute("/" + response.config)
+                           $('.preconfigured_maps ul li[id="+ config + "]');
                        }
                    }
                });

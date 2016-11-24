@@ -96,7 +96,11 @@ app.view.MapTools = Backbone.View.extend({
       'click .measure_area': '_measureArea',
       'click .measure_dist': '_measureDist',
       'click .zoom_out': '_zoomOut',
-      'click .scaleNumeric ul li': '_changeScale'
+      'click .scaleNumeric ul li': '_changeScale',
+      'click .print': 'open_print',
+      'click #print_popup .content .close': 'close_print',
+      'click .print_button': '_printMap',
+      'change .page_size': '_changePrintSize'
 	},
     
 	onClose: function() {
@@ -107,7 +111,17 @@ app.view.MapTools = Backbone.View.extend({
     this.$el.html(this._template());
     _.defer(function(){ 
       Map.getMap().addControl(new L.Control.ZoomDisplay());
+
+      var div = L.DomUtil.get('print_popup');
+      if (!L.Browser.touch){
+        L.DomEvent.disableClickPropagation(div);
+        L.DomEvent.on(div, 'mousewheel', L.DomEvent.stopPropagation);
+      }else{
+        L.DomEvent.on(div, 'click', L.DomEvent.stopPropagation);  
+      }
+
     });
+
     return this;
   },
 
@@ -199,6 +213,76 @@ app.view.MapTools = Backbone.View.extend({
   _changeScale:function(e){
     this.$('.scaleNumeric span').text($(e.currentTarget).text());
     Map.getMap().setZoom(parseInt($(e.currentTarget).attr('zoom')))
+  },
+
+  open_print:function(){
+    this.$('#print_popup').addClass('active');
+    
+    var layers = [];
+    Map.getMap().eachLayer(function (layer) {
+      if(layer._url){
+        if(layer.wmsParams){
+          var newLayer = L.tileLayer.wms(layer._url, {layers: layer.wmsParams.layers,format: 'image/png',transparent: true})
+          newLayer.setOpacity(layer.options.opacity);
+          newLayer.setZIndex(layer.options.zIndex);
+          layers.push(newLayer);
+        }else{
+          if(layer.options.attribution != 'Bing'){
+            layers.push(L.tileLayer(layer._url));  
+          }
+        }
+      }
+    });
+
+    this._printMap = new L.Map('print_map',
+    {
+      center: Map.getMap().getCenter(),
+      zoom: Map.getMap().getZoom(),
+      layers: layers,
+      minZoom:Map.minZoom,
+      maxZoom:Map.maxZoom
+    });
+
+    
+    this.printProvider = L.print.provider({
+       method: 'GET',
+       url: '/geoserver/pdf',
+       autoLoad: true,
+       dpi: 150,
+       layout:'A4 landscape'
+    });
+
+    var printControl = L.control.print({
+       provider: this.printProvider
+    });        
+    this._printMap.addControl(printControl);
+
+  },
+
+  close_print:function(){
+    this._printMap.remove();
+    this.$('#print_popup').removeClass('active');
+    this.$('.print').removeClass('active');
+  },
+
+  _printMap:function(){
+    this.printProvider.setLayout(this.$('#print_popup .content .page_size').val());
+    this.printProvider.options.mapTitle = this.$('#print_popup .content input[type="text"]').val();
+    this.printProvider.options.comment = this.$('#print_popup .content textarea').val();
+    this.printProvider.print();
+
+    this.$('#print_popup .content .close').trigger('click');
+    this.$('#print_popup .content input[type="text"]').val('');
+    this.$('#print_popup .content textarea').val('');
+  },
+
+  _changePrintSize:function(e){
+    if($(e.currentTarget).val() == 'portrait')
+      this.$('#print_map').addClass('portrait');
+    else
+      this.$('#print_map').removeClass('portrait');
+
+    this._printMap.invalidateSize();
   },
 
   _offClicks:function(){

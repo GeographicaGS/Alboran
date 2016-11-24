@@ -23,6 +23,7 @@ deps.JS = {
 			"js/lib/leaflet/leaflet.draw-src.js",
 			"js/lib/leaflet/leaflet-overview.js",
 			"js/lib/leaflet/leaflet.zoomDisplay.js",
+			"js/lib/leaflet/leaflet.print-src.js",
 			"js/lib/formatcoords.js",
 			// Namespace
 			"js/namespace.js",
@@ -101,6 +102,7 @@ deps.CSS = {
 	Core: {
 		src: [
 			"js/lib/leaflet/leaflet-overview.css",
+			"js/lib/leaflet/leaflet.print.css",
 			"js/lib/fancybox/jquery.fancybox.css",
 			"css/lib/WWW-Styles/reset.css",
 			"css/lib/WWW-Styles/base.css",

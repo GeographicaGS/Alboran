@@ -2,10 +2,20 @@ app.view.LayerCreate = Backbone.View.extend({
     _template : _.template( $('#layer-create_template').html() ),
 
     initialize: function(options) {
+        var _this = this;
         var options = options || '';
         var Layer = app.model.Layer.extend({urlRoot: '/api/catalog/layer/'});
         app.events.trigger('menu','catalogue');
         this.isSending = false;
+        this.countries = new Backbone.Collection();
+        this.countries.url = '/api/counties/'
+        this.listenTo(this.countries, 'reset', function(){
+            _this.msdf.fetch({reset:true})
+        });
+        this.msdf = new Backbone.Collection();
+        this.msdf.url = '/api/msdf/'
+        this.listenTo(this.msdf, 'reset', this.render);
+
         if(options){
             this.layerId = options.layerId || 0;
             this.model = new Layer({id: this.layerId});
@@ -24,7 +34,8 @@ app.view.LayerCreate = Backbone.View.extend({
                         }else{
                             that.isInConfig = false;
                         }
-                        that.render();
+                        // that.render();
+                        that.countries.fetch({reset:true})
                     }
                 });
 
@@ -32,7 +43,8 @@ app.view.LayerCreate = Backbone.View.extend({
         }else{
             this.isInConfig = false;
             this.model = new Layer();
-            this.render();
+            // this.render();
+            this.countries.fetch({reset:true})
         }
     },
 
@@ -50,7 +62,8 @@ app.view.LayerCreate = Backbone.View.extend({
         'click .geoserver': 'openGeoserverForm',
         'click .geonetwork_link': 'showGeonetworkPopup',
         'mouseover .geonetwork_link': 'showGeonetworkPopup',
-        'mouseout #meta_data_options_popup': 'hideGeonetworkPopup'
+        'mouseout #meta_data_options_popup': 'hideGeonetworkPopup',
+        'click #createRegion': 'createRegion',
         
         
     },
@@ -64,6 +77,8 @@ app.view.LayerCreate = Backbone.View.extend({
         var model = { 'data': this.model.toJSON()};
         model['data']['categories'] = app.categories.toJSON();
         model['data']['isInConfig'] = this.isInConfig;
+        model['data']['countries'] = this.countries.toJSON()[0].result
+        model['data']['msdf_list'] = this.msdf.toJSON()[0].result;
         if(this.layerId){
             model['data']['layerCategory'] = this.categoryId;
         }
@@ -130,6 +145,9 @@ app.view.LayerCreate = Backbone.View.extend({
             items.$wmsServer= this.$('#wmsserver');
             items.$wmsLayName= this.$('#layername');
             items.$geoNetWk= this.$('#metadata');
+            items.$year= this.$('#year');
+            items.$country= this.$('#country');
+            items.$msdf= this.$('#msdf');
 
             $.each(items, function(index, element){
                 if(element.attr('required')){
@@ -164,6 +182,9 @@ app.view.LayerCreate = Backbone.View.extend({
                 var wmsServer= _.escape(items.$wmsServer.val());
                 var wmsLayName= _.escape(items.$wmsLayName.val());
                 var geoNetWk= _.escape(items.$geoNetWk.val());
+                var year= _.escape(items.$year.val());
+                var country= _.escape(items.$country.val());
+                var msdf= _.escape(items.$msdf.val());
 
                 if(!category) category=0;
 
@@ -178,7 +199,10 @@ app.view.LayerCreate = Backbone.View.extend({
                     'dataSource': dataSource,
                     'wmsServer': wmsServer,
                     'wmsLayName': wmsLayName,
-                    'geoNetWk': geoNetWk
+                    'geoNetWk': geoNetWk,
+                    'year': year,
+                    'country': country,
+                    'msdf': msdf
                 };
 
                 this.saveLayer(formData);
@@ -201,7 +225,10 @@ app.view.LayerCreate = Backbone.View.extend({
             'dataSource': formData.dataSource,
             'wmsServer': formData.wmsServer,
             'wmsLayName': formData.wmsLayName,
-            'geoNetWk': formData.geoNetWk
+            'geoNetWk': formData.geoNetWk,
+            'year': formData.year, 
+            'country': formData.country,
+            'msdf': formData.msdf
         });
 
         var that = this;
@@ -721,5 +748,75 @@ app.view.LayerCreate = Backbone.View.extend({
                 }
             });
         }
+    },
+
+    createRegion:function(e){
+      e.preventDefault();
+      var that = this;
+      if(!$(e.target).hasClass('disabled') && !$(e.target).parent().hasClass('disabled')){
+          $.fancybox($('#regionSectionCreation'), {
+              'width':'640',
+              'height': 'auto',
+              'padding': '0',
+              'autoDimensions':false,
+              'autoSize':false,
+              'closeBtn' : false,
+              'scrolling'   : 'no',
+              helpers : {
+                   overlay: {
+                     css: {'background-color': 'rgba(0,0,102,0.85)'},
+                     closeClick: false
+                   }
+              },
+              afterShow: function () {
+                  $('#regionSectionCreation').css('display', 'block');
+                  $('#regionSectionCreation #btn_save').click(function(e){
+                      items = {
+                          title_en: $('#regionSectionCreation fieldset input#region-en'),
+                          title_fr: $('#regionSectionCreation fieldset input#region-fr')
+                      }
+                      var error = false;
+                      $.each(items, function(index, element){
+                          if(element.attr('required') && !element.val()){
+                              error = true;
+                              element.addClass('invalid');
+                          }else{
+                              element.removeClass('invalid');
+                          }
+                      });
+                      if(!error && !that.isSending){
+                          // Save new section and select it on form
+                          data = {
+                              name_en: items.title_en.val(),
+                              name_fr: items.title_fr.val()
+                          }
+                          that.isSending = true;
+                          $.ajax({
+                              url : "/api/catalog/msdf/",
+                              data: JSON.stringify(data),
+                              contentType: "application/json",
+                              dataType: "json",
+                              type: "POST",
+                              success: function(result) {
+                                  var $option = $('<option>', {value: result.id, text: data['name_' + app.lang]});
+                                  $('select#msdf').append($option).val(result.id);
+                                  items.title_en.val('');
+                                  items.title_fr.val('');
+                                  that.isSending = false;
+                                  $.fancybox.close();
+                              },
+                              error: function(){
+                                  that.isSending = false;
+                                  alert('Error creating region, please try again');
+                              }
+                          });
+                      }
+                  });
+                  $('#regionSectionCreation #btn_cancel').click(function(e){
+                      $.fancybox.close();
+                  });
+              }
+          });
+      }
     }
 });
