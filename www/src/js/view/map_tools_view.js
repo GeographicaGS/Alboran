@@ -32,17 +32,17 @@ app.view.MapTools = Backbone.View.extend({
         handlers: {
           polygon: {
             tooltip: {
-              start: '<lang>Click to start measuring area.</lang>',
-              cont: '<lang>Click to continue measuring area.</lang>',
+              start: getTextLang('Click to start measuring area.'),
+              cont: getTextLang('Click to continue measuring area.'),
               end: ''
             }
           },
           polyline: {
             error: '',
             tooltip: {
-              start: '<lang>Click to start drawing line.</lang>',
-              cont: '<lang>Click to continue drawing line.</lang>',
-              end: '<lang>Click last point to finish line.</lang>'
+              start: getTextLang('Click to start drawing line.'),
+              cont: getTextLang('Click to continue drawing line.'),
+              end: getTextLang('Click last point to finish line.')
             }
           }
         }

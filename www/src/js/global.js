@@ -522,7 +522,44 @@ function getTextLang(text){
 		}else if(app.lang == "en"){
 			return "Remove layer";
 		}else{
-			return "Supprimer le calque";
+			return "Supprimer la couche";
 		}
-	}
+	}else if(text == 'legendText'){
+     if(app.lang == "en"){
+      return "Legend";
+    }else{
+      return "Légende";
+    }
+  }else if(text == 'Click to start measuring area.'){
+     if(app.lang == "en"){
+      return "Click to start measuring area.";
+    }else{
+      return "Cliquez pour commencer à mesurer un surface";
+    }
+  }else if(text == 'Click to continue measuring area.'){
+     if(app.lang == "en"){
+      return "Click to continue measuring area.";
+    }else{
+      return "Cliquez pour continuer à mesurer un surface";
+    }
+  }else if(text == 'Click to start drawing line.'){
+     if(app.lang == "en"){
+      return "Click to start drawing line.";
+    }else{
+      return "Cliquez pour commencer à dessiner la ligne";
+    }
+  }else if(text == 'Click to continue drawing line.'){
+     if(app.lang == "en"){
+      return "Click to continue drawing line.";
+    }else{
+      return "Cliquez pour continuer à dessiner la ligne";
+    }
+  }else if(text == 'Click last point to finish line.'){
+     if(app.lang == "en"){
+      return "Click to continue drawing line.";
+    }else{
+      return "Cliquez le dernier point pour finir la ligne";
+    }
+  }
+  return text;
 }
