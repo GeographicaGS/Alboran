@@ -48,6 +48,10 @@ Map = {
 					    format: 'image/png',
 					    transparent: true
 					}),
+					esri = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+			    		attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
+			    		name:'esri'
+					}),
 					bingSatellite =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
 					bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
 					openStreetMap =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {name:'openStreetMap', attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'})),
@@ -56,6 +60,10 @@ Map = {
 					    layers: 'medbiodivsdi:base_map',
 					    format: 'image/png',
 					    transparent: true
+					}),
+					esri2 = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+			    		attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
+			    		name:'esri'
 					}),
 					bingSatellite2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
 					bingRoad2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
@@ -67,6 +75,7 @@ Map = {
 			L.control.layers(
 			 {
 			 	 'Natural Earth': natural,
+			 	 'Esri': esri,
 				 'Bing satélite' : bingSatellite,
 				 'Bing callejero' : bingRoad,
 				 'OpenStreetMap' : openStreetMap
@@ -78,8 +87,9 @@ Map = {
 			bingSatellite.setZIndex(-1);
 			bingRoad.setZIndex(-1);
 			openStreetMap.setZIndex(-1);
+			esri.setZIndex(-1);
 
-			Map.overview = L.control.overview([natural2,bingSatellite2,bingRoad2,openStreetMap2]).addTo(this.__map);
+			Map.overview = L.control.overview([natural2,esri2,bingSatellite2,bingRoad2,openStreetMap2]).addTo(this.__map);
 
 
 
