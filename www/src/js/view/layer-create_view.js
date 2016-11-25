@@ -62,7 +62,7 @@ app.view.LayerCreate = Backbone.View.extend({
         'click .geoserver': 'openGeoserverForm',
         'click .geonetwork_link': 'showGeonetworkPopup',
         'mouseover .geonetwork_link': 'showGeonetworkPopup',
-        'mouseout #meta_data_options_popup': 'hideGeonetworkPopup',
+        // 'mouseout #meta_data_options_popup': 'hideGeonetworkPopup',
         'click #createRegion': 'createRegion',
         
         
