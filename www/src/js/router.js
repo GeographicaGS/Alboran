@@ -113,6 +113,7 @@ app.router = Backbone.Router.extend({
     },
 
     map: function(capas,activas,opacidad,mostrarHistorias){
+        
     	if(!app.isSupportedBrowser()){
             $("#content").show();
             $("#map").hide();
@@ -131,6 +132,7 @@ app.router = Backbone.Router.extend({
 
             if(Map.getMap() != null){
             	Map.getMap().invalidateSize("true");
+                Map.overview._overview.invalidateSize();
             }
             if(!capas){
             	Map.getRoute();
