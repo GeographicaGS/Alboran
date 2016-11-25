@@ -13,8 +13,7 @@ app.view.LegendView = Backbone.View.extend({
 	},
     
   render: function(){
-  	// this.setElement('<div id="legend"><lang>Legend</lang><ul></ul></div>')
-    this.$el.html('<div id="legend"><lang>' + getTextLang('legendText') + '</lang><ul></ul></div>');
+    this.$el.html('<div id="legend">' + getTextLang('legendText') + '<ul></ul></div>');
   	
   	_.defer(function(){ 
 			var div = L.DomUtil.get('legend');
