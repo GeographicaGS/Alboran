@@ -37,18 +37,25 @@ Map = {
 //			}).addTo(this.__map);
 			// baseMap1.addTo(this.__map);
 
-			var esri = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
-					name:'esri',
-					maxZoom:10,
-    			attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
-					})
+			// var esri = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+			// 		name:'esri',
+			// 		maxZoom:10,
+   //  			attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+			// 		})
+			var natural = L.tileLayer.wms("/geoserver/medbiodivsdi/wms?", {
+							name:'natural',
+					    layers: 'medbiodivsdi:base_map',
+					    format: 'image/png',
+					    transparent: true
+					}),
 					bingSatellite =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
 					bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
 					openStreetMap =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {name:'openStreetMap', attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'})),
-
-					esri2 = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
-						name:'esri',
-    			attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri'
+					natural2 = L.tileLayer.wms("/geoserver/medbiodivsdi/wms?", {
+							name:'natural',
+					    layers: 'medbiodivsdi:base_map',
+					    format: 'image/png',
+					    transparent: true
 					}),
 					bingSatellite2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
 					bingRoad2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
@@ -59,20 +66,20 @@ Map = {
 
 			L.control.layers(
 			 {
-			 	 'ESRI': esri,
+			 	 'Natural Earth': natural,
 				 'Bing satélite' : bingSatellite,
 				 'Bing callejero' : bingRoad,
 				 'OpenStreetMap' : openStreetMap
 			 },null,{position: position}).addTo(this.__map);
 
-			this.__map.addLayer(esri);
+			this.__map.addLayer(natural);
 
-			esri.setZIndex(-1);
+			natural.setZIndex(-1);
 			bingSatellite.setZIndex(-1);
 			bingRoad.setZIndex(-1);
 			openStreetMap.setZIndex(-1);
 
-			Map.overview = L.control.overview([esri2,bingSatellite2,bingRoad2,openStreetMap2]).addTo(this.__map);
+			Map.overview = L.control.overview([natural2,bingSatellite2,bingRoad2,openStreetMap2]).addTo(this.__map);
 
 
 
@@ -316,6 +323,7 @@ Map = {
 		var layers = null;
 		var server = null;
 		var requestIdx = null;
+		var titleLayer = null;
 
 		for (var i=id;i<this.layers.length;i++){
 			var l = this.layers[i];
@@ -323,6 +331,7 @@ Map = {
 				server = l.url;
 				layers = l.name;
 				requestIdx = i;
+				titleLayer = l.title
 				break;
 			}
 		}
@@ -354,6 +363,7 @@ Map = {
 		        	else{
 		        		if($.trim($($.parseXML(data)).find("body").html()).length != 0){
 		        			$("#container_feature_info").html(data);
+		        			$("#container_feature_info caption").text(titleLayer);
 		        		}else{
 		        			if((i+1) < Map.layers.length){
 		        				obj.featureInfo(e, i+1);

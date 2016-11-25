@@ -20,17 +20,21 @@
 				<div class="advanced">
 					<div class="adv">
 						<h3><lang>Country</lang></h3>
-						<input class="country" type="text" placeholder="<lang>Select</lang>">
-						<ul class="country_list"></ul>
+						<input readonly class="country" type="text" placeholder="<lang>All</lang>">
+						<ul class="country_list">
+							<li id="-1"><lang>All</lang></li>
+						</ul>
 					</div>
 					<div class="adv">
 						<h3><lang><lang>MSDF Region</lang></lang></h3>
-						<input class="msdf" type="text" placeholder="<lang>Select</lang>">
-						<ul class="msdf_list"></ul>
+						<input readonly class="msdf" type="text" placeholder="<lang>All</lang>">
+						<ul class="msdf_list">
+							<li id="-1"><lang>All</lang></li>
+						</ul>
 					</div>
 					<div class="adv">
 						<h3><lang><lang>Year</lang></lang></h3>
-						<input type="text" placeholder="YYYY">
+						<input class="year" maxlength="4" type="text" placeholder="YYYY">
 					</div>
 				</div>
 		</div>

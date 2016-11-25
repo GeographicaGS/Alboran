@@ -39,7 +39,7 @@ class CatalogModel(PostgreSQLModel):
 
     def getLayersByTopic(self, topic_id):
         if topic_id is not None:
-            sql = "SELECT l.id, l.title_en, l.title_fr, " \
+            sql = "SELECT l.id, l.title_en, l.title_fr, l.year, l.country, l.msdf, " \
                 "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
                 "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_fr, " \
                 "l.datasource as \"dataSource\", l.order " \

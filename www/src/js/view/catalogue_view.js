@@ -5,6 +5,7 @@ app.view.Catalogue = Backbone.View.extend({
         'click .topTabs li': 'changeTab',
         'click #searchbar button': 'toggleSearch',
         'keyup #searchInput': 'search',
+        'keyup #searchbar .year': 'search',
         'click .block_box, .source_box ul li': '_filter',
         'click #searchbar .country' :'toggleCountryList',
         'click #searchbar .msdf' :'toggleCountryMsdf',
@@ -234,9 +235,28 @@ app.view.Catalogue = Backbone.View.extend({
     },
 
     search: function(e){
-        var result = this.collection.getLayersBySearch(this.$searchbarText.val());
-        this.$layergroups.eq(3).empty();
-        this.renderList(result);
+      var country = null,
+          msdf = null,
+          year = null;
+
+      if($('#searchbar .country').val() != ''){
+        country = this.$('#searchbar .country_list li:contains("' + $('#searchbar .country').val() +'")').attr('id');
+        if(country == -1)
+          country = null;
+      }
+
+      if($('#searchbar .msdf').val() != ''){
+        msdf = this.$('#searchbar .msdf_list li:contains("' + $('#searchbar .msdf').val() +'")').attr('id');
+        if(msdf == -1)
+          msdf = null;
+      }
+
+      if($('#searchbar .year').val() != '')
+        year = $('#searchbar .year').val();
+      
+      var result = this.collection.getLayersBySearch(this.$searchbarText.val(),country,msdf,year);
+      this.$layergroups.eq(3).empty();
+      this.renderList(result);
     },
 
 	updateOrder: function() {
@@ -291,11 +311,13 @@ app.view.Catalogue = Backbone.View.extend({
   selectCounty:function(e){
     this.$('#searchbar .country').val($(e.currentTarget).text());
     this.$('#searchbar .country_list').removeClass('active');
+    this.search();
   },
 
   selectMsdf:function(e){
     this.$('#searchbar .msdf').val($(e.currentTarget).text());
     this.$('#searchbar .msdf_list').removeClass('active');
+    this.search();
   }
 
 });

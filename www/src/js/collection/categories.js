@@ -28,8 +28,8 @@ app.collection.Categories = Backbone.Collection.extend({
 		return layers;
 	},
 
-	getLayersBySearch : function(name){
-		if(name == "") return this.getAllLayers();
+	getLayersBySearch : function(name,country,msdf,year){
+		if(name == "" && !country && !msdf && !year) return this.getAllLayers();
 
 		var pattern = new RegExp(name,"gi");
 		var layers = new app.collection.Layers();
@@ -38,7 +38,8 @@ app.collection.Categories = Backbone.Collection.extend({
 		this.each(function(category){
 			_.each(category.get("topics"), function(topic){
 				_.each(topic.layers, function(layer){
-					if (pattern.test(layer['title_' + app.lang]) || pattern.test(layer.dataSource) || pattern.test(layer['desc_' + app.lang])){
+					// if (pattern.test(layer['title_' + app.lang]) || pattern.test(layer.dataSource) || pattern.test(layer['desc_' + app.lang])){
+					if (pattern.test(layer['title_' + app.lang]) && (!country || layer.country == country) &&  (!msdf || layer.msdf == msdf) && (!year || layer.year == year) ){
 						layer.category = currentCatIndex;
 						layers.add(layer);
 					}
