@@ -147,7 +147,7 @@ app.showView = function(view) {
         app.scrollTop();
     }
 
-    this.cookieWarning();
+    // this.cookieWarning();
 }
 
 app.cookieWarning = function(){
