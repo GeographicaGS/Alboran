@@ -183,6 +183,7 @@ app.router = Backbone.Router.extend({
             app.events.trigger('menu','map');
             if(Map.getMap() != null){
                 Map.getMap().invalidateSize("true");
+                Map.overview._overview.invalidateSize();
             }
             Map.toggleHistories(true, Map.openHistoryPopup, id);
             if(app.groupLayer)
