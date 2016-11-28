@@ -119,7 +119,7 @@ app.router = Backbone.Router.extend({
             $("#map").hide();
             window.location.href="/" + app.lang + "/browser_error.html";
         }else{
-            app.cookieWarning();
+            // app.cookieWarning();
             $("#content").hide();
             $("#map").show();
             app.events.trigger('menu','map');
