@@ -152,6 +152,7 @@ app.router = Backbone.Router.extend({
 
             if(Map.getMap() != null){
                 Map.getMap().invalidateSize("true");
+                Map.overview._overview.invalidateSize();
             }
 
             var now = $.now();
