@@ -15,7 +15,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-6 col-md-6">
-				<h3>IUCN</h3>
+				<% if (app.isAdmin){ %>
+					<a href="/<lang>lang</lang>/<lang>_link documents</lang>/<lang>_link document</lang>/<%=m.id_doc%>" class="editDoc button"><lang>Editar documento</lang></a><% 
+				} %>
+				<h3><%=m['source']%></h3>
 				<h4 class="<%=classColor%>"><%=m['title_' + app.lang]%></h4>
 				<%if(m['description_' + app.lang]){%>
 					<p><%=m['description_' + app.lang]%></p>
@@ -26,7 +29,7 @@
 				<div class="fright">
 					<div class="cover">
 					<img src="/img/document/covers/<%= m.img_link ? m.img_link : 'ALB_img_default-doc.svg'%>">
-					<a target="_blank" href="<%=m.doc_link%>"><lang>Descargar documento</lang></a>
+					<a class="<%=classColor%>" target="_blank" href="<%=m.doc_link%>"><lang>Descargar documento</lang></a>
 				</div>
 					<div class="shareBox">
 						<a id="share-twitter" href="#" target="_blank"><img src="/img/participa/ALB_icon_twitter_red.svg"></a>

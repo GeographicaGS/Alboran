@@ -1,0 +1,230 @@
+<div id="createHistory">
+	<div class="title">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<% if (data.id){%>
+						<h1><lang>Editar documento</lang></h1>
+					<% } else { %>
+						<h1><lang>Nuevo documento</lang></h1>
+					<% }%>
+					<a href="#" class="button cancel_btn"><img src="/img/catalogue/ALB_icon_buscar_cerrar.svg"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="layerForm">
+		<div class="container">
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Categorizar en...</lang></legend>
+						<div class="col-sm-6 col-md-6">
+							<select id="category" name="category">
+								<option value="0"><lang>Seleccione una temática</lang></option>
+								<% _.each(data.categories, function(category){ %>
+									<option value="<%= category['id'] %>" <%= category['id'] !== data.docCategory ? '': 'selected' %>><%= category['title_' + app.lang] %></option>
+								<% }); %>
+							</select>
+							<br>
+							<input type="checkbox" id="highlight" name="highlight" <%= data.highlight ? 'checked' : '' %> />
+							<label for="highlight"><lang>Destacado</lang></label>
+						</div>
+						<div class="col-sm-6 col-md-6 withButton">
+							<% _.each(data.categories, function(category){ %>
+							<select id="topic-<%= category.id %>" name="topic" class="hide">
+								<% _.each(category.topics, function(topic){ %>
+									<% if(topic['title_' + app.lang]){ %>
+									<option value="<%= topic['id'] %>" <%= topic['id'] !== data.topic_id ? '': 'selected' %>><%= topic['title_' + app.lang] %></option>
+									<% }else{ %>
+									<option value="<%= topic['id'] %>"<%= topic['id'] !== data.topic_id ? '': 'selected' %>><lang>Sin sección</lang></option>
+									<% } %>
+								<% }); %>
+							</select>
+							<% }); %>
+							<a href="#" id="createTopic" title="<lang>Crear nueva sección</lang>">
+								<img src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Crear nueva sección</lang>"/>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 info">
+					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
+					<div class="content">
+						<p><lang>Info ayuda categorizar en...</lang></p>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Nombre</lang></legend>
+						<input type="text" class="localized" id="title-es" name="title-es" placeholder="<lang>Nombre del documento en espa&ntilde;ol</lang>" value="<%= data.title_es %>" required /><label for="title-es">ES</label>
+						<input type="text" class="localized" id="title-en" name="title-en" placeholder="<lang>Nombre del documento en inglés</lang>" value="<%= data.title_en %>" required /><label for="title-en">EN</label>
+						<input type="text" class="localized" id="title-fr" name="title-fr" placeholder="<lang>Nombre del documento en francés</lang>" value="<%= data.title_fr %>" required /><label for="title-fr">FR</label>
+					</div>
+				</div>
+			</fieldset>
+			
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Tags</lang></legend>
+
+						<div class="tag_box one_size expand">
+							<span><lang>Tags</lang>
+								<img id="createTag" class="ml" src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Crear nueva Tag</lang>"/>
+							</span>
+							<ul>
+								<%_.each(data.alltags,function(e){%>
+									<li id_tag="<%=e.id_tag%>" class="<%=$.inArray( e.id_tag.toString(), data.tags ) >= 0 ? 'selected':''%>"><%=e['tag_' + app.lang]%></li>
+								<%})%>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</fieldset>
+
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Descripción</lang></legend>
+						<textarea id="desc-es" class="localized" name="desc-es" placeholder="<lang>Escriba aquí la descripción en espa&ntilde;ol</lang>" required><%= data.description_es %></textarea><label for="desc-es">ES</label>
+						<textarea id="desc-en" class="localized" name="desc-en" placeholder="<lang>Escriba aquí la descripción en inglés</lang>" required><%= data.description_en %></textarea><label for="desc-en">EN</label>
+						<textarea id="desc-fr" class="localized" name="desc-fr" placeholder="<lang>Escriba aquí la descripción en francés</lang>" required><%= data.description_fr %></textarea><label for="desc-fr">FR</label>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Fuente</lang></legend>
+						<input type="text" id="datasource" name="datasource" placeholder="<lang>Fuente del documento</lang>" value="<%= data.source %>" required />
+					</div>
+				</div>
+			</fieldset>
+
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
+						<legend><lang>Archivos</lang></legend>
+						<input accept="image/*"  type="file" id="cover" name="cover"/><label for="cover"><lang>Portada del documento</lang></label>
+						
+						<%if(data.doc_link && data.doc_link.indexOf('http') < 0){%>
+						<p class="mt30 grey_header_dark"><lang>Documento subido en el sistema. Puede remplazarlo por una url o subir uno nuevo</lang></p>
+						<%}%>
+						<input class="mt20" type="text" id="documentUrl" name="documentUrl" placeholder="<lang>Escriba url del documento o suba uno con el siguiente botón</lang>" value="<%=data.doc_link && data.doc_link.indexOf('http') >= 0 ? data.doc_link:null%>"/>
+						<input type="file" id="documentfile" name="documentfile"/><label for="documentfile"><lang>Documento</lang></label>
+					</div>
+				</div>
+			</fieldset>
+
+			<div class="row sendButtons">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row">
+						<div class="col-sm-3 col-md-3">
+							<a class="cancel_btn" href="#"><lang>Cancelar</lang></a>
+						</div>
+						<div class="col-sm-5 col-md-5">
+							<a href="#" id="enviar_btn" class="button grey">
+								<% if(!data.id){%>
+								<span><lang>Crear documento</lang></span>
+								<% }else{ %>
+								<span><lang>Actualizar documento</lang></span>
+								<% } %>
+							</a>
+						</div>
+						<% if(data.id){%>
+						<div class="col-sm-4 col-md-4">
+							<a href="#" id="borrar_btn" class="fright button red">
+								<span><lang>Eliminar documento</lang></span>
+							</a>
+						</div>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Popups -->
+	<div id="layerSectionCreation" class="msgPopup">
+		<div class="content">
+			<h2><lang>Crear nueva sección</lang></h2>
+			<fieldset>
+				<input type="text" class="localized" id="sectiontitle-es" name="sectiontitle-es" placeholder="<lang>Nombre de la sección en espa&ntilde;ol</lang>" required /><label for="sectiontitle-es">ES</label>
+				<input type="text" class="localized" id="sectiontitle-en" name="sectiontitle-en" placeholder="<lang>Nombre de la sección en inglés</lang>" required /><label for="sectiontitle-en">EN</label>
+				<input type="text" class="localized" id="sectiontitle-fr" name="sectiontitle-fr" placeholder="<lang>Nombre de la sección en francés</lang>" required /><label for="sectiontitle-fr">FR</label>
+			</fieldset>
+		</div>
+		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
+        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
+	</div>
+
+
+
+	<div id="layerTagCreation" class="msgPopup">
+		<div class="content">
+			<h2><lang>Crear nueva Tag</lang></h2>
+			<fieldset>
+				<input type="text" class="localized" id="tag-es" name="tag-es" placeholder="<lang>Nombre del tag en espa&ntilde;ol</lang>" required /><label for="tag-es">ES</label>
+				<input type="text" class="localized" id="tag-en" name="tag-en" placeholder="<lang>Nombre del tag en inglés</lang>" required /><label for="tag-en">EN</label>
+				<input type="text" class="localized" id="tag-fr" name="tag-fr" placeholder="<lang>Nombre del tag en francés</lang>" required /><label for="tag-fr">FR</label>
+			</fieldset>
+		</div>
+		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
+        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
+	</div>
+
+
+
+	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<div id="documentCreateSuccess" class="msgPopup">
+        <div class="content">
+			<% if(!data.id){%>
+            <h2><lang>Su documento ha sido creado</lang></h2>
+			<% }else{ %>
+			<h2><lang>Su documento ha sido actualizado</lang></h2>
+			<% } %>
+            <p></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
+    </div>
+
+    <div id="documentCreateError" class="msgPopup">
+        <div class="content">
+			<% if(!data.id){%>
+            <h2><lang>Error al crear su documento</lang></h2>
+			<% }else{ %>
+			<h2><lang>Error al actualizar su documento</lang></h2>
+			<% } %>
+            <p><lang>Inténtelo de nuevo o contacte con el administrador</lang></p>
+        </div>
+        <input type="button" value="<lang>Aceptar</lang>">
+    </div>
+
+    <div id="documentCancelConfirmation" class="msgPopup">
+        <div class="content">
+			<% if(!data.id){%>
+            <h2><lang>Cancelar creación del documento</lang></h2>
+			<% }else{ %>
+			<h2><lang>Cancelar actualización del documento</lang></h2>
+			<% } %>
+            <p><lang>¿Está seguro de querer salir? Los datos introducidos se perderán.</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
+
+	<div id="documentDeleteConfirmation" class="msgPopup">
+        <div class="content">
+			<h2><lang>Eliminar documento</lang></h2>
+            <p><lang>¿Está seguro de querer eliminar este documento?</lang></p>
+        </div>
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+    </div>
+
+    
+
+</div>

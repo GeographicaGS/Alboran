@@ -431,7 +431,8 @@
 										}
 
 										&.add {
-											background-color: @white;
+											/*background-color: @white;*/
+											background-color: transparent;
 											max-width: 310px;
 
 											&:before {

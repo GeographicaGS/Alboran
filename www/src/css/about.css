@@ -12,7 +12,7 @@
     background-color: @white;
 		a{
 			text-transform: uppercase;
-			.lato(light);
+			// .lato(light);
 			font-size: 13px;
 			color:@bluegrey_light;
 			margin-right: 40px;
@@ -89,7 +89,7 @@
 				z-index: 1;
 				color:@white;
 				.lato(bolditalic);
-				font-size: 18px;
+				font-size: 24px;
 			}
 		}
 
@@ -102,8 +102,9 @@
 			margin-bottom: 30px;
 		}
 		p,li{
-			font-size: 14px;
+			font-size: 16px;
 			line-height: 20px;
+			color:@bluegrey;
 			.lato(light);
 			margin-bottom: 20px;
 		}
@@ -113,7 +114,7 @@
 		}
 		span{
 			.lato(bold);
-			font-size: 14px;
+			font-size: 16px;
 			line-height: 20px;
 			color: @bluegrey;
 		}

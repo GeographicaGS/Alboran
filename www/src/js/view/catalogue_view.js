@@ -14,7 +14,7 @@ app.view.Catalogue = Backbone.View.extend({
         this.collection = app.categories;
         // this.collection = new app.collection.Categories(app.categories, {view: this});
         app.events.trigger('menu','catalogue');
-        Map.removeAllLayers()
+        // Map.removeAllLayers()
         this.render();
     },
 

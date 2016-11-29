@@ -2,6 +2,7 @@
   height: 100%;
   background-color: #f4f4f4;
   padding-bottom: 100px;
+
   .block_header{
   	margin-bottom: 55px;
   }
@@ -54,7 +55,7 @@
       a{
         margin-top: 16px;
         display: inline-block;
-        color:@green;
+        // color:@green;
         text-transform: uppercase;
         font-size: 12px;
         border: 1px solid @green;
@@ -62,6 +63,15 @@
         height: 30px;
         line-height: 30px;
         padding: 0 10px;
+        &.green{
+          border-color: @green;
+        }
+        &.red{
+          border-color: @red;
+        }
+        &.blue{
+          border-color: @blue;
+        }
         &:first-of-type{
           margin-right: 6px;
         }
@@ -80,6 +90,7 @@
           height: 326px;
           margin: 0 auto;
           width: auto;
+          max-width: 235px;
           box-shadow: 8px 8px 0px 0px @green;
         }
         >div{
@@ -95,6 +106,13 @@
 #document{
   background-color: #f4f4f4;
   padding-bottom: 160px;
+
+  .editDoc{
+    position: relative;
+    top: 20px;
+  }
+
+
   .header{
     height: 72px;
     background-color: @white;
@@ -179,12 +197,31 @@
       border-radius: 2px;
       padding: 0 10px;
       text-transform: uppercase;
-      color:@green;
+      // color:@green;
       margin-top: 20px;
       margin-bottom: 10px;
       .lato(light);
+
+      &.green{
+        border-color: @green;
+        &:before{
+          content: url('../img/document/ALB_icon_descarga_green.svg');
+        }
+      }
+      &.red{
+        border-color: @red;
+        &:before{
+          content: url('../img/document/ALB_icon_descarga_red.svg');
+        }
+      }
+      &.blue{
+        border-color: @blue;
+        &:before{
+          content: url('../img/document/ALB_icon_descarga_blue.svg');
+        }
+      }
+
       &:before{
-        content: url('../img/document/ALB_icon_descarga.svg');
         margin-right: 14px;
       }
     }

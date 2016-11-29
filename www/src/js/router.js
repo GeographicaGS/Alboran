@@ -20,6 +20,7 @@ app.router = Backbone.Router.extend({
         "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "confidentialité" },
         "_link user" : {"en":"user","es": "usuario", "fr": "usuario" },
         "_link documents" : {"en":"documents","es": "documentos", "fr": "documents" },
+        "_link document": {"en":"document", "es":"documento", "fr":"document"},
     },
 
     /* define the route and function maps for this router */
@@ -53,6 +54,8 @@ app.router = Backbone.Router.extend({
             "join/history/:id": "showhistory",
             "join/history/:id/edit": "edithistory",
 
+            // "documents/document": "createDocument",
+            // "documents/document/:id": "createDocument",
             "documents(/:block/:subBlock)": "documents",
             "documents/:id": "document",
 
@@ -104,6 +107,8 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
         this.route(this.langRoutes["_link documents"][app.lang] + "(/:block/:subBlock)", "documents");
         this.route(this.langRoutes["_link documents"][app.lang] + "/:id", "document");
+        this.route(this.langRoutes["_link documents"][app.lang] + "/" + this.langRoutes["_link document"][app.lang], "createDocument");
+        this.route(this.langRoutes["_link documents"][app.lang] + "/" + this.langRoutes["_link document"][app.lang] + "/:id", "editDocument");
     },
 
     home: function(){
@@ -298,6 +303,18 @@ app.router = Backbone.Router.extend({
       $("#content").show();
       $("#map").hide();
       app.showView(new app.view.DocumentItem({'id_doc':id}));  
+    },
+
+    createDocument:function(){
+        $("#content").show();
+        $("#map").hide();
+        app.showView(new app.view.DocumentCreate());
+    },
+
+    editDocument:function(id){
+      $("#content").show();
+      $("#map").hide();
+      app.showView( new app.view.DocumentCreate({documentId: id}) );
     },
 
     defaultRoute: function(){

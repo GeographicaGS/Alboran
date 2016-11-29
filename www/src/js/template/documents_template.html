@@ -23,7 +23,11 @@
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-4 col-md-4 filters"></div>
+			<div class="col-sm-4 col-md-4 filters">
+				<% if (app.isAdmin){ %>
+					<a href="/<lang>lang</lang>/<lang>_link documents</lang>/<lang>_link document</lang>" id="createDoc" class="button"><lang>Nuevo documento</lang></a><% 
+				} %>
+			</div>
 
 			<div class="col-sm-8 col-md-8">
 				<div class="doc_list"></div>

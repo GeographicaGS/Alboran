@@ -63,6 +63,7 @@ deps.JS = {
 			"js/view/signup_view.js",
 			"js/view/map-pointselector_view.js",
 			"js/view/documents_view.js",
+			"js/view/document-create_view.js",
 			"js/view/sub_block_view.js",
 			"js/view/sources_view.js",
 			"js/view/tags_view.js",
