@@ -647,8 +647,8 @@ body > header {
 
 		.panel{
 			cursor: move;
-			max-height: calc(~'100vh - 35px - 120px - 55px');
-			overflow-y: auto;
+			max-height: calc(~'100vh - 35px - 120px - 75px');
+			// overflow-y: auto;
 			/*background-color: white;*/
 		}
 
