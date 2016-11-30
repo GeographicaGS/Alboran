@@ -21,7 +21,8 @@ app.view.GroupLayer = Backbone.View.extend({
 					}
 				});
 				
-				var new_idx = $(ui.item).index()-1;
+				// var new_idx = $(ui.item).index()-1;
+                var new_idx = $(ui.item).index();
 				Map.layers.splice(new_idx,0,l);
 				
 				//change priority of all layer with bigger priority
