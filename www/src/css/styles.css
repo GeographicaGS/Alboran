@@ -667,6 +667,8 @@ body > header {
 			margin-top: 4px;
 			color:#a8afb5;
 
+			overflow-y: hidden;
+
 			.icon{
 	/* 			float:right; */
 				padding: 17px 5px 19px 6px;
