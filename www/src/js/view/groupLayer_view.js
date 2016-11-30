@@ -487,10 +487,11 @@ app.view.GroupLayer = Backbone.View.extend({
             $("#groupLayer").show();
             
             $("#map_control img").addClass("fleft");
-            $("#map_control .title").show(300,function(){
-                $(".groupLauyerConfig").show();
-                $("#map_control .title").addClass("fleft");
-            });
+            $(".groupLauyerConfig").show();
+            // $("#map_control .title").show(300,function(){
+            //     $(".groupLauyerConfig").show();
+            //     $("#map_control .title").addClass("fleft");
+            // });
             $("#map_control span").hide()
             $("#map_control br").hide();
         }

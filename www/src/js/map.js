@@ -258,8 +258,17 @@ Map = {
 		var BBOX = map.getBounds().toBBoxString();
 		var WIDTH = map.getSize().x;
 		var HEIGHT = map.getSize().y;
-		var X = map.layerPointToContainerPoint(e.layerPoint).x;
-		var Y = map.layerPointToContainerPoint(e.layerPoint).y;
+		// var X = map.layerPointToContainerPoint(e.layerPoint).x;
+		// var Y = map.layerPointToContainerPoint(e.layerPoint).y;
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+	 	var bds = map.getBounds();
+    var sz = map.getSize();
+    var w = bds.getNorthEast().lng - bds.getSouthWest().lng;
+    var h = bds.getNorthEast().lat - bds.getSouthWest().lat;
+    var X = (((e.latlng.lng - bds.getSouthWest().lng) / w) * sz.x).toFixed(0);
+    var Y = (((bds.getNorthEast().lat - e.latlng.lat) / h) * sz.y).toFixed(0);
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		var layers = null;
 		var server = null;
