@@ -676,7 +676,7 @@
 
 				.metadata_btn{
 					border-color: @green;
-					color: @green; 
+					color: @green;
 				}
 			}
 
@@ -707,7 +707,7 @@
 
 				.metadata_btn{
 					border-color: @red;
-					color: @red; 
+					color: @red;
 				}
 
 			}
@@ -739,7 +739,7 @@
 
 				.metadata_btn{
 					border-color: @blue;
-					color: @blue; 
+					color: @blue;
 				}
 
 			}
@@ -1153,9 +1153,9 @@
 			    transition: background-color .3s ease;
 			    cursor: pointer;
 
-			    &:hover{
+			    /*&:hover{
 		    	    background-color: red;
-			    }
+			    }*/
 
 			    &:first-of-type{
 			    	border-top: 1px solid rgb(43, 48, 51);
@@ -1163,7 +1163,7 @@
 			    &:last-of-type{
 			    	border-bottom: 1px solid rgb(43, 48, 51);
 			    }
-				
+
 				span{
 					font-size: 15px;
 				    font-weight: bold;
@@ -1196,7 +1196,7 @@
 		text-align: center;
 		color: #CACBCC;
 		font-size: 18px;
-		
+
 		&.error{
 			border: 1px solid red;
 		}

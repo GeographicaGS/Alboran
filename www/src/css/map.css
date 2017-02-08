@@ -25,17 +25,20 @@
 #map_tools{
 	position: absolute;
 	z-index: 1;
-	top: 16px;
+	/*top: 16px;*/
+	top: 150px;
 	display: flex;
-	left: 50%;
-	transform: translateX(-50%);
+	flex-direction: column;
+	/*left: 50%;*/
+	right: 9px;
+	/*transform: translateX(-50%);*/
 	border:1px solid @grey4;
-	box-shadow: 0 0 8px rgba(0,0,0,0.4);
+	/*box-shadow: 0 0 8px rgba(0,0,0,0.4);*/
 	.map_tool{
 		border: none;
-		border-right:1px solid @grey4;
+		border-bottom:1px solid @grey4;
     &.active{
-    	background-color:@grey4; 
+    	background-color:@grey4;
     }
 		&:last-child{
 			border:none;
@@ -47,10 +50,10 @@
 			background-image: url('/img/icon-minimap.svg');
 		}
 		&.measure_area{
-			background-image: url('/img/icon-area.svg');	
+			background-image: url('/img/icon-area.svg');
 		}
 		&.measure_dist{
-			background-image: url('/img/icon-distancia.svg');		
+			background-image: url('/img/icon-distancia.svg');
 		}
 		&.print{
 			background-image: url('/img/icon-print.svg');
@@ -95,8 +98,8 @@
 		&:after{
 			content: '';
 			display: inline-block;
-			width: 0; 
-			height: 0; 
+			width: 0;
+			height: 0;
 			border-left: 5px solid transparent;
 			border-right: 5px solid transparent;
 			border-bottom: 5px solid #000;
@@ -188,7 +191,7 @@
 		border-bottom: none  !important;
 	}
 	.leaflet-control-zoom-out, .leaflet-control-zoom-out:hover{
-		border-bottom: 1px solid @grey4 !important;	
+		border-bottom: 1px solid @grey4 !important;
 	}
 }
 
@@ -204,11 +207,11 @@
 
 
 .leaflet-control-layers{
-	position: fixed;
+	/*position: fixed;
 	left: 50%;
-	top: 96px;
+	top: 96px;*/
 	box-shadow: none;
-  transform: translateX(-164px);
+  /*transform: translateX(-164px);*/
 	&.leaflet-control-layers-expanded{
 		padding: 0;
 		background: none;
@@ -221,7 +224,7 @@
 			font-size: 12px;
 			border:1px solid @grey4;
 			top: -1px;
-	    right: calc(100% - 31px);
+	    /*right: calc(100% - 31px);*/
 
 			input[type="radio"]{
 				display: none;
@@ -270,8 +273,8 @@
 		&:before{
 			content: '';
 			display: inline-block;
-			width: 0; 
-			height: 0; 
+			width: 0;
+			height: 0;
 			border-left: 5px solid transparent;
 			border-right: 5px solid transparent;
 			border-bottom: 5px solid @white;
@@ -384,7 +387,7 @@
   			height: 483px;
   		}
   	}
-  	.page_size{
+  	select{
   		background-color: @grey3;
 			border:1px solid @grey4;
 			height: 34px;

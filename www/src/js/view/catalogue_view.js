@@ -25,7 +25,7 @@ app.view.Catalogue = Backbone.View.extend({
 
     onClose: function(){
         // Remove events on close
-        
+
         if(this.subBlocksView)
           this.subBlocksView.close();
 
@@ -68,7 +68,7 @@ app.view.Catalogue = Backbone.View.extend({
                 this.goToSection(this.activeSection-1);
             }
         }
-        
+
 
         this._filter();
 
@@ -136,7 +136,7 @@ app.view.Catalogue = Backbone.View.extend({
     },
 
     renderTab: function(elem, index){
-        
+
   		var that = this;
       var topics = elem.get('topics');
       for (var i = 0; i < topics.length; i++){
@@ -187,7 +187,7 @@ app.view.Catalogue = Backbone.View.extend({
         this.$layergroups.eq(index).addClass('selected');
 
         this.subBlocksView.model.set('currentBlock', index+1);
-        
+
         this._filter();
     },
 

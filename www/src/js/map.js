@@ -53,8 +53,10 @@ Map = {
 			    		name:'esri'
 					}),
 					bingSatellite =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
-					bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
-					openStreetMap =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {name:'openStreetMap', attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'})),
+					// bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
+					openStreetMap =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {name:'openStreetMap', attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}),
+					cartoMap = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'}),
+
 					natural2 = L.tileLayer.wms("/geoserver/medbiodivsdi/wms?", {
 							name:'natural',
 					    layers: 'medbiodivsdi:base_map',
@@ -66,30 +68,39 @@ Map = {
 			    		name:'esri'
 					}),
 					bingSatellite2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingSatellite', type: "AerialWithLabels", maxZoom:20}),
-					bingRoad2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20},
-					openStreetMap2 =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {name:'openStreetMap', attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}))
+					// bingRoad2 =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {name:'bingRoad', type: "Road", maxZoom:20}),
+					openStreetMap2 =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {name:'openStreetMap', attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'})
+					cartoMap2 = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'})
 			;
 
 			var position = 'topleft';
 
 			L.control.layers(
 			 {
+				 'Positron Carto':cartoMap,
 			 	 'Natural Earth': natural,
 			 	 'Esri': esri,
-				 'Bing satélite' : bingSatellite,
-				 'Bing callejero' : bingRoad,
+				 'Bing satellite' : bingSatellite,
+				//  'Bing callejero' : bingRoad,
 				 'OpenStreetMap' : openStreetMap
 			 },null,{position: position}).addTo(this.__map);
 
-			this.__map.addLayer(natural);
+			this.__map.addLayer(cartoMap);
 
 			natural.setZIndex(-1);
 			bingSatellite.setZIndex(-1);
-			bingRoad.setZIndex(-1);
+			// bingRoad.setZIndex(-1);
+			cartoMap.setZIndex(-1);
 			openStreetMap.setZIndex(-1);
 			esri.setZIndex(-1);
 
-			Map.overview = L.control.overview([natural2,esri2,bingSatellite2,bingRoad2,openStreetMap2]).addTo(this.__map);
+			Map.overview = L.control.overview([
+				cartoMap2,
+				natural2,
+				esri2,
+				bingSatellite2,
+				// bingRoad2,
+				openStreetMap2]).addTo(this.__map);
 
 
 
@@ -356,7 +367,7 @@ Map = {
 		if(server.lastIndexOf("?") >= 0){
             server = server.slice(0,server.lastIndexOf("?"));
         }
-        
+
 		var request = server + '?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=' +layers+'&QUERY_LAYERS='+layers+'&STYLES=&BBOX='+BBOX+'&FEATURE_COUNT=5&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X='+X+'&Y='+Y;
 		request = request.replace("wmts","wms");
 

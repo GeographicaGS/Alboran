@@ -1,21 +1,21 @@
 app.view.GroupLayer = Backbone.View.extend({
-	
+
 	_template : _.template( $('#groupLayer_template').html() ),
-    
+
     initialize: function(options) {
 
       this._legendView = options.legend;
 
     	this.render();
-    	
+
     	this.$el.find(".panel").sortable({
     		start: function( event, ui ) {
 //				$(ui.item).css("background-color","#f2f7fb");
-				
+
 			},
 			stop: function( event, ui ) {
 				var id_layer = $(ui.item).attr("idlayer");
-				
+
 				var l;
 				Map.layers.forEach(function(gSLayerWMS) {
 					if(gSLayerWMS.id == id_layer){
@@ -23,11 +23,11 @@ app.view.GroupLayer = Backbone.View.extend({
 						Map.layers.splice(Map.layers.indexOf(l),1);
 					}
 				});
-				
+
 				// var new_idx = $(ui.item).index()-1;
                 var new_idx = $(ui.item).index();
 				Map.layers.splice(new_idx,0,l);
-				
+
 				//change priority of all layer with bigger priority
 				for(var i=0;i<Map.layers.length;i++){
 					Map.layers[i].layer.setZIndex(Map.layers.length-i);
@@ -39,10 +39,10 @@ app.view.GroupLayer = Backbone.View.extend({
     	});
     	this.$el.find(".panel").disableSelection();
     	this.$el.find(".panel").sortable({ cancel: '.disableSortable' });
-    	
-    	$("#map_control").find("img").eq(0).on('click', this.toggleSidebar); 
+
+    	$("#map_control").find("img").eq(0).on('click', this.toggleSidebar);
     	$("#map_control").find("div").eq(0).on('click', this.toggleSidebar);
-    	
+
     	$("#groupLayer").on('click','.groupLauyerConfig', function(e) {
     		if($("#configPanelMap").is(":visible")){
     			// $(".groupLauyerConfig").css({"background-color":""});
@@ -50,19 +50,19 @@ app.view.GroupLayer = Backbone.View.extend({
         		$("#configPanelMap").fadeOut();
         	}else{
         		// $(".groupLauyerConfig").css({"background-color":"#e9eaea"});
-        		// $(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc_abierto.svg"); 
+        		// $(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc_abierto.svg");
         		$("#configPanelMap").fadeIn();
         	}
     	});
-    	
+
     	$("#saveConfiguration").on('click', function() {
-    		
+
     		if(localStorage.getItem('user') && localStorage.getItem('password')){
-    			
+
     			$(".groupLauyerConfig").css({"background-color":""});
     			$(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
     			$("#configPanelMap").fadeOut();
-        		
+
         		$.fancybox($("#confirmSaveConfig"), {
         			'width':'640',
         			"height": "auto",
@@ -70,35 +70,35 @@ app.view.GroupLayer = Backbone.View.extend({
         		    'autoSize':false,
         		    'closeBtn' : false,
         		    'scrolling'   : 'no',
-        		    helpers : { 
-        		    	   overlay: { 
-        		    		   css: {'background-color': 'rgba(0,0,102,0.85)'} 
-        		    	   } 
+        		    helpers : {
+        		    	   overlay: {
+        		    		   css: {'background-color': 'rgba(0,0,102,0.85)'}
+        		    	   }
         		    },
-        		    
+
         		    afterShow: function () {
         		    	$($("#confirmSaveConfig").find("input[type='button']")[0]).on('click', function() {
         		    		var now = $.now();
        		    			$.ajax({
        		    				url : "/api/config/",
        		    				data: {"data":Map.buildRoute()},
-       		    				type: "POST",			
+       		    				type: "POST",
        		    		        success: function() {
        		    		        	$.fancybox.close();
        		    		        }
-       		    		    });   		    		
+       		    		    });
         		    	});
         		    	$($("#confirmSaveConfig").find("input[type='button']")[1]).on('click', function() {
         		    		$.fancybox.close();
         		    	});
         		    }
         		});
-        		
+
     		}else{
     			$(".login").trigger("click");
     		}
         });
-    	
+
     	$("#loadConfiguration").on('click', function() {
     		if(localStorage.getItem('user') && localStorage.getItem('password')){
     			var now = $.now();
@@ -114,12 +114,12 @@ app.view.GroupLayer = Backbone.View.extend({
         		    	   $(".groupLauyerConfig").trigger("click");
         		       }
         		   });
-        		
+
     		}else{
     			$(".login").trigger("click");
     		}
         });
-    	
+
     	$("img[idConfig]").on('click', function() {
     		var now = $.now();
     		$.ajax({
@@ -136,7 +136,7 @@ app.view.GroupLayer = Backbone.View.extend({
     		   });
     	});
     },
-    
+
     events:{
     	"click li": "layerClick",
     	"mouseover li": "layerOver",
@@ -150,19 +150,19 @@ app.view.GroupLayer = Backbone.View.extend({
     	"click .icon": "infoLayerClick",
       "click #mapHistoryControl": "toggleHistories"
 	},
-	
-	// layerClick: function(e){
- //    	var idLayer = $(e.currentTarget).attr("idLayer");
- //    	if(idLayer){
- //    		if($(e.currentTarget).hasClass("active")){
- //    			Map.hideLayer(idLayer);
- //    			$(e.currentTarget).removeClass("active")
- //    		}else{
- //    			Map.showLayer(idLayer);
- //    			$(e.currentTarget).addClass("active")
- //    		}
- //    	}
- //    },
+
+	layerClick: function(e){
+    	var idLayer = $(e.currentTarget).attr("idLayer");
+    	if(idLayer){
+    		if($(e.currentTarget).hasClass("active")){
+    			Map.hideLayer(idLayer);
+    			$(e.currentTarget).removeClass("active")
+    		}else{
+    			Map.showLayer(idLayer);
+    			$(e.currentTarget).addClass("active")
+    		}
+    	}
+    },
 
     zoomToLayer:function(e){
       e.stopImmediatePropagation();
@@ -172,7 +172,7 @@ app.view.GroupLayer = Backbone.View.extend({
         Map.getMap().fitBounds(app.capabilities.get(layerName).get('bbox'));
       }
     },
-    
+
     layerOver: function(e){
     	if($(e.currentTarget).attr("idLayer")){
     		// $(e.currentTarget).css({"background-color":"#f4f4f4"});
@@ -180,7 +180,7 @@ app.view.GroupLayer = Backbone.View.extend({
     		$(e.currentTarget).find("p").css({"maxWidth":"145px"});
     	}
     },
-    
+
     layerLeave: function(e){
     	if($(e.currentTarget).attr("idLayer")){
     		// $(e.currentTarget).css({"background-color":"white"});
@@ -188,19 +188,19 @@ app.view.GroupLayer = Backbone.View.extend({
     		$(e.currentTarget).find("p").css({"maxWidth":"252px"});
     	}
     },
-    
+
     removeLayerClick: function(e){
 
     	e.stopImmediatePropagation();
-    	
+
     	var idLayer = $(e.currentTarget).parent().attr("idLayer")
-    	
-    	
-    	$(e.currentTarget).parent().hide(function(){ 
+
+
+    	$(e.currentTarget).parent().hide(function(){
     		$(this).remove();
             Map.removeLayer(idLayer);
     	});
-    	
+
     	var addButtons = $(".catalogue_list .add_btn");
     	for(var i=0; i<addButtons.length; i++){
     		if($(addButtons[i]).attr("layerid") == idLayer){
@@ -217,50 +217,50 @@ app.view.GroupLayer = Backbone.View.extend({
       // $(".catalogue_list .add_btn:not(.add)").addClass('add');
       $('.removeLayer').trigger('click')
     },
-    
+
     addLayerClick: function(e){
 //    	var categry = $(e.currentTarget).parent().attr("category");
     	app.router.navigate("catalogue",{trigger: true});
 //    	$($(".topTabs li")[categry]).trigger("click")
     },
-    
+
     infoLayerClick: function(e){
     	if(!$(e.currentTarget).hasClass("removeLayer")){
     		e.stopImmediatePropagation();
     		app.router.navigate("catalogue",{trigger: true});
-    		
+
     		var idLayer = $(e.currentTarget).parent().attr("idLayer");
         	var categry = Map.searchLayerGroup(Map.searchLayer(idLayer))
     		var addButtons = $(".add_btn");
-    		
+
     		for(var i=0; i<addButtons.length; i++){
     			if($(addButtons[i]).attr("layerid") == idLayer){
     				$($(".topTabs li")[categry]).trigger("click");
-    				
+
     				$($(addButtons[i])).parent().parent().parent().children().find("p").find("a").trigger("click");
                     $($(addButtons[i])).parent().parent().parent().parent().children('.info').addClass('show');
                      $($(addButtons[i])).parent().parent().parent().find('.name').addClass('expand');
     				$('html, body').animate({
     			        scrollTop: $($(addButtons[i])).offset().top -90
     			    }, 1000);
-    				
+
     				break;
     			}
     		}
-    		
+
     	}
     },
-    
+
     onClose: function(){
-      
+
     if(this._legendView)
       this._legendView.close();
 
     	this.stopListening();
     },
-    
+
     render: function() {
-    	this.$el.html(this._template());  
+    	this.$el.html(this._template());
 
       if(Map.historiesVisible){
           this.$('#mapHistoryControl ~ label').addClass('active');
@@ -271,7 +271,7 @@ app.view.GroupLayer = Backbone.View.extend({
       return this;
 
     },
-    
+
     addLayer: function(id) {
         //<li idLayer="1" class="active">Nombre capa <img class="icon removeLayer" src="/img/map/ALB_icon_descartar_capa.svg"> <img class="icon" src="/img/map/ALB_icon_info_capa.svg"> </li>
         var $li = $(document.createElement('li'));
@@ -279,7 +279,7 @@ app.view.GroupLayer = Backbone.View.extend({
 //        $li.addClass('ellipsis');
         $li.attr('idLayer',id);
         var layer = Map.searchLayer(id);
-        
+
         switch(Map.searchLayerGroup(layer)) {
         case 0:
         	$li.addClass('green');
@@ -291,12 +291,12 @@ app.view.GroupLayer = Backbone.View.extend({
         	$li.addClass('blue');
             break;
         }
-        
+
         // $li.html("<p class='ellipsis fleft' title='" +  layer["title_" + app.lang] + "'>" + layer["title_" + app.lang] + "</p>");
         $li.html("<p class='ellipsis fleft' title='" +  layer["title_" + app.lang] + "'>" + layer["title_" + app.lang] + "</p>");
-        
+
         var $icon1, $icon2, $icon3, $icon4;
-        
+
         // $icon1 = $(document.createElement('img'));
         // $icon1.addClass('icon leyend');
         // $icon1.attr('src','/img/map/ALB_icon_leyenda.svg');
@@ -308,17 +308,17 @@ app.view.GroupLayer = Backbone.View.extend({
         $icon1.attr('width','28px');
         $icon1.attr('title','Zoom');
 
-        
+
         $icon2 = $(document.createElement('img'));
         $icon2.addClass('icon opacity');
         $icon2.attr('src','/img/map/ALB_icon_opacidad.svg');
         $icon2.attr('title',getTextLang("opacity"));
-        
+
         $icon3 = $(document.createElement('img'));
         $icon3.addClass('icon removeLayer');
         $icon3.attr('src','/img/map/ALB_icon_descartar_capa.svg');
         $icon3.attr('title',getTextLang("remove"));
-        
+
         $icon4 = $(document.createElement('img'));
         $icon4.addClass('icon');
         $icon4.attr('src','/img/map/ALB_icon_info_capa_white.svg');
@@ -329,7 +329,7 @@ app.view.GroupLayer = Backbone.View.extend({
 	        			"<span class='opacity_label'>Opacity 100 %</span>" +
 	        			"<div class='slider' id='slider_"+ id +"'></div>" +
         			"</div>");
-        
+
         $li.append("<div class='clear'></div>");
 
         // Obtener el padre de la capa en el JSON para determinar el grupo
@@ -337,16 +337,16 @@ app.view.GroupLayer = Backbone.View.extend({
 //        var $group = this.$('.panel').eq(groupIndex);
 //
 //        $li.insertBefore($group.find('li:last-child'));
-        
+
         $li.hide();
         //$li.insertAfter($('.panel').find('li:first-child'));
         $('.panel').prepend($li);
         $li.show(300);
-        
+
 
         Map.addLayer(id);
 
-        var that = this;        
+        var that = this;
         $("#groupLayer").find(".slider").slider({
 			max: 100,
 			min: 0,
@@ -364,7 +364,7 @@ app.view.GroupLayer = Backbone.View.extend({
 
     var legendUrl = layer.wmsServer.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
       +"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.wmsLayName;
-    
+
     this._legendView.$('ul').append('<li layer="' + id + '"><h3 title="' + layer['title_' + app.lang] + '" class="ellipsis">' + layer['title_' + app.lang] + '</h3><img src="' + legendUrl + '"></li>')
 
     },
@@ -372,7 +372,7 @@ app.view.GroupLayer = Backbone.View.extend({
     removeLayer: function(id) {
       var $li = this.$('li[idLayer="'+id+'"]');
       if($li.length > 0) {
-      	 $li.hide(function(){ 
+      	 $li.hide(function(){
       		 $li.remove();
                Map.removeLayer(id);
       	});
@@ -389,36 +389,36 @@ app.view.GroupLayer = Backbone.View.extend({
         layer.layer.setOpacity(value/100);
         Map.getRoute();
     },
-    
+
     leyendClick: function(e) {
     	e.stopImmediatePropagation();
-    	
+
     	var id_layer = $(e.currentTarget).parent().attr("idLayer");
 		var $container = $("main");
 		var $el = $("<div class='flotable_legend ui-widget ui-widget-content' >"
-				+	"<h4>" 
+				+	"<h4>"
 				+		"<img class='ml mt mr mb fleft' src='/img/map/ALB_icon_leyenda.svg' />"
 				+		"<p class='titleLegend ellipsis' title=''></p>"
 				+		"<img class='closeLegend' src='/img/map/ALB_icon_descartar_capa_white.svg' />"
 				+	"</h4>"
-				+	"<div class='co_legend'>"							
-				+	"</div>"			
+				+	"<div class='co_legend'>"
+				+	"</div>"
 				+	"</div>");
-		
-		
+
+
 		$el.hide(); //Para que aparezca de forma animada
 		var dibjuarLeyenda = true;
-		
+
 		var layer;
 		Map.layers.forEach(function(gSLayerWMS) {
 			if(gSLayerWMS.id == id_layer){
 				layer = gSLayerWMS;
 			}
 		});
-		
+
 		$el.find("h4").find("p").text(layer.title);
 		$el.find("h4").find("p").attr("title",layer.title);
-		
+
 		var legendUrl;
 		var layerCatalogue = Map.searchLayer(id_layer);
 		if(layerCatalogue.hasOwnProperty("wmsLegend")){
@@ -427,48 +427,48 @@ app.view.GroupLayer = Backbone.View.extend({
 			legendUrl = layer.url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
 			+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
 		}
-		
-		
+
+
 		$el.find(".co_legend").html("<img src='" + legendUrl +"'/>");
-		
+
 		//Si esta leyenda ya se esta mostrando la elimino
 		var leyendas = $container.find(".flotable_legend");
 		for(var i=0; i<leyendas.length; i++){
 			if($(leyendas[i]).find("h4").find("p").text() == $el.find("h4").find("p").text()){
-				
+
 				$(leyendas[i]).fadeOut(function () {
 					$(this).remove();
 				});
 				dibjuarLeyenda = false;
 				break;
-			}	
+			}
 		}
 		if(dibjuarLeyenda){
 			$container.prepend($el);
-			
+
 			$el.css("left",($container.width() / 2 ) - $el.width());
 			$el.css("top",($container.height() / 2 ) - ($el.height() / 2));
-						
+
 			$el.find(".closeLegend").click(function(){
 				$el.fadeOut(function () {
 					$(this).remove();
 				});
 			});
-			
+
 			$el.draggable();
-			
+
 			$el.fadeIn(); //Para que aparezca de forma animada
 		}
-    	
-    	
+
+
     },
-    
+
     opacityClick: function(e) {
     	e.stopImmediatePropagation();
-    	
+
     	var $opacity_panel = $(e.currentTarget).siblings(".opacity_panel");
-		
-    	var $li = $(e.currentTarget).closest("li"); 
+
+    	var $li = $(e.currentTarget).closest("li");
 		if ($opacity_panel.is(":visible")){
 //			$li.animate({"height": $li.height() - $opacity_panel.outerHeight()});
 			$opacity_panel.slideUp();
@@ -503,14 +503,14 @@ app.view.GroupLayer = Backbone.View.extend({
 
     toggleSidebar: function() {
         if($("#groupLayer").is(":visible")){
-            
+
             $(".groupLauyerConfig").css({"background-color":""});
             $(".groupLauyerConfig").attr("src","/img/map/ALB_icon_config_toc.svg");
             $("#configPanelMap").fadeOut();
-            
+
             $("#groupLayer").animate({"left":"-320"},300,'linear');
             $("#groupLayer").hide(300);
-            
+
             $("#map_control img").removeClass("fleft");
             $("#map_control .title").hide();
             $("#map_control .title").removeClass("fleft");
@@ -521,10 +521,10 @@ app.view.GroupLayer = Backbone.View.extend({
             $('#legend').removeClass('left');
 
         }else{
-            
+
             $("#groupLayer").animate({"left":"0"},300);
             $("#groupLayer").show();
-            
+
             $("#map_control img").addClass("fleft");
             $("#map_control .title").show(300,function(){
                 $(".groupLauyerConfig").show();
@@ -539,4 +539,3 @@ app.view.GroupLayer = Backbone.View.extend({
 });
 
 // _.bindAll(this, 'render');
-	

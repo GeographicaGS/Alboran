@@ -39,7 +39,7 @@ app.collection.Categories = Backbone.Collection.extend({
 			_.each(category.get("topics"), function(topic){
 				_.each(topic.layers, function(layer){
 					// if (pattern.test(layer['title_' + app.lang]) || pattern.test(layer.dataSource) || pattern.test(layer['desc_' + app.lang])){
-					if (pattern.test(layer['title_' + app.lang]) && (!country || layer.country == country) &&  (!msdf || layer.msdf == msdf) && (!year || layer.year == year) ){
+					if ( (pattern.test(layer['title_' + app.lang]) || pattern.test(layer['desc' + app.lang]) || pattern.test(layer['dataSource'])) && (!country || layer.country == country) &&  (!msdf || layer.msdf == msdf) && (!year || layer.year == year) ){
 						layer.category = currentCatIndex;
 						layers.add(layer);
 					}
@@ -56,7 +56,7 @@ app.collection.Categories = Backbone.Collection.extend({
 		var currentCatIndex = 1;
 		this.each(function(category){
 			_.each(category.get("topics"), function(topic){
-				_.each(topic.layers, function(layer){					
+				_.each(topic.layers, function(layer){
 					layer.category = currentCatIndex;
 					layers.add(layer);
 				});

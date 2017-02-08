@@ -387,8 +387,8 @@ body > header {
 		    padding: 0 10px;
 				&:after{
 					content: '';
-					width: 0; 
-					height: 0; 
+					width: 0;
+					height: 0;
 					border-left: 4px solid transparent;
 					border-right: 4px solid transparent;
 					border-top: 4px solid @grey_footer_dark;

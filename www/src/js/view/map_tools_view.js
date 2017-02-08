@@ -1,6 +1,6 @@
 app.view.MapTools = Backbone.View.extend({
  	_template : _.template( $('#map_tools_template').html() ),
-    
+
   initialize: function() {
 
     this.editableLayers = new L.FeatureGroup();
@@ -51,12 +51,12 @@ app.view.MapTools = Backbone.View.extend({
 
 		this._drawPolygon = new L.Draw.Polygon(Map.getMap(), meauseOptions.draw.polygon);
 		this._drawPolyline = new L.Draw.Polyline(Map.getMap(), meauseOptions.draw.polyline);
-    
+
     // this._tooltip = new L.Draw.Tooltip(Map.getMap());
     // this._tooltip.updateContent({ text: 'Prueba' });
 
     var _this = this;
-    
+
     Map.getMap().on(L.Draw.Event.DRAWVERTEX, function (e) {
       if(_this.editableLayers.getLayers().length > 0)
         _this.editableLayers.removeLayer(_this.editableLayers.getLayers()[0]);
@@ -70,24 +70,24 @@ app.view.MapTools = Backbone.View.extend({
 
       if (type === 'polygon'){
         layer.bindPopup(_this._drawPolygon._getMeasurementString(),{className:'coords_popup'}).openPopup();
-        _.defer(function(){ 
+        _.defer(function(){
           _this._drawPolygon.enable();
-        }); 
+        });
 
       }else if(type == 'polyline'){
         layer.bindPopup(_this._drawPolyline._getMeasurementString(),{className:'coords_popup'}).openPopup();
-        _.defer(function(){ 
+        _.defer(function(){
           _this._drawPolyline.enable();
         });
       }
-      
+
 
     });
 
     L.control.scale({position:"bottomright", "imperial":true}).addTo(Map.getMap());
 
   },
-    
+
     events:{
       'click .map_tool': '_clickTool',
       'click .feature_info': '_featureInfo',
@@ -102,14 +102,14 @@ app.view.MapTools = Backbone.View.extend({
       'click .print_button': '_printMap',
       'change .page_size': '_changePrintSize'
 	},
-    
+
 	onClose: function() {
 		this.stopListening();
 	},
-    
+
   render: function() {
     this.$el.html(this._template());
-    _.defer(function(){ 
+    _.defer(function(){
       Map.getMap().addControl(new L.Control.ZoomDisplay());
 
       var div = L.DomUtil.get('print_popup');
@@ -117,7 +117,7 @@ app.view.MapTools = Backbone.View.extend({
         L.DomEvent.disableClickPropagation(div);
         L.DomEvent.on(div, 'mousewheel', L.DomEvent.stopPropagation);
       }else{
-        L.DomEvent.on(div, 'click', L.DomEvent.stopPropagation);  
+        L.DomEvent.on(div, 'click', L.DomEvent.stopPropagation);
       }
 
     });
@@ -153,7 +153,7 @@ app.view.MapTools = Backbone.View.extend({
     		});
     		Map.featureInfo(e);
 			});
-			$('#map').addClass('pointer'); 
+			$('#map').addClass('pointer');
   	}
   },
 
@@ -176,7 +176,7 @@ app.view.MapTools = Backbone.View.extend({
 							})
   					})
   					.addTo(Map.getMap());
-				    
+
 
 				_this._marker.bindPopup(formatcoords(e.latlng.lat,e.latlng.lng).format(),{className:'coords_popup'})
 				    				.openPopup();
@@ -217,7 +217,7 @@ app.view.MapTools = Backbone.View.extend({
 
   open_print:function(){
     this.$('#print_popup').addClass('active');
-    
+
     var layers = [];
     Map.getMap().eachLayer(function (layer) {
       if(layer._url){
@@ -228,7 +228,7 @@ app.view.MapTools = Backbone.View.extend({
           layers.push(newLayer);
         }else{
           if(layer.options.attribution != 'Bing'){
-            layers.push(L.tileLayer(layer._url));  
+            layers.push(L.tileLayer(layer._url));
           }
         }
       }
@@ -243,7 +243,7 @@ app.view.MapTools = Backbone.View.extend({
       maxZoom:Map.maxZoom
     });
 
-    
+
     this.printProvider = L.print.provider({
        method: 'GET',
        url: '/geoserver/pdf',
@@ -254,7 +254,7 @@ app.view.MapTools = Backbone.View.extend({
 
     var printControl = L.control.print({
        provider: this.printProvider
-    });        
+    });
     this._printMap.addControl(printControl);
 
   },
@@ -300,5 +300,3 @@ app.view.MapTools = Backbone.View.extend({
   }
 
 });
-
-	

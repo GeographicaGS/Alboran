@@ -393,6 +393,7 @@ def uploadGSLayer():
 	layer_name = request.form['layer_name'].replace(" ","_")
 	sld_type = request.form['sld_type']
 	sldpath = None
+	temp = None
 
 	try:
 		temp = tempfile.mkdtemp(suffix='', prefix='tmp', dir=app.config['UPLOAD_TEMP_FOLDER'])
@@ -401,7 +402,7 @@ def uploadGSLayer():
 		file.save(os.path.join(temp, filename))
 		zfile = zipfile.ZipFile(os.path.join(temp, filename))
 		zfile.extractall(temp)
-		
+
 		files = os.listdir(temp)
 		shp_data = {
 			"shp": None,
@@ -409,17 +410,17 @@ def uploadGSLayer():
 			"shx": None,
 			"prj": None
 		}
-		
-		for f in files:		
-			if f.endswith(".dbf"): 
+
+		for f in files:
+			if f.endswith(".dbf"):
 				shp_data["dbf"] = os.path.join(temp, f)
-			if f.endswith(".prj"): 
+			if f.endswith(".prj"):
 				shp_data["prj"] = os.path.join(temp, f)
-			if f.endswith(".shp"): 
+			if f.endswith(".shp"):
 				shp_data["shp"] = os.path.join(temp, f)
-			if f.endswith(".shx"): 
+			if f.endswith(".shx"):
 				shp_data["shx"] = os.path.join(temp, f)
-			if f.endswith(".sld"): 
+			if f.endswith(".sld"):
 				sldpath = os.path.join(temp, f)
 				sld_type = layer_name + ".sld"
 
@@ -472,7 +473,7 @@ def uploadGSLayer():
 	# gsl = GeoserverLayers(url_geoserverrest, username, password)
 	# gsl.createGeoserverWMSLayer(shp_data, ws_name, ds_name, stylename, sldpath, debug=False)
 
-	
+
 
 @app.route('/gslayer/<gslayername>', methods=['DELETE'])
 # @auth

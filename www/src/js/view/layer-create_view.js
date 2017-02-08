@@ -64,8 +64,8 @@ app.view.LayerCreate = Backbone.View.extend({
         'mouseover .geonetwork_link': 'showGeonetworkPopup',
         // 'mouseout #meta_data_options_popup': 'hideGeonetworkPopup',
         'click #createRegion': 'createRegion',
-        
-        
+
+
     },
 
     onClose: function(){
@@ -226,7 +226,7 @@ app.view.LayerCreate = Backbone.View.extend({
             'wmsServer': formData.wmsServer,
             'wmsLayName': formData.wmsLayName,
             'geoNetWk': formData.geoNetWk,
-            'year': formData.year, 
+            'year': formData.year,
             'country': formData.country,
             'msdf': formData.msdf
         });
@@ -471,7 +471,7 @@ app.view.LayerCreate = Backbone.View.extend({
         $.fancybox(this.$('#geoserverPopup'), {
             'width':'640',
             'height': 'auto',
-            
+
             'autoDimensions':false,
             'autoSize':false,
             // 'closeBtn' : true,
@@ -486,11 +486,11 @@ app.view.LayerCreate = Backbone.View.extend({
                  }
             },
             afterShow: function () {
-                
+
                 $('#geoserverPopup .creating').addClass('hide');
                 $('#geoserverUpload').removeClass('hide');
-                $('#geoserverPopup .error').removeClass('error');   
-                $('#geoserverPopup .problem').addClass('hide');   
+                $('#geoserverPopup .error').removeClass('error');
+                $('#geoserverPopup .problem').addClass('hide');
 
                 $('#geoserverPopup .select_geoserver_zip').unbind().bind('click', function(e) {
                     $('#geoserverZip').trigger('click')
@@ -500,7 +500,7 @@ app.view.LayerCreate = Backbone.View.extend({
                 });
                 $('#geoserverUpload').unbind().bind('click', function(e) {
                     var send = true;
-                    
+
                     if($('#geoserverPopup input[name="layer_name"]').val() == ""){
                         $('#geoserverPopup input[name="layer_name"]').addClass('error');
                         send = false;
@@ -564,19 +564,26 @@ app.view.LayerCreate = Backbone.View.extend({
             this.$('#wmsLayers .error').removeClass('hide');
             this.$('#wmsLayers .notSupport').addClass('hide');
             this.$('#wmsLayers .notFound').addClass('hide');
-            
+
 
             this.$('#wmsLayers .layerList').html('');
             var server = this.$('#wmsserver').val();
-            if(server.lastIndexOf("?") >= 0){
-                server = server.slice(0,server.lastIndexOf("?"));
+            // if(server.lastIndexOf("?") >= 0){
+            //   if(server.lastIndexOf("?") == server.length - 1)
+            //     server = server.slice(0,server.lastIndexOf("?"));
+            // }
+            if(server.lastIndexOf("?") <= 0){
+              server += '?';
+            }else if(server.lastIndexOf("?") != server.length - 1){
+              server += '&';
             }
-            var url = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=wms";
+
+            var url = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "REQUEST=GetCapabilities&SERVICE=wms";
 
             $.fancybox(this.$('#wmsLayers'), {
                 'width':'640',
                 'height': 'auto',
-                
+
                 'autoDimensions':false,
                 'autoSize':false,
                 // 'closeBtn' : true,
@@ -595,33 +602,35 @@ app.view.LayerCreate = Backbone.View.extend({
                         url : "/api/proxy",
                         data: { "url": url},
                         dataType: 'xml',
-                        type: "POST",           
+                        type: "POST",
                         success: function(xml) {
                             if(xml){
                                 $('#wmsLayers p').addClass('hide');
-                                
+
                                 var layerPadre = $(xml).find("Layer")[0];
                                 var version = $($(xml).find("*")[0]).attr("version");
 
                                 var html = '<ul>';
-                                
+
                                 var keyLayerName;
-                                
+
                                 keyLayerName = "Name"
                                 $(xml).find("Capability > Layer").each(function(){
                                     $(this).find("Layer").each(function(){
-                                        if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
-                                            html += _this._createHtmlExternalService($(this).find("Layer > " + keyLayerName).text(),$(this).find("Layer > Title").text(),$(this).find("Layer > Abstract").text());
+                                        if($($(this).find(">SRS,>CRS")).text().indexOf("900913") > 0 || $($(this).find(">SRS,>CRS")).text().indexOf("3857")>0 || $(layerPadre).find(">SRS,>CRS").text().indexOf("900913") > 0 || $(layerPadre).find(">SRS,>CRS").text().indexOf("3857") > 0){
+                                            // html += _this._createHtmlExternalService($(this).find("Layer > " + keyLayerName).text(),$(this).find("Layer > Title").text(),$(this).find("Layer > Abstract").text());
+                                            if($(this).find(">" + keyLayerName).length > 0)
+                                              html += _this._createHtmlExternalService($(this).find(">" + keyLayerName).text(),$(this).find(">Title").text(),$(this).find(">Abstract").text());
                                         }else{
                                             $('#wmsLayers .notSupport').removeClass('hide');
                                         }
                                     });
                                 });
-                                
 
-                                
+
+
                                 html += '</ul>';
-                                
+
                                 $('#wmsLayers .layerList').html(html);
                                 $.fancybox.update();
 
@@ -629,7 +638,7 @@ app.view.LayerCreate = Backbone.View.extend({
                                     _this.$('#layername').val($(this).find('span').text());
                                     $.fancybox.close();
                                 });
-                                
+
                             }else{
                                 _this.$('#wmsLayers .notFound').addClass('hide');
                             }

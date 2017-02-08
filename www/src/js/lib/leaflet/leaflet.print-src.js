@@ -272,7 +272,7 @@ L.print.Provider = L.Class.extend({
 		i = scales.length,
 		diff,
 		scale;
-	
+
 		while (i--) {
 			diff = Math.abs(mscale - Number(scales[i].value));
 			if (diff < closest) {
@@ -280,7 +280,7 @@ L.print.Provider = L.Class.extend({
 				scale = parseInt(Number(scales[i].value), 10);
 			}
 		}
-		
+
 
 		return scale;
 	},
@@ -395,7 +395,7 @@ L.print.Provider = L.Class.extend({
 				};
 			},
 			tilelayer: function (layer) {
-				
+
 				var enc = this._encoders.layers.httprequest.call(this, layer),
 				    baseUrl = layer._url.substring(0, layer._url.indexOf('{z}')),
 				    resolutions = [],
@@ -834,7 +834,7 @@ L.Control.Print = L.Control.extend({
         if (this._actionsContainer) {
 		    L.DomUtil.addClass(this._toolbarContainer, 'leaflet-print-actions-visible');
 		    this._actionsContainer.style.display = 'block';
-            
+
 		    this._actionsVisible = true;
         }
 	},

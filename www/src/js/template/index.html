@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=768">
     <meta name="description" content="">
     <meta name="author" content="">
-        
+
     <link rel="shortcut icon" href="/img/logo-medbiodiv.svg">
 
     <title><lang>MedBiodivSDI</lang></title>
     <link rel='stylesheet' href='/css/main.min.css'>
-        
+
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>
@@ -20,7 +20,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+
   </head>
 
 <body>
@@ -31,8 +31,8 @@
                     <div class="col-sm-12 col-md-12 wrapper">
 
                         <div class="other_logos">
-                            <a href="http://www.unep.org/" target="_blank"><img height="45px" src="/img/footer/racspa_logo_enh.png"></a>
-                            <a href="http://www.rac-spa.org/" target="_blank"><img height="45px" src="/img/footer/logo-rac-spa.png"></a>
+                            <a href="http://www.unep.org/" target="_blank"><img height="45px" src="/img/home/racspa_logo_color.png"></a>
+                            <a href="http://www.rac-spa.org/" target="_blank"><img height="45px" src="/img/home/racspa_logo_azul.png"></a>
                         </div>
 
                         <div class="title">
@@ -45,7 +45,7 @@
                             <a id="login" class="login" href="#" jslink><lang>Iniciar Sesión</lang></a>
                             <a id="logout" class="login" style="display: none;" href="#" jslink><lang>Cerrar sesión</lang></a>
                         </div>
-                        
+
                         <div class="lang">
                             <ul id="">
                                 <li class="selected"><a href="" onclick="location.href= '/' + app.lang"><lang>English</lang></a></li>
@@ -63,10 +63,9 @@
                     <!-- <div class="col-sm-12 col-md-12"> -->
                     <div>
                         <ul>
-
-                            <!-- <li class="home selected" data-menu="home">
-                                <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><span><lang>Inicio</lang><span></a>
-                            </li> -->
+                            <li data-menu="home">
+                                <a href="/<lang>lang</lang>/<lang>_link home</lang>" jslink><span><lang>Home</lang><span></a>
+                            </li>
                             <li data-menu="map">
                                 <a href="/<lang>lang</lang>/<lang>_link map</lang>" jslink><lang>Mapa</lang></a>
                             </li>
@@ -77,7 +76,7 @@
                                 <lang>Thematic maps</lang>
                                 <ul></ul>
                             </li>
-                            
+
                             <div class="howTo">
                                 <a href="#" jslink>?</a>
                             </div>
@@ -89,7 +88,7 @@
         <div id="map_control">
             <img src="/img/home/ALB_icon_toc_grey.svg">
         </div>
-        
+
     </header>
 
     <main style="height:100%;">
@@ -97,7 +96,7 @@
     	<div id="map" style="display:none; height: 100%;"></div>
     	<div id="groupLayer"></div>
     </main>
-    
+
     <div id="loginForms">
         <div class="header">
             <img style="position:relative; top:9px;" height="70px;" src="/img/logo-medbiodiv.svg" alt="">
@@ -162,7 +161,7 @@
         </div>
         <input type="button" value="<lang>Aceptar</lang>">
     </div>
-	
+
 	<div id="configPanelMap">
 		<p id="saveConfiguration" class="mt"><lang>Guardar configuración actual</lang></p>
 		<div class="clear"></div>
@@ -175,25 +174,25 @@
 			<img idConfig="3" src="/img/map/ALB_icon_config_cargar_mapa-3.svg">
 		</div>
 	</div>
-	
+
 	<div id="confirmSaveConfig">
 		<div><lang>¿Desea guardar la configuración actual como su configuración predeterminada?</lang></div>
 		<input type="button" value="<lang>Aceptar</lang>">
 		<input type="button" value="<lang>Cancelar</lang>">
 	</div>
-	
+
 	<div id="container_feature_info"><lang>Cargando...</lang></div>
 
     <div id="cookie_warning" class="hide">
         <p><lang>Utilizamos cookies propias y de terceros para mejorar nuestros servicios. Si continua navegando, consideramos que acepta su uso.</lang> <a style="text-decoration: underline;" href="/<lang>lang</lang>/<lang>_link legal</lang>"><lang>Más información</lang></a></p>
         <button onclick="app.hideCookieWarning();">Aceptar</button>
     </div>
-       
+
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-sm-3 col-md-3">
-                    <p><i>MedBiodivSDI &copy;</i></p>
+                    <p><i>Mediterranean Platform on biodiversity &copy;</i></p>
                 </div>
                 <div class="col-sm-9 col-md-9">
                     <p>
@@ -211,4 +210,3 @@
     </footer>
 </body>
 </html>
-
