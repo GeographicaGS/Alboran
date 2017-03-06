@@ -40,6 +40,10 @@ $(function() {
         if (jqxhr.status == 404) {
             app.router.navigate("notfound",{trigger: true});
         }
+        else if(jqxhr.status == 401 && !$('#loginForms').is(':visible')) {
+            localStorage.clear();
+            window.location.href = '/' + app.lang + '/' + app.router.langRoutes["_link home"][app.lang];
+        }
         else {
             app.router.navigate("error",{trigger: true});
         }
@@ -107,6 +111,8 @@ app.ini = function(){
             $("#logout").hide();
         }
 
+        app.isAdmin ? $('#mainmenu>div:first-child ul li[data-menu="users"]').removeClass('hide') : $('#mainmenu>div:first-child ul li[data-menu="users"]').addClass('hide');
+
         that.lang = that.detectCurrentLanguage();
         that.router = new app.router();
         that.basePath = that.config.BASE_PATH + that.lang;
@@ -129,7 +135,14 @@ app.ini = function(){
                 window.location.href="/" + that.lang + "/browser_error.html";
         }
     }});
-    
+
+};
+
+app.isLogin = function() {
+  if(localStorage.getItem('user') && localStorage.getItem('password')){
+    return true;
+  }
+  return false
 };
 
 app.showView = function(view) {

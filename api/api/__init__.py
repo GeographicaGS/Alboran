@@ -9,6 +9,7 @@ import config
 import trans
 import home
 import document
+import user
 import proxy
 
 @app.route('/', methods = ['GET'])

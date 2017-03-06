@@ -70,9 +70,9 @@
 	<div class="container layers_wrapper">
 		<div class="row">
 			<div class="col-sm-4 col-md-4 filters">
-				
-				<% if (isAdmin){ %>
-					<a href="/<lang>lang</lang>/<lang>_link catalogue</lang>/<lang>_link layer</lang>" id="createLayer" class="button"><lang>Nueva capa</lang></a><% 
+
+				<% if (app.isLogin()){ %>
+					<a href="/<lang>lang</lang>/<lang>_link catalogue</lang>/<lang>_link layer</lang>" id="createLayer" class="button"><lang>Nueva capa</lang></a><%
 				} %>
 
 			</div>

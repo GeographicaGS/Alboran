@@ -138,7 +138,7 @@
 	}
 }
 
-#createLayer {
+#createLayer, #createUser {
 	/*position: absolute;
 	left: 10px;
 	top: 50%;
@@ -501,8 +501,13 @@
 										}
 
 										&.add {
-											background-color: @white;
+											/*background-color: @white;*/
+											background-color: transparent;
 											max-width: 310px;
+
+											&:hover{
+												background-color: @white;
+											}
 
 											&:before {
 												top: 1px;
@@ -870,7 +875,7 @@
 				}
 			}
 
-			input[type="text"], textarea {
+			input[type="text"], input[type="password"], textarea {
 				width: calc(~'100% - 10px - 2em');
 				padding: 18px;
 				text-align: center;

@@ -36,7 +36,6 @@ deps.JS = {
 			"js/model/layer.js",
 			"js/model/topic.js",
 			"js/model/category.js",
-			"js/model/history.js",
 			"js/model/user.js",
 
 			// --------------------
@@ -44,7 +43,7 @@ deps.JS = {
 			// --------------------
 			"js/collection/layers.js",
 			"js/collection/categories.js",
-			"js/collection/histories.js",
+			"js/collection/users.js",
 
 			// --------------------
 			// ------  Views ------
@@ -64,8 +63,6 @@ deps.JS = {
 			"js/view/contact_view.js",
 			"js/view/legal_view.js",
 			"js/view/privacy_view.js",
-			"js/view/history-create_view.js",
-			"js/view/history_view.js",
 			"js/view/signup_view.js",
 			"js/view/map-pointselector_view.js",
 			"js/view/documents_view.js",
@@ -74,6 +71,8 @@ deps.JS = {
 			"js/view/tags_view.js",
 			"js/view/map_tools_view.js",
 			"js/view/legend_view.js",
+			"js/view/users_view.js",
+			"js/view/user_view.js",
 
 
 
@@ -115,6 +114,7 @@ deps.CSS = {
 			"css/about.css",
 			"css/documents.css",
 			"css/map.css",
+			"css/users.css",
 		]
 	}
 };

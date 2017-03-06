@@ -1,0 +1,62 @@
+<div id="createHistory">
+  <div class="title">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-md-12">
+					<% if (m.id){%>
+						<h1><lang>Editar usuario</lang></h1>
+					<% } else { %>
+						<h1><lang>Crear usuario</lang></h1>
+					<% }%>
+          <a href="#" class="button cancel_btn"><img src="/img/catalogue/ALB_icon_buscar_cerrar.svg"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+  <div class="layerForm">
+    <div class="container">
+      <fieldset class="row">
+        <div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+          <div class="row input">
+            <input id="real_name" type="text" class="allwidth localized" placeholder="<lang>Real name</lang>" value="<%=m.real_name%>" required />
+            <input id="name" type="text" class="allwidth localized" placeholder="<lang>Nick</lang>" value="<%=m.name%>" required />
+            <input id="email" type="text" class="allwidth localized" placeholder="<lang>Email</lang>" value="<%=m.email%>" required />
+            <input id="password" type="password" class="allwidth" placeholder="<lang>Password</lang>" <%=m.id ? null:'required'%> />
+            <div class="mt20">
+              <input id="admin" type="checkbox" <%=m.admin ? 'checked':'null'%> /> <label style="font-size:15px;" for="admin"><strong><lang>Is admin</lang></strong></label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <div class="row sendButtons">
+        <div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+          <div class="row">
+            <div class="col-sm-4 col-md-4">
+              <a class="cancel_btn" href="#">Cancel</a>
+            </div>
+            <div class="col-sm-4 col-md-4">
+              <a href="#" id="enviar_btn" class="button grey"><span><%=m.id ? 'Edit user':'Create user'%></span></a>
+            </div>
+            <% if(m.id){%>
+						<div class="col-sm-4 col-md-4">
+							<a href="#" id="borrar_btn" class="fright button red">
+								<span><lang>Delete user</lang></span>
+							</a>
+						</div>
+						<% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="userDeleteConfirmation" class="msgPopup">
+    <div class="content">
+		  <h2><lang>Delete user</lang></h2>
+      <p><lang>delete_user</lang></p>
+    </div>
+    <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+    <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
+  </div>
+
+</div>

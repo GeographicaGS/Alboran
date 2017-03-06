@@ -1,0 +1,12 @@
+#users{
+  .row{
+    padding: 10px 0;
+    border-bottom: 1px solid @tabs_separator;
+    display: flex;
+    align-items: center;
+    &:first-child{
+      color:@blue_med;
+      border-bottom: 1px solid @blue_med;
+    }
+  }
+}

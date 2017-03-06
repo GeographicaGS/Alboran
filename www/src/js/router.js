@@ -13,13 +13,17 @@ app.router = Backbone.Router.extend({
         "_link contact" : {"en":"contact","es": "contacto", "fr": "contacto" },
         "_link howto" : {"en":"howto","es": "comousarlo", "fr": "CommentLUtiliser" },
         "_link join" : {"en":"participate","es": "participe", "fr": "participer" },
+
         "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "ecrirehistoire" },
         "_link history" : {"en":"history","es": "historia", "fr": "histoire" },
         "_link edithistory" : {"en":"edit","es": "editar", "fr": "editer" },
+
         "_link legal" : {"en":"legal","es": "legal", "fr": "juridique" },
         "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "confidentialité" },
         "_link user" : {"en":"user","es": "usuario", "fr": "usuario" },
         "_link documents" : {"en":"documents","es": "documentos", "fr": "documents" },
+        "_link users" : {"en":"users","es": "usuarios", "fr": "utilisateurs" },
+        "_link new" : {"en":"new","es": "nuevo", "fr": "nouveau" }
     },
 
     /* define the route and function maps for this router */
@@ -49,9 +53,10 @@ app.router = Backbone.Router.extend({
 
             "join": "join",
             "join/:section": "join",
-            "join/writehistory": "writehistory",
-            "join/history/:id": "showhistory",
-            "join/history/:id/edit": "edithistory",
+
+            // "join/writehistory": "writehistory",
+            // "join/history/:id": "showhistory",
+            // "join/history/:id/edit": "edithistory",
 
             "documents(/:block/:subBlock)": "documents",
             "documents/:id": "document",
@@ -61,6 +66,8 @@ app.router = Backbone.Router.extend({
             "error" : "error",
 
             "user/:username/:code": "signinConfirmation",
+            "users": "users",
+            "users/:id": "user",
 
             /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
@@ -96,14 +103,19 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link howto"][app.lang], "howto");
         this.route(this.langRoutes["_link join"][app.lang], "join");
         this.route(this.langRoutes["_link join"][app.lang] + "/:section", "join");
-        this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link writehistory"][app.lang] , "writehistory");
-        this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id" , "showhistory");
-        this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id/" + this.langRoutes["_link edithistory"] , "edithistory");
+
+        // this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link writehistory"][app.lang] , "writehistory");
+        // this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id" , "showhistory");
+        // this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id/" + this.langRoutes["_link edithistory"] , "edithistory");
+
         this.route(this.langRoutes["_link legal"][app.lang], "legal");
         this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
         this.route(this.langRoutes["_link documents"][app.lang] + "(/:block/:subBlock)", "documents");
         this.route(this.langRoutes["_link documents"][app.lang] + "/:id", "document");
+        this.route(this.langRoutes["_link users"][app.lang], "users");
+        this.route(this.langRoutes["_link users"][app.lang] + "/:id", "user");
+        this.route(this.langRoutes["_link users"][app.lang] + "/" + this.langRoutes["_link new"][app.lang], "createuser");
     },
 
     home: function(){
@@ -113,7 +125,7 @@ app.router = Backbone.Router.extend({
     },
 
     map: function(capas,activas,opacidad,mostrarHistorias){
-        
+
     	if(!app.isSupportedBrowser()){
             $("#content").show();
             $("#map").hide();
@@ -243,23 +255,23 @@ app.router = Backbone.Router.extend({
         app.showView( new app.view.Join({activeSection: section}) );
     },
 
-    writehistory: function(){
-        $("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.HistoryCreate() );
-    },
-
-    showhistory: function(id){
-        $("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.HistoryDetail({historyId: id}) );
-    },
-
-    edithistory: function(id){
-        $("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.HistoryCreate({historyId: id}) );
-    },
+    // writehistory: function(){
+    //     $("#content").show();
+    //     $("#map").hide();
+    //     app.showView( new app.view.HistoryCreate() );
+    // },
+    //
+    // showhistory: function(id){
+    //     $("#content").show();
+    //     $("#map").hide();
+    //     app.showView( new app.view.HistoryDetail({historyId: id}) );
+    // },
+    //
+    // edithistory: function(id){
+    //     $("#content").show();
+    //     $("#map").hide();
+    //     app.showView( new app.view.HistoryCreate({historyId: id}) );
+    // },
 
     legal: function(){
         $("#content").show();
@@ -294,7 +306,7 @@ app.router = Backbone.Router.extend({
             }
         });
     },
- 
+
     documents:function(block,subBlock){
       $("#content").show();
       $("#map").hide();
@@ -304,7 +316,25 @@ app.router = Backbone.Router.extend({
     document:function(id){
       $("#content").show();
       $("#map").hide();
-      app.showView(new app.view.DocumentItem({'id_doc':id}));  
+      app.showView(new app.view.DocumentItem({'id_doc':id}));
+    },
+
+    users:function(){
+      $("#content").show();
+      $("#map").hide();
+      app.showView(new app.view.Users());
+    },
+
+    user:function(id){
+      $("#content").show();
+      $("#map").hide();
+      app.showView(new app.view.User({'id_user':id}));
+    },
+
+    createuser:function(){
+      $("#content").show();
+      $("#map").hide();
+      app.showView(new app.view.User());
     },
 
     defaultRoute: function(){

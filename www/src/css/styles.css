@@ -499,6 +499,10 @@ body > header {
 						text-transform: uppercase;
 						font-size: 13px;
 
+            &.hide{
+              display: none;
+            }
+
 						&.selected {
 							// border: none;
 							border-bottom: 2px solid @blue_med;
@@ -1593,7 +1597,8 @@ footer {
     color: @grey;
     border-radius: 2px;
     border: 1px solid @grey;
-    background-color: @white;
+    /*background-color: @white;*/
+    background-color: transparent;
     font-size: 0.7em;
     .lato(bold);
     text-transform: uppercase;

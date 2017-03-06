@@ -32,8 +32,18 @@ class UserModel(PostgreSQLModel):
 		result = self.query(sql,[username]).row()
 		return result
 
+	def getUserForEdit(self, id):
+		sql = "SELECT id_user as id,name,email,real_name, admin FROM \"user\" WHERE id_user = %s order by name";
+		result = self.query(sql,[id]).row()
+		return result
+
 	def getAllAdmins(self):
 		sql = "SELECT * FROM \"user\" WHERE admin = true"
+		result = self.query(sql).result()
+		return result
+
+	def getUserList(self):
+		sql = "SELECT id_user,name,email,real_name,admin FROM \"user\""
 		result = self.query(sql).result()
 		return result
 
@@ -50,20 +60,44 @@ class UserModel(PostgreSQLModel):
 		else:
 			return False
 
-	def createUser(self, username, realname, email, password, institution, whySignup):
-		# Get confirmation code
-		code = "%s%s"%(username,time.time())
-		m = md5.new()
-		m.update(code)
-		code = m.hexdigest()
-		sql = "INSERT INTO \"user\" (name, real_name, password, email, active, confirmation_code, institution, whysignup)" \
-				" VALUES (%s,%s,%s,%s, false, %s, %s, %s)"
-		try:
-			result = self.queryCommit(sql,[username, realname, password, email, code, institution, whySignup])
-		except IntegrityError:
-			code = None
+	# def createUser(self, username, realname, email, password, institution, whySignup):
+	# 	# Get confirmation code
+	# 	code = "%s%s"%(username,time.time())
+	# 	m = md5.new()
+	# 	m.update(code)
+	# 	code = m.hexdigest()
+	# 	sql = "INSERT INTO \"user\" (name, real_name, password, email, active, confirmation_code, institution, whysignup)" \
+	# 			" VALUES (%s,%s,%s,%s, false, %s, %s, %s)"
+	# 	try:
+	# 		result = self.queryCommit(sql,[username, realname, password, email, code, institution, whySignup])
+	# 	except IntegrityError:
+	# 		code = None
+	#
+	# 	return code
 
-		return code
+	def createUser(self, data):
+		sql = "INSERT INTO \"user\" (name, real_name, password, email, admin) VALUES (%s,%s,%s,%s,%s)"
+
+		self.queryCommit(sql,[data['name'], data['real_name'], data['password'], data['email'], data['admin']])
+
+		return True
+
+	def updateUser(self, id, data):
+		sql = "UPDATE \"user\" set name = %s, email = %s, real_name = %s, admin = %s where id_user = %s"
+
+		self.queryCommit(sql,[ data['name'], data['email'], data['real_name'], data['admin'], data['id']])
+
+		if('password' in data):
+			sql = "UPDATE \"user\" set password = %s where id_user = %s"
+			self.queryCommit(sql,[data['password'], data['id']])
+
+		return True
+
+	def deleteUser(self, id):
+		sql = "DELETE FROM \"user\" where id_user = %s"
+		self.queryCommit(sql,[id])
+
+		return True
 
 	def confirmUser(self, user, code):
 		# Search code
