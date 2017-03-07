@@ -14,7 +14,7 @@
 				<a class="button add_btn add" href="#" layerid="<%= id %>" addLabel="<lang>Añadir capa</lang>" removeLabel="<lang>Capa añadida</lang>"><lang>Añadir capa</lang></a>
 
 				<% if(geoNetWk){ %><a class="button metadata_btn" href="<%= geoNetWk %>" target="_blank"><lang>Metadatos</lang></a><% } %>
-				<% if(app.isLogin()){ %><a class="button" href="/<lang>lang</lang>/<lang>_link catalogue</lang>/<lang>_link layer</lang>/<%= id %>"><lang>Editar</lang></a><% } %>
+				<% if(app.isLogin() && (app.isAdmin || app.getHeader().username == username)){ %><a class="button" href="/<lang>lang</lang>/<lang>_link catalogue</lang>/<lang>_link layer</lang>/<%= id %>"><lang>Editar</lang></a><% } %>
 			</div>
 		</div>
 	</div>

@@ -158,7 +158,7 @@ def getLayer(id):
 	return jsonify({'result': result})
 
 @app.route('/catalog/layer/', methods=['POST'])
-@authAdmin
+@auth
 def createLayer():
 	data = json.loads(request.data)
 	# Save layer data
@@ -168,20 +168,25 @@ def createLayer():
 	return jsonify({'id': result['layer_id']})
 
 @app.route('/catalog/layer/<int:id>', methods=['PUT'])
-@authAdmin
+@auth
 def editLayer(id):
-	data = json.loads(request.data)
-	# Save layer data
-	c = CatalogModel()
-	c.updateLayer(id, data)
+	user = UserModel().getUserByUsername(request.headers['username'])
+	layer = CatalogModel().getLayerById(id);
+	if(user['admin'] or user['name'] == layer['username']):
+		data = json.loads(request.data)
+		# Save layer data
+		c = CatalogModel()
+		c.updateLayer(id, data)
 
 	return jsonify({'result': True})
 
 @app.route('/catalog/layer/<int:id>', methods=['DELETE'])
-@authAdmin
+@auth
 def deleteLayer(id):
-	c = CatalogModel()
-	c.deleteLayer(id)
+	user = UserModel().getUserByUsername(request.headers['username'])
+	layer = CatalogModel().getLayerById(id);
+	if(user['admin'] or user['name'] == layer['username']):
+		CatalogModel().deleteLayer(id)
 
 	return jsonify({'result': 'true'})
 
@@ -199,7 +204,7 @@ def getSection(id):
 	return jsonify({'result': result})
 
 @app.route('/catalog/topic/', methods=['POST'])
-@authAdmin
+@auth
 def createTopic():
 	data = json.loads(request.data)
 	# Save topic data
@@ -209,7 +214,7 @@ def createTopic():
 	return jsonify({'id': result['topic_id']})
 
 @app.route('/catalog/topic/<int:id>', methods=['PUT'])
-@authAdmin
+@auth
 def editTopic(id):
 	data = json.loads(request.data)
 	# Save layer data
@@ -219,7 +224,7 @@ def editTopic(id):
 	return jsonify({'result': True})
 
 @app.route('/catalog/topic/<int:id>', methods=['DELETE'])
-@authAdmin
+@auth
 def deleteTopic(id):
 	c = CatalogModel()
 	c.deleteTopic(id)
@@ -354,7 +359,7 @@ def getMsdf():
 	return jsonify({'result': msdf})
 
 @app.route('/catalog/msdf/', methods=['POST'])
-@authAdmin
+@auth
 def createMsdf():
 	data = json.loads(request.data)
 	c = CatalogModel()

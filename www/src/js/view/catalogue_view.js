@@ -214,6 +214,8 @@ app.view.Catalogue = Backbone.View.extend({
             this.$('.layersContainerWrapper').removeClass('fullWidth')
             this.changeTab(null,0);
 
+						this.$('.topTabs').removeClass('hide');
+
             // this.renderAll();
         }else{
             this.$('#searchbar .advanced').css({'display':'flex'});
@@ -221,6 +223,10 @@ app.view.Catalogue = Backbone.View.extend({
             this.$searchbarText.removeAttr('readonly');
             this.$searchbarText.val('');
             this.$searchbarText.focus();
+
+						this.$('#searchbar .country').val(this.$('.country_list li[id=-1]').text());
+						this.$('#searchbar .msdf').val(this.$('.msdf_list li[id=-1]').text());
+						this.$('#searchbar .year').val('');
 
             // this.$tabsContainer.find('ul').hide();
             this.$layergroups.removeClass('selected');
@@ -231,6 +237,8 @@ app.view.Catalogue = Backbone.View.extend({
             var result = this.collection.getLayersBySearch('');
             this.$layergroups.eq(3).empty();
             this.renderList(result);
+
+						this.$('.topTabs').addClass('hide');
         }
     },
 
@@ -246,14 +254,17 @@ app.view.Catalogue = Backbone.View.extend({
       }
 
       if($('#searchbar .msdf').val() != ''){
-        msdf = this.$('#searchbar .msdf_list li:contains("' + $('#searchbar .msdf').val() +'")').attr('id');
+        // msdf = this.$('#searchbar .msdf_list li:contains("' + $('#searchbar .msdf').val() +'")').attr('id');
+				msdf = this.$('#searchbar .msdf_list li').filter(function() { return $(this).text() === $('#searchbar .msdf').val();});
+				msdf = msdf.attr('id');
+
         if(msdf == -1)
           msdf = null;
       }
 
       if($('#searchbar .year').val() != '')
         year = $('#searchbar .year').val();
-      
+
       var result = this.collection.getLayersBySearch(this.$searchbarText.val(),country,msdf,year);
       this.$layergroups.eq(3).empty();
       this.renderList(result);

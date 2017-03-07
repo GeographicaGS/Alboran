@@ -180,6 +180,10 @@
 			text-transform: uppercase;
 			font-size: 10pt;
 
+			&.hide{
+				display: none;
+			}
+
 			.title {
 				flex: 1 1 auto;
 				/*border-bottom: 3px solid transparent;*/

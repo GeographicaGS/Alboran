@@ -42,7 +42,7 @@ class CatalogModel(PostgreSQLModel):
             sql = "SELECT l.id, l.title_en, l.title_fr, l.year, l.country, l.msdf, " \
                 "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
                 "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_fr, " \
-                "l.datasource as \"dataSource\", l.order " \
+                "l.datasource as \"dataSource\", l.order, l.layersrs, l.minbbox, l.maxbbox, l.username " \
                 "FROM \"layer\" l " \
                 "WHERE l.topic_id = %s AND l.deleted = false " \
                 "ORDER BY l.order"
@@ -79,7 +79,7 @@ class CatalogModel(PostgreSQLModel):
         sql = "SELECT l.id, l.year, l.country, l.msdf, l.title_en, l.title_fr, " \
             "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
             "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_fr, " \
-            "l.datasource as \"dataSource\", l.topic_id, l.order " \
+            "l.datasource as \"dataSource\", l.topic_id, l.order, l.layersrs, l.minbbox, l.maxbbox, l.username " \
             "FROM \"layer\" l WHERE id = %s";
         result = self.query(sql,[layer_id]).row()
         return result
@@ -108,10 +108,19 @@ class CatalogModel(PostgreSQLModel):
             'topic_id': data['topic_id'],
             'year': data['year'],
             'country': data['country'],
-            'msdf': data['msdf']
+            'msdf': data['msdf'],
+            'layersrs': data['layersrs'],
+            'username': data['username']
         }
 
         layer_id = self.insert("layer",insertData,"id")
+
+        if('minbbox' in data and 'maxbbox' in data):
+            sql = "UPDATE \"layer\" set minbbox = %s, maxbbox = %s " \
+                "where id = %s"
+            self.queryCommit(sql,[ data['minbbox'], data['maxbbox'], layer_id])
+
+
         result = {'layer_id': layer_id}
         return result
 
@@ -126,11 +135,18 @@ class CatalogModel(PostgreSQLModel):
         sql = "UPDATE \"layer\" set title_en = %s, title_fr = %s, " \
             "desc_en = %s, desc_fr = %s, datasource = %s, " \
             "wms_server = %s, wms_layer_name = %s, geonetwork = %s, " \
-            "topic_id = %s, \"order\" = %s, \"year\" = %s, \"country\" = %s, \"msdf\" = %s where id = %s"
+            "topic_id = %s, \"order\" = %s, \"year\" = %s, \"country\" = %s, \"msdf\" = %s, \"layersrs\" = %s where id = %s"
+
         self.queryCommit(sql,[ data['title_en'], data['title_fr'],
             data['desc_en'], data['desc_fr'],
             data['dataSource'], data['wmsServer'], data['wmsLayName'],
-            data['geoNetWk'], data['topic_id'], data['order'], data['year'], data['country'], data['msdf'], data['id']])
+            data['geoNetWk'], data['topic_id'], data['order'], data['year'], data['country'], data['msdf'], data['layersrs'], data['id']])
+
+        if('minbbox' in data and 'maxbbox' in data):
+            sql = "UPDATE \"layer\" set minbbox = %s, maxbbox = %s " \
+                "where id = %s"
+            self.queryCommit(sql,[ data['minbbox'], data['maxbbox'], data['id']])
+
         return True
 
     def deleteTopic(self, id):

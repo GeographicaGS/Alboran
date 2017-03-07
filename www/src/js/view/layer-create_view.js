@@ -202,7 +202,11 @@ app.view.LayerCreate = Backbone.View.extend({
                     'geoNetWk': geoNetWk,
                     'year': year,
                     'country': country,
-                    'msdf': msdf
+                    'msdf': msdf,
+                    'layersrs': this.$('#layersrs').val(),
+                    'minbbox': this.$('#layername').attr('minbbox'),
+                    'maxbbox': this.$('#layername').attr('maxbbox'),
+                    'username': app.getHeader().username
                 };
 
                 this.saveLayer(formData);
@@ -228,7 +232,11 @@ app.view.LayerCreate = Backbone.View.extend({
             'geoNetWk': formData.geoNetWk,
             'year': formData.year,
             'country': formData.country,
-            'msdf': formData.msdf
+            'msdf': formData.msdf,
+            'layersrs': formData.layersrs,
+            'minbbox': formData.minbbox,
+            'maxbbox': formData.maxbbox,
+            'username': formData.username
         });
 
         var that = this;
@@ -618,9 +626,9 @@ app.view.LayerCreate = Backbone.View.extend({
                                 $(xml).find("Capability > Layer").each(function(){
                                     $(this).find("Layer").each(function(){
                                         if($($(this).find(">SRS,>CRS")).text().indexOf("900913") > 0 || $($(this).find(">SRS,>CRS")).text().indexOf("3857")>0 || $(layerPadre).find(">SRS,>CRS").text().indexOf("900913") > 0 || $(layerPadre).find(">SRS,>CRS").text().indexOf("3857") > 0){
-                                            // html += _this._createHtmlExternalService($(this).find("Layer > " + keyLayerName).text(),$(this).find("Layer > Title").text(),$(this).find("Layer > Abstract").text());
                                             if($(this).find(">" + keyLayerName).length > 0)
-                                              html += _this._createHtmlExternalService($(this).find(">" + keyLayerName).text(),$(this).find(">Title").text(),$(this).find(">Abstract").text());
+                                              // html += _this._createHtmlExternalService($(this).find(">" + keyLayerName).text(),$(this).find(">Title").text(),$(this).find(">Abstract").text());
+                                              html += _this._createHtmlExternalService(this);
                                         }else{
                                             $('#wmsLayers .notSupport').removeClass('hide');
                                         }
@@ -636,6 +644,13 @@ app.view.LayerCreate = Backbone.View.extend({
 
                                 $('#wmsLayers .layerList li').click(function(){
                                     _this.$('#layername').val($(this).find('span').text());
+                                    if($(this).find('h5').length > 0){
+                                      _this.$('#layersrs').val($(this).find('h5').text());
+                                    }else{
+                                      _this.$('#layersrs').val('3857');
+                                    }
+                                    _this.$('#layername').attr('minbbox',$(this).find('.minbbox').text())
+                                    _this.$('#layername').attr('maxbbox',$(this).find('.maxbbox').text())
                                     $.fancybox.close();
                                 });
 
@@ -653,15 +668,40 @@ app.view.LayerCreate = Backbone.View.extend({
         }
     },
 
-    _createHtmlExternalService: function(name,title,abstract){
+    // _createHtmlExternalService: function(name,title,abstract){
+    _createHtmlExternalService: function(layer){
+      var that = this;
+      // $(this).find(">" + keyLayerName).text(),$(this).find(">Title").text(),$(this).find(">Abstract").text()
+      if($(layer).find('Layer').length > 0){
+        _.each($(layer).find('Layer'),function(l){
+          that._createHtmlExternalService(l);
+        })
+      }else{
         var html =
             '<li>' +
-                '<span>' + name + '</span>' +
-                '<h3>' + title + ' - </h3>' +
-                '<p>' + ((abstract != "null") ? abstract : '') + '</p>' +
-            '</li>';
+                '<span>' + $(layer).find(">Name").text() + '</span>' +
+                '<h3>' + $(layer).find(">title").text() + ' - </h3>' +
+                '<p>' + (($(layer).find(">abstract").text() != "null") ? $(layer).find(">abstract").text() : '') + '</p>'
+            ;
+
+        var srs = null;
+        _.each($(layer).find(">SRS,>CRS"),function(s){
+          var aux = $(s).text().split(':')[1];
+          if((aux == '4326' || '3857') && srs != '3857')
+            srs = aux;
+        });
+        if(srs){
+          html += '<h5 class="hide">' + srs + '</h5>';
+        }
+
+        html += '<h6 class="hide minbbox">' + [parseFloat($(layer).find('LatLonBoundingBox').attr('miny')), parseFloat($(layer).find('LatLonBoundingBox').attr('minx'))].toString() + '</h6>';
+        html += '<h6 class="hide maxbbox">' + [parseFloat($(layer).find('LatLonBoundingBox').attr('maxy')), parseFloat($(layer).find('LatLonBoundingBox').attr('maxx'))].toString() + '</h6>';
+
+        html += '</li>';
 
         return html;
+      }
+      return '';
     },
 
     showTopics: function(e){

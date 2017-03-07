@@ -152,7 +152,7 @@ Map = {
 	addLayer: function(id) {
 		var layer = this.searchLayer(id);
 		if(layer != null){
-			var gSLayerWMS = new GSLayerWMS(layer.id, layer["title_" + app.lang], layer.wmsServer, layer.wmsLayName, 1000);
+			var gSLayerWMS = new GSLayerWMS(layer.id, layer["title_" + app.lang], layer.wmsServer, layer.wmsLayName, 1000, layer.layersrs);
 			var z_index = 0;
 			if(this.layers.length > 0){
 				z_index =  this.layers[this.layers.length - 1].z_index + 1;

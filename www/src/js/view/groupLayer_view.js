@@ -168,8 +168,12 @@ app.view.GroupLayer = Backbone.View.extend({
       e.stopImmediatePropagation();
       var idLayer = $(e.currentTarget).parent().attr("idLayer");
       if(idLayer){
-        var layerName = Map.searchLayer(idLayer).wmsLayName;
-        Map.getMap().fitBounds(app.capabilities.get(layerName).get('bbox'));
+				var layer = Map.searchLayer(idLayer);
+        var layerName = layer.wmsLayName;
+				if(app.capabilities.get(layerName))
+        	Map.getMap().fitBounds(app.capabilities.get(layerName).get('bbox'));
+				else if(layer.minbbox && layer.maxbbox)
+					Map.getMap().fitBounds([layer.minbbox.split(','),layer.maxbbox.split(',')]);
       }
     },
 
@@ -362,7 +366,7 @@ app.view.GroupLayer = Backbone.View.extend({
 			}
 		});
 
-    var legendUrl = layer.wmsServer.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+    var legendUrl = layer.wmsServer.replace("/gwc/service", "") + (layer.wmsServer.indexOf('?') >=0 ? '&':'?') + "TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
       +"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.wmsLayName;
 
     this._legendView.$('ul').append('<li layer="' + id + '"><h3 title="' + layer['title_' + app.lang] + '" class="ellipsis">' + layer['title_' + app.lang] + '</h3><img src="' + legendUrl + '"></li>')
@@ -424,7 +428,7 @@ app.view.GroupLayer = Backbone.View.extend({
 		if(layerCatalogue.hasOwnProperty("wmsLegend")){
 			legendUrl = layerCatalogue.wmsLegend;
 		}else{
-			legendUrl = layer.url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+			legendUrl = layer.url.replace("/gwc/service", "") + (layer.wmsServer.indexOf('?') >=0 ? '&':'?') + "TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
 			+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
 		}
 

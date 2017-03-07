@@ -176,6 +176,17 @@
 			<fieldset class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
+						<legend><lang>SRS</lang></legend>
+						<select name="layersrs" id="layersrs">
+							<option <%= (!data.id || data.layersrs == 3857) ? 'selected':null %> selected value="3857">3857</option>
+							<option <%= data.layersrs == 4326 ? 'selected':null %> value="4326">4326</option>
+						</select>
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class="row">
+				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+					<div class="row input">
 						<legend><lang>Metadato (URL)</lang></legend>
 						<input type="text" class="withAction" id="metadata" name="metadata" placeholder="<lang>Introduzca una url válida para el metadato de la capa</lang>" value="<%= data.geoNetWk %>">
 

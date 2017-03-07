@@ -10,7 +10,7 @@ deps.JS = {
 			"js/lib/backbone-min.js",
 			"js/lib/backbone-validation-min.js",
 			"js/lib/leaflet/leaflet.js",
-			"js/lib/masonry.js",
+			"js/lib/masonry.js"
 		],
 		desc: "Third party library"
 	}
