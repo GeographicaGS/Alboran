@@ -24,7 +24,7 @@ L.print.Provider = L.Class.extend({
 		autoLoad: false,
 		autoOpen: true,
 		outputFormat: 'pdf',
-		outputFilename: 'medbiodivsdi',
+		outputFilename: 'Mediterranean Platform on Biodiversity',
 		method: 'POST',
 		rotation: 0,
 		customParams: {},
