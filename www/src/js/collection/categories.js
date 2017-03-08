@@ -7,7 +7,7 @@ app.collection.Categories = Backbone.Collection.extend({
     },
 
 	getLayersByName : function(name){
-		if(name == "") return this;
+		if(name == "") return this.getAllLayers();
 
 		var pattern = new RegExp(name,"gi");
 		var layers = new app.collection.Layers();
@@ -16,10 +16,48 @@ app.collection.Categories = Backbone.Collection.extend({
 		this.each(function(category){
 			_.each(category.get("topics"), function(topic){
 				_.each(topic.layers, function(layer){
-					if (pattern.test(layer.title_es)){
+					if (pattern.test(layer['title_' + app.lang])){
 						layer.category = currentCatIndex;
 						layers.add(layer);
 					}
+				});
+			});
+			currentCatIndex++;
+		});
+
+		return layers;
+	},
+
+	getLayersBySearch : function(name){
+		if(name == "") return this.getAllLayers();
+
+		var pattern = new RegExp(name,"gi");
+		var layers = new app.collection.Layers();
+		var currentCatIndex = 1;
+
+		this.each(function(category){
+			_.each(category.get("topics"), function(topic){
+				_.each(topic.layers, function(layer){
+					if (pattern.test(layer['title_' + app.lang]) || pattern.test(layer.dataSource) || pattern.test(layer['desc_' + app.lang])){
+						layer.category = currentCatIndex;
+						layers.add(layer);
+					}
+				});
+			});
+			currentCatIndex++;
+		});
+
+		return layers;
+	},
+
+	getAllLayers : function(){
+		var layers = new app.collection.Layers();
+		var currentCatIndex = 1;
+		this.each(function(category){
+			_.each(category.get("topics"), function(topic){
+				_.each(topic.layers, function(layer){					
+					layer.category = currentCatIndex;
+					layers.add(layer);
 				});
 			});
 			currentCatIndex++;

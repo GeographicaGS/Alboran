@@ -1,0 +1,41 @@
+
+<%
+_.each(col,function(c){
+
+	
+	var color;
+	if(c.cat_id == '1'){
+		color = 'green'
+	}else if(c.cat_id == '2'){
+		color = 'red';
+	}else if(c.cat_id == '3'){
+		color = 'blue';
+	}
+	
+
+	if(c.highlight){%>
+
+		<div class="doc_widget expand">
+			<h2><%=c.source%></h2>
+			<p><%=c['title_' + app.lang]%></p>
+			<img style="<%= c.img_link ? 'border: 1px solid #096;':'' %>" class="cover" src="/img/document/covers/<%= c.img_link ? c.img_link : 'ALB_img_default-doc.svg'%>">
+			<div>
+				<a class="<%=color%>" href="/<lang>lang</lang>/<lang>_link documents</lang>/<%=c.id_doc%>" jslink><lang>Más información</lang></a>
+				<a class="<%=color%>" target="_blank" href="<%=c.doc_link%>"><img src="/img/document/ALB_icon_descarga_<%=color%>.svg"></a>
+			</div>
+		</div>
+
+	<%}else{%>
+		<div class="doc_widget">
+			<img style="<%= c.img_link ? 'border: 1px solid #e6e6e6;':'' %>" class="cover" src="/img/document/covers/<%= c.img_link ? c.img_link : 'ALB_img_default-doc.svg'%>">
+			<div>
+				<h2><%=c.source%></h2>
+				<p><%=c['title_' + app.lang]%></p>
+				<a class="<%=color%>" href="/<lang>lang</lang>/<lang>_link documents</lang>/<%=c.id_doc%>" jslink><lang>Más información</lang></a>
+				<a class="<%=color%>" target="_blank" href="<%=c.doc_link%>"><img src="/img/document/ALB_icon_descarga_<%=color%>.svg"></a>
+			</div>
+		</div>
+<%
+	}
+})
+%>

@@ -8,6 +8,7 @@ app = Flask(__name__, template_folder=tmpl_dir)
 import config
 import trans
 import home
+import document
 import proxy
 
 @app.route('/', methods = ['GET'])

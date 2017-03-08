@@ -21,7 +21,8 @@ app.view.GroupLayer = Backbone.View.extend({
 					}
 				});
 				
-				var new_idx = $(ui.item).index()-1;
+				// var new_idx = $(ui.item).index()-1;
+                var new_idx = $(ui.item).index();
 				Map.layers.splice(new_idx,0,l);
 				
 				//change priority of all layer with bigger priority
@@ -138,6 +139,7 @@ app.view.GroupLayer = Backbone.View.extend({
     	"mouseover li": "layerOver",
     	"mouseleave li": "layerLeave",
     	"click .removeLayer": "removeLayerClick",
+        "click .delete": "removeAllLayers",
     	"click .leyend" : "leyendClick",
     	"click .opacity": "opacityClick",
     	"click .panelFooter": "addLayerClick",
@@ -186,13 +188,18 @@ app.view.GroupLayer = Backbone.View.extend({
             Map.removeLayer(idLayer);
     	});
     	
-    	var addButtons = $(".add_btn");
+    	var addButtons = $(".catalogue_list .add_btn");
     	for(var i=0; i<addButtons.length; i++){
     		if($(addButtons[i]).attr("layerid") == idLayer){
     			$(addButtons[i]).trigger("click");
     			break;
     		}
     	}
+    },
+
+    removeAllLayers:function(e){
+      // $(".catalogue_list .add_btn:not(.add)").addClass('add');
+      $('.removeLayer').trigger('click')
     },
     
     addLayerClick: function(e){
@@ -481,10 +488,11 @@ app.view.GroupLayer = Backbone.View.extend({
             $("#groupLayer").show();
             
             $("#map_control img").addClass("fleft");
-            $("#map_control .title").show(300,function(){
-                $(".groupLauyerConfig").show();
-                $("#map_control .title").addClass("fleft");
-            });
+            $(".groupLauyerConfig").show();
+            // $("#map_control .title").show(300,function(){
+            //     $(".groupLauyerConfig").show();
+            //     $("#map_control .title").addClass("fleft");
+            // });
             $("#map_control span").hide()
             $("#map_control br").hide();
         }

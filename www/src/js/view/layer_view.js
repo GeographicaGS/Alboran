@@ -42,6 +42,7 @@ app.view.Layer = Backbone.View.extend({
 
 	toggle: function(e) {
 		e.preventDefault();
+		$(e.currentTarget).toggleClass('expand');
 		this.$info.toggleClass('show');
 
 		var elem = $(e.currentTarget).closest('li');

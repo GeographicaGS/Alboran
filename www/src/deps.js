@@ -10,6 +10,7 @@ deps.JS = {
 			"js/lib/backbone-min.js",
 			"js/lib/backbone-validation-min.js",
 			"js/lib/leaflet/leaflet.js",
+			"js/lib/masonry.js",
 		],
 		desc: "Third party library"
 	}
@@ -61,6 +62,12 @@ deps.JS = {
 			"js/view/history_view.js",
 			"js/view/signup_view.js",
 			"js/view/map-pointselector_view.js",
+			"js/view/documents_view.js",
+			"js/view/document-create_view.js",
+			"js/view/sub_block_view.js",
+			"js/view/sources_view.js",
+			"js/view/tags_view.js",
+
 
 
 			// router
@@ -96,6 +103,7 @@ deps.CSS = {
 			"css/catalogue.css",
 			"css/join.css",
 			"css/about.css",
+			"css/documents.css",
 		]
 	}
 };

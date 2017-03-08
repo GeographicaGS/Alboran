@@ -4,7 +4,8 @@ app.view.Catalogue = Backbone.View.extend({
     events : {
         'click .topTabs li': 'changeTab',
         'click #searchbar button': 'toggleSearch',
-        'keyup #searchInput': 'search'
+        'keyup #searchInput': 'search',
+        'click .block_box, .source_box ul li': '_filter'
     },
 
 	initialize: function(options) {
@@ -13,19 +14,26 @@ app.view.Catalogue = Backbone.View.extend({
         this.collection = app.categories;
         // this.collection = new app.collection.Categories(app.categories, {view: this});
         app.events.trigger('menu','catalogue');
-        Map.removeAllLayers()
+        // Map.removeAllLayers()
         this.render();
     },
 
     onClose: function(){
         // Remove events on close
+        
+        if(this.subBlocksView)
+          this.subBlocksView.close();
+
+        if(this.sourceView)
+          this.sourceView.close();
+
         this.stopListening();
     },
 
     render: function() {
-		var model = {categories: this.collection.toJSON()}
-		model['isAdmin'] = app.isAdmin;
-        this.$el.html(this._template(model));
+	   	var model = {categories: this.collection.toJSON()}
+		      model['isAdmin'] = app.isAdmin;
+          this.$el.html(this._template(model));
 
         this.$layergroups = this.$('.layergroup');
         this.$topTabs = this.$('.topTabs .title');
@@ -35,6 +43,17 @@ app.view.Catalogue = Backbone.View.extend({
 
         this.renderAll();
 
+
+        var subBlockModel = new Backbone.Model({
+          'currentBlock':1,
+        });
+        this.subBlocksView = new app.view.SubBlock({'model':subBlockModel, 'collection':this._getSubBlockCol(this.collection.toJSON())});
+        this.$('.filters').append(this.subBlocksView.$el)
+
+        this.sourceView = new app.view.Sources({'collection':this._getSources()});
+        this.$('.filters').append(this.sourceView.$el)
+
+
         if(this.activeCategory){
             var index = this.$topTabs.filter('#'+this.activeCategory).index();
             this.changeTab(null,index);
@@ -43,8 +62,48 @@ app.view.Catalogue = Backbone.View.extend({
                 this.goToSection(this.activeSection-1);
             }
         }
+        
+
+        this._filter();
 
         return this;
+    },
+
+    _getSubBlockCol:function(col){
+      var sources;
+      if(this.sourceView)
+        sources = this.sourceView.getCurrentSources();
+
+      var colSubBlocks = new Backbone.Collection();
+      _.each(col,function(c){
+        var cat = {};
+        cat[c.id] = [];
+        _.each(c.topics,function(t){
+          cat[c.id].push({
+            'topic_id':t.id,
+            'title_en':t.title_en,
+            'title_es':t.title_es,
+            'title_fr':t.title_fr,
+            'count': sources ? _.filter(t.layers, function(l){ return $.inArray(l.dataSource,sources) >= 0; }).length : t.layers.length
+          });
+        });
+        colSubBlocks.push(cat)
+      });
+
+      return colSubBlocks;
+    },
+
+    _getSources:function(){
+      var sources = [];
+      _.each(this.collection.toJSON(),function(c){
+        _.each(c.topics,function(t){
+          _.each(t.layers,function(l){
+            sources.push(l.dataSource);
+          })
+        })
+      });
+
+      return _.unique(sources);
     },
 
     renderAll: function() {
@@ -53,22 +112,23 @@ app.view.Catalogue = Backbone.View.extend({
     },
 
     renderTab: function(elem, index){
-        // Seleccionamos una página y generamos sus grupos
-		var that = this;
-        var topics = elem.get('topics');
-        for (var i = 0; i < topics.length; i++){
-            // Generamos un grupo y lo agregamos a la lista
-            var group = new app.view.LayerGroup({model:topics[i]});
+        
+  		var that = this;
+      var topics = elem.get('topics');
+      for (var i = 0; i < topics.length; i++){
+          // Generamos un grupo y lo agregamos a la lista
+          var group = new app.view.LayerGroup({model:topics[i]});
 
-            // Insertamos el grupo en el DOM
-            this.$layergroups.eq(index).append(group.render().$el);
-        }
-		this.$layergroups.eq(index).sortable({
-			items: ".layerItemGroup:not(.first)",
-			update: function(event, ui){
-				that.updateOrder();
-			}
-		});
+          // Insertamos el grupo en el DOM
+          this.$layergroups.eq(index).append(group.render().$el);
+      }
+  		this.$layergroups.eq(index).sortable({
+  			items: ".layerItemGroup:not(.first)",
+  			update: function(event, ui){
+  				that.updateOrder();
+  			}
+  		});
+
     },
 
     renderList: function(list){
@@ -101,6 +161,10 @@ app.view.Catalogue = Backbone.View.extend({
 
         this.$layergroups.removeClass('selected');
         this.$layergroups.eq(index).addClass('selected');
+
+        this.subBlocksView.model.set('currentBlock', index+1);
+        
+        this._filter();
     },
 
     goToSection: function(index){
@@ -118,26 +182,34 @@ app.view.Catalogue = Backbone.View.extend({
         if(this.$searchbar.hasClass('enabled')){
             this.$searchbar.removeClass('enabled');
             this.$searchbarText.attr('readonly','readonly');
-            this.$searchbarText.val('Catálogo');
+            // this.$searchbarText.val('Catálogo');
 
-            this.$tabsContainer.show();
+            this.$tabsContainer.find('ul').show();
+            this.$('.filters').show();
+            this.$('.layersContainerWrapper').removeClass('fullWidth')
             this.changeTab(null,0);
 
-            this.renderAll();
+            // this.renderAll();
         }else{
             this.$searchbar.addClass('enabled');
             this.$searchbarText.removeAttr('readonly');
             this.$searchbarText.val('');
             this.$searchbarText.focus();
 
-            this.$tabsContainer.hide();
+            this.$tabsContainer.find('ul').hide();
             this.$layergroups.removeClass('selected');
             this.$layergroups.eq(3).addClass('selected');
+            this.$('.filters').hide();
+            this.$('.layersContainerWrapper').addClass('fullWidth');
+
+            var result = this.collection.getLayersBySearch('');
+            this.$layergroups.eq(3).empty();
+            this.renderList(result);
         }
     },
 
     search: function(e){
-        var result = this.collection.getLayersByName(this.$searchbarText.val());
+        var result = this.collection.getLayersBySearch(this.$searchbarText.val());
         this.$layergroups.eq(3).empty();
         this.renderList(result);
     },
@@ -155,5 +227,30 @@ app.view.Catalogue = Backbone.View.extend({
 				});
 			}
 		});
-	}
+	},
+
+  _filter:function(){
+    var _this = this;
+    var topic_id = this.subBlocksView.getCurrentTopic();
+    var sources = this.sourceView.getCurrentSources();
+    this.$('ul .content[topicid]').addClass('hide');
+    this.$('ul .content[topicid=' + topic_id + ']').removeClass('hide');
+
+    _.each(this.$('.layerItem'), function(li) {
+      var s = $(li).find('.source_text').text();
+      if($.inArray(s,sources) < 0){
+        $(li).addClass('hide');
+      }else{
+        $(li).removeClass('hide');
+      }
+    });
+
+    this.$tabsContainer.find('#rasgosnaturales span').text(this.$layergroups.eq(0).find('.layerItem:not(.hide)').length);
+    this.$tabsContainer.find('#presioneseimpactos span').text(this.$layergroups.eq(1).find('.layerItem:not(.hide)').length);
+    this.$tabsContainer.find('#proteccionyconservacion span').text(this.$layergroups.eq(2).find('.layerItem:not(.hide)').length);
+
+    this.subBlocksView.updateCounter(this._getSubBlockCol(this.collection.toJSON()));
+
+  }
+
 });

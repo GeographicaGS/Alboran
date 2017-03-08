@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="20px" height="20px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">
 <g>
-	<g>
-		<path fill="#CC9900" d="M22,14.5c0-0.828-0.672-1.5-1.5-1.5c0.828,0,1.5-0.672,1.5-1.5S21.328,10,20.5,10H15c0,0,0-4,0-6s-3-2-3-2
-			v3c0,0,0,1-1,2s-4,4-4,4v10h13c0.553,0,1-0.447,1-1c0-0.381-0.221-0.7-0.533-0.869L20.5,19c0.828,0,1.5-0.672,1.5-1.5
-			S21.328,16,20.5,16C21.328,16,22,15.328,22,14.5z"/>
-	</g>
-	<rect x="2" y="10" fill="#CC9900" width="3" height="12"/>
+	<path fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#CC9900" stroke-miterlimit="10" d="M8.253,10.945
+		c0.787-0.971,1.552-1.914,2.315-2.857c1.229-1.521,2.456-3.044,3.69-4.562c0.611-0.752,1.182-0.805,1.934-0.198
+		c0.556,0.45,1.111,0.898,1.667,1.349c0.69,0.561,0.767,1.179,0.2,1.847c-2.864,3.374-5.732,6.745-8.604,10.113
+		c-0.477,0.559-1.132,0.604-1.694,0.122c-1.913-1.641-3.822-3.285-5.728-4.934c-0.602-0.52-0.627-1.204-0.076-1.771
+		c0.466-0.475,0.937-0.943,1.411-1.41c0.632-0.622,1.364-0.655,2.05-0.083C6.353,9.336,7.279,10.125,8.253,10.945z"/>
 </g>
 </svg>

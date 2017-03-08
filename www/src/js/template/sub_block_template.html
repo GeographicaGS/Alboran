@@ -1,0 +1,14 @@
+<%
+	var selected;
+_.each(col,function(c){
+		var key = Object.keys(c)[0];
+		selected = 'selected';
+	_.each(c[key],function(el){
+%>
+			<div topic_id="<%=el.topic_id%>" block="<%=key%>" class="block_box hide <%= selected%>"><%=el['title_' + app.lang]%><span><%=el.count%></span></div>
+	
+<%
+	selected = '';
+	})
+})
+%>
