@@ -122,7 +122,7 @@ app.view.LayerCreate = Backbone.View.extend({
         e.preventDefault();
         if(!this.isSending){
             this.isSending = true;
-            this.$('#enviar_btn span').html('<lang>Enviando...</lang>');
+            this.$('#enviar_btn span').html('<lang>Sending...</lang>');
 
             // Clear validation errors
             this.$('.invalid').removeClass('invalid');
@@ -212,7 +212,7 @@ app.view.LayerCreate = Backbone.View.extend({
                 this.saveLayer(formData);
             }else{
                 this.isSending = false;
-                this.$('#enviar_btn span').html('<lang>Guardar capa</lang>');
+                this.$('#enviar_btn span').html('<lang>Save layer</lang>');
             }
         }
     },
@@ -264,7 +264,7 @@ app.view.LayerCreate = Backbone.View.extend({
                                     error: function(){
                                         that.showMessage('#layerCreateError');
                                         that.isSending = false;
-                                        that.$('#enviar_btn span').html('<lang>Guardar capa</lang>');
+                                        that.$('#enviar_btn span').html('<lang>Save layer</lang>');
                                     }
                                 });
                             }
@@ -272,7 +272,7 @@ app.view.LayerCreate = Backbone.View.extend({
                         error: function(){
                             that.showMessage('#layerCreateError');
                             that.isSending = false;
-                            that.$('#enviar_btn span').html('<lang>Guardar capa</lang>');
+                            that.$('#enviar_btn span').html('<lang>Save layer</lang>');
                         }
                     });
                 }
@@ -296,36 +296,36 @@ app.view.LayerCreate = Backbone.View.extend({
            		    		        success: function() {
                                         that.showMessage('#layerCreateSuccess');
                                         that.isSending = false;
-                                        that.$('#enviar_btn span').html('<lang>Capa guardada</lang>');
+                                        that.$('#enviar_btn span').html('<lang>Saved layer</lang>');
            		    		        },
                                     error: function(){
                                         that.showMessage('#layerCreateError');
                                         that.isSending = false;
-                                        that.$('#enviar_btn span').html('<lang>Guardar capa</lang>');
+                                        that.$('#enviar_btn span').html('<lang>Save layer</lang>');
                                     }
            		    		    });
                             }else{
                                 that.showMessage('#layerCreateSuccess');
                                 that.isSending = false;
-                                that.$('#enviar_btn span').html('<lang>Capa guardada</lang>');
+                                that.$('#enviar_btn span').html('<lang>Saved layer</lang>');
                             }
             		    },
                         error: function(){
                             that.showMessage('#layerCreateError');
                             that.isSending = false;
-                            that.$('#enviar_btn span').html('<lang>Guardar capa</lang>');
+                            that.$('#enviar_btn span').html('<lang>Save layer</lang>');
                         }
         		    });
                 }else{
                     that.showMessage('#layerCreateSuccess');
                     that.isSending = false;
-                    that.$('#enviar_btn span').html('<lang>Capa guardada</lang>');
+                    that.$('#enviar_btn span').html('<lang>Saved layer</lang>');
                 }
             },
             error: function(){
                 that.showMessage('#layerCreateError');
                 that.isSending = false;
-                that.$('#enviar_btn span').html('<lang>Guardar capa</lang>');
+                that.$('#enviar_btn span').html('<lang>Save layer</lang>');
             }
         });
     },
@@ -756,7 +756,7 @@ app.view.LayerCreate = Backbone.View.extend({
                         if(items.category.val() == 0){
                             error = true;
                             items.category.addClass('invalid');
-                            alert('<lang>Debes seleccionar una categoría antes de crear una sección</lang>')
+                            alert('<lang>You must select a category before creating a section</lang>')
                         }else{
                             items.category.removeClass('invalid');
                         }
@@ -786,7 +786,7 @@ app.view.LayerCreate = Backbone.View.extend({
                                 },
                                 error: function(){
                                     that.isSending = false;
-                                    alert('<lang>Error al crear la categoría, inténtalo de nuevo</lang>');
+                                    alert('<lang>Error creating category, please try again</lang>');
                                 }
                             });
                         }

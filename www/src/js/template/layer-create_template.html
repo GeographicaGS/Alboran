@@ -4,9 +4,9 @@
 			<div class="row">
 				<div class="col-sm-12 col-md-12">
 					<% if (data.id){%>
-						<h1><lang>Editar capa</lang></h1>
+						<h1><lang>Edit layer</lang></h1>
 					<% } else { %>
-						<h1><lang>Nueva capa</lang></h1>
+						<h1><lang>New layer</lang></h1>
 					<% }%>
 					<a href="#" class="button cancel_btn"><img src="/img/catalogue/ALB_icon_buscar_cerrar.svg"></a>
 				</div>
@@ -18,10 +18,10 @@
 			<fieldset class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
-						<legend><lang>Categorizar en...</lang></legend>
+						<legend><lang>Categorized in...</lang></legend>
 						<div class="col-sm-6 col-md-6">
 							<select id="category" name="category">
-								<option value="0"><lang>Seleccione una temática</lang></option>
+								<option value="0"><lang>Choose one category</lang></option>
 								<% _.each(data.categories, function(category){ %>
 									<option value="<%= category['id'] %>" <%= category['id'] !== data.layerCategory ? '': 'selected' %>><%= category['title_' + app.lang] %></option>
 								<% }); %>
@@ -29,7 +29,7 @@
 							<br>
 							<div style="opacity:0;">
 								<input type="checkbox" id="indefaultmap" name="indefaultmap" <%= data.isInConfig ? 'checked' : '' %> />
-								<label for="indefaultmap"><lang>Incluir en el mapa preconfigurado de la temática</lang></label>
+								<label for="indefaultmap"><lang>Include in the preconfigured map of the subject</lang></label>
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6 withButton">
@@ -39,13 +39,13 @@
 									<% if(topic['title_' + app.lang]){ %>
 									<option value="<%= topic['id'] %>" <%= topic['id'] !== data.topic_id ? '': 'selected' %>><%= topic['title_' + app.lang] %></option>
 									<% }else{ %>
-									<option value="<%= topic['id'] %>"<%= topic['id'] !== data.topic_id ? '': 'selected' %>><lang>Sin sección</lang></option>
+									<option value="<%= topic['id'] %>"<%= topic['id'] !== data.topic_id ? '': 'selected' %>><lang>No section</lang></option>
 									<% } %>
 								<% }); %>
 							</select>
 							<% }); %>
-							<a href="#" id="createTopic" title="<lang>Crear nueva sección</lang>">
-								<img src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Crear nueva sección</lang>"/>
+							<a href="#" id="createTopic" title="<lang>Create a new topic</lang>">
+								<img src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Create a new topic</lang>"/>
 							</a>
 						</div>
 					</div>
@@ -53,22 +53,22 @@
 				<div class="col-sm-2 col-md-2 info">
 					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
 					<div class="content">
-						<p><lang>Info ayuda categorizar en...</lang></p>
+						<p><lang>Info category help</lang></p>
 					</div>
 				</div>
 			</fieldset>
 			<fieldset class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
-						<legend><lang>Nombre</lang></legend>
-						<input type="text" class="localized" id="title-en" name="title-en" placeholder="<lang>Nombre de la capa en inglés</lang>" value="<%= data.title_en %>" required /><label for="title-en">EN</label>
-						<input type="text" class="localized" id="title-fr" name="title-fr" placeholder="<lang>Nombre de la capa en francés</lang>" value="<%= data.title_fr %>" required /><label for="title-fr">FR</label>
+						<legend><lang>Name</lang></legend>
+						<input type="text" class="localized" id="title-en" name="title-en" placeholder="<lang>Layer name in English</lang>" value="<%= data.title_en %>" required /><label for="title-en">EN</label>
+						<input type="text" class="localized" id="title-fr" name="title-fr" placeholder="<lang>Layer name in French</lang>" value="<%= data.title_fr %>" required /><label for="title-fr">FR</label>
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
 					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
 					<div class="content">
-						<p><lang>Info ayuda nombre</lang></p>
+						<p><lang>Info name help</lang></p>
 					</div>
 				</div>
 			</fieldset>
@@ -118,58 +118,58 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Descripción</lang></legend>
-						<textarea id="desc-en" class="localized" name="desc-en" placeholder="<lang>Escriba aquí la descripción en inglés</lang>" required><%= data.desc_en %></textarea><label for="desc-en">EN</label>
-						<textarea id="desc-fr" class="localized" name="desc-fr" placeholder="<lang>Escriba aquí la descripción en francés</lang>" required><%= data.desc_fr %></textarea><label for="desc-fr">FR</label>
+						<textarea id="desc-en" class="localized" name="desc-en" placeholder="<lang>Write the description in English</lang>" required><%= data.desc_en %></textarea><label for="desc-en">EN</label>
+						<textarea id="desc-fr" class="localized" name="desc-fr" placeholder="<lang>Write the description in French</lang>" required><%= data.desc_fr %></textarea><label for="desc-fr">FR</label>
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
 					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
 					<div class="content">
-						<p><lang>Info ayuda descripción</lang></p>
+						<p><lang>Info description help</lang></p>
 					</div>
 				</div>
 			</fieldset>
 			<fieldset class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
-						<legend><lang>Fuente</lang></legend>
-						<input class="allwidth" type="text" id="datasource" name="datasource" placeholder="<lang>Fuente de la capa</lang>" value="<%= data.dataSource %>" required />
+						<legend><lang>Source</lang></legend>
+						<input class="allwidth" type="text" id="datasource" name="datasource" placeholder="<lang>Layer's source</lang>" value="<%= data.dataSource %>" required />
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
 					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
 					<div class="content">
-						<p><lang>Info ayuda fuente</lang></p>
+						<p><lang>Info source help</lang></p>
 					</div>
 				</div>
 			</fieldset>
 			<fieldset class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
-						<legend><lang>Servidor WMS (URL)</lang></legend>
-						<input type="text" id="wmsserver" name="wmsserver" placeholder="<lang>Introduzca una url válida para el servidor WMS de la capa</lang>" value="<%= data.wmsServer %>" required />
-						<button class="explore" type="button"><lang>Explorar</lang></button>
-						<button class="geoserver" type="button"><lang>Crear capa en Geoserver</lang></button>
+						<legend><lang>WMS Server (URL)</lang></legend>
+						<input type="text" id="wmsserver" name="wmsserver" placeholder="<lang>Add a valid URL for the layer's WMS server</lang>" value="<%= data.wmsServer %>" required />
+						<button class="explore" type="button"><lang>Explore</lang></button>
+						<button class="geoserver" type="button"><lang>Create layer in Geoserver</lang></button>
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
 					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
 					<div class="content">
-						<p><lang>Info ayuda servidor WMS</lang></p>
+						<p><lang>Info wms help</lang></p>
 					</div>
 				</div>
 			</fieldset>
 			<fieldset class="row">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
-						<legend><lang>Capa</lang></legend>
-						<input type="text" id="layername" name="layername" placeholder="<lang>Capa</lang>" value="<%= data.wmsLayName %>" required />
+						<legend><lang>Layer</lang></legend>
+						<input type="text" id="layername" name="layername" placeholder="<lang>Layer</lang>" value="<%= data.wmsLayName %>" required />
 					</div>
 				</div>
 				<div class="col-sm-2 col-md-2 info">
 					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
 					<div class="content">
-						<p><lang>Info ayuda capa</lang></p>
+						<p><lang>Info map help</lang></p>
 					</div>
 				</div>
 			</fieldset>
@@ -188,15 +188,15 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Metadato (URL)</lang></legend>
-						<input type="text" class="withAction" id="metadata" name="metadata" placeholder="<lang>Introduzca una url válida para el metadato de la capa</lang>" value="<%= data.geoNetWk %>">
+						<input type="text" class="withAction" id="metadata" name="metadata" placeholder="<lang>Add a valid URL for layer's metadata</lang>" value="<%= data.geoNetWk %>">
 
-						<a class="geonetwork_link" href="#" title="<lang>Dar de alta metadato</lang>">
-							<!-- <img src="/img/catalogue/ALB_icon_info_enlace.svg" alt="<lang>Dar de alta metadato</lang>"/> -->
+						<a class="geonetwork_link" href="#" title="<lang>Enable metadata</lang>">
+							<!-- <img src="/img/catalogue/ALB_icon_info_enlace.svg" alt="<lang>Enable metadata</lang>"/> -->
 
 
 
 							<div id="meta_data_options_popup">
-								<a target="_blank" href="<%='http://tomcat.medchm.net/geonetwork/srv/eng/catalog.edit#/create'%>"><lang>Crear</lang></a>
+								<a target="_blank" href="<%='http://tomcat.medchm.net/geonetwork/srv/eng/catalog.edit#/create'%>"><lang>Create</lang></a>
 								<!-- <a target="_blank" href="<%='http://tomcat.medchm.net/geonetwork/srv/eng/admin.console#/harvest'%>">Harvest</a> -->
 							</div>
 
@@ -207,7 +207,7 @@
 				<div class="col-sm-2 col-md-2 info">
 					<a href="#"><img src="/img/participa/ALB_icon_info.svg"></a>
 					<div class="content">
-						<p><lang>Info ayuda metadato</lang></p>
+						<p><lang>Info metadata help</lang></p>
 					</div>
 				</div>
 			</fieldset>
@@ -215,21 +215,21 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row">
 						<div class="col-sm-4 col-md-4">
-							<a class="cancel_btn" href="#"><lang>Cancelar</lang></a>
+							<a class="cancel_btn" href="#"><lang>Cancel</lang></a>
 						</div>
 						<div class="col-sm-4 col-md-4">
 							<a href="#" id="enviar_btn" class="button grey">
 								<% if(!data.id){%>
-								<span><lang>Crear capa</lang></span>
+								<span><lang>Create layer</lang></span>
 								<% }else{ %>
-								<span><lang>Actualizar capa</lang></span>
+								<span><lang>Update layer</lang></span>
 								<% } %>
 							</a>
 						</div>
 						<% if(data.id){%>
 						<div class="col-sm-4 col-md-4">
 							<a href="#" id="borrar_btn" class="fright button red">
-								<span><lang>Eliminar capa</lang></span>
+								<span><lang>Delete layer</lang></span>
 							</a>
 						</div>
 						<% } %>
@@ -241,100 +241,100 @@
 	<!-- Popups -->
 	<div id="layerSectionCreation" class="msgPopup">
 		<div class="content">
-			<h2><lang>Crear nueva sección</lang></h2>
+			<h2><lang>Create a new topic</lang></h2>
 			<fieldset>
-				<input type="text" class="localized" id="sectiontitle-en" name="sectiontitle-en" placeholder="<lang>Nombre de la sección en inglés</lang>" required /><label for="sectiontitle-en">EN</label>
-				<input type="text" class="localized" id="sectiontitle-fr" name="sectiontitle-fr" placeholder="<lang>Nombre de la sección en francés</lang>" required /><label for="sectiontitle-fr">FR</label>
+				<input type="text" class="localized" id="sectiontitle-en" name="sectiontitle-en" placeholder="<lang>Section name in English</lang>" required /><label for="sectiontitle-en">EN</label>
+				<input type="text" class="localized" id="sectiontitle-fr" name="sectiontitle-fr" placeholder="<lang>Section name in French</lang>" required /><label for="sectiontitle-fr">FR</label>
 			</fieldset>
 		</div>
-		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
-        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
+		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Save</lang>">
+        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancel</lang>">
 	</div>
 
 	<div id="regionSectionCreation" class="msgPopup">
 		<div class="content">
 			<h2><lang>New MSDF Region</lang></h2>
 			<fieldset>
-				<input type="text" class="localized" id="region-en" name="region-en" placeholder="<lang>Nombre de la región en inglés</lang>" required /><label for="region-en">EN</label>
-				<input type="text" class="localized" id="region-fr" name="region-fr" placeholder="<lang>Nombre de la región en francés</lang>" required /><label for="region-fr">FR</label>
+				<input type="text" class="localized" id="region-en" name="region-en" placeholder="<lang>Region name in English</lang>" required /><label for="region-en">EN</label>
+				<input type="text" class="localized" id="region-fr" name="region-fr" placeholder="<lang>Region name in French</lang>" required /><label for="region-fr">FR</label>
 			</fieldset>
 		</div>
-		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Guardar</lang>">
-        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancelar</lang>">
+		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Save</lang>">
+        <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancel</lang>">
 	</div>
 
 
 	<div id="layerCreateSuccess" class="msgPopup">
         <div class="content">
 			<% if(!data.id){%>
-            <h2><lang>Su capa ha sido creada</lang></h2>
+            <h2><lang>Your layer has been created</lang></h2>
 			<% }else{ %>
-			<h2><lang>Su capa ha sido actualizada</lang></h2>
+			<h2><lang>Your layer has been updated</lang></h2>
 			<% } %>
             <p></p>
         </div>
-        <input type="button" value="<lang>Aceptar</lang>">
+        <input type="button" value="<lang>Accept</lang>">
     </div>
 
     <div id="layerCreateError" class="msgPopup">
         <div class="content">
 			<% if(!data.id){%>
-            <h2><lang>Error al crear su capa</lang></h2>
+            <h2><lang>Error. The layer coundn't be created.</lang></h2>
 			<% }else{ %>
-			<h2><lang>Error al actualizar su capa</lang></h2>
+			<h2><lang>Error. The layer couldn´t be updated.</lang></h2>
 			<% } %>
-            <p><lang>Inténtelo de nuevo o contacte con el administrador</lang></p>
+            <p><lang>Please try again or contact the administrator</lang></p>
         </div>
-        <input type="button" value="<lang>Aceptar</lang>">
+        <input type="button" value="<lang>Accept</lang>">
     </div>
 
     <div id="layerCancelConfirmation" class="msgPopup">
         <div class="content">
 			<% if(!data.id){%>
-            <h2><lang>Cancelar creación de capa</lang></h2>
+            <h2><lang>Cancel layer creation</lang></h2>
 			<% }else{ %>
-			<h2><lang>Cancelar actualización de capa</lang></h2>
+			<h2><lang>Cancel layer update</lang></h2>
 			<% } %>
             <p><lang>update_question</lang></p>
         </div>
-        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Yes</lang>">
         <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
     </div>
 
 	<div id="layerDeleteConfirmation" class="msgPopup">
         <div class="content">
-			<h2><lang>Eliminar capa</lang></h2>
+			<h2><lang>Delete layer</lang></h2>
             <p><lang>delete_question</lang></p>
         </div>
-        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Sí</lang>">
+        <input type="button" class="btn_yesno" id="btn_yes" value="<lang>Yes</lang>">
         <input type="button" class="btn_yesno" id="btn_no" value="<lang>No</lang>">
     </div>
 
     <div id="wmsLayers" class="msgPopup">
-    	<p class="error"><lang>Explorando...</lang></p>
-    	<p class="notSupport"><lang>Sistema de referencia no soportado</lang></p>
+    	<p class="error"><lang>Exploring ...</lang></p>
+    	<p class="notSupport"><lang>Reference system not supported</lang></p>
     	<p class="notFound"><lang>Ninguna capa encontrada</lang></p>
         <div class="layerList"></div>
     </div>
 
     <div id="geoserverPopup" class="msgPopup">
-    	<h2><lang>Crear capa en Geoserver</lang></h2>
+    	<h2><lang>Create layer in Geoserver</lang></h2>
     	<input id="geoserverZip" type="file" accept=".zip">
     	<form>
-	    	<input type="text" name="layer_name" placeholder="<lang>Nombre de la capa</lang>">
-	    	<span class="select_geoserver_zip"><lang>Seleccionar SHP (archivo zip)</lang></span>
-	    	<p><lang>Si no selecciona un SLD seleccione en tipo de capa para cargar un SLD por defecto.</lang></p>
+	    	<input type="text" name="layer_name" placeholder="<lang>Layer name</lang>">
+	    	<span class="select_geoserver_zip"><lang>Add SHP (zip file)</lang></span>
+	    	<p><lang>You can include your layer's SLD in the ZIP file or you can choose the type of layer to upload a default SLD.</lang></p>
 	    	<select name="sld_type">
-	    		<option value="medbiodivsdi_point"><lang>Punto</lang></option>
-	    		<option value="medbiodivsdi_line"><lang>Línea</lang></option>
-	    		<option selected value="medbiodivsdi_poly"><lang>Polígono</lang></option>
+	    		<option value="medbiodivsdi_point"><lang>Point</lang></option>
+	    		<option value="medbiodivsdi_line"><lang>Line</lang></option>
+	    		<option selected value="medbiodivsdi_poly"><lang>Polygon</lang></option>
 	    	</select>
-			<input id="geoserverUpload" type="button" value="<lang>Crear capa</lang>">
-			<p class="creating hide"><lang>Creando capa, espere por favor</lang></p>
-			<p class="problem hide"><lang>El espacio de trabajo no existe.</lang></p>
-			<p class="problem hide"><lang>El almacen de datos ya existe.</lang></p>
-			<p class="problem hide"><lang>Error creando la capa en geoserver.</lang></p>
-			<p class="problem hide"><lang>Faltan ficheros.</lang></p>
+			<input id="geoserverUpload" type="button" value="<lang>Create layer</lang>">
+			<p class="creating hide"><lang>Creating layer, wait please</lang></p>
+			<p class="problem hide"><lang>The workspace does not exist.</lang></p>
+			<p class="problem hide"><lang>The data store already exists.</lang></p>
+			<p class="problem hide"><lang>Error. The Geoserver layer couldn't be created.</lang></p>
+			<p class="problem hide"><lang>Missing files.</lang></p>
     	</form>
     </div>
 

@@ -54,14 +54,14 @@
 				background-image: url('../img/ALB_img_bg8.jpg');
 				&:before{
 					background-color: rgba(255,51,102,.5);
-				}	
+				}
 			}
 		}
 		&:nth-of-type(5){
 			.header{
 				background-image: url('../img/ALB_img_bg9.jpg');
 				&:before{
-					background-color: rgba(204,153,0,.5); 
+					background-color: rgba(204,153,0,.5);
 				}
 			}
 		}
@@ -76,7 +76,7 @@
 			top:0;
 			margin-bottom: 40px;
 			z-index: 1;
-			
+
 			&:before{
 				content:'';
 				position: absolute;
@@ -127,7 +127,7 @@
 				}
 			}
 		}
-		
+
 		&#characteristics{
 			margin-bottom: 54px;
 			margin-top: 15px;
@@ -223,7 +223,7 @@
 			}
 		}
 	}
-} 
+}
 
 #howTo {
 	@grey_border: #e0e0e1;
@@ -601,7 +601,7 @@
 				@media (max-width: 1023px){
 					transition: border-color .5s ease, background-color .5s ease;
 				}
-				
+
 				&:before {
 					content: url('@{imgPath}catalogue/ALB_icon_anadir_capa_1.svg');
 					margin-right: 5px;

@@ -2,31 +2,31 @@ app.model.User = Backbone.Model.extend({
 	validation: {
 		name: [{
 				required: true,
-				msg: "<lang>Escriba su nombre</lang>"
+				msg: "<lang>Write your name</lang>"
 			},{
 				minLength: 4,
-				msg: "<lang>Su nombre debe contener al menos 4 caracteres</lang>"
+				msg: "<lang>Your name must contain at least 4 characters</lang>"
 		}],
 		email: [{
 				required: true,
-				msg: "<lang>Escriba su dirección de email</lang>"
+				msg: "<lang>Enter your email address</lang>"
 			},{
 				pattern: 'email',
-				msg: "<lang>La dirección de correo no es correcta</lang>"
+				msg: "<lang>The email address is incorrect</lang>"
 		}],
 		user: [{
 				required: true,
-				msg: "<lang>Escriba su nombre de usuario</lang>"
+				msg: "<lang>Enter your username</lang>"
 			},{
 				minLength: 4,
-				msg: "<lang>Su nombre de usuario debe contener al menos 4 caracteres"
+				msg: "<lang>Your username should contain at least 4 characters</lang>"
 			},{
 				fn: function(deffered, model, value, attr) {
 	                var user = model.get(attr);
 		            $.ajax({
 		                url : "/api/user/"+ user,
 		                type: "GET",
-		                async: false,    
+		                async: false,
 		                success: function(data) {
 	                    	if(data.result){
 	                        	deffered.reject();
@@ -40,11 +40,11 @@ app.model.User = Backbone.Model.extend({
 		}],
 		password: {
 			minLength: 8,
-			msg: "<lang>La contraseña debe tener al menos 8 caracteres</lang>"
+			msg: "<lang>Password must be at least 8 characters</lang>"
 		},
 		repeatPassword: {
 			equalTo: 'password',
-			msg: '<lang>Las contraseñas no coinciden</lang>'
+			msg: '<lang>Passwords do not match</lang>'
 		}
 	}
 });

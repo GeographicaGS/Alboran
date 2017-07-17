@@ -129,6 +129,9 @@
 @blue_light_med:#0c4e76;
 @blue_dark_med:#093b59;
 
+@grey_tabBack: #f4f4f4;
+@grey_tabBorder: #e0e0e1;
+
 html, body{ height:100%;}
 body {
 	.lato(regular);

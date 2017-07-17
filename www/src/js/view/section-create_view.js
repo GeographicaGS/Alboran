@@ -57,7 +57,7 @@ app.view.SectionCreate = Backbone.View.extend({
         e.preventDefault();
         if(!this.isSending){
             this.isSending = true;
-            this.$('#enviar_btn span').html('<lang>Enviando...</lang>');
+            this.$('#enviar_btn span').html('<lang>Sending...</lang>');
 
             // Clear validation errors
             this.$('.invalid').removeClass('invalid');
@@ -102,7 +102,7 @@ app.view.SectionCreate = Backbone.View.extend({
                 this.saveSection(formData);
             }else{
                 this.isSending = false;
-                this.$('#enviar_btn span').html('<lang>Guardar sección</lang>');
+                this.$('#enviar_btn span').html('<lang>Save secction</lang>');
             }
         }
     },
@@ -120,12 +120,12 @@ app.view.SectionCreate = Backbone.View.extend({
             success: function(model, response, options){
                 that.showMessage('#sectionCreateSuccess');
                 that.isSending = false;
-                that.$('#enviar_btn span').html('<lang>Sección guardada</lang>');
+                that.$('#enviar_btn span').html('<lang>Saved Section</lang>');
             },
             error: function(){
                 that.showMessage('#sectionCreateError');
                 that.isSending = false;
-                that.$('#enviar_btn span').html('<lang>Guardar sección</lang>');
+                that.$('#enviar_btn span').html('<lang>Save secction</lang>');
             }
         });
     },

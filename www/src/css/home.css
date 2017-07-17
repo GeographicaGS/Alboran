@@ -23,7 +23,7 @@
     	position: absolute;
     	top: 0;
     }
-	
+
 		.container{
 			height: 100%;
 			.row{
@@ -46,16 +46,15 @@
 	}
 
 	h2 {
-		/*font-size: 1.8em;
-		line-height: 1.3em;*/
-		font-size: 24px;
-		line-height: 30px;
+		font-size: 64px;
+		line-height: 64px;
 		text-align: center;
-		/*margin: 0 auto 54px;*/
-		/*display: block;
-		width: 76%;*/
 		.lato(light);
 		color:@white;
+		span{
+			font-size: 48px;
+			.lato(light);
+		}
 	}
 
 	h3 {

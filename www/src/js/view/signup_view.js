@@ -48,10 +48,10 @@ app.view.SignUp = Backbone.View.extend({
                         }else if(data.error){
                             var $error = $('<span/>');
                             if(data.error == 'userexists'){
-                                $error.html('<lang>La dirección de email especificada ya ha sido utilizada anteriormente.<br>Por favor, inténtelo de nuevo con otra distinta</lang>.');
+                                $error.html('<lang>The specified email address has already been used previously. <br> Please try again with a different one</lang>.');
                                 $error.insertAfter(that.$('input[name="email"]'));
                             }else{
-                                $error.html('<lang>Ha ocurrido un error inesperado al crear su usuario. Inténtelo de nuevo más tarde</lang>');
+                                $error.html('<lang>An unexpected error occurred while creating your user. Try it again later</lang>');
                                 $error.insertAfter(that.$('input[type="button"]'));
                             }
                         }
@@ -60,7 +60,7 @@ app.view.SignUp = Backbone.View.extend({
                     },
                     error: function(data){
                         var $error = $('<span/>');
-                        $error.html('<lang>Ha ocurrido un error inesperado al crear su usuario. Inténtelo de nuevo más tarde</lang>');
+                        $error.html('<lang>An unexpected error occurred while creating your user. Try it again later</lang>');
                         $error.insertAfter(that.$('input[type="button"]'));
                         $submit_btn.removeAttr('disabled');
                         $submit_btn.attr('value','Crear cuenta');

@@ -281,7 +281,7 @@ Map = {
 	setRoute: function(route) {
     	var argumentos = route.split("/");
     	if(argumentos.length > 3){
-    		if(argumentos[1].indexOf(app.router.langRoutes["_link history"][[app.lang]]) == -1){
+    		// if(argumentos[1].indexOf(app.router.langRoutes["_link history"][[app.lang]]) == -1){
     			var capas = argumentos[1].split("_");
     			var activas = argumentos[2].split("_");
     			var opacidades = argumentos[3].split("_");
@@ -293,7 +293,7 @@ Map = {
     				app.groupLayer.setLayerOpacity(capas[i],opacidades[i]);
     				$("#slider_"+capas[i]).slider('value',opacidades[i]);
     			}
-           	}
+       // 	}
     	}
 	},
 
@@ -359,7 +359,7 @@ Map = {
 
 		if (layers==null || server==null || requestIdx==null)
 		{
-			$("#container_feature_info").html("<lang>No hay información sobre este punto</lang>");
+			$("#container_feature_info").html("<lang>No information on this point</lang>");
 
 			return;
 		}
@@ -389,7 +389,7 @@ Map = {
 		        			if((i+1) < Map.layers.length){
 		        				obj.featureInfo(e, i+1);
 		        			}else{
-		        				$("#container_feature_info").html("<lang>No hay información sobre este punto</lang>");
+		        				$("#container_feature_info").html("<lang>No information on this point</lang>");
 		        			}
 		        		}
 		        	}
@@ -397,7 +397,7 @@ Map = {
 	        		if((i+1) < Map.layers.length){
         				obj.featureInfo(e, i+1);
         			}else{
-        				$("#container_feature_info").html("<lang>No hay información sobre este punto</lang>");
+        				$("#container_feature_info").html("<lang>No information on this point</lang>");
         			}
 	        	}
 	        	$.fancybox.update();
@@ -431,7 +431,7 @@ Map = {
                     function getPopupInfo(e){
                         var h_id = parseInt(e.popup._content,10);
                         var currentWidth = e.popup._container.offsetWidth;
-                        e.popup._container.childNodes[1].innerHTML = '<lang>Cargando...</lang>';
+                        e.popup._container.childNodes[1].innerHTML = '<lang>Loading...</lang>';
                         $.ajax({
                             url : '/api/history/'+h_id,
                             type: 'GET',
@@ -440,7 +440,7 @@ Map = {
                                 html += '<div style="background-image:url(\'/images/'+data.result.images[0].href+'\')"></div>';
                                 html += '<h2>'+data.result.author+'</h2>';
                                 html += '<h1>'+data.result.title+'</h1>';
-                                html += '<p><img src="/img/about/ALB_icon_li_menu_sec.svg"><lang>Ver más</lang></p>';
+                                html += '<p><img src="/img/about/ALB_icon_li_menu_sec.svg"><lang>See more</lang></p>';
                                 html += '</a>';
                                 e.popup._container.childNodes[1].innerHTML = html;
                                 $(e.popup._container).css('left',-161);

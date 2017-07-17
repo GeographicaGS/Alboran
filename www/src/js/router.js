@@ -8,20 +8,9 @@ app.router = Backbone.Router.extend({
         "_link catalogue" : {"en":"catalogue","es": "catalogo", "fr": "catalogue" },
         "_link layer": {"en":"layer", "es":"capa", "fr":"couche"},
         "_link section": {"en":"section", "es":"seccion", "fr":"seccion"},
-        "_link about" : {"en":"proyecto","es": "proyecto", "fr": "projet" },
-        "_link alboran" : {"en":"alboran","es": "alboran", "fr": "alboran" },
-        "_link contact" : {"en":"contact","es": "contacto", "fr": "contacto" },
         "_link howto" : {"en":"howto","es": "comousarlo", "fr": "CommentLUtiliser" },
-        "_link join" : {"en":"participate","es": "participe", "fr": "participer" },
 
-        "_link writehistory" : {"en":"writehistory","es": "escribirhistoria", "fr": "ecrirehistoire" },
-        "_link history" : {"en":"history","es": "historia", "fr": "histoire" },
-        "_link edithistory" : {"en":"edit","es": "editar", "fr": "editer" },
-
-        "_link legal" : {"en":"legal","es": "legal", "fr": "juridique" },
-        "_link privacy" : {"en":"privacy","es": "privacidad", "fr": "confidentialité" },
         "_link user" : {"en":"user","es": "usuario", "fr": "usuario" },
-        "_link documents" : {"en":"documents","es": "documentos", "fr": "documents" },
         "_link users" : {"en":"users","es": "usuarios", "fr": "utilisateurs" },
         "_link new" : {"en":"new","es": "nuevo", "fr": "nouveau" }
     },
@@ -35,7 +24,6 @@ app.router = Backbone.Router.extend({
             "map/:capas/:activas" : "map",
             "map/:capas/:activas/:opacidad/:mostrarHistorias" : "map",
             "map/:config": "mapConf",
-            "map/history/:id": "mapHistory",
 
             "catalogue": "catalogue",
             "catalogue/:cat": "catalogue",
@@ -44,22 +32,7 @@ app.router = Backbone.Router.extend({
             "catalogue/layer/:id": "layer",
             "catalogue/section/:id": "section",
 
-            "about": "about",
-            "alboran": "alboran",
-            "contact": "contact",
             "howto": "howto",
-            "legal": "legal",
-            "privacy": "privacy",
-
-            "join": "join",
-            "join/:section": "join",
-
-            // "join/writehistory": "writehistory",
-            // "join/history/:id": "showhistory",
-            // "join/history/:id/edit": "edithistory",
-
-            "documents(/:block/:subBlock)": "documents",
-            "documents/:id": "document",
 
             "notfound" : "notfound",
             "faq" : "faq",
@@ -69,12 +42,7 @@ app.router = Backbone.Router.extend({
             "users": "users",
             "users/:id": "user",
 
-            /* Sample usage: http://example.com/#about */
             "*other"    : "defaultRoute"
-            /* This is a default route that also uses a *splat. Consider the
-            default route a wildcard for URLs that are either not matched or where
-            the user has incorrectly typed in a route path manually */
-
     },
 
 
@@ -90,29 +58,15 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas", "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:capas/:activas/:opacidad/:mostrarHistorias", "map");
         this.route(this.langRoutes["_link map"][app.lang] + "/:config", "mapConf");
-        this.route(this.langRoutes["_link map"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id", "mapHistory");
         this.route(this.langRoutes["_link catalogue"][app.lang], "catalogue");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat", "catalogue");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/:cat/:sec", "catalogue");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link layer"][app.lang], "createlayer");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link layer"][app.lang] + "/:id", "editlayer");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link section"][app.lang] + "/:id", "editsection");
-        this.route(this.langRoutes["_link about"][app.lang], "about");
-        this.route(this.langRoutes["_link alboran"][app.lang], "alboran");
-        this.route(this.langRoutes["_link contact"][app.lang], "contact");
         this.route(this.langRoutes["_link howto"][app.lang], "howto");
-        this.route(this.langRoutes["_link join"][app.lang], "join");
-        this.route(this.langRoutes["_link join"][app.lang] + "/:section", "join");
 
-        // this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link writehistory"][app.lang] , "writehistory");
-        // this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id" , "showhistory");
-        // this.route(this.langRoutes["_link join"][app.lang] + "/" + this.langRoutes["_link history"][app.lang] + "/:id/" + this.langRoutes["_link edithistory"] , "edithistory");
-
-        this.route(this.langRoutes["_link legal"][app.lang], "legal");
-        this.route(this.langRoutes["_link privacy"][app.lang], "privacy");
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
-        this.route(this.langRoutes["_link documents"][app.lang] + "(/:block/:subBlock)", "documents");
-        this.route(this.langRoutes["_link documents"][app.lang] + "/:id", "document");
         this.route(this.langRoutes["_link users"][app.lang], "users");
         this.route(this.langRoutes["_link users"][app.lang] + "/:id", "user");
         this.route(this.langRoutes["_link users"][app.lang] + "/" + this.langRoutes["_link new"][app.lang], "createuser");
@@ -185,25 +139,6 @@ app.router = Backbone.Router.extend({
         }
     },
 
-    mapHistory: function(id){
-        if(!app.isSupportedBrowser()){
-            $("#content").show();
-            $("#map").hide();
-            window.location.href="/" + app.lang + "/browser_error.html";
-        }else{
-            $("#content").hide();
-            $("#map").show();
-            app.events.trigger('menu','map');
-            if(Map.getMap() != null){
-                Map.getMap().invalidateSize("true");
-                Map.overview._overview.invalidateSize();
-            }
-            Map.toggleHistories(true, Map.openHistoryPopup, id);
-            if(app.groupLayer)
-                    app.groupLayer.toggleHistories(null,true);
-        }
-    },
-
     catalogue: function(category, section){
         $("#content").show();
         $("#map").hide();
@@ -228,60 +163,10 @@ app.router = Backbone.Router.extend({
         app.showView( new app.view.SectionCreate({sectionId: id}) );
     },
 
-    about: function(){
-        $("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.About() );
-    },
-    alboran: function(){
-        $("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.Alboran() );
-    },
-    contact: function(){
-        $("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.About({section: 'contact'}) );
-    },
     howto: function(){
         $("#content").show();
         $("#map").hide();
         app.showView( new app.view.Howto() );
-    },
-
-    join: function(section){
-        $("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.Join({activeSection: section}) );
-    },
-
-    // writehistory: function(){
-    //     $("#content").show();
-    //     $("#map").hide();
-    //     app.showView( new app.view.HistoryCreate() );
-    // },
-    //
-    // showhistory: function(id){
-    //     $("#content").show();
-    //     $("#map").hide();
-    //     app.showView( new app.view.HistoryDetail({historyId: id}) );
-    // },
-    //
-    // edithistory: function(id){
-    //     $("#content").show();
-    //     $("#map").hide();
-    //     app.showView( new app.view.HistoryCreate({historyId: id}) );
-    // },
-
-    legal: function(){
-        $("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.Legal() );
-    },
-    privacy: function(){
-    	$("#content").show();
-        $("#map").hide();
-        app.showView( new app.view.Legal({section: 'privacy'}) );
     },
 
     signinConfirmation: function(username, code) {
@@ -305,18 +190,6 @@ app.router = Backbone.Router.extend({
                 }
             }
         });
-    },
-
-    documents:function(block,subBlock){
-      $("#content").show();
-      $("#map").hide();
-      app.showView(new app.view.Documents({'block':block, 'subBlock':subBlock}));
-    },
-
-    document:function(id){
-      $("#content").show();
-      $("#map").hide();
-      app.showView(new app.view.DocumentItem({'id_doc':id}));
     },
 
     users:function(){
