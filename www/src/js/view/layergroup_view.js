@@ -43,8 +43,10 @@ app.view.LayerGroup = Backbone.View.extend({
 
 	renderGroup: function(){
 		for (var i = 0; i < this.model.layers.length; i++ ){
-			var layer = new app.view.Layer({model: this.model.layers[i]});
-			this.$content.append(layer.render().$el);
+			if(this.model.layers[i].status == 1){
+				var layer = new app.view.Layer({model: this.model.layers[i]});
+				this.$content.append(layer.render().$el);
+			}
 		}
 	},
 

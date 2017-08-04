@@ -44,6 +44,7 @@ deps.JS = {
 			"js/collection/layers.js",
 			"js/collection/categories.js",
 			"js/collection/users.js",
+			"js/collection/layerProgress.js",
 
 			// --------------------
 			// ------  Views ------
@@ -65,6 +66,7 @@ deps.JS = {
 			"js/view/legend_view.js",
 			"js/view/users_view.js",
 			"js/view/user_view.js",
+			"js/view/progress_view.js",
 
 
 
@@ -106,6 +108,7 @@ deps.CSS = {
 			"css/about.css",
 			"css/map.css",
 			"css/users.css",
+			"css/progress.css"
 		]
 	}
 };

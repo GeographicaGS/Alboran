@@ -39,16 +39,18 @@ app.collection.Categories = Backbone.Collection.extend({
 			_.each(category.get("topics"), function(topic){
 				_.each(topic.layers, function(layer){
 					// if (pattern.test(layer['title_' + app.lang]) || pattern.test(layer.dataSource) || pattern.test(layer['desc_' + app.lang])){
-					if (
-							(pattern.test(layer['title_' + app.lang]) || pattern.test(layer['desc_' + app.lang]) || pattern.test(layer['dataSource']))
-								&&
-								(!country || layer.country == country)
-								&&
-								(!msdf || layer.msdf == parseInt(msdf))
-								&&
-								(!year || layer.year == year) ){
-						layer.category = currentCatIndex;
-						layers.add(layer);
+					if(layer.status == 1){
+						if (
+								(pattern.test(layer['title_' + app.lang]) || pattern.test(layer['desc_' + app.lang]) || pattern.test(layer['dataSource']))
+									&&
+									(!country || layer.country == country)
+									&&
+									(!msdf || layer.msdf == parseInt(msdf))
+									&&
+									(!year || layer.year == year) ){
+							layer.category = currentCatIndex;
+							layers.add(layer);
+						}
 					}
 				});
 			});

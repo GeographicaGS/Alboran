@@ -51,6 +51,9 @@ app.view.LayerCreate = Backbone.View.extend({
     events: {
         'click .info > a': 'showInfo',
         'click #enviar_btn': 'sendLayer',
+        'click #send_btn': 'sendReviewReview',
+        'click #draft_btn': 'sendDraftLayer',
+        'click #reject_btn': 'rejectLayer',
         'click #borrar_btn': 'deleteLayer',
         'click .cancel_btn': 'cancelLayer',
         'blur input[required]': 'validate',
@@ -64,6 +67,8 @@ app.view.LayerCreate = Backbone.View.extend({
         'mouseover .geonetwork_link': 'showGeonetworkPopup',
         // 'mouseout #meta_data_options_popup': 'hideGeonetworkPopup',
         'click #createRegion': 'createRegion',
+
+        'keydown input[name="year"]': '_onlyNumbers'
 
 
     },
@@ -118,11 +123,21 @@ app.view.LayerCreate = Backbone.View.extend({
         $target.parent().find('.content').fadeToggle(200);
     },
 
-    sendLayer: function(e){
+    sendReviewReview: function(e){
+      e.preventDefault();
+      this.sendLayer(e,2);
+    },
+
+    sendDraftLayer: function(e){
+      e.preventDefault();
+      this.sendLayer(e,4);
+    },
+
+    sendLayer: function(e,status){
         e.preventDefault();
         if(!this.isSending){
             this.isSending = true;
-            this.$('#enviar_btn span').html('<lang>Sending...</lang>');
+            // this.$('#enviar_btn span').html('<lang>Sending...</lang>');
 
             // Clear validation errors
             this.$('.invalid').removeClass('invalid');
@@ -151,7 +166,9 @@ app.view.LayerCreate = Backbone.View.extend({
 
             $.each(items, function(index, element){
                 if(element.attr('required')){
-                    error = that.validate(element, false) || error;
+                    if((status!=4) || (status == 4 && (element.selector == '#title-en' || element.selector == '#title-fr'))){
+                      error = that.validate(element, false) || error;
+                    }
                 }
             });
 
@@ -209,10 +226,26 @@ app.view.LayerCreate = Backbone.View.extend({
                     'username': app.getHeader().username
                 };
 
+                if(!status) {
+                  formData['status'] = 1;
+
+                }else if(status == 4){
+                  formData['status'] = 4;
+                  if(formData.year == ''){
+                    formData.year = null;
+                  }
+                  $('#layerCreateSuccess h2').html('<lang>Your layer has been saved as draft</lang>');
+
+                }else if(status == 2) {
+                  formData['status'] = 2;
+                  $('#layerCreateSuccess h2').html('<lang>Your layer has been submitted for Administrator review</lang>');
+                }
+
                 this.saveLayer(formData);
             }else{
                 this.isSending = false;
-                this.$('#enviar_btn span').html('<lang>Save layer</lang>');
+                $("html, body").animate({ scrollTop: 0 }, "slow")
+                // this.$('#enviar_btn span').html('<lang>Save layer</lang>');
             }
         }
     },
@@ -236,7 +269,8 @@ app.view.LayerCreate = Backbone.View.extend({
             'layersrs': formData.layersrs,
             'minbbox': formData.minbbox,
             'maxbbox': formData.maxbbox,
-            'username': formData.username
+            'username': formData.username,
+            'status': formData.status
         });
 
         var that = this;
@@ -330,6 +364,11 @@ app.view.LayerCreate = Backbone.View.extend({
         });
     },
 
+  rejectLayer: function(e){
+    e.preventDefault();
+    this.showMessage('#layerSectionReject');
+  },
+
 	deleteLayer: function(e) {
 		e.preventDefault();
 		var that = this;
@@ -350,6 +389,7 @@ app.view.LayerCreate = Backbone.View.extend({
             afterShow: function () {
                 $('#layerDeleteConfirmation').css('display', 'block');
                 $('#layerDeleteConfirmation #btn_yes').click(function(e){
+                  if(that.model.get('wmsLayName') != ''){
                     $.ajax({
                             url : '/api/gslayer/' + that.model.get('wmsLayName'),
                             type: 'DELETE',
@@ -364,6 +404,14 @@ app.view.LayerCreate = Backbone.View.extend({
                                 });
                             }
                         });
+                  }else{
+                    $.fancybox.close();
+                    that.model.destroy();
+                    app.categories.fetch().done(function () {
+                        app.router.navigate('catalogue', {trigger: true});
+                        location.reload();
+                    });
+                  }
                 });
                 $('#layerDeleteConfirmation #btn_no').click(function(e){
                     $.fancybox.close();
@@ -412,6 +460,7 @@ app.view.LayerCreate = Backbone.View.extend({
     },
 
     showMessage: function(id, opt) {
+      var that = this;
         $.fancybox($(id), {
             'width':'640',
             'height': 'auto',
@@ -429,10 +478,32 @@ app.view.LayerCreate = Backbone.View.extend({
             afterShow: function () {
                 $(id).css('display', 'block');
                 $(id + " input").click(function(e){
-                    $.fancybox.close();
-                    if(id.indexOf('uccess') != -1){
+                    if(id.indexOf('layerSectionReject') != -1) {
+                      if($(this).attr('id') == 'btn_cancel'){
+                        $.fancybox.close();
+                      }else{
+                        var text = $('#layerSectionReject textarea').val();
+                        $('#layerSectionReject textarea').removeClass('error');
+                        if(text && text != ''){
+                          that.model.set('status',3)
+                          that.model.set('reject_text', _.escape(text));
+                          that.model.save(that.model.toJSON(), {success:function(){
+                            $.fancybox.close();
+                            app.router.navigate(app.router.langRoutes["_link progress"][app.lang],{trigger: true});
+                          }});
+                        }else{
+                          $('#layerSectionReject textarea').addClass('error');
+                        }
+                      }
+                    }
+                    else if(id.indexOf('uccess') != -1){
+                        $.fancybox.close();
                         app.categories.fetch().done(function () {
+                          if(that.model.get('status') == '1'){
                             app.router.navigate('catalogue' ,{trigger: true});
+                          }else{
+                            app.router.navigate('progress' ,{trigger: true});
+                          }
                         });
                     }
                 });
@@ -442,6 +513,7 @@ app.view.LayerCreate = Backbone.View.extend({
 
     cancelLayer: function(e) {
         e.preventDefault();
+        var that = this;
         $.fancybox($('#layerCancelConfirmation'), {
             'width':'640',
             'height': 'auto',
@@ -460,7 +532,12 @@ app.view.LayerCreate = Backbone.View.extend({
                 $('#layerCancelConfirmation').css('display', 'block');
                 $('#layerCancelConfirmation #btn_yes').click(function(e){
                     $.fancybox.close();
-                    app.router.navigate('catalogue',{trigger: true});
+                    // app.router.navigate('catalogue',{trigger: true});
+                    if(that.model.get('status') == '1'){
+                      app.router.navigate('catalogue' ,{trigger: true});
+                    }else{
+                      app.router.navigate('progress' ,{trigger: true});
+                    }
                 });
                 $('#layerCancelConfirmation #btn_no').click(function(e){
                     $.fancybox.close();
@@ -867,5 +944,21 @@ app.view.LayerCreate = Backbone.View.extend({
               }
           });
       }
+    },
+
+    _onlyNumbers: function(e){
+      // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
     }
 });

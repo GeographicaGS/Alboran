@@ -22,6 +22,11 @@
             <input id="name" type="text" class="allwidth localized" placeholder="<lang>Nick</lang>" value="<%=m.name%>" required />
             <input id="email" type="text" class="allwidth localized" placeholder="<lang>Email</lang>" value="<%=m.email%>" required />
             <input id="password" type="password" class="allwidth" placeholder="<lang>Password</lang>" <%=m.id ? null:'required'%> />
+            <select id="country" name="country">
+							<% _.each(countries, function(c){ %>
+								<option value="<%= c['id_country'] %>" <%= c['id_country'] !== m.id_country ? '': 'selected' %>><%= c['name_' + app.lang] %></option>
+							<% }); %>
+						</select>
             <div class="mt20">
               <input id="admin" type="checkbox" <%=m.admin ? 'checked':'null'%> /> <label style="font-size:15px;" for="admin"><strong><lang>Is admin</lang></strong></label>
             </div>

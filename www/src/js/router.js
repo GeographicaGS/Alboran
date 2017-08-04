@@ -10,6 +10,8 @@ app.router = Backbone.Router.extend({
         "_link section": {"en":"section", "es":"seccion", "fr":"seccion"},
         "_link howto" : {"en":"howto","es": "comousarlo", "fr": "CommentLUtiliser" },
 
+        "_link progress" : {"en":"progress","es": "progreso", "fr": "cours" },
+
         "_link user" : {"en":"user","es": "usuario", "fr": "usuario" },
         "_link users" : {"en":"users","es": "usuarios", "fr": "utilisateurs" },
         "_link new" : {"en":"new","es": "nuevo", "fr": "nouveau" }
@@ -31,6 +33,8 @@ app.router = Backbone.Router.extend({
             "catalogue/layer": "layer",
             "catalogue/layer/:id": "layer",
             "catalogue/section/:id": "section",
+
+            "progress": "progress",
 
             "howto": "howto",
 
@@ -65,6 +69,8 @@ app.router = Backbone.Router.extend({
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link layer"][app.lang] + "/:id", "editlayer");
         this.route(this.langRoutes["_link catalogue"][app.lang] + "/" + this.langRoutes["_link section"][app.lang] + "/:id", "editsection");
         this.route(this.langRoutes["_link howto"][app.lang], "howto");
+
+        this.route(this.langRoutes["_link progress"][app.lang], "progress");
 
         this.route(this.langRoutes["_link user"][app.lang] + "/:username/:code", "signinConfirmation");
         this.route(this.langRoutes["_link users"][app.lang], "users");
@@ -190,6 +196,12 @@ app.router = Backbone.Router.extend({
                 }
             }
         });
+    },
+
+    progress:function(){
+      $("#content").show();
+      $("#map").hide();
+      app.showView(new app.view.Progress());
     },
 
     users:function(){

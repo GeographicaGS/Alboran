@@ -1,0 +1,42 @@
+<div id="searchbar" class="enabled">
+    <input type="text" id="searchInput" placeholder="<lang>Search by layer name</lang>">
+    <button type="button"><span><lang>Search</lang></span></button>
+    <div class="advanced" style="display: flex;">
+      <div class="adv">
+        <h3><lang>Status</lang></h3>
+        <input readonly class="status" type="text" placeholder="<lang>All</lang>">
+        <ul class="status_list">
+          <li id="-1"><lang>All</lang></li>
+          <li id="4"><lang>Draft</lang></li>
+          <li id="2"><lang>Pending</lang></li>
+          <li id="1"><lang>Publish</lang></li>
+          <li id="3"><lang>Rejected</lang></li>
+        </ul>
+      </div>
+      <div class="adv">
+        <h3><lang>Country</lang></h3>
+        <input readonly class="country" type="text" placeholder="<lang>All</lang>">
+        <ul class="country_list">
+          <li id="-1"><lang>All</lang></li>
+          <%_.each(countries,function(c){%>
+            <li id="<%=c.id_country%>"><%=c['name_' + app.lang]%></li>
+          <%})%>
+        </ul>
+      </div>
+    </div>
+</div>
+
+<div id="progress" class="container mt50"></div>
+
+
+
+<div id="rejectPopup" class="msgPopup">
+  <div class="content">
+    <h2><lang>Layer rejected</lang></h2>
+    <fieldset>
+      <textarea disabled class="rejectText"></textarea>
+    </fieldset>
+  </div>
+  <input type="button" class="btn_yesno" id="btn_edit" value="<lang>Edit layer</lang>">
+  <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancel</lang>">
+</div>

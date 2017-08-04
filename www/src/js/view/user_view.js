@@ -4,17 +4,27 @@ app.view.User = app.view.LayerCreate.extend({
     initialize: function(options) {
       app.events.trigger('menu','users');
 
+      var that = this;
       var User = app.model.Layer.extend({urlRoot: '/api/users'});
       this.isSending = false;
 
+      this.countries = new Backbone.Collection();
+      this.countries.url = '/api/counties/'
+      this.listenTo(this.countries, 'reset', function(){
+          that.render();
+      });
+
       if(options){
           this.model = new User({id: options.id_user});
-          var that = this;
-          this.model.fetch().done(function() {that.render();});
+          this.model.fetch().done(function() {
+            // that.render();
+            that.countries.fetch({reset:true})
+          });
         }else{
           this.isInConfig = false;
           this.model = new User();
-          this.render();
+          this.countries.fetch({reset:true})
+          // this.render();
         }
 
     },
@@ -31,7 +41,7 @@ app.view.User = app.view.LayerCreate.extend({
     },
 
     render: function() {
-      this.$el.html(this._template({m:this.model.toJSON()}));
+      this.$el.html(this._template({m:this.model.toJSON(), countries:this.countries.toJSON()[0].result}));
       return this;
     },
 
@@ -77,6 +87,7 @@ app.view.User = app.view.LayerCreate.extend({
             'real_name': _.escape(items.$real_name.val()),
             'name': _.escape(items.$name.val()),
             'email': _.escape(items.$email.val()),
+            'id_country': this.$('#country').val(),
             'admin': this.$('#admin').is(':checked')
           });
 

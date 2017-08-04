@@ -37,27 +37,26 @@ class CatalogModel(PostgreSQLModel):
 
         return result
 
-    def getLayersByTopic(self, topic_id):
+    def getLayersByTopic(self, topic_id, user):
         if topic_id is not None:
-            sql = "SELECT l.id, l.title_en, l.title_fr, l.year, l.country, l.msdf, " \
+            sql = "SELECT l.id, l.status, l.title_en, l.title_fr, l.year, l.country, l.msdf, " \
                 "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
                 "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_fr, " \
                 "l.datasource as \"dataSource\", l.order, l.layersrs, l.minbbox, l.maxbbox, l.username " \
                 "FROM \"layer\" l " \
-                "WHERE l.topic_id = %s AND l.deleted = false " \
-                "ORDER BY l.order"
-
-            result = self.query(sql,[topic_id]).result()
+                "WHERE l.topic_id = %s AND l.deleted = false "%(topic_id)
         else:
-            sql = "SELECT l.id, l.title_en, l.title_fr, " \
+            sql = "SELECT l.id, l.status, l.title_en, l.title_fr, " \
                 "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
                 "l.geonetwork as \"geoNetWk\", l.desc_en,l.desc_fr, " \
                 "l.datasource as \"dataSource\", l.topic_id, l.order " \
                 "FROM \"layer\" l " \
-                "l.deleted = false " \
-                "ORDER BY l.order"
+                "WHERE l.deleted = false "
 
-            result = self.query(sql).result()
+        if not user:
+            sql += ' AND status=1'
+        sql += " ORDER BY l.order"
+        result = self.query(sql).result()
 
         return result
 
@@ -76,7 +75,7 @@ class CatalogModel(PostgreSQLModel):
         return result
 
     def getLayerById(self, layer_id):
-        sql = "SELECT l.id, l.year, l.country, l.msdf, l.title_en, l.title_fr, " \
+        sql = "SELECT l.id, l.year, l.status, l.country, l.msdf, l.title_en, l.title_fr, " \
             "l.wms_server as \"wmsServer\", l.wms_layer_name as \"wmsLayName\", " \
             "l.geonetwork as \"geoNetWk\", l.desc_en, l.desc_fr, " \
             "l.datasource as \"dataSource\", l.topic_id, l.order, l.layersrs, l.minbbox, l.maxbbox, l.username " \
@@ -110,7 +109,8 @@ class CatalogModel(PostgreSQLModel):
             'country': data['country'],
             'msdf': data['msdf'],
             'layersrs': data['layersrs'],
-            'username': data['username']
+            'username': data['username'],
+            'status': data['status']
         }
 
         layer_id = self.insert("layer",insertData,"id")
@@ -132,12 +132,12 @@ class CatalogModel(PostgreSQLModel):
         return True
 
     def updateLayer(self, id, data):
-        sql = "UPDATE \"layer\" set title_en = %s, title_fr = %s, " \
+        sql = "UPDATE \"layer\" set title_en = %s, title_fr = %s, status = %s, " \
             "desc_en = %s, desc_fr = %s, datasource = %s, " \
             "wms_server = %s, wms_layer_name = %s, geonetwork = %s, " \
             "topic_id = %s, \"order\" = %s, \"year\" = %s, \"country\" = %s, \"msdf\" = %s, \"layersrs\" = %s where id = %s"
 
-        self.queryCommit(sql,[ data['title_en'], data['title_fr'],
+        self.queryCommit(sql,[ data['title_en'], data['title_fr'], data['status'],
             data['desc_en'], data['desc_fr'],
             data['dataSource'], data['wmsServer'], data['wmsLayName'],
             data['geoNetWk'], data['topic_id'], data['order'], data['year'], data['country'], data['msdf'], data['layersrs'], data['id']])
@@ -146,6 +146,11 @@ class CatalogModel(PostgreSQLModel):
             sql = "UPDATE \"layer\" set minbbox = %s, maxbbox = %s " \
                 "where id = %s"
             self.queryCommit(sql,[ data['minbbox'], data['maxbbox'], data['id']])
+
+        if('reject_text' in data):
+            sql = "UPDATE \"layer\" set reject_text = %s, reject_date=%s " \
+                "where id = %s"
+            self.queryCommit(sql,[ data['reject_text'], datetime.now(), data['id']])
 
         return True
 
@@ -181,4 +186,22 @@ class CatalogModel(PostgreSQLModel):
 
         gid = self.insert("msdf",insertData,"gid")
         result = {'gid': gid}
+        return result
+
+    def getLayersInProgress(self, user):
+        sql = 'SELECT id, title_en, title_fr, wms_server, wms_layer_name, c.id_country as country, c.name_en as country_en, c.name_fr as country_fr, username, status, reject_text ' \
+            ' FROM public.layer l' \
+            ' INNER JOIN country c on c.id_country = l.country  ' \
+            ' INNER JOIN layer_status lt on lt.gid = l.status  '
+
+        if(user['admin']):
+            sql += ' WHERE (status=2 or status=3 or status=4) '
+        else:
+            sql += ' WHERE (status=2 or status=3 or status=4) AND username=\'%s\''%user['name']
+
+        sql += ' AND not deleted'
+
+        sql += ' order by username, lt.description'
+
+        result = self.query(sql).result()
         return result

@@ -231,26 +231,30 @@ app.view.GroupLayer = Backbone.View.extend({
     infoLayerClick: function(e){
     	if(!$(e.currentTarget).hasClass("removeLayer")){
     		e.stopImmediatePropagation();
-    		app.router.navigate("catalogue",{trigger: true});
+				if(parseInt($(e.currentTarget).attr('status')) == 1){
+					app.router.navigate("catalogue",{trigger: true});
 
-    		var idLayer = $(e.currentTarget).parent().attr("idLayer");
-        	var categry = Map.searchLayerGroup(Map.searchLayer(idLayer))
-    		var addButtons = $(".add_btn");
+	    		var idLayer = $(e.currentTarget).parent().attr("idLayer");
+	        	var categry = Map.searchLayerGroup(Map.searchLayer(idLayer))
+	    		var addButtons = $(".add_btn");
 
-    		for(var i=0; i<addButtons.length; i++){
-    			if($(addButtons[i]).attr("layerid") == idLayer){
-    				$($(".topTabs li")[categry]).trigger("click");
+	    		for(var i=0; i<addButtons.length; i++){
+	    			if($(addButtons[i]).attr("layerid") == idLayer){
+	    				$($(".topTabs li")[categry]).trigger("click");
 
-    				$($(addButtons[i])).parent().parent().parent().children().find("p").find("a").trigger("click");
-                    $($(addButtons[i])).parent().parent().parent().parent().children('.info').addClass('show');
-                     $($(addButtons[i])).parent().parent().parent().find('.name').addClass('expand');
-    				$('html, body').animate({
-    			        scrollTop: $($(addButtons[i])).offset().top -90
-    			    }, 1000);
+	    				$($(addButtons[i])).parent().parent().parent().children().find("p").find("a").trigger("click");
+	                    $($(addButtons[i])).parent().parent().parent().parent().children('.info').addClass('show');
+	                     $($(addButtons[i])).parent().parent().parent().find('.name').addClass('expand');
+	    				$('html, body').animate({
+	    			        scrollTop: $($(addButtons[i])).offset().top -90
+	    			    }, 1000);
 
-    				break;
-    			}
-    		}
+	    				break;
+	    			}
+	    		}
+				}else{
+					app.router.navigate(app.router.langRoutes['_link progress'][app.lang],{trigger: true});
+				}
 
     	}
     },
@@ -327,6 +331,7 @@ app.view.GroupLayer = Backbone.View.extend({
         $icon4.addClass('icon');
         $icon4.attr('src','/img/map/ALB_icon_info_capa_white.svg');
         $icon4.attr('title',getTextLang("info"));
+				$icon4.attr('status',layer.status);
 
         $li.append($icon1).append($icon2).append($icon3).append($icon4).append("<div class='clear'></div>");
         $li.append("<div class='opacity_panel' style=''>" +

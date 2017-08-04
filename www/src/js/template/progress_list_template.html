@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-sm-3 col-md-3"><lang>Name of layer</lang></div>
+  <div class="col-sm-3 col-md-3"><lang>User</lang></div>
+  <div class="col-sm-2 col-md-2"><lang>Country</lang></div>
+  <div class="col-sm-2 col-md-2"><lang>Status</lang></div>
+  <div class="col-sm-2 col-md-2"></div>
+</div>
+<%_.each(layers,function(l){%>
+<div class="row">
+  <div class="col-sm-3 col-md-3"><strong><%=l['title_' + app.lang]%></strong></div>
+  <div class="col-sm-3 col-md-3"><%=l.username%></div>
+  <div class="col-sm-2 col-md-2"><%=l['country_' + app.lang]%></div>
+  <div class="col-sm-2 col-md-2" style="display:flex; align-items:center;">
+    <%if(l.status == 2){%>
+      <lang>Pending</lang>
+    <%}else if(l.status == 3){%>
+      <lang>Rejected</lang>
+      <img layerid="<%= l.id %>" class="ml5 rejectInfo" style="cursor: pointer;" src="/img/ALB_icon_note.svg">
+    <%}else if(l.status == 4){%>
+      <lang>Draft</lang>
+    <%}%>
+  </div>
+  <div class="col-sm-2 col-md-2">
+    <%if(l.wms_layer_name && l.wms_layer_name!='' && l.wms_server && l.wms_server!=''){%>
+      <a class="button add_btn add" href="#" layerid="<%= l.id %>" addLabel="<lang>Add layer</lang>" removeLabel="<lang>Layer added</lang>"><lang>Add layer</lang></a>
+    <%}%>
+    <a jslink class="button" href="/<lang>lang</lang>/<lang>_link catalogue</lang>/<lang>_link layer</lang>/<%= l.id %>"><lang>Edit</lang></a>
+  </div>
+</div>
+<%})%>

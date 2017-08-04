@@ -44,9 +44,11 @@
 								<% }); %>
 							</select>
 							<% }); %>
+							<%if(app.isAdmin){%>
 							<a href="#" id="createTopic" title="<lang>Create a new topic</lang>">
 								<img src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Create a new topic</lang>"/>
 							</a>
+							<%}%>
 						</div>
 					</div>
 				</div>
@@ -86,9 +88,9 @@
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row input">
 						<legend><lang>Country</lang></legend>
-						<select id="country" name="country">
+						<select id="country" name="country" <%=(app.isAdmin) ? null:'disabled'%>>
 							<% _.each(data.countries, function(c){ %>
-								<option value="<%= c['id_country'] %>" <%= c['id_country'] !== data.country ? '': 'selected' %>><%= c['name_' + app.lang] %></option>
+								<option value="<%= c['id_country'] %>" <%= c['id_country'] !== (data.country ? data.country:(!app.isAdmin ? app.getUserCountry():null)) ? '': 'selected' %>><%= c['name_' + app.lang] %></option>
 							<% }); %>
 						</select>
 					</div>
@@ -105,9 +107,11 @@
 								<option value="<%= m['gid'] %>" <%= m['gid'] !== data.msdf ? '': 'selected' %>><%= m['name_' + app.lang] %></option>
 							<% }); %>
 							</select>
+							<%if(app.isAdmin){%>
 							<a href="#" id="createRegion" title="<lang>Create MSDF Region</lang>">
 								<img src="/img/participa/ALB_icon_add_img.svg" alt="<lang>Create MSDF Region</lang>">
 							</a>
+							<%}%>
 						</div>
 					</div>
 				</div>
@@ -214,25 +218,80 @@
 			<div class="row sendButtons">
 				<div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 					<div class="row">
-						<div class="col-sm-4 col-md-4">
+						<div class="col-sm-12 col-md-12 buttonList">
 							<a class="cancel_btn" href="#"><lang>Cancel</lang></a>
+							<%if(app.isAdmin){%>
+								<%if(data.status != 3){%>
+									<a href="#" id="enviar_btn" class="button grey">
+											<% if(!data.id || data.status == 2 ||data.status == 4){%>
+											<span><lang>Publish layer</lang></span>
+											<% }else{ %>
+											<span><lang>Update layer</lang></span>
+											<% } %>
+									</a>
+								<%}%>
+							<%}else if(!data.id || (data.id && data.status != 2)){%>
+								<a href="#" id="send_btn" class="button grey">
+										<% if(!data.id || data.status==4 || data.status==3){%>
+										<span><lang>send to review</lang></span>
+										<% }else{ %>
+										<span><lang>Update layer</lang></span>
+										<% } %>
+								</a>
+							<%}%>
+							<%if(!data.id || data.status == 4){%>
+								<a href="#" id="draft_btn" class="button grey">
+									<span><lang>Save as draft</lang></span>
+								</a>
+							<%}%>
+							<% if(data.id && app.isAdmin && data.status ==2){%>
+								<a href="#" id="reject_btn" class="button red">
+									<span><lang>Reject layer</lang></span>
+								</a>
+							<% } %>
+							<% if(data.id && app.isAdmin){%>
+								<a href="#" id="borrar_btn" class="button red">
+									<span><lang>Delete layer</lang></span>
+								</a>
+							<% } %>
 						</div>
-						<div class="col-sm-4 col-md-4">
-							<a href="#" id="enviar_btn" class="button grey">
-								<% if(!data.id){%>
-								<span><lang>Create layer</lang></span>
-								<% }else{ %>
-								<span><lang>Update layer</lang></span>
-								<% } %>
-							</a>
-						</div>
-						<% if(data.id){%>
-						<div class="col-sm-4 col-md-4">
-							<a href="#" id="borrar_btn" class="fright button red">
-								<span><lang>Delete layer</lang></span>
-							</a>
-						</div>
-						<% } %>
+
+
+						<!-- <div class="col-sm-2 col-md-2">
+							<a class="cancel_btn" href="#"><lang>Cancel</lang></a>
+						</div> -->
+						<!-- <div class="col-sm-4 col-md-4">
+							<%if(app.isAdmin){%>
+								<a href="#" id="enviar_btn" class="button grey">
+										<% if(!data.id || data.status == 3 ||data.status == 4){%>
+										<span><lang>Publish layer</lang></span>
+										<% }else{ %>
+										<span><lang>Update layer</lang></span>
+										<% } %>
+								</a>
+							<%}else{%>
+								<a href="#" id="send_btn" class="button grey">
+										<% if(!data.id || data.status==4){%>
+										<span><lang>send to review</lang></span>
+										<% }else{ %>
+										<span><lang>Update layer</lang></span>
+										<% } %>
+								</a>
+							<%}%>
+						</div> -->
+
+						<!-- <div class="col-sm-6 col-md-6">
+							<% if(data.id && app.isAdmin){%>
+								<a href="#" id="borrar_btn" class="fright button red">
+									<span><lang>Delete layer</lang></span>
+								</a>
+							<% } %>
+							<%if(!data.id || data.status == 4){%>
+								<a href="#" id="draft_btn" class="fright button grey">
+									<span><lang>Save as draft</lang></span>
+								</a>
+							<%}%>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -251,6 +310,18 @@
         <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancel</lang>">
 	</div>
 
+
+	<div id="layerSectionReject" class="msgPopup">
+		<div class="content">
+			<h2><lang>Reject layer</lang></h2>
+			<fieldset>
+				<textarea></textarea>
+			</fieldset>
+		</div>
+		<input type="button" class="btn_yesno" id="btn_save" value="<lang>Accept</lang>">
+    <input type="button" class="btn_yesno" id="btn_cancel" value="<lang>Cancel</lang>">
+	</div>
+
 	<div id="regionSectionCreation" class="msgPopup">
 		<div class="content">
 			<h2><lang>New MSDF Region</lang></h2>
@@ -267,7 +338,7 @@
 	<div id="layerCreateSuccess" class="msgPopup">
         <div class="content">
 			<% if(!data.id){%>
-            <h2><lang>Your layer has been created</lang></h2>
+					<h2><lang>Your layer has been created</lang></h2>
 			<% }else{ %>
 			<h2><lang>Your layer has been updated</lang></h2>
 			<% } %>

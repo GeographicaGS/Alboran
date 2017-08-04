@@ -93,25 +93,38 @@ app.ini = function(){
         });
       },
       error:function(a,b){
-        debugger;
+
       }
     });
 
+    if(localStorage.getItem('user') && localStorage.getItem('password')){
+      if(localStorage.getItem('country')){
+        app.isAdmin = localStorage.getItem('admin') === 'true';
+        $("#login").hide();
+        $("#logout").show();
+        app.ajaxSetup();
+      }else{
+        $("#logout").trigger('click');
+      }
+    }else{
+        $("#login").show();
+        $("#logout").hide();
+    }
 
     var that = this;
     app.categories = new app.collection.Categories();
     app.categories.fetch({success: function(){
-        if(localStorage.getItem('user') && localStorage.getItem('password')){
-            app.isAdmin = localStorage.getItem('admin') === 'true';
-            $("#login").hide();
-            $("#logout").show();
-            app.ajaxSetup();
-        }else{
-            $("#login").show();
-            $("#logout").hide();
-        }
-
+        // if(localStorage.getItem('user') && localStorage.getItem('password')){
+        //     app.isAdmin = localStorage.getItem('admin') === 'true';
+        //     $("#login").hide();
+        //     $("#logout").show();
+        //     app.ajaxSetup();
+        // }else{
+        //     $("#login").show();
+        //     $("#logout").hide();
+        // }
         app.isAdmin ? $('#mainmenu>div:first-child ul li[data-menu="users"]').removeClass('hide') : $('#mainmenu>div:first-child ul li[data-menu="users"]').addClass('hide');
+        app.isLogin() ? $('#mainmenu>div:first-child ul li[data-menu="progress"]').removeClass('hide') : $('#mainmenu>div:first-child ul li[data-menu="progress"]').addClass('hide');
 
         that.lang = that.detectCurrentLanguage();
         that.router = new app.router();
@@ -144,6 +157,10 @@ app.isLogin = function() {
   }
   return false
 };
+
+app.getUserCountry = function(){
+  return localStorage.getItem('country');
+}
 
 app.showView = function(view) {
     // Detect browser here

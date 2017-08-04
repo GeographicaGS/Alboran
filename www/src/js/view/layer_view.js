@@ -46,14 +46,14 @@ app.view.Layer = Backbone.View.extend({
 		this.$info.toggleClass('show');
 
 		var elem = $(e.currentTarget).closest('li');
-		var parent = $(e.currentTarget).closest('.layerItemGroup'); 
+		var parent = $(e.currentTarget).closest('.layerItemGroup');
 
 		if(parent.is(':last-child') && elem.is(':last-child')){
 			setTimeout(function(){
 				$('html, body').animate({
 		        	scrollTop:    $('body').scrollTop() + elem.height() + 200
 		    	}, 500);
-	    		
+
 			}, 50);
 		}
 

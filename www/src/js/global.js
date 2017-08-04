@@ -82,6 +82,7 @@ $("#signin_btn").on('click', function(){
                 localStorage.setItem('user', user);
                 localStorage.setItem('password', passw_sum);
                 localStorage.setItem('admin', result.admin);
+                localStorage.setItem('country', result.country);
                 app.isAdmin = result.admin;
                 $("#login").hide();
                 $("#logout").show();

@@ -95,7 +95,7 @@
 				padding:0;
 				padding-bottom: 10px;
 				text-align: center;
-				&.country, &.msdf{
+				&.country, &.msdf, &.status{
 					text-align: left;
 					cursor: pointer;
 					background-image: url(/img/icon-flecha-b.svg);
@@ -1112,8 +1112,14 @@
 		padding-top: 64px;
 		text-transform: uppercase;
 
+		.buttonList{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
 		a {
-			margin-right: 120px;
+			/*margin-right: 120px;*/
 			display: inline-block;
 			font-size: .75em;
 			.lato(bold);
@@ -1134,7 +1140,7 @@
 		}
 
 		#enviar_btn {
-			padding: 10px 50px;
+			/*padding: 10px 50px;*/
 
 			span {
 				.lato(bold);
@@ -1142,7 +1148,8 @@
 		}
 
 		#borrar_btn {
-			margin-top: 5px;
+			/*margin-top: 5px;*/
+			/*margin-left: 5px;*/
 
 			span {
 				.lato(bold);

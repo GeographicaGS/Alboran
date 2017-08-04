@@ -739,6 +739,7 @@ body > header {
 		}
 
 		.panel li{
+      overflow: hidden;
 			/*border-bottom: 1px solid #e1e2e4;*/
 			padding-left: 10px;
 			/*line-height: 28px;*/
@@ -1210,6 +1211,15 @@ body > header {
 
     input.invalid {
         border: 1px solid @red;
+    }
+
+    textarea{
+      width: 100%;
+      height: 200px;
+      resize: none;
+      &.error{
+        border: 1px solid red;
+      }
     }
 }
 

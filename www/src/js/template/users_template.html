@@ -1,18 +1,20 @@
 <div id="users" class="container mt50">
   <a href="/<lang>lang</lang>/<lang>_link users</lang>/<lang>_link new</lang>" id="createUser" class="button mb20"><lang>New user</lang></a>
   <div class="row">
-    <div class="col-sm-3 col-md-3"><lang>Nick</lang></div>
+    <div class="col-sm-2 col-md-2"><lang>Nick</lang></div>
     <div class="col-sm-3 col-md-3"><lang>Real name</lang></div>
     <div class="col-sm-3 col-md-3"><lang>Email</lang></div>
     <div class="col-sm-2 col-md-2"><lang>Profile</lang></div>
+    <div class="col-sm-1 col-md-1"><lang>Country</lang></div>
     <div class="col-sm-1 col-md-1"></div>
   </div>
   <%_.each(users,function(u){%>
     <div class="row">
-      <div class="col-sm-3 col-md-3"><strong> <%=u.name%></strong></div>
+      <div class="col-sm-2 col-md-2"><strong> <%=u.name%></strong></div>
       <div class="col-sm-3 col-md-3"><%=u.real_name%></div>
       <div class="col-sm-3 col-md-3"><%=u.email%></div>
       <div class="col-sm-2 col-md-2"><%=u.admin ? '<lang>Administrator</lang>':'<lang>Collaborator</lang>'%></div>
+      <div class="col-sm-1 col-md-1"><%=u['country_' + app.lang]%></div>
       <div class="col-sm-1 col-md-1"><a jslink class="button" href="/<lang>lang</lang>/<lang>_link users</lang>/<%=u.id_user%>"><lang>Edit</lang></a></div>
     </div>
   <%})%>

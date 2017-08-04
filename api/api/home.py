@@ -20,7 +20,7 @@ from flask import jsonify,request,abort
 from model.usermodel import UserModel
 from model.configmodel import ConfigModel
 from model.catalogmodel import CatalogModel
-from authutil import (auth, authAdmin, sendAccountConfirmationEmail)
+from authutil import (auth, authAdmin, sendAccountConfirmationEmail, sendEmail)
 from imageutil import isAllowedFile, hashFromImage, resizeImages, deleteImage
 from geoserverlayers import GeoserverLayers
 
@@ -32,7 +32,8 @@ def login():
 	username = request.headers['username']
 	u = UserModel()
 	user = u.getUserByUsername(username)
-	return jsonify({'result':'true', 'admin': user['admin'] == 1})
+	print user
+	return jsonify({'result':'true', 'admin': user['admin'] == 1, 'country': user['id_country']})
 
 # @app.route('/user/', methods=['POST'])
 # def signin():
@@ -133,6 +134,10 @@ def uploadImage():
 
 @app.route('/catalog/', methods=['GET'])
 def getFullCatalog():
+	user = None
+	if('username' in request.headers):
+		user = UserModel().getUserByUsername(request.headers['username'])
+
 	catalog = []
 	c = CatalogModel()
 	categories = c.getCategories()
@@ -140,7 +145,7 @@ def getFullCatalog():
 		category['topics'] = []
 		topics = c.getTopicsByCategory(category['id'])
 		for topic in topics:
-			layers = c.getLayersByTopic(topic['id'])
+			layers = c.getLayersByTopic(topic['id'],user)
 			topic['layers'] = layers
 			category['topics'].append(topic)
 		catalog.append(category)
@@ -161,28 +166,50 @@ def getLayer(id):
 @app.route('/catalog/layer/', methods=['POST'])
 @auth
 def createLayer():
+	user = UserModel().getUserByUsername(request.headers['username'])
 	data = json.loads(request.data)
 	# Save layer data
-	c = CatalogModel()
-	result = c.createLayer(data)
+	# if(data['status'] != 4):
+	# 	if(user['admin']):
+	# 		data['status'] = 1
+	# 	else:
+	# 		data['status'] = 2
+	# 		data['country'] = user['id_country']
 
-	return jsonify({'id': result['layer_id']})
+
+	if(user['admin'] or data['status'] != 1):
+		c = CatalogModel()
+		result = c.createLayer(data)
+		if(data['status'] != 4):
+			sendEmailLayerPending(data['title_en'], data['title_fr'])
+		return jsonify({'id': result['layer_id'], 'status': data['status']})
 
 @app.route('/catalog/layer/<int:id>', methods=['PUT'])
 @auth
 def editLayer(id):
 	user = UserModel().getUserByUsername(request.headers['username'])
 	layer = CatalogModel().getLayerById(id);
-	if(user['admin'] or user['name'] == layer['username']):
+	if(user['admin'] or (user['name'] == layer['username'] and layer['status'] != 1)):
 		data = json.loads(request.data)
+		if(not user['admin']):
+			data['country'] = user['id_country']
 		# Save layer data
 		c = CatalogModel()
 		c.updateLayer(id, data)
+		if (data['status'] == 2):
+			sendEmailLayerPending(data['title_en'], data['title_fr'])
+
+		if (data['status'] == 3):
+			userLayer = UserModel().getUserByUsername(layer['username'])
+			sendEmail([userLayer['email']],'Layer rejected', 'Your layer has been rejected, you can check it in the "in progress" section of http://data.medchm.net/');
+
+		if (data['status'] == 1 and layer['status'] != 1):
+			sendEmail([user['email']],'Layer published', 'Layer has ' + data['title_en'] + ' been published');
 
 	return jsonify({'result': True})
 
 @app.route('/catalog/layer/<int:id>', methods=['DELETE'])
-@auth
+@authAdmin
 def deleteLayer(id):
 	user = UserModel().getUserByUsername(request.headers['username'])
 	layer = CatalogModel().getLayerById(id);
@@ -205,7 +232,7 @@ def getSection(id):
 	return jsonify({'result': result})
 
 @app.route('/catalog/topic/', methods=['POST'])
-@auth
+@authAdmin
 def createTopic():
 	data = json.loads(request.data)
 	# Save topic data
@@ -322,7 +349,7 @@ def uploadGSLayer():
 
 
 @app.route('/gslayer/<gslayername>', methods=['DELETE'])
-# @auth
+@authAdmin
 def deleteGSLayerWMS(gslayername):
 	if app.config['geoserver_apirest'].replace("rest",app.config['geoserver_ws']) in request.form['server']:
 		url_geoserverrest = app.config['geoserver_apirest']
@@ -334,7 +361,7 @@ def deleteGSLayerWMS(gslayername):
 	return jsonify({'result': 'true'})
 
 @app.route('/gslayer/style/<gsstylename>', methods=['DELETE'])
-# @auth
+@authAdmin
 def deleteGSLayerStyleWMS(gsstylename):
 	url_geoserverrest = app.config['geoserver_apirest']
 	username = app.config['geoserver_user']
@@ -360,10 +387,29 @@ def getMsdf():
 	return jsonify({'result': msdf})
 
 @app.route('/catalog/msdf/', methods=['POST'])
-@auth
+@authAdmin
 def createMsdf():
 	data = json.loads(request.data)
 	c = CatalogModel()
 	result = c.createMsdf(data)
 
 	return jsonify({'id': result['gid']})
+
+@app.route('/lasyerprogress', methods=['GET'])
+def getLayerInProgress():
+	user = UserModel().getUserByUsername(request.headers['username'])
+	c = CatalogModel()
+	result = c.getLayersInProgress(user)
+	if result is None:
+		abort(404)
+
+	return jsonify({'result': result})
+
+
+def sendEmailLayerPending(title_en, title_fr):
+	adminUsers = UserModel().getAllAdmins();
+	emails = [];
+	for a in adminUsers:
+		emails.append(a['email'])
+
+	sendEmail(emails,'Layer pending review','English name: ' + title_en  + '<br> French name: ' + title_fr + '<br><br>' + 'Check the layer in the "in progress" section of http://data.medchm.net/');

@@ -33,17 +33,17 @@ class UserModel(PostgreSQLModel):
 		return result
 
 	def getUserForEdit(self, id):
-		sql = "SELECT id_user as id,name,email,real_name, admin FROM \"user\" WHERE id_user = %s order by name";
+		sql = "SELECT id_user as id,name,email,real_name, admin, id_country FROM \"user\" WHERE id_user = %s order by name";
 		result = self.query(sql,[id]).row()
 		return result
 
 	def getAllAdmins(self):
-		sql = "SELECT * FROM \"user\" WHERE admin = true"
+		sql = "SELECT * FROM \"user\" WHERE admin = true AND active"
 		result = self.query(sql).result()
 		return result
 
 	def getUserList(self):
-		sql = "SELECT id_user,name,email,real_name,admin FROM \"user\""
+		sql = "SELECT id_user,name,email,real_name,admin, c.name_en as country_en, c.name_fr as country_fr FROM \"user\" u INNER JOIN country c on c.id_country = u.id_country"
 		result = self.query(sql).result()
 		return result
 
@@ -76,16 +76,16 @@ class UserModel(PostgreSQLModel):
 	# 	return code
 
 	def createUser(self, data):
-		sql = "INSERT INTO \"user\" (name, real_name, password, email, admin) VALUES (%s,%s,%s,%s,%s)"
+		sql = "INSERT INTO \"user\" (name, real_name, password, email, id_country, admin, active) VALUES (%s,%s,%s,%s,%s,%s, true)"
 
-		self.queryCommit(sql,[data['name'], data['real_name'], data['password'], data['email'], data['admin']])
+		self.queryCommit(sql,[data['name'], data['real_name'], data['password'], data['email'], data['id_country'], data['admin']])
 
 		return True
 
 	def updateUser(self, id, data):
-		sql = "UPDATE \"user\" set name = %s, email = %s, real_name = %s, admin = %s where id_user = %s"
+		sql = "UPDATE \"user\" set name = %s, email = %s, real_name = %s, id_country = %s, admin = %s where id_user = %s"
 
-		self.queryCommit(sql,[ data['name'], data['email'], data['real_name'], data['admin'], data['id']])
+		self.queryCommit(sql,[ data['name'], data['email'], data['real_name'], data['id_country'], data['admin'], data['id']])
 
 		if('password' in data):
 			sql = "UPDATE \"user\" set password = %s where id_user = %s"
